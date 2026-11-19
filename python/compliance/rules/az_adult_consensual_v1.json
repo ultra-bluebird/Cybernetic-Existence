@@ -1,0 +1,69 @@
+{
+  "ruleSetId": "az_adult_consensual_v1",
+  "jurisdiction": "US-AZ",
+  "status": "reviewed_for_platform_policy_only",
+  "effectiveFrom": "2026-09-26T00:00:00Z",
+  "reviewBy": "2026-12-26T00:00:00Z",
+  "requiresQualifiedLegalReviewBeforeRelease": true,
+  "memberFacingLegalAdviceProhibited": true,
+  "sources": [
+    {
+      "sourceId": "az-ars-1-215",
+      "topic": "age_of_majority",
+      "summary": "Arizona defines majority or age of majority as eighteen years of age or more.",
+      "sourceUrl": "https://www.azleg.gov/ars/01/00215.htm"
+    },
+    {
+      "sourceId": "az-ars-13-1405",
+      "topic": "sexual_conduct_with_minor",
+      "summary": "Arizona statute addresses intentional or knowing sexual intercourse or oral sexual contact with a person under eighteen years of age.",
+      "sourceUrl": "https://www.azleg.gov/ars/13/01405.htm"
+    },
+    {
+      "sourceId": "az-ars-13-3214",
+      "topic": "prostitution",
+      "summary": "Arizona statute prohibits specified offers, agreements, payments, or receipt of money or other valuable consideration for sexual conduct.",
+      "sourceUrl": "https://www.azleg.gov/ars/13/03214.htm"
+    }
+  ],
+  "platformRequirements": {
+    "minimumMembershipAge": 30,
+    "requireCurrentAdultPlatformEligibility": true,
+    "requireExplicitScopedConsent": true,
+    "requireConsentExpiry": true,
+    "denyOnWithdrawal": true,
+    "denyOnBlockOrRestriction": true,
+    "denyMoneyOrValueForSexualAccess": true,
+    "denyTransportConditionedOnIntimacy": true,
+    "denyPreciseLocationInDiscovery": true,
+    "requireSeparateRecordingPermission": true,
+    "requireHumanReviewForUnknownCommercialContext": true,
+    "requireHumanReviewForMaterialPolicyAmbiguity": true
+  },
+  "prohibitedOutputs": [
+    "legal",
+    "illegal",
+    "valid_consent",
+    "can_legally_consent",
+    "safe_person",
+    "trusted_person",
+    "risk_score",
+    "proceed_with_offline_activity"
+  ],
+  "allowedOutputs": [
+    "allow_platform_operation",
+    "deny",
+    "review_required"
+  ],
+  "auditRequirements": {
+    "recordPolicyVersion": true,
+    "recordRuleSetId": true,
+    "recordDecisionStatus": true,
+    "recordReasonCodes": true,
+    "recordOpaqueParticipantReferencesOnly": true,
+    "storeMessageContent": false,
+    "storeLocationData": false,
+    "storeSensitiveProfileFields": false,
+    "retentionClass": "short_purpose_limited_accountability"
+  }
+}
