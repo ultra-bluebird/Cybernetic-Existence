@@ -1,0 +1,7 @@
+"Layer","Mechanism","Blocked Violations","Proof Method"
+"1. Compile-Time","Rust type system, macros","Capability removal methods","Compiler errors"
+"2. Formal Verification","Kani proofs","Capability monotonicity violations","Mathematical proof"
+"3. Database","CHECK constraints, triggers","Capability loss logging","TX abort"
+"4. CI/CD","Terminology scan, proof gate","Forbidden term introduction","Build failure"
+"5. Runtime","In-memory registry","Dynamic term detection","Error return"
+"6. Documentation","Policy files","AI agent violations","Human review"

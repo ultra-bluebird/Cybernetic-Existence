@@ -1,0 +1,11 @@
+{
+  "type": "module",
+  "scripts": {
+    "validate:schemas": "node ./src/validation/ajv-validator.js",
+    "validate:fixtures:valid": "node ./src/validation/ajv-validator.js --directory ./test/fixtures/valid",
+    "validate:fixtures:invalid": "node ./src/validation/ajv-validator.js --directory ./test/fixtures/invalid"
+  },
+  "dependencies": {
+    "ajv": "^8.17.1"
+  }
+}

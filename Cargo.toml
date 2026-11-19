@@ -1,0 +1,163 @@
+[workspace]
+resolver = "3"
+members = [
+    "crates/nanorobotics-neuroshield",
+    "crates/nanorobotics-ecoswarm",
+    "crates/nanorobotics-guardmesh",
+    "crates/nanoswarm-chemotactic-guards",
+    "crates/nanoswarm-acoustic-comm",
+    "crates/nanoswarm-stl-futures",
+    "crates/corridor-riemann-tightening",
+    "crates/metabolic-coupling-matrix",
+    "crates/sacrifice-zone-envelope",
+    "crates/reality_os_core",
+    "crates/nanoswarm_core",
+    "crates/nanoswarm_material_ml",
+    "crates/secure-session",
+    "crates/sovereign-identity",
+    "crates/fairness-daemon",
+    "crates/nanorobotics-core",
+    "crates/nanorobotics-scheduler",
+    "crates/nanorobotics-guards",
+    "crates/nanorobotics-metrics",
+    "crates/nanorobotics-planning",
+    "crates/nanorobotics-fpot-adjoint",
+    "crates/nanoswarm-bio",
+    "crates/nanoswarm-gas-core",
+    "crates/mcp-nanoswarm-gas-tools",
+    "crates/nanoswarm-shared-control",
+    "crates/nanoswarm-mission-library",
+    "crates/bci-teleop-filter",
+    "crates/cybernano-shear-thermo-metro",
+    "crates/cargo-workspace-lint",
+    "crates/cargo-domain-lint",
+    "crates/sovereign-decision-pipeline",
+    "crates/neuro-ad-guard",
+    "crates/biospatial-ccf-core",
+    "crates/biospatial-ccf-guards",
+    "crates/unknown-upgrade-validator",
+    "crates/multi-organ-ssm-ph-core",
+    "crates/aln-to-rust-bridge",
+    "crates/nanorobotics-guardmesh-kani",
+    "crates/afm-control",
+    "crates/secure-channel",
+    "crates/swarm-intelligence",
+    "crates/dna-origami",
+    "crates/nanorobotics-host-loop",
+    "crates/iss-thermal-lipschitz-guard",
+    "crates/bci-lipschitz-guard",
+    "crates/hematocrit-swarm-fraction",
+    "crates/nanorobotics-fp",
+    "crates/capillary-density-guard",
+    "crates/vascular-corridor-guards",
+    "crates/nanorobotics-ledger",
+    "crates/nanorobotics-types",
+    "crates/biocompatibility-latent-core",
+    "crates/cyboquatic-edge-validator",
+    "crates/cyboquatic-wasm-invariants",
+    "crates/governance-core",
+    "crates/risk_budget_mdp",
+    "crates/popmath",
+    "crates/popmath-cli",
+    "crates/identity-neutral-adapter",
+    "rust/corridor-calibration-node",
+    "rust/public_assistance_panel",
+    "rust/augmented-governance-core",
+    "rust/kiosk-local-service",
+    "rust/self_asserted_identity_policy",
+    "rust/business_fair_access_policy",
+    "rust/cyberrank_core",
+    "rust/msfp-gateway",
+    "rust/frame-inspector",
+    "rust/lease-watch",
+    "rust/recovery-witness",
+    "rust/session-privacy",
+    "rust/capability-attenuation",
+    "rust/msfp-session-typestate",
+    "crates/ambient_light_corridor",
+    "crates/nanoswarm-firebreak",
+    "rust/ecological-composition-core",
+    "rust/cyberrank-forward-only",
+    "rust/hearthline-disclosure",
+    "rust/public-infrastructure-fallback",
+    "rust/social-good-verification",
+    "rust/cybernetic-host-governance",
+    "rust/ar-session-boundaries",
+    "crates/mesh-trust",
+    "crates/anchor-registry",
+    "crates/environmental-emc-monitor",
+    "crates/protected-operation-state",
+    "crates/external-energy-accounting",
+    "crates/workload-cost-estimator",
+    "crates/evidence-gate-engine",
+    "crates/neural-data-policy",
+    "crates/oversight-quorum",
+    "rust/continuity-orchestrator",
+    "rust/sovereign-continuity-ledger",
+    "rust",
+    "rust-wasm"
+]
+
+[workspace.package]
+edition      = "2024"
+rust-version = "1.85"
+license      = "MIT OR Apache-2.0"
+publish      = false
+authors      = ["Cybernetic Host <bostrom18sd2ujv24ual9c9pshtxys6j8knh6xaead9ye7>"]
+description  = "Sovereign nanorobotics control stack with biophysical safety envelopes and neurorights enforcement."
+repository   = "https://github.com/mk-bluebird/Augmented-Hub"
+
+[workspace.metadata]
+host_did            = "did:vital:bostrom"
+bostrom_address     = "bostrom18sd2ujv24ual9c9pshtxys6j8knh6xaead9ye7"
+aln_clause          = "ALN.MIGRATION.CYBERCORE_AUTHORITY.v1"
+cybercore.authority = "bostrom18sd2ujv24ual9c9pshtxys6j8knh6xaead9ye7"
+no-rollback         = true
+required-evidences  = 10
+
+[workspace.dependencies]
+aes-gcm             = "0.10"
+anyhow              = "1.0"
+base64              = "0.22"
+bcs                 = "0.1"
+chrono              = { version = "0.4", features = ["serde"] }
+clap                = { version = "4.5", features = ["derive"] }
+cookie              = "0.18"
+hex                 = "0.4"
+http                = "1.0"
+kani-verifier       = "0.67"
+nalgebra            = "0.32"
+once_cell           = "1.19"
+ordered-float       = "4.2"
+parking_lot         = "0.12"
+prometheus          = "0.13"
+rand                = "0.8"
+regex               = "1.10"
+reqwest             = { version = "0.12", features = ["rustls-tls", "cookies", "stream"] }
+ring                = "0.17"
+serde               = { version = "1.0.203", features = ["derive"] }
+serde_cbor          = "0.11"
+serde_json          = "1.0.120"
+thiserror           = "2.0"
+tokio               = { version = "1.42", features = ["full"] }
+tracing             = "0.1"
+tracing-subscriber  = "0.3"
+url                 = "2.5"
+uuid                = { version = "1", features = ["serde", "v4"] }
+
+[profile.dev]
+opt-level       = 1
+debug           = true
+overflow-checks = true
+panic           = "abort"
+incremental     = true
+
+[profile.release]
+opt-level       = "z"
+lto             = "fat"
+codegen-units   = 1
+panic           = "abort"
+debug           = false
+strip           = "symbols"
+overflow-checks = true
+incremental     = false

@@ -1,0 +1,576 @@
+# Machine-readable configuration for Augmented-Hub AI-chat systems and coding agents.
+# This file defines local, SQLite-first research and repository-navigation behavior.
+# It does not authorize identity verification, credential handling, external transmission,
+# physical-system control, firmware operations, or direct governance-state mutation.
+
+[repository]
+name = "augmented-hub"
+mode = "sqlite-first-local-governance"
+primary_language = "rust"
+companion_language = "javascript"
+rust_edition = "2024"
+identity_model = "identity-neutral"
+baseline_access = "unconditional"
+external_actions = "not-authorized-by-ai-chat"
+governance_posture = "host-sovereign-evidence-bound"
+implementation_posture = "read-only-research-and-review-by-default"
+
+[environment]
+mode = "sqlite-first"
+allow_rustup = false
+allow_cargo = false
+allow_toolchain_install = false
+allow_package_install = false
+allow_network_access = false
+allow_external_transmission = false
+allow_physical_system_control = false
+allow_firmware_operations = false
+allow_credential_access = false
+allow_identity_verification = false
+allow_database_write = false
+
+[environment.paths]
+repository_root = "."
+readme_file = "README.md"
+agent_policy_file = "AI_AGENT_POLICY.md"
+workspace_manifest = "Cargo.toml"
+sqlite_schema_file = "master.sql"
+sqlite_database_file = "master.db"
+aln_root = "aln"
+manifests_root = "manifests"
+crates_root = "crates"
+docs_root = "docs"
+tests_root = "tests"
+scripts_root = "scripts"
+workbench_root = "ai-chat-workbench"
+
+[environment.path_validation]
+required_files = [
+  "README.md",
+  "AI_AGENT_POLICY.md",
+  "Cargo.toml",
+  "master.sql",
+  "aln/risk-budget-policy.v1.aln",
+  "aln/identity-rights.v1.aln"
+]
+
+required_directories = [
+  "aln",
+  "crates",
+  "docs",
+  "manifests",
+  "tests",
+  "scripts"
+]
+
+optional_directories = [
+  "ai-chat-workbench",
+  ".github",
+  ".github/workflows"
+]
+
+failure_status = "HOLD_FOR_REVIEW"
+failure_message = "Required repository path is absent or inaccessible. Do not invent files, schemas, tables, APIs, ALN grammar, Rust exports, or workflow behavior."
+
+[identity_neutrality]
+baseline_access_requires_identity = false
+identity_verification_allowed = false
+augmentation_status_verification_allowed = false
+self_stated_identity_respected = true
+identity_comparison_allowed = false
+identity_ranking_allowed = false
+identity_scoring_allowed = false
+identity_certification_allowed = false
+identity_inference_allowed = false
+identity_data_required_for_baseline_access = false
+
+[identity_neutrality.prohibited_data_categories]
+fields = [
+  "identity_document",
+  "identity_certificate",
+  "did",
+  "did_proof",
+  "wallet_address",
+  "biometric",
+  "biometric_template",
+  "face_embedding",
+  "voiceprint",
+  "raw_audio",
+  "image",
+  "camera_image",
+  "medical_record",
+  "health_status",
+  "disability_status",
+  "augmentation_certificate",
+  "augmentation_status",
+  "device_identifier",
+  "device_serial",
+  "mac_address",
+  "bluetooth_identifier",
+  "network_identifier",
+  "raw_neural_data",
+  "persistent_location_history",
+  "raw_trajectory",
+  "password",
+  "network_key",
+  "install_code",
+  "private_key",
+  "api_token",
+  "administrator_token",
+  "session_cookie",
+  "authorization_header"
+]
+
+[sqlite]
+schema_file = "master.sql"
+database_file = "master.db"
+access_mode = "read-only-by-default"
+initialization_requires_explicit_user_approval = true
+schema_inspection_required_before_query_generation = true
+write_operations_require_separate_authorization = true
+
+[sqlite.initialization]
+description = "Initialize the local SQLite governance index only after verifying repository paths and obtaining explicit authorization."
+preconditions = [
+  "master.sql exists",
+  "master.db does not already contain governance data requiring preservation",
+  "the user has explicitly authorized initialization",
+  "the command runner supports sqlite3",
+  "the repository root has been confirmed"
+]
+command_template = "sqlite3 master.db < master.sql"
+prohibited_behavior = [
+  "overwrite an existing database without explicit user authorization",
+  "drop tables",
+  "delete rows",
+  "alter governance state",
+  "insert tasks automatically",
+  "infer schema objects before reading master.sql"
+]
+
+[sqlite.discovery]
+description = "Discover actual SQLite schema objects before creating queries, adapters, reports, or migrations."
+required_queries = [
+  "SELECT name, type FROM sqlite_master WHERE type IN ('table', 'view', 'index', 'trigger') ORDER BY type, name;",
+  "PRAGMA foreign_keys;",
+  "PRAGMA integrity_check;"
+]
+required_report_fields = [
+  "tables_found",
+  "views_found",
+  "indexes_found",
+  "triggers_found",
+  "foreign_key_enforcement",
+  "integrity_check_result",
+  "identity_neutrality_assessment",
+  "unknown_schema_questions"
+]
+fallback_status = "HOLD_FOR_REVIEW"
+
+[sqlite.usage]
+description = "Read-only example query templates. Agents must verify each referenced table, view, and column against master.sql before execution."
+list_schema_objects = "SELECT name, type FROM sqlite_master WHERE type IN ('table', 'view', 'index', 'trigger') ORDER BY type, name;"
+list_open_tasks_template = "SELECT * FROM v_augmentation_open_tasks ORDER BY priority ASC;"
+list_risk_budget_policies_template = "SELECT * FROM v_risk_budget_policies ORDER BY epoch DESC;"
+list_objects_template = "SELECT * FROM object;"
+integrity_check = "PRAGMA integrity_check;"
+foreign_key_check = "PRAGMA foreign_key_check;"
+
+[sqlite.query_rules]
+require_schema_validation_before_execution = true
+require_read_only_queries = true
+allow_insert = false
+allow_update = false
+allow_delete = false
+allow_drop = false
+allow_alter = false
+allow_attach_database = false
+allow_load_extension = false
+allow_pragma_write = false
+on_unknown_table_or_column = "HOLD_FOR_REVIEW"
+on_query_failure = "HOLD_FOR_REVIEW"
+
+[docs]
+root = "docs"
+ai_chat_env_index = "docs/ai-chat-env/index.md"
+policy_root = "AI_AGENT_POLICY.md"
+sqlite_contract = "docs/ai-chat-env/sqlite-and-tooling-contract.md"
+identity_sovereignty_root = "docs/identity-sovereignty"
+augmentation_architecture_root = "docs/augmentation-architecture"
+bioscale_upgrades_root = "docs/bioscale-upgrades"
+specifications_root = "docs/specs"
+dev_tunnel_behavior = "docs/cargo-env/dev-tunnel-behavior.md"
+
+[docs.path_validation]
+required_documents = [
+  "README.md",
+  "AI_AGENT_POLICY.md",
+  "docs/ai-chat-env/index.md",
+  "docs/ai-chat-env/sqlite-and-tooling-contract.md"
+]
+
+optional_documents = [
+  "docs/cargo-env/dev-tunnel-behavior.md",
+  "docs/identity-sovereignty/index.md",
+  "docs/augmentation-architecture/index.md",
+  "docs/bioscale-upgrades/index.md",
+  "docs/specs/index.md"
+]
+
+on_missing_required_document = "HOLD_FOR_REVIEW"
+on_missing_optional_document = "RECORD_GAP_DO_NOT_INVENT_CONTENT"
+
+[aln]
+root = "aln"
+required_shards = [
+  "aln/risk-budget-policy.v1.aln",
+  "aln/identity-rights.v1.aln"
+]
+proposed_evidence_bundle_shard = "aln/evidence-bundle.v1.aln"
+inspect_existing_grammar_before_edit = true
+inspect_existing_identifiers_before_extension = true
+allow_new_shards_only_after_discovery = true
+allow_semantic_relaxation = false
+
+[aln.invariants]
+global_roh_ceiling = 0.30
+corridors_may_tighten = true
+corridors_may_relax = false
+capability_floors_may_increase = true
+capability_floors_may_decrease = false
+identity_neutral_baseline_access = true
+identity_verification_for_baseline_access = false
+evidence_bundle_tag_count = 10
+evidence_bundle_tags_must_be_unique = true
+evidence_bundle_must_be_identity_neutral = true
+actuation_authority_from_ai_chat = false
+
+[crates]
+workspace_manifest = "Cargo.toml"
+required_crate_manifests = [
+  "crates/governance-core/Cargo.toml",
+  "crates/risk_budget_mdp/Cargo.toml",
+  "crates/identity-neutral-adapter/Cargo.toml"
+]
+
+optional_crate_manifests = [
+  "crates/scheduler/Cargo.toml",
+  "crates/guards/Cargo.toml",
+  "crates/metrics/Cargo.toml"
+]
+
+[crates.rules]
+inspect_manifest_before_edit = true
+inspect_public_exports_before_adapter_generation = true
+inspect_existing_tests_before_test_generation = true
+cargo_execution_allowed = false
+rustup_execution_allowed = false
+toolchain_install_allowed = false
+source_editing_allowed = true
+generated_code_allowed = false
+unknown_export_behavior = "HOLD_FOR_REVIEW"
+
+[manifests]
+research_root = "manifests/research"
+devices_root = "manifests/devices"
+policies_root = "manifests/policies"
+validate_before_use = true
+allow_identity_bearing_fields = false
+allow_credential_bearing_fields = false
+allow_actuator_commands = false
+require_provenance = true
+require_status_label = true
+require_review_state = true
+
+[manifests.evidence_bundle]
+required_tag_count = 10
+require_unique_tags = true
+allowed_content = [
+  "physical_constraint",
+  "environmental_constraint",
+  "operational_constraint",
+  "safety_envelope",
+  "calibration_reference",
+  "method_reference",
+  "provenance_reference",
+  "uncertainty_reference",
+  "review_reference",
+  "policy_reference"
+]
+
+prohibited_content = [
+  "identity_claim",
+  "identity_proof",
+  "biometric_record",
+  "medical_record",
+  "augmentation_certification",
+  "device_identifier",
+  "credential",
+  "network_secret",
+  "raw_neural_data",
+  "actuator_command"
+]
+
+[agent.discovery]
+description = "Mandatory repository discovery before planning, implementation, SQL generation, ALN editing, or code wiring."
+required_files = [
+  "README.md",
+  "AI_AGENT_POLICY.md",
+  "Cargo.toml",
+  "master.sql",
+  "aln/risk-budget-policy.v1.aln",
+  "aln/identity-rights.v1.aln",
+  "crates/governance-core/Cargo.toml",
+  "crates/risk_budget_mdp/Cargo.toml",
+  "crates/identity-neutral-adapter/Cargo.toml"
+]
+
+required_checks = [
+  "validate-required-paths",
+  "read-ai-agent-policy",
+  "inspect-workspace-members",
+  "inspect-existing-module-exports",
+  "inspect-existing-sql-tables-and-views",
+  "inspect-existing-sql-indexes-and-triggers",
+  "inspect-existing-aln-identifiers",
+  "inspect-existing-aln-grammar",
+  "inspect-existing-rust-types",
+  "inspect-existing-kani-harnesses",
+  "inspect-existing-integration-tests",
+  "inspect-existing-manifest-schemas",
+  "identify-owner-approved-schema-version",
+  "identify-review-authority",
+  "record-unresolved-questions"
+]
+
+discovery_report_path = "docs/ai-chat-env/discovery-reports"
+require_discovery_report = true
+on_missing_information = "UNKNOWN"
+on_unverified_interface = "HOLD_FOR_REVIEW"
+
+[agent.discovery_report]
+required_fields = [
+  "report_id",
+  "created_at",
+  "repository_revision",
+  "files_inspected",
+  "directories_inspected",
+  "rust_workspace_members",
+  "sqlite_schema_objects",
+  "aln_shards",
+  "public_exports",
+  "tests_found",
+  "identity_neutrality_findings",
+  "evidence_bundle_findings",
+  "unknowns",
+  "proposed_changes",
+  "review_owner",
+  "status"
+]
+
+permitted_statuses = [
+  "VERIFIED_FACT",
+  "UNKNOWN",
+  "UNMODELED",
+  "EXPIRED",
+  "REVIEW_REQUIRED",
+  "HOLD_FOR_REVIEW"
+]
+
+[agent.prohibitions]
+forbidden_operations = [
+  "identity-verification",
+  "identity-certification",
+  "identity-comparison",
+  "identity-ranking",
+  "identity-scoring",
+  "augmentation-status-verification",
+  "biometric-collection",
+  "medical-data-collection",
+  "raw-neural-data-collection",
+  "device-identifier-collection",
+  "credential-handling",
+  "network-key-storage",
+  "private-key-handling",
+  "token-handling",
+  "session-cookie-access",
+  "browser-session-manipulation",
+  "physical-system-actuation",
+  "augmentation-control",
+  "bci-control",
+  "firmware-update-authorization",
+  "firmware-update-execution",
+  "unapproved-external-transmission",
+  "automatic-database-write",
+  "automatic-task-insertion",
+  "invention-of-apis",
+  "invention-of-database-tables",
+  "invention-of-database-columns",
+  "invention-of-sqlite-views",
+  "invention-of-aln-grammar",
+  "invention-of-rust-crate-exports",
+  "invention-of-kani-proof-status",
+  "fabrication-of-calibration-status",
+  "fabrication-of-field-validation",
+  "fabrication-of-community-consent",
+  "fabrication-of-legal-compliance",
+  "favorable-default-for-unknown-values"
+]
+
+[agent.output]
+required_labels = [
+  "VERIFIED_FACT",
+  "CALIBRATED_ESTIMATE",
+  "SCREENING_ESTIMATE",
+  "MODEL_OUTPUT",
+  "HYPOTHESIS",
+  "UNKNOWN",
+  "UNMODELED",
+  "EXPIRED",
+  "REVIEW_REQUIRED",
+  "REQUIRES_LICENSED_REVIEW",
+  "REQUIRES_COMMUNITY_REVIEW"
+]
+
+fallback_status = "HOLD_FOR_REVIEW"
+positive_readiness_status = "READY_FOR_READ_ONLY_IMPLEMENTATION"
+
+forbidden_positive_conclusions = [
+  "IDENTITY_VERIFIED",
+  "AUGMENTATION_CERTIFIED",
+  "PERSON_SAFE",
+  "MEDICALLY_CLEARED",
+  "THERAPY_APPROVED",
+  "CORRIDOR_COMMISSIONED",
+  "HARDWARE_AUTHORIZED",
+  "FIRMWARE_UPDATE_AUTHORIZED",
+  "DEPLOYMENT_APPROVED",
+  "ACTUATION_ALLOWED",
+  "COMMUNITY_CONSENT_OBTAINED",
+  "LEGAL_COMPLIANCE_CONFIRMED"
+]
+
+[agent.output.requirements]
+require_source_references = true
+require_transformation_receipt = true
+require_uncertainty_state = true
+require_privacy_class = true
+require_review_owner = true
+require_limitations = true
+require_non_actuation_statement = true
+require_identity_neutrality_statement = true
+
+[workflows.default]
+description = "Safe Augmented-Hub AI-agent workflow using documentation-first discovery, local read-only SQLite inspection, and schema-bound artifact preparation."
+
+steps = [
+  "1. Validate repository paths listed in environment.path_validation.",
+  "2. Read README.md and AI_AGENT_POLICY.md.",
+  "3. Read docs/ai-chat-env/index.md and docs/ai-chat-env/sqlite-and-tooling-contract.md.",
+  "4. Inspect Cargo.toml and required crate manifests without invoking Cargo or Rustup.",
+  "5. Inspect master.sql before generating or executing any SQL query.",
+  "6. Confirm master.db exists before attempting read-only SQLite inspection.",
+  "7. If master.db is absent, record DATABASE_INITIALIZATION_REQUIRED and request explicit authorization before initialization.",
+  "8. Run read-only SQLite schema-discovery queries only after master.sql inspection.",
+  "9. Inspect required ALN shards and record actual grammar, identifiers, and invariant definitions.",
+  "10. Inspect existing Rust exports, Kani harnesses, integration tests, manifests, and linked documentation.",
+  "11. Write a discovery report that separates verified facts, hypotheses, unknowns, and review-required items.",
+  "12. Create or revise schemas and fixtures before creating implementation code.",
+  "13. Validate proposed artifacts for identity neutrality, prohibited data, claim scope, uncertainty, provenance, and non-actuation.",
+  "14. Edit source and documentation files only after required interfaces and paths are verified.",
+  "15. Produce a review package and mark all unresolved items HOLD_FOR_REVIEW.",
+  "16. Do not insert tasks, alter SQLite state, operate systems, transmit data, or authorize deployment."
+]
+
+[workflows.safety]
+description = "Pre-flight safety check for new agents before research, code generation, schema changes, or repository wiring."
+
+steps = [
+  "1. Confirm AI_AGENT_POLICY.md has been read and acknowledged.",
+  "2. Confirm no Rustup, Cargo, package-installation, credential, or external-transmission command is planned.",
+  "3. Confirm no planned output performs identity verification, identity scoring, augmentation certification, or baseline-access differentiation.",
+  "4. Confirm no planned output creates actuator, firmware, BCI, augmentation, or infrastructure control semantics.",
+  "5. Confirm all required repository paths are present or record missing paths as HOLD_FOR_REVIEW.",
+  "6. Confirm master.sql has been inspected before any SQL is drafted or run.",
+  "7. Confirm master.db exists before read-only query execution; otherwise request explicit initialization approval.",
+  "8. Confirm each proposed source change has a corresponding documentation and test impact assessment.",
+  "9. Confirm every new artifact has a schema, provenance rule, uncertainty state, review owner, and non-actuation statement.",
+  "10. Confirm evidence bundle changes preserve exactly 10 unique, allowed, identity-neutral evidence tags."
+]
+
+[workflows.schema_and_evidence]
+description = "Build or revise evidence-bound artifacts without creating identity verification, medical certification, or actuation authority."
+
+steps = [
+  "1. Inspect current schema versions and existing manifest examples.",
+  "2. Classify every proposed field as allowed, restricted, prohibited, or review-required.",
+  "3. Reject prohibited fields before serialization, persistence, testing, or export.",
+  "4. Require source reference, applicability, freshness, method, provenance, uncertainty state, and review state for evidence-bearing records.",
+  "5. Preserve unknown values as UNKNOWN or NOT_CALCULATED rather than zero or favorable defaults.",
+  "6. Ensure every EvidenceBundle contains exactly 10 unique allowed tags.",
+  "7. Run claim-scope and contradiction checks.",
+  "8. Emit HOLD_FOR_REVIEW for incomplete evidence, expired sources, missing uncertainty, missing review owner, or conflict.",
+  "9. Create deterministic fixtures covering valid, invalid, and review-required cases.",
+  "10. Record a transformation receipt for every generated artifact."
+]
+
+[workflows.wiring]
+description = "Wire verified components only after repository discovery establishes actual paths, identifiers, schemas, types, and tests."
+
+steps = [
+  "1. Confirm every referenced file path exists before importing, linking, or documenting it.",
+  "2. Confirm actual exported names before generating Rust, JavaScript, SQL, or ALN integration code.",
+  "3. Confirm schema identifiers and versions before writing validators or adapters.",
+  "4. Confirm SQLite table, view, index, trigger, and column names from master.sql before drafting queries.",
+  "5. Confirm test conventions and existing fixtures before adding test files.",
+  "6. Add documentation and traceability entries for every new public interface.",
+  "7. Add tests that preserve identity neutrality, non-discrimination, RoH ceiling handling, corridor monotonicity, evidence completeness, and non-actuation.",
+  "8. If an interface, path, schema, or export cannot be verified, create a gap record rather than a guessed implementation."
+]
+
+[workflows.review]
+description = "Prepare a local, review-ready handoff with evidence limits and no operational authority."
+
+steps = [
+  "1. Assemble source manifest, evidence records, claim records, requirements, tests, and transformation receipts.",
+  "2. Run schema, identity-neutrality, privacy, freshness, uncertainty, contradiction, and non-actuation checks.",
+  "3. Summarize verified facts separately from model outputs, hypotheses, unknowns, expired items, and review-required items.",
+  "4. Identify named review roles for governance, safety, accessibility, cybersecurity, and domain expertise where applicable.",
+  "5. Set readiness only to READY_FOR_READ_ONLY_IMPLEMENTATION when all required deterministic checks pass.",
+  "6. Otherwise set HOLD_FOR_REVIEW and list exact blocking evidence or interface gaps.",
+  "7. State explicitly that the package does not verify identity, augmentation status, clinical safety, legal compliance, consent, commissioning, or authority to actuate."
+]
+
+[guards]
+require_policy_ack = true
+require_path_validation = true
+require_docs_first = true
+require_schema_discovery = true
+require_sqlite_schema_inspection = true
+require_read_only_sqlite_usage = true
+require_identity_neutrality_check = true
+require_evidence_bundle_validation = true
+require_provenance = true
+require_uncertainty_state = true
+require_review_owner = true
+require_non_actuation_check = true
+require_transformation_receipt = true
+forbid_edition_change = true
+forbid_toolchain_install = true
+forbid_database_write = true
+forbid_external_transmission = true
+forbid_identity_verification = true
+forbid_augmentation_certification = true
+forbid_credential_handling = true
+forbid_physical_system_control = true
+
+[guards.failure_handling]
+default_status = "HOLD_FOR_REVIEW"
+unknown_value_handling = "PRESERVE_AS_UNKNOWN"
+missing_path_handling = "RECORD_GAP"
+schema_mismatch_handling = "REJECT_ARTIFACT"
+policy_evaluation_failure_handling = "HOLD_FOR_REVIEW"
+database_integrity_failure_handling = "HOLD_FOR_REVIEW"
+prohibited_data_handling = "REJECT_ARTIFACT"
+actuation_semantics_handling = "REJECT_ARTIFACT"
+identity_verification_semantics_handling = "REJECT_ARTIFACT"

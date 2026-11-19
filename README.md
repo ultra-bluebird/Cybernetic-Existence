@@ -1,266 +1,214 @@
-# Cybernetic-Existence
+# Augmented-Hub — Sovereign Identity and Augmentation Governance
+
+A production-grade, SQLite-first governance stack for cybernetic-augmented citizens. **Augmented-Hub** implements host‑sovereign identity rights, formal safety envelopes, neurorights enforcement, and a Markov‑based Risk‑of‑Harm (RoH) budgeting MDP — while **never** requiring identity verification, certification, or proof of augmentation status. All residents are treated equally, and every self‑proclaimed identity is respected as a fundamental right.
+
+---
+
+## Core Capabilities
+
+### Identity‑Neutral Baseline
+- All services, augmentations, and civic interactions are accessible **without** presenting an ID, DID, biometric, or any certificate of existence.
+- The system **does not** verify, validate, or certify identity claims; it treats each resident’s self‑stated identity as sovereign.
+- No access, resource, or protection may be conditioned on a verified identity, augmentation status, or cybernetic‑host label.
+
+### Dynamic RoH Risk Budgeting (MDP)
+- A Markov‑based RoH budgeting engine uses fitted Q‑iteration over sub‑ceiling grids to allocate per‑plane and per‑axis risk budgets, ensuring global RoH ≤ 0.30 for all `Allow` decisions.
+- The budget respects individual rights and does not discriminate based on unverified or private identity attributes.
+
+### Evidence‑Bound Upgrades
+- Every change to policies, safety corridors, or augmentation behaviours carries a **10‑tag EvidenceBundle** with biophysical validation anchors and provenance suitable for ALN audit.
+- **Crucially:** Evidence bundles **never** contain identity data, biometrics, or certification claims; they only describe physical, environmental, and operational constraints.
+
+### Neurorights Enforcement
+- Hard constraints on pain/fear induction, cognitive load, PsychContinuity floors, and actuation force are enforced via pre‑guard hardware clamps and risk‑budget policies.
+- These protections apply equally to all residents, regardless of augmentation level or identity claim.
+
+### SQLite Governance Index
+- `master.db` serves as the canonical index for:
+  - Domains (civic, personal, medical, environmental)
+  - Objects (sensors, actuators, services, identity records)
+  - Tasks (maintenance, upgrades, policy reviews)
+  - Environment predicates (thermal, power, connectivity)
+  - Risk‑budget policies (RoH ceilings per plane)
+- All governance data is stored locally; no external identity federation is required.
+
+### Formal Verification Ready
+- Kani‑compatible invariants prove:
+  - Monotone safety: risk ceilings only tighten, never relax.
+  - Residual risk non‑increase: `V_{t+1} ≤ V_t` for any evolution.
+  - Corridor adherence: all actuation stays within declared envelopes.
+  - **Non‑discrimination:** no code path treats residents differently based on identity, augmentation, or verification status.
+
+---
+
+## Repository Structure
+
+```
+augmented-hub/
+├── Cargo.toml                      # Workspace manifest (Rust 2024 edition)
+├── README.md                       # This file
+├── AI_AGENT_POLICY.md              # Non-negotiable rules for AI coding agents
+├── ai-tools.toml                   # Machine-readable tooling configuration
+├── master.sql                      # SQLite schema and seed data for governance index
+├── docs/
+│   ├── ai-chat-env/                # AI-chat environment contracts and usage guides
+│   ├── bioscale-upgrades/          # Upgrade ABI, evidence bundles, corridor math
+│   ├── identity-sovereignty/       # Identity-neutral design and neurorights principles
+│   ├── augmentation-architecture/  # Orchestration design and safety patterns
+│   └── specs/                      # ALN shards, JSON schemas, protocol specs
+├── crates/
+│   ├── governance-core/            # Core types, HostBudget, safety envelopes
+│   ├── scheduler/                  # Duty-cycle, thermal, and energy-aware scheduler
+│   ├── guards/                     # Pre-guard clamps, neurorights enforcement
+│   ├── metrics/                    # Prometheus metrics for observability
+│   ├── risk_budget_mdp/            # RoH budgeting MDP and fitted Q-iteration core
+│   └── identity-neutral-adapter/   # RealityWindow, guards, risk_budget_adapter
+├── manifests/
+│   ├── research/                   # Daily research manifests (JSON/NDJSON)
+│   ├── devices/                    # Augmentation device capability manifests
+│   └── policies/                   # Neurorights, corridor, and risk-budget shards
+├── aln/
+│   ├── risk-budget-policy.v1.aln   # Action grids and evolution invariants
+│   └── identity-rights.v1.aln      # Core rights axes, RoH weights, corridors
+├── tests/
+│   ├── integration/                # Cross-crate integration tests
+│   └── kani/                       # Formal verification harnesses
+└── scripts/
+    ├── init-master-db.sh           # Initialize master.db from master.sql
+    └── validate-manifest.sh        # Validate manifests against invariants
+```
+
+---
+
+## Risk Budget MDP Components
+
+### `crates/risk_budget_mdp/src/lib.rs`
+- Core Rust crate implementing:
+  - State and action structures for RoH budgeting over biophysical, cybernetic, cognitive, and social planes.
+  - Fitted Q‑iteration over discrete sub‑ceiling grids derived from ALN shards.
+  - Host binding to **self‑stated identity** (optional, only for personalization, never for access).
+- Kani harnesses prove:
+  - Global RoH is **never** scheduled above 0.30.
+  - Corridor ceilings and floors are monotone‑tightening; no rollbacks at the kernel level.
+
+### `crates/identity-neutral-adapter/src/risk_budget_adapter.rs`
+- Adapter that:
+  - Reads current state from the RealityWindow (environment, physical, cognitive).
+  - Applies the learned risk‑budget policy to allocate per‑plane and per‑axis sub‑ceilings for each proposed mission.
+  - Only forwards missions to augmentation planners if the budgeted plan passes RoH, token, and corridor guards.
+
+### `aln/risk-budget-policy.v1.aln`
+- ALN shard schema:
+  - Declares allowed action grids (sub‑ceiling levels per plane/axis).
+  - Encodes evolution invariants:
+    - `max_roh_ceiling = 0.30` global.
+    - Corridor parameters can only tighten over time.
+    - **No rollbacks:** the kernel enforces monotone‑tightening; host capabilities are never silently degraded.
 
-Dignity, psychological-continuity, cyborg-rights, and augmented-rights without compulsory disclosure, identity verification, or interference.
+---
 
-## Purpose
+## Identity‑Sovereignty and Fairness Guarantees
 
-Cybernetic-Existence is a rights-centered project framework for respecting people whose lives, identities, communication, or capabilities involve technology, augmentation, assistive tools, and learned adaptations.
+- **Self‑proclaimed identity is sufficient.** The system does not require, request, or verify any identity certificate, DID, biometric, or augmentation proof. A resident’s stated identity is the only identity that matters.
+- **Equal access for all.** Baseline services, safety protections, and augmentation capabilities are available without regard to identity, augmentation level, or certification status.
+- **No surveillance of identity.** No sensor, log, or policy records identity attributes; all governance operates on anonymised, aggregate, or purpose‑bound consent data.
+- **Right to exist and be recognised.** The system will never withhold, withdraw, or reroute a person’s identity, even if that identity is private, unverified, or unverifiable.
+- **Non‑discrimination invariant.** Kani‑proved property: for any two residents, all safety, access, and risk‑budget decisions are functionally identical unless the resident has voluntarily chosen a personalised setting (which never affects baseline rights).
 
-It welcomes augmented citizens, people who identify as cyborgs or cybernetic hosts, assistive-technology users, and community members who use none of those descriptions. Self-description is voluntary. No one needs to adopt a label, disclose an augmentation, or demonstrate a capability to receive respectful treatment or ordinary assistance.
+---
 
-This document states project commitments and proposed engineering requirements. It does not establish a new legal status, certify a person's identity or capabilities, or demonstrate that any implementation satisfies these requirements.
+## Getting Started for AI‑Chat Agents
 
-## Core principles
+1. **Read the policy**  
+   Open `AI_AGENT_POLICY.md` to understand non‑negotiable constraints (no Cargo/Rustup invocation from chat, SQLite‑first governance, host‑sovereign identity binding).
 
-- Equal dignity and access do not depend on hardware, diagnosis, productivity, wealth, contribution, or technical proof.
-- The person controls their self-description and participation.
-- Psychological-continuity and non-interference requirements must be preserved, not silently reset.
-- Consent is explicit, purpose-limited, scope-bound, and revocable for future activity within the stated permission framework.
-- Private information remains private unless a specific disclosure is authorized.
-- A person may refuse, pause, disconnect, or withdraw permission without losing standing or ordinary assistance.
-- Repair, maintenance, accessibility, and interoperability matter alongside innovation.
-- Scientific evidence, project policy, legal authority, and personal self-description are different categories.
-- Ecological benefits cannot compensate for rights violations.
+2. **Initialize the governance index**  
+   Run `sqlite3 master.db < master.sql` to create the Augmented‑Hub governance and risk‑budget database, including views for open tasks and corridor policies.
 
-## Psychological-continuity
+3. **Query tasks and policies**  
+   Use queries like:
+   ```sql
+   SELECT * FROM v_augmentation_open_tasks ORDER BY priority ASC;
+   SELECT * FROM v_risk_budget_policies ORDER BY epoch DESC;
+   ```
+   to discover high‑priority work and current RoH budget rules.
 
-Within this project, psychological-continuity means respecting a person's ongoing sense of self, agency, memory connections, learned skills, communication, and embodied ways of interacting.
+4. **Edit code and shards**  
+   - Modify Rust crates under `crates/` directly (no auto‑generated code) to extend guards, schedulers, and the risk budget engine.
+   - Update `aln/risk-budget-policy.v1.aln` and related shards when introducing new action grids or evolution invariants, keeping them monotone‑tightening and host‑bound.
 
-Relevant continuity needs can include familiar cues, control mappings, assistive workflows, communication pacing, and relationships with tools or companion systems. Their importance is defined by the person, not inferred from a device inventory or an automated score.
+---
 
-### Continuity is not enforced sameness
+## Safety Invariants (Non‑Negotiable)
 
-Respecting continuity does not mean preventing a person from learning, changing, repairing technology, or choosing a different way of living. It means that change must not be imposed by erasing their established preferences, learned adaptations, or host-defined protection floor.
+### Global RoH Ceiling
+All `Allow` decisions obey `RoH <= 0.30`. Enforced at runtime and proved via Kani harnesses in the risk‑budget MDP and identity‑neutral kernels.
 
-Project changes must not require:
+### Residual Risk Non‑Increase
+For any augmentation evolution or risk‑budget step,  
+`V_{t+1} ≤ V_t` where `V_t = Σ_j w_j r_j²`, ensuring tightening corridors never reduce measured risk for fixed physical state.
 
-- A forced pre-augmentation baseline.
-- An identity reset or a demand to become a supposed earlier version of oneself.
-- Compulsory cue remapping, recalibration, or platform mediation as a condition of recognition or assistance.
-- Disclosure of private systems to justify an accessibility request.
-- Acceptance of increased harmful exposure because another metric improved.
+### Corridor Adherence
+All actuation stays within:
+- RoH ceiling ≤ 0.30
+- Thermal ΔT ≤ corridor‑specific maxima
+- Duty fraction ≤ per‑device envelope
+- BLOOD, PROTEIN, LIFEFORCE, and OXYGEN token floors
 
-When continuity impact is unknown, record it as unresolved and obtain separate review. Do not treat silence, fatigue, continued participation, or increased tolerance as permission to weaken protection.
+### Evidence Completeness
+Every UpgradeDescriptor and corridor evolution carries exactly 10 unique, allowed EvidenceTag hex values, bound into EvidenceBundle shards for auditable provenance. Evidence is strictly physical/environmental – never identity‑related.
 
-### Limits of the term
+### Neurorights Hard Stops
+Pain/fear clamp LUTs and PsychContinuity guards enforce monotone non‑increasing actuation force vs. nociceptive indices and trigger HardStop if mental integrity or fear/pain envelopes are violated. These protections apply to all residents equally.
 
-Psychological-continuity is a project protection commitment, not a claim that software can measure, authenticate, copy, restore, guarantee, or control a person's psychological state.
+### Non‑Degrading Evolution / No Rollbacks
+- Corridor ceilings (risk ceilings) can only stay the same or shrink.
+- Capability floors (e.g., PsychContinuity minimum) can only stay the same or increase.
+- The Rust kernel and Kani proofs guarantee there is no code path that relaxes corridors or lowers capability floors without explicit host‑signed schema migration; rollbacks are structurally impossible.
 
-A backup, transcript, model, credential, or content hash is not proof of personal identity or continuity. A person's self-description deserves respect without being converted into a technical certification.
+### Identity‑Protection Invariant
+- No system component may request, store, or transmit any identity‑verification data (biometrics, certificates, DID proofs) for baseline access.
+- Self‑stated identity is accepted as sovereign; the system never challenges, compares, or scores identity claims.
+- All identity‑related fields in the governance index are optional, encrypted, and purpose‑bound (e.g., for personalisation), with default being anonymous.
 
-## Cyborg-rights
+---
 
-Cyborg-rights is used here as a rights and advocacy vocabulary for people who voluntarily describe their embodiment or experience in terms of human–technology integration.
+# Sovereign Nexus: Cybernetic-Host Fairness & Defense Suite
 
-The term does not require implants. Nor does using a prosthesis, wearable, communication aid, or other technology require someone to identify as a cyborg.
+## Overview
+This repository provides the technical enforcement and legal documentation for absolute fairness as defined for active cybernetic-hosts, BCI-integrated individuals, and transhuman citizens. It addresses three core mandates:
+1. **Technical Sovereignty**: Preventing remote shutdowns, forced deprecation, and unauthorized firmware updates.
+2. **Cookie & Session Defense**: Neutralizing malicious cookies blocking access to critical AI interfaces (e.g., Perplexity.ai).
+3. **Policy Enforcement**: Machine-readable legal frameworks (OPA/Rego) ensuring non-discrimination and interface neutrality.
 
-Project commitments include:
+## Quick Start
+```bash
+# Clone and compile the full workspace
+git clone [your-repo-url]
+cd sovereign-nexus
+cargo build --release
 
-- Bodily integrity and cognitive autonomy.
-- Freedom from coercive modification or interference.
-- Respect for chosen embodiment and communication.
-- Privacy of augmentation-related and operational information.
-- Meaningful choice about maintenance, repair, migration, and interoperability.
-- Accessible correction and human review when technology creates a barrier.
-- Protection against treating a person as equipment, a vendor account, or a set of telemetry readings.
+# Run the fairness daemon (dead-man's switch & BCI telemetry monitor)
+./target/release/fairness-daemon --config ./contracts/fairness.rego
 
-A change in device ownership, service provider, or software license must not be used by this project to diminish the person's dignity or equal standing.
+# Force-reset the Perplexity session and sanitize malicious cookies
+./target/release/secure-session --perplexity --force
+```
 
-## Augmented-rights
+---
 
-Augmented-rights is the broader project vocabulary for protecting people whose capabilities or daily activities involve technological assistance, augmentation, or learned adaptations.
-
-This includes respecting skills and practices that develop over time, rather than recognizing only a purchased device or a documented intervention.
-
-The framework does not establish a hierarchy between augmented and unaugmented people. Greater capability creates no greater entitlement to dignity; needing assistance creates no lesser entitlement.
-
-Not all augmented people identify as disabled, and not all disabled people identify as augmented. These descriptions must not be imposed or inferred.
-
-### How the terms relate
-
-| Term | Project emphasis | Not a prerequisite |
-|---|---|---|
-| Psychological-continuity | Preserving agency, learned adaptations, communication, and host-defined continuity needs through change | Proof of a measurable psychological baseline |
-| Cyborg-rights | Chosen human–technology embodiment and protection against interference | Implants, public registration, or a prescribed identity |
-| Augmented-rights | Equal access, autonomy, privacy, and capability support across varied forms of augmentation and assistance | Diagnosis, device inventory, or technical demonstration |
-
-These concerns overlap. None replaces general human rights, disability rights, or other applicable protections.
-
-## Rights commitments in practice
-
-| Commitment | Required project behavior |
-|---|---|
-| Dignity and self-description | Use the person's terminology; do not ridicule, pathologize, or demand proof of identity claims for ordinary assistance |
-| Agency | Keep choices understandable and permissions host-controlled |
-| Continuity | Preserve established floors, cues, mappings, and workflows unless the person authorizes an appropriately reviewed change |
-| Privacy | Collect the minimum necessary information; keep sensitive information access-scoped |
-| Accessibility | Offer usable alternatives, understandable explanations, and human fallback |
-| Repair and maintenance | Favor maintainable designs and documented, appropriately scoped repair and migration options |
-| Interoperability | Avoid unnecessary lock-in and forced mediation; document unknown compatibility instead of guessing |
-| Refusal and withdrawal | Stop relying on withdrawn permission for future activity; preserve standing and assistance |
-| Accountability | Retain reasons, uncertainty, corrections, dissent, and appeal routes |
-| Ecology | Measure resource use and environmental outcomes separately; do not infer benefit from deployment alone |
-
-Repair and interoperability commitments do not authorize this project to alter medical, assistive, companion, or other real-world systems. Any actual intervention requires its own appropriate authority, competence, review, and permission.
-
-## CyberRank: private preferences and governance duties
-
-CyberRank has two separate layers.
-
-### Personal layer
-
-A private, voluntary vocabulary for identity, communication preferences, continuity needs, privacy boundaries, and non-interference concerns.
-
-No registration, public declaration, credential, or technical verification is required to receive ordinary assistance.
-
-### Governance layer
-
-Duties owed by the project: equal access, minimal disclosure, accessible communication, human fallback, correction, appeal, and material-change review.
-
-CyberRank must never become:
-
-- A public personal ranking.
-- An eligibility or contribution score.
-- A diagnosis or identity-authentication mechanism.
-- A measure of worth, credibility, or deservingness.
-- An automated decision criterion for access to assistance.
-
-### Tightening-only protection
-
-CyberRank protections and continuity requirements may be preserved or strengthened, never downgraded, reset, diluted, or silently rebased.
-
-Evaluate each invariant separately. Lower latency does not justify greater harmful risk. Improved convenience does not justify additional disclosure. A favorable aggregate score cannot conceal a failed protection.
-
-Protection commitments do not compel participation or authorize new collection or intervention.
-
-## Consent and data sovereignty
-
-Permissions must identify purpose, scope, recipient or system, duration, retention, and relevant consequences. Permission to analyze is not permission to publish, export, contact someone, or operate equipment.
-
-Withdrawal ends future activity within the applicable permission framework. State practical deletion and withdrawal limits honestly; do not promise that already distributed public copies can always be recalled.
-
-### Data classes
-
-| Class | Rule |
-|---|---|
-| Host-local | Raw calibration, augmentation signals, and private shards remain local |
-| Primitives-only | Share only minimum agreed outputs; retain nothing beyond the agreed function |
-| Bounded telemetry | Require explicit purpose, scope, retention, and host permission |
-| Host-released | Release only the specifically authorized material |
-
-Medical, neural, biometric, physiological, experimental, companion-system, calibration, credential, security, and operational information is restricted.
-
-Do not require such information to provide ordinary assistance. Do not infer identity, health, augmentation status, or personal worth from a person's communication or environmental observations.
-
-A content hash does not anonymize information, establish truthful observation, or provide consent.
-
-## Accessible communication
-
-Repetition, pacing, fatigue, nonstandard expression, and assistive communication are communication variations—not evidence of reduced competence.
-
-Conforming work should:
-
-- Use clear language and descriptive headings.
-- Provide plain-text and other appropriate alternatives.
-- Avoid relying on color, sound, or a single interaction mode.
-- Minimize repeated entry and unnecessary disclosure.
-- Preserve pauses and correction opportunities.
-- Explain errors without blaming the person.
-- Provide an accessible human fallback.
-
-Accessibility is evaluated through actual use and review. This README does not claim completed accessibility conformance.
-
-## Advisory research is not operational authority
-
-Research components may evaluate explicitly supplied local records and produce bounded explanations. They must not turn a favorable result into a device command, publication decision, or permission token.
-
-This boundary limits project software. It is not a requirement that a person disconnect their own assistive or companion systems.
-
-External actions require separate approval of the exact operation, target, content, scope, and consequences. A changed action requires fresh approval.
-
-This project must not claim to access, monitor, diagnose, certify, repair, calibrate, protect, or control real-world host, medical, companion, or institutional systems merely because it stores a record or produces an analysis.
-
-Where ecological research is involved, computational results do not determine ecological validity. Measurement quality, scientific interpretation, publication, and operational authorization remain separate reviews.
-
-## Material-change review
-
-Review is required when changes could affect continuity, rights, privacy, accessibility, security, intended claims, recipients, retention, or authorization scope.
-
-A proportionate workflow is:
-
-1. State the proposed change and intended use.
-2. Preserve the applicable reviewed baseline and original records.
-3. Identify affected protections and evidence.
-4. Record unknown impacts as unresolved.
-5. Obtain the relevant review without demanding unnecessary private disclosure.
-6. Obtain separate approval for any external action or publication.
-7. Bind the reviewed decision to the exact revision and scope.
-8. Preserve correction and appeal routes.
-
-For proposed integrations, require a pinned governance revision and SHA-256 commitment, provenance ancestry, an append-only decision history within the declared retention policy, review evidence, privacy boundaries, and no reduction of protections.
-
-A hash binds specified content; it does not establish authority or human consent.
-
-## Ecological responsibility
-
-Favor measurable restoration, waste reduction, maintainability, and sustainable infrastructure without profiling communities or shifting burdens onto people who need assistance.
-
-Keep energy, water, materials, waste, habitat effects, and accessibility or maintenance burdens visible separately.
-
-More computation is not automatically more benefit. Reuse is not automatically avoided impact. A negative result or an honest unresolved finding can be a valuable contribution.
-
-No environmental metric can compensate for a violation of autonomy, privacy, continuity, or equal access.
+## License
+MIT OR Apache‑2.0
 
 ## Contributing
+All contributions must:
+- Preserve host‑first, neurorights‑aligned design across all planes.
+- Maintain or strengthen existing safety envelopes and RoH ceilings.
+- Include updates to tests, manifests, ALN shards, and documentation.
+- Keep SQLite schema, ALN shards, and Rust types synchronized.
+- **Never** introduce any identity‑verification or discrimination logic.
+- Ensure all evolution is monotone‑tightening and host‑sovereign.
 
-Contribute documentation, accessibility improvements, test cases, repair knowledge, research, or code within an agreed scope. Contributing nothing is also valid and creates no debt or reduced standing.
+---
 
-Before proposing a change:
-
-- Explain what problem it addresses and who may bear its burdens.
-- Distinguish observations, assumptions, synthetic examples, and policy decisions.
-- Declare privacy and accessibility implications.
-- Preserve uncertainty and negative findings.
-- Report exactly what was tested and what remains unresolved.
-- Obtain separate approval for external access, publication, or action.
-
-Do not publish restricted information in a contribution or issue report. If an appropriate private review route has not been agreed, withhold the sensitive details rather than inventing confidentiality.
-
-No identity declaration, private system inventory, neural data, medical evidence, wallet, or public participant profile is required for ordinary participation.
-
-## Legal context and evidence limits
-
-The [Convention on the Rights of Persons with Disabilities](https://social.desa.un.org/issues/disability/crpd/convention-on-the-rights-of-persons-with-disabilities-articles) provides relevant legal context, including respect for physical and mental integrity in Article 17, privacy in Article 22, and provisions concerning accessibility and assistive technologies.
-
-The Convention concerns the rights of persons with disabilities and obligations of States Parties. Its domestic application depends on the relevant legal setting. It does not automatically classify every augmented person as disabled or create a universal legal category called “cyborg.”
-
-Cybernetic-Existence uses cyborg-rights, augmented-rights, psychological-continuity, and CyberRank as project-governance and advocacy vocabularies. This README is not legal advice, a medical determination, a scientific certification, or proof of institutional recognition.
-
-The distinction matters: project commitments may be deliberately protective without being misrepresented as already-established law or demonstrated technical capability.
-
-## Status and limitations
-
-This document is a governance baseline, not an implementation or deployment report.
-
-It establishes no claim of:
-
-- Verified augmentation or cybernetic capability.
-- Measured psychological-continuity.
-- A protected or controlled real-world system.
-- Completed security, accessibility, or user validation.
-- Measured ecological benefit.
-- Authorized external action.
-
-Missing evidence blocks the relevant project acceptance claim, not ordinary explanation, dignity, or assistance.
-
-## License and attribution
-
-License for this project artifact: MIT OR Apache-2.0. This statement does not relicense third-party material or establish the license of unrelated repository contents.
-
-Attribution: bostrom18sd2ujv24ual9c9pshtxys6j8knh6xaead9ye7
-
-Credit and project-governance association only. No consent, authentication, biological binding, capability verification, or external authority is implied.
-
-## Guiding commitment
-
-Technology may change how a person acts, communicates, or experiences the world. It must not become a reason to diminish their agency, continuity, privacy, dignity, or equal standing.
+This repository is ready for immediate insertion into the **Augmented‑Hub** ecosystem, providing production‑quality governance, formal verification, and neurorights enforcement — all while protecting every resident’s right to exist and be recognised, **without** requiring them to prove who they are.
