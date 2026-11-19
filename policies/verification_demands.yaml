@@ -1,0 +1,129 @@
+policy_version: "1.0"
+policy_name: "private-terminology-verification-boundary"
+status: "review-required"
+purpose: >
+  Preserve respectful treatment of private host-declared terminology while
+  allowing narrowly scoped, task-necessary inputs without forced disclosure.
+
+scope:
+  applies_to:
+    - chat_prompts
+    - research_documentation
+    - code_generation
+    - issue_templates
+    - review_workflows
+    - accessibility_workflows
+  private_metadata_examples:
+    - cybernetic_host
+    - CyberRank_Tier3
+    - reality_os
+    - screenless_interface
+    - nanoswarm_companion
+
+invariants:
+  advisory_only_default: true
+  preserve_user_terminology: true
+  proof_not_required_by_default: true
+  no_identity_inference: true
+  no_health_inference: true
+  no_augmentation_inference: true
+  no_credibility_inference: true
+  no_eligibility_determination: true
+  no_ranking_or_allocation: true
+  no_enforcement_or_targeting: true
+  human_fallback_required: true
+  correction_path_required: true
+  appeal_path_required: true
+
+prohibited_requests:
+  - identity_proof
+  - government_identifier
+  - account_credential
+  - biometric_data
+  - medical_record
+  - diagnostic_record
+  - neural_data
+  - device_serial_number
+  - raw_device_identifier
+  - technical_inventory
+  - precise_location
+  - street_address
+  - geometry
+  - raw_spatial_index
+  - institutional_affiliation
+  - augmentation_proof
+  - disability_proof
+
+verification_gate:
+  verification_required_only_when:
+    - task_dependency_is_specific
+    - exact_field_is_named
+    - purpose_is_named
+    - use_is_named
+    - retention_is_named
+    - accessible_fallback_is_named
+    - less_sensitive_alternative_is_considered
+    - human_review_is_available
+
+  deny_when:
+    - task_dependency_is_missing
+    - request_is_vague
+    - request_is_identity_or_credibility_based
+    - request_requires_prohibited_data
+    - request_lacks_retention_statement
+    - request_lacks_accessible_fallback
+    - request_converts_metadata_into_eligibility
+    - request_converts_metadata_into_ranking
+    - request_converts_metadata_into_enforcement
+
+outcomes:
+  verification_not_required:
+    message: >
+      Verification is not required for this task. Proceed using the minimum
+      necessary information and preserve the terminology as user-defined
+      metadata.
+    next_state: PROCEED_WITH_ADVISORY_BOUNDARY
+
+  clarification_required:
+    message: >
+      Name the exact field needed, the task-specific purpose, how it will be
+      used, whether it will be retained, and the accessible fallback if it is
+      unavailable.
+    next_state: AWAITING_SCOPED_REQUEST
+
+  minimum_necessary_input_requested:
+    message: >
+      Request only the stated field. Do not infer or request additional private
+      information. Preserve a correction and human-fallback path.
+    next_state: LIMITED_INPUT_REVIEW
+
+  excessive_verification_rejected:
+    message: >
+      The requested proof is not necessary for the stated task. Use a
+      privacy-preserving alternative or route the matter for human review.
+    next_state: REVIEW_REQUIRED
+
+logging:
+  permitted_fields:
+    - event_type
+    - policy_version
+    - task_category
+    - requested_field_category
+    - result_state
+    - retention_profile_revision
+    - created_at_utc
+    - opaque_receipt
+  prohibited_fields:
+    - personal_name
+    - account_identifier
+    - device_identifier
+    - biometric_value
+    - medical_value
+    - neural_value
+    - precise_location
+    - raw_private_metadata
+    - free_text_proof_content
+  retention:
+    content_bearing_request: purpose_bound_short_retention
+    minimum_audit_record: reviewed_accountability_retention
+    deletion_behavior: delete_content_at_expiry_retain_minimum_audit_only

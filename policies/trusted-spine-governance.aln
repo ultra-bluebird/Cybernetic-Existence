@@ -1,0 +1,61 @@
+aln_version: "2"
+policy_class: "trusted_spine_governance"
+purpose_scope:
+  allow:
+    - ecological_research
+    - evidence_provenance
+    - model_assurance
+    - interaction_integrity
+    - accessibility_assurance
+    - decision_support
+  deny:
+    - public_identity_or_credibility_ranking
+    - identity_inference_from_language_or_metadata
+    - cyberrank_as_status_eligibility_or_decision_criterion
+    - unsupported_real_world_control_claim
+    - automatic_high_consequence_action
+    - automatic_relaxation_of_nonnegotiable_floors
+    - coercive_or_financialized_participation
+contract_chain:
+  formal_specification_required: true
+  executable_contract_required: true
+  evidence_provenance_required: true
+  verification_validation_record_required: true
+  accessible_governance_explanation_required: true
+  incomplete_trace_is_exploratory_only: true
+interaction_integrity:
+  scope_persistence_required: true
+  model_control_category_error_prohibited: true
+  identity_marker_non_inference_required: true
+  explicit_accessibility_preference_presentation_only: true
+  correction_acknowledgment_maximum: 1
+  unnecessary_reclarification_prohibited: true
+evidence_and_assurance:
+  purpose_limitation_required: true
+  retention_review_required: true
+  revocation_path_required: true
+  reproducibility_testing_required: true
+  code_verification_required: true
+  solution_verification_required: true
+  calibration_required_for_local_claims: true
+  held_out_validation_required_for_advisory_claims: true
+  uncertainty_coverage_required: true
+  domain_check_required: true
+  material_change_expires_certificate: true
+  false_safe_result_prohibits_proceed: true
+social_influence:
+  agenda_setting_review_required: true
+  measurement_coverage_review_required: true
+  model_weight_disclosure_required: true
+  accessibility_equivalence_review_required: true
+  participation_concentration_review_required: true
+  privacy_exposure_review_required: true
+  automation_bias_review_required: true
+  corrective_burden_review_required: true
+governance:
+  nonoffsettable_protection_failure_requires_review: true
+  human_review_and_appeal_available: true
+  external_action_requires_explicit_approval: true
+review:
+  status: "draft_for_scientific_accessibility_ecological_and_community_review"
+  material_change_review_required: true

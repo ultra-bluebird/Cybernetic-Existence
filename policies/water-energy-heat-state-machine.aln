@@ -1,0 +1,111 @@
+policy: water_energy_heat_nexus_state_machine
+version: 2.0.0
+data_class: operational_environmental_governance_policy
+purpose: classify water-energy-heat conditions and require KER re-evaluation before workloads continue after a material state transition
+consent_scope: aggregate_operational_and_environmental_telemetry_only
+retention: retain_state_events_transition_records_and_re_evaluation_results_for_configured_audit_period
+deletion: delete_raw_operational_telemetry_after_retention_expiry_subject_to_minimal_integrity_commitments
+accountability: state_transition_explanation_ker_re_evaluation_human_review_and_material_change_log
+review_status: required_for_emergency_exit_and_all_unresolved_re_evaluations
+access_equivalence_safeguards: operational_state_transitions_must_not_be_used_to_block_pedestrian_accessibility_or_emergency_egress
+external_action_approval: required_for_remote_configuration_or_operational_actuation
+
+state_machine:
+  states:
+    - NORMAL
+    - WATER_STRESS
+    - HEAT_ALERT
+    - GRID_WATER_PEAK
+    - THERMAL_DEMAND_HIGH
+    - COMBINED_STRESS
+    - EMERGENCY
+
+  decision:
+    default: deny
+
+  transitions:
+    any_state_to_emergency:
+      when:
+        any:
+          - critical_threshold_breach
+          - required_input_missing
+          - required_input_contradictory
+          - emergency_declared
+      result:
+        state: EMERGENCY
+        permit_status: denied
+      require:
+        - incident_record
+        - human_review_queue
+        - accessible_explanation
+        - workload_re_evaluation
+
+    emergency_to_any_state:
+      when: human_review_approved
+      require:
+        - human_review_reference
+        - replacement_or_validated_telemetry
+        - ker_re_evaluation
+        - material_change_record
+      otherwise:
+        state: EMERGENCY
+        permit_status: denied
+
+    non_emergency_transition:
+      when:
+        any:
+          - water_stress_stage_changed
+          - heat_alert_changed
+          - grid_water_factor_changed
+          - thermal_demand_changed
+      require:
+        - ker_re_evaluation
+        - current_telemetry_validation
+        - non_compensating_risk_checks
+      otherwise:
+        permit_status: denied
+
+permit_requires:
+  NORMAL:
+    - current_ker_authorization
+    - current_consent
+    - current_human_review_requirement
+    - valid_telemetry
+    - no_active_non_compensating_block
+
+  WATER_STRESS:
+    - workload_is_essential_or_explicitly_permitted_under_water_stress_policy
+    - current_ker_authorization
+    - water_stress_re_evaluation
+    - human_review_when_material
+
+  HEAT_ALERT:
+    - workload_is_essential_or_explicitly_permitted_under_heat_alert_policy
+    - current_ker_authorization
+    - heat_alert_re_evaluation
+    - human_review_when_material
+
+  GRID_WATER_PEAK:
+    - workload_is_explicitly_deferrable_or_has_human_approved_exception
+    - grid_water_factor_current
+    - current_ker_authorization
+    - human_review_when_material
+
+  THERMAL_DEMAND_HIGH:
+    - thermal_corridor_valid
+    - current_ker_authorization
+    - heat_recovery_or_load_reduction_review
+    - human_review_when_material
+
+  COMBINED_STRESS:
+    - explicit_human_approval
+    - essential_workload_classification
+    - current_ker_authorization
+    - all_relevant_corridors_valid
+    - no_rights_accessibility_species_or_consent_block
+
+  EMERGENCY:
+    - human_review_approved_emergency_exit
+    - validated_replacement_telemetry
+    - full_ker_re_evaluation
+    - no_active_blocking_condition

@@ -1,0 +1,178 @@
+policy UrbanTreeHealthMonitoring version "1.0.0" {
+  purpose "Detect urban-tree water and heat stress early, preserve equitable canopy benefits, and guide transparent human-reviewed stewardship decisions."
+
+  data_class tree_ecophysiology_telemetry {
+    sensitivity "environmental"
+    allowed_fields [
+      "tree_reference",
+      "coarse_site_zone",
+      "timestamp",
+      "sap_flow_signal",
+      "stem_diameter_change",
+      "root_zone_soil_moisture",
+      "canopy_temperature",
+      "air_temperature",
+      "relative_humidity",
+      "vapor_pressure_deficit",
+      "solar_radiation",
+      "rainfall",
+      "irrigation_event",
+      "sensor_confidence",
+      "calibration_state",
+      "field_assessment"
+    ]
+    prohibited_fields [
+      "resident_identity",
+      "pedestrian_identity",
+      "mobile_device_identifier",
+      "biometric_data",
+      "health_data",
+      "disability_status",
+      "augmentation_status",
+      "persistent_person_location_trace",
+      "unnecessary_audio_or_video_capture"
+    ]
+    retention {
+      raw_days 365
+      aggregate_days 3650
+      encrypted_storage_required true
+    }
+  }
+
+  physiological_assessment {
+    required_inputs [
+      "canopy_temperature",
+      "air_temperature",
+      "vapor_pressure_deficit",
+      "root_zone_moisture",
+      "sap_flow_or_equivalent_transpiration_signal",
+      "sensor_confidence"
+    ]
+    preferred_inputs [
+      "stem_dendrometer",
+      "solar_radiation",
+      "rainfall",
+      "irrigation_record",
+      "species_baseline",
+      "sapwood_area_estimate",
+      "site_soil_characterization"
+    ]
+    required_controls [
+      "low_vapor_pressure_deficit_guard",
+      "species_and_site_baseline",
+      "sensor_uncertainty_recording",
+      "multi_day_persistence_check",
+      "cross_sensor_agreement_check"
+    ]
+    prohibited_claims [
+      "automated_mortality_determination",
+      "unqualified_disease_diagnosis",
+      "exact_whole_tree_transpiration_without_calibration",
+      "health_or_identity_inference_about_people"
+    ]
+  }
+
+  monitoring_design {
+    intensive_sensor_deployment {
+      stratification_required [
+        "species",
+        "age_or_size_class",
+        "irrigation_regime",
+        "soil_and_rooting_volume",
+        "impervious_surface_context",
+        "heat_exposure",
+        "canopy_coverage",
+        "ecological_corridor_role"
+      ]
+      uniform_citywide_density_requirement_forbidden true
+      periodic_reference_colocation_required true
+    }
+    remote_observation {
+      permitted [
+        "canopy_cover_assessment",
+        "thermal_survey",
+        "field_condition_inventory",
+        "non_identifying_drone_imagery"
+      ]
+      prohibited [
+        "resident_surveillance",
+        "face_recognition",
+        "property_occupant_profiling",
+        "unnecessary_raw_imagery_retention"
+      ]
+    }
+  }
+
+  advisory_actions {
+    permitted_recommendations [
+      "field_inspection",
+      "irrigation_coverage_review",
+      "soil_compaction_assessment",
+      "mulch_and_root_zone_review",
+      "sensor_maintenance",
+      "arborist_assessment",
+      "species_site_suitability_analysis"
+    ]
+    prohibited_actions [
+      "automated_tree_removal",
+      "automated_irrigation_actuation",
+      "canopy_disinvestment_based_on_model_score",
+      "resource_reduction_in_low_canopy_areas",
+      "health_conditioned_public_space_access"
+    ]
+    human_review_required_for [
+      "irrigation_change",
+      "pruning_program",
+      "tree_removal",
+      "species_replacement",
+      "high_impact_budget_allocation"
+    ]
+  }
+
+  equity_and_accessibility {
+    cooling_equity_analysis_required true
+    prohibited_decision_inputs [
+      "race",
+      "ethnicity",
+      "disability_status",
+      "health_status",
+      "augmentation_status",
+      "identity_disclosure",
+      "individual_income_inference"
+    ]
+    required_public_information [
+      "plain_language_tree_health_status",
+      "heat_and_shade_service_summary",
+      "sensor_coverage_map",
+      "uncertainty_statement",
+      "maintenance_and_review_status",
+      "accessible_feedback_path"
+    ]
+    accessible_formats_required [
+      "screen_reader_compatible_web",
+      "plain_language_notice",
+      "visual_equivalent",
+      "multilingual_support",
+      "offline_community_notice"
+    ]
+  }
+
+  governance {
+    diagnostic_outputs_are_advisory_only true
+    public_reporting_required true
+    required_audit_fields [
+      "sensor_input_summary",
+      "baseline_version",
+      "stress_model_version",
+      "uncertainty",
+      "field_confirmation",
+      "stewardship_recommendation",
+      "human_review_outcome"
+    ]
+    community_review_required_for [
+      "citywide_species_selection_policy",
+      "high_impact_canopy_program",
+      "material_change_to_monitoring_scope"
+    ]
+  }
+}

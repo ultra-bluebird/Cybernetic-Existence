@@ -1,0 +1,224 @@
+aln_version: "2"
+policy_name: "urban-ai-workload-oversight"
+policy_status: "research-governance-framework"
+review_status: "community-and-technical-review-required"
+
+scope:
+  covered_systems:
+    - "environmental forecasting"
+    - "infrastructure maintenance decision support"
+    - "accessibility planning"
+    - "emergency information support"
+    - "ecological monitoring"
+    - "civic feedback categorization"
+    - "fairness and policy conformance testing"
+  excluded_capabilities:
+    - "identity inference"
+    - "health inference"
+    - "augmentation status inference"
+    - "assistive technology inference"
+    - "social scoring"
+    - "financial scoring"
+    - "property value preference"
+    - "behavior-derived eligibility"
+    - "autonomous safety-critical actuation"
+    - "essential-service denial"
+
+invariants:
+  essential_service_non_denial:
+    required: true
+    rule: "Essential services remain available without credential, cryptographic proof, account, application, device, network, phone, identity verification, health disclosure, augmentation disclosure, or self-asserted identity."
+  human_fallback_required:
+    required: true
+    rule: "Every consequential workflow provides an accessible human-mediated and non-digital fallback."
+  no_identity_inference:
+    required: true
+    rule: "Classify environmental, infrastructure, operational, or scene-safety conditions without inferring identity or sensitive personal attributes."
+  data_minimization:
+    required: true
+    rule: "Collect only fields necessary for the declared public-interest purpose."
+  purpose_limitation:
+    required: true
+    rule: "Prohibit reuse for advertising, unrelated eligibility, employment screening, financial screening, law-enforcement targeting, or social scoring."
+  aggregate_first:
+    required: true
+    rule: "Use coarsened aggregate reporting and deny releases that violate small-cell protection."
+  offline_resilience:
+    required: true
+    rule: "Network loss cannot remove essential information, appeal intake, correction intake, or emergency fallback."
+  repair_first:
+    required: true
+    rule: "Infrastructure supports diagnosable faults, documented maintenance, signed updates, rollback, and repair pathways."
+  non_actuating_decision_support:
+    required: true
+    rule: "Analytics remain advisory until separate engineering validation and documented human operational approval exist."
+  non_compensation:
+    required: true
+    rule: "Ecological, financial, operational, or optimization benefit cannot offset a violated rights, accessibility, privacy, safety, or continuity condition."
+
+workload_admission:
+  required_declarations:
+    - "public_interest_purpose"
+    - "beneficiary_description"
+    - "input_field_inventory"
+    - "data_sensitivity_classes"
+    - "retention_limit"
+    - "aggregation_release_plan"
+    - "human_fallback_plan"
+    - "offline_access_plan"
+    - "decision_boundary"
+    - "uncertainty_method"
+    - "energy_budget_j"
+    - "water_budget_l"
+    - "carbon_accounting_method"
+    - "accessibility_evaluation"
+    - "scenario_test_suite"
+    - "community_review_record"
+  admit_only_when:
+    - "all_invariants_pass"
+    - "human_fallback_verified"
+    - "offline_resilience_verified"
+    - "no_sensitive_identity_inference"
+    - "no_direct_safety_critical_actuation"
+    - "retention_limit_declared"
+    - "uncertainty_is_disclosed"
+    - "scenario_test_suite_passes"
+    - "community_review_state in approved conditional_approval"
+  default_on_missing_evidence: "hold_for_human_review"
+
+data_governance:
+  default_data_class: "sensitive_by_default"
+  permitted_input_classes:
+    - "fixed_environmental_sensor"
+    - "equipment_health"
+    - "synthetic_fixture"
+    - "public_aggregate_statistic"
+    - "voluntary_aggregate_civic_input"
+  prohibited_input_classes:
+    - "raw_personal_audio"
+    - "raw_personal_video"
+    - "persistent_device_identifier"
+    - "individual_mobility_trace"
+    - "biometric_template"
+    - "neural_data"
+    - "augmentation_telemetry"
+    - "identity_linkage_key"
+  retention:
+    default_maximum_days: 30
+    review_required_for_extension: true
+    deletion_and_export_required: true
+  public_release:
+    aggregate_only: true
+    small_cell_protection_required: true
+    linkage_risk_assessment_required: true
+    uncertainty_required: true
+
+oversight:
+  roles:
+    technical_steward:
+      responsibilities:
+        - "validate declared inputs and retention"
+        - "verify reproducible scenario tests"
+        - "publish technical limitations"
+    accessibility_steward:
+      responsibilities:
+        - "verify non-digital and assistive pathways"
+        - "verify understandable explanations"
+        - "verify correction and appeal access"
+    ecological_steward:
+      responsibilities:
+        - "evaluate restoration hypothesis"
+        - "verify ecological measurement boundaries"
+        - "record environmental uncertainty"
+    community_reviewer:
+      responsibilities:
+        - "evaluate public purpose and local impact"
+        - "record community concerns"
+        - "request accessible deliberation materials"
+    accountable_operator:
+      responsibilities:
+        - "retain final human authority"
+        - "record operational approval"
+        - "suspend workload on rights or safety incident"
+  required_reviewers:
+    - "technical_steward"
+    - "accessibility_steward"
+    - "ecological_steward"
+    - "community_reviewer"
+    - "accountable_operator"
+  authorization:
+    maximum_days: 90
+    automatic_expiry: true
+    renewal_requires_new_evidence: true
+    suspension_conditions:
+      - "rights_invariant_failure"
+      - "unapproved_data_scope_change"
+      - "accessibility_pathway_failure"
+      - "offline_fallback_failure"
+      - "unexplained_model_drift"
+      - "material_ecological_harm_signal"
+      - "community_review_escalation"
+
+metrics:
+  required:
+    knowledge_factor:
+      range: [0.0, 1.0]
+      meaning: "Evidence quality, reproducibility, calibration, and uncertainty disclosure."
+    eco_impact_value:
+      range: [0.0, 1.0]
+      meaning: "Measured or conservatively estimated ecological public benefit."
+    harm_risk:
+      range: [0.0, 1.0]
+      meaning: "Residual risk after safeguards; higher values require stronger review."
+    accessibility_impact:
+      range: [0.0, 1.0]
+      meaning: "Availability and effectiveness of assistive, human, offline, and non-digital access."
+    rights_alignment:
+      range: [0.0, 1.0]
+      meaning: "Conformance with required rights invariants."
+    energy_intensity_j_per_output:
+      minimum: 0.0
+      meaning: "Energy consumed per useful, released output."
+    water_intensity_l_per_output:
+      minimum: 0.0
+      meaning: "Operational water estimate per useful, released output."
+    carbon_intensity_gco2e_per_output:
+      minimum: 0.0
+      meaning: "Carbon-equivalent estimate per useful, released output."
+    uncertainty:
+      range: [0.0, 1.0]
+      meaning: "Declared uncertainty associated with output or recommendation."
+  publication:
+    cadence: "quarterly"
+    required_fields:
+      - "authorized_workload_count"
+      - "suspended_workload_count"
+      - "aggregate_energy_intensity"
+      - "aggregate_water_intensity"
+      - "aggregate_carbon_intensity"
+      - "scenario_test_pass_rate"
+      - "human_review_response_time"
+      - "correction_and_appeal_resolution_summary"
+      - "ecological_measurement_summary"
+      - "uncertainty_summary"
+
+incident_response:
+  triggers:
+    - "prohibited_data_detected"
+    - "identity_inference_attempt"
+    - "essential_service_access_failure"
+    - "missing_human_fallback"
+    - "unapproved_actuation_path"
+    - "public_release_privacy_failure"
+  immediate_actions:
+    - "stop_new_data_ingestion"
+    - "preserve_minimized_audit_record"
+    - "notify_accountable_operator"
+    - "activate_accessible_human_fallback"
+    - "publish_aggregate_incident_notice_when_safe"
+    - "begin_independent_review"
+  prohibited_actions:
+    - "silent_policy_change"
+    - "silent_access_removal"
+    - "retaliation_for_correction_or_appeal"
+    - "use_of_incident_data_for_unrelated_enforcement"
