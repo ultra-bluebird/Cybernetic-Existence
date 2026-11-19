@@ -1,0 +1,37 @@
+{
+  "metric_name": "fixture_missing_governance",
+  "semantic_version": "v1.0.0",
+  "domain": "test_conformance",
+  "metric_kind": "planning_index",
+  "definition": "A test fixture that intentionally omits governance protections.",
+  "formula_version": "v1.0.0",
+  "formula_expression": "value = input",
+  "output": {
+    "unit": "ratio",
+    "minimum": 0,
+    "maximum": 1,
+    "classification": "planning_index"
+  },
+  "evidence_requirements": {
+    "required_fields": [
+      "input"
+    ],
+    "missing_data_behavior": "insufficient_evidence",
+    "stale_data_behavior": "needs_review",
+    "zero_quality_behavior": "insufficient_evidence"
+  },
+  "uncertainty": {
+    "method": "interval_bound",
+    "reported": true,
+    "review_threshold": 0.25
+  },
+  "review": {
+    "human_review_required": true,
+    "accessible_explanation_required": true,
+    "appeal_path_required": true,
+    "non_digital_escalation_required": true
+  },
+  "prohibited_interpretations": [
+    "This metric is incomplete by design."
+  ]
+}

@@ -1,0 +1,4 @@
+observed_at,planning_zone,shade_hours,rainfall_mm,maintenance_condition,temperature_c,calibration_quality,uncertainty_score
+2026-08-01T09:00:00Z,zone_alpha,4.2,0.0,0.85,39.4,0.92,0.10
+2026-08-01T12:00:00Z,zone_alpha,2.8,0.0,0.80,43.1,0.92,0.12
+2026-08-01T15:00:00Z,zone_alpha,1.6,0.0,0.76,44.0,0.91,0.16

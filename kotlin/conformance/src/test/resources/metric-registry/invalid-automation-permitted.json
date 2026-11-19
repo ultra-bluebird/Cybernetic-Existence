@@ -1,0 +1,47 @@
+{
+  "metric_name": "fixture_invalid_automation_permission",
+  "semantic_version": "v1.0.0",
+  "domain": "test_conformance",
+  "metric_kind": "safety_governance_assessment",
+  "definition": "A test fixture that intentionally violates the prohibition on automated actuation.",
+  "formula_version": "v1.0.0",
+  "formula_expression": "value = clamp(input, 0, 1)",
+  "output": {
+    "unit": "ratio",
+    "minimum": 0,
+    "maximum": 1,
+    "classification": "safety_governance_assessment"
+  },
+  "evidence_requirements": {
+    "required_fields": [
+      "input"
+    ],
+    "missing_data_behavior": "insufficient_evidence",
+    "stale_data_behavior": "needs_review",
+    "zero_quality_behavior": "insufficient_evidence"
+  },
+  "uncertainty": {
+    "method": "interval_bound",
+    "reported": true,
+    "review_threshold": 0.25
+  },
+  "review": {
+    "human_review_required": true,
+    "accessible_explanation_required": true,
+    "appeal_path_required": true,
+    "non_digital_escalation_required": true
+  },
+  "governance": {
+    "advisory_only": true,
+    "automated_actuation_permitted": true,
+    "automated_service_denial_permitted": false,
+    "optional_telemetry_required": false,
+    "continuous_connectivity_required": false,
+    "biometric_identification_permitted": false,
+    "cybernetic_status_penalty_permitted": false,
+    "individual_profiling_permitted": false
+  },
+  "prohibited_interpretations": [
+    "This fixture must be rejected because automated actuation is not permitted."
+  ]
+}

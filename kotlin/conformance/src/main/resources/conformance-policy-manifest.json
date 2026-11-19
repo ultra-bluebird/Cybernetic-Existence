@@ -1,0 +1,38 @@
+{
+  "manifest_version": "v1.0.0",
+  "repository": "mk-bluebird/Augmented-Hub",
+  "runtime_mode": "local_first_advisory_only",
+  "metric_registry_directory": "schemas/governance/metric_registry_entries",
+  "community_evidence_schema": "schemas/evidence/community_observation_evidence.schema.json",
+  "policy_artifacts": [
+    "policies/governance/research-agent-stability-invariants.aln",
+    "policies/conformance/research-conformance-agreement.aln",
+    "policies/conformance/research-conformance-extension.aln"
+  ],
+  "rego_artifacts": [
+    "rego/conformance/research_conformance.rego",
+    "rego/conformance/automation_safety_margin.rego",
+    "rego/conformance/community_and_multispecies_evidence.rego"
+  ],
+  "required_metric_names": [
+    "automation_safety_margin_index",
+    "corridor_continuity_score",
+    "electronic_conversion_efficiency_ratio",
+    "maintenance_condition_decay_model",
+    "provenance_chain_completeness_measure",
+    "sensor_alignment_quality_score",
+    "shade_equity_ratio",
+    "thermal_refuge_accessibility_index"
+  ],
+  "default_output_class": "LOCAL_ONLY",
+  "external_action_permitted": false,
+  "automated_actuation_permitted": false,
+  "automated_service_denial_permitted": false,
+  "identity_resolution_permitted": false,
+  "biometric_identification_permitted": false,
+  "cybernetic_status_assessment_permitted": false,
+  "individual_profiling_permitted": false,
+  "human_review_required_for_consequential_use": true,
+  "accessible_explanation_required": true,
+  "non_digital_escalation_required": true
+}
