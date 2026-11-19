@@ -1,0 +1,5 @@
+"Object","Key fields (subset)","Safety hooks","Sovereignty hooks"
+"VirtualOrgan","organ_id, BiophysicalParams, OrganCorridorSummary","7‑D polytope, Lipschitz, EMI & microvascular risk","host_did, bostrom_address, EvidenceBundle10"
+"VirtualNeuron","firing_rate_hz, energy_per_spike_j, outgoing_synapses","power caps, neurorights validation via envelopes","same as above"
+"SynapticAdjacencyList","neurons, edges with PlasticityRule","bounded plasticity rules for stability proofs","used by verification shards"
+"VirtualBloodVessel","diameter_m, length_m, flow_rate_ml_s, shear_stress_pa, pressure","hemodynamic constraints, microvascular damage models","same as above"

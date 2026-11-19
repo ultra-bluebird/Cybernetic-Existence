@@ -1,0 +1,16 @@
+stateDiagram-v2
+    [*] --> Cold
+    Cold --> AdmissionRequest: ExternalRequest
+
+    AdmissionRequest --> IsolatedSession: Validation + authentication + policy pass
+    AdmissionRequest --> Rejected: Validation/auth/policy failure
+
+    IsolatedSession --> SoftReset: Transient fault
+    IsolatedSession --> Revoked: Expiry / user revocation / integrity failure / budget exhausted
+
+    SoftReset --> AdmissionRequest: Retry authorized
+    SoftReset --> Revoked: Expiry / revocation / integrity failure / restart
+
+    Rejected --> EvidenceSeal: Evidence written
+    Revoked --> EvidenceSeal: Evidence written
+    EvidenceSeal --> Cold: Restarted; transient state cleared

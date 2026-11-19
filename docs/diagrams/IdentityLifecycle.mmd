@@ -1,0 +1,11 @@
+stateDiagram-v2
+    [*] --> locally_asserted
+    locally_asserted --> protective_use_active: Person chooses protective use
+    locally_asserted --> locally_updated: Person updates declaration
+    protective_use_active --> conflict_preserved: External discrepancy reported
+    conflict_preserved --> protective_use_active: Review resolves workflow without overriding self-assertion
+    locally_asserted --> withdrawn_for_future_use: Person withdraws future-use permission
+    protective_use_active --> withdrawn_for_future_use: Person withdraws future-use permission
+    locally_updated --> protective_use_active: Updated declaration used for protection
+    withdrawn_for_future_use --> archived_protection_history: Minimum audit record retained
+    conflict_preserved --> archived_protection_history: Historic conflict retained for audit

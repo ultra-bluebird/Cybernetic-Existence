@@ -1,0 +1,7 @@
+"Internal condition","Default API status","Required effect"
+"Valid local artifact and no unresolved blocker","OBSERVE","Return non-authorizing result"
+"Missing source, provenance, uncertainty, calibration, reviewer, or boundary component","HOLD_FOR_REVIEW","Return exact gaps and required review owner"
+"Domain reviewer must take responsibility","ESCALATE","Name required review role"
+"Design alternative can be explored without implementation","PASSIVE_DESIGN_REVIEW","Clearly label as planning only"
+"Prohibited identity, credential, device, command, or unsafe content","REJECT","Do not persist or export as an accepted artifact"
+"Numerical result cannot be calculated","NOT_CALCULATED","Return formula/input requirements, not invented numbers"

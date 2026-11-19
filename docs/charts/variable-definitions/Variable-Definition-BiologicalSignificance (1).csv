@@ -1,0 +1,4 @@
+"Variable","Definition","Biological Significance"
+"PSDθ/γ\text{PSD}_{\theta/\gamma}PSDθ/γ​","Power spectral density ratio","Theta (4-8 Hz) / Gamma (30-100 Hz). High ratio (>1.5) indicates cognitive overload pmc.ncbi.nlm.nih+1."
+"PACcoupling\text{PAC}_{\text{coupling}}PACcoupling​","Phase-amplitude coupling","0-1 scale. Measures theta-gamma cross-frequency coupling. Optimal: 0.3-0.7. >0.8 indicates cortical excitability pmc.ncbi.nlm.nihbelow-is-math-structs-and-form-fA1IOTewRW2h.lalB3jjOg.md."
+"baselinerest\text{baseline}_{\text{rest}}baselinerest​","Normalization constant","Personalized resting-state calibration. Recomputed daily during sleep telemetry quantum-geometry-the-geometric-dviyFDk9TTSpv.8YvdiP6g.md."

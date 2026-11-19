@@ -1,0 +1,29 @@
+flowchart TD
+    A[What should the research agent prioritize?] --> B[ContractReady]
+    B --> C[Lock schemas and controlled vocabularies]
+    B --> D[Claim-register enforcement]
+    B --> E[Canonical shared test vectors]
+
+    C --> F[IntegrationReady]
+    D --> F
+    E --> F
+
+    F --> G[Crypto-agility implementation]
+    F --> H[Audit-chain operations and signed checkpoints]
+    F --> I[Rust provenance graph and reachability validation]
+    F --> J[Topology parser and non-actuation scanner]
+    F --> K[CI acceptance automation]
+
+    G --> L[StudyReady]
+    H --> L
+    I --> L
+    J --> L
+    K --> L
+
+    L --> M[Locked decoder comparison]
+    L --> N[Materials evidence matrix]
+    L --> O[Human-factors and agency protocol]
+
+    M --> P[T3 Release Candidate]
+    N --> P
+    O --> P

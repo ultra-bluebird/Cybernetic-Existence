@@ -1,0 +1,6 @@
+"Component","Measurement Source","Critical Threshold"
+"ScognitiveS_{\text{cognitive}}Scognitive​","EEG theta/gamma ratio, cognitive load index",">0.25 (37% recall degradation) mapping-evolve-token-design-to-3r2TOkmcRDqcLq1Var0MmA.md"
+"SautonomicS_{\text{autonomic}}Sautonomic​","HRV (LF/HF), blood pressure variability",">0.20 (autonomic dysregulation) mapping-hepatic-alt-ast-thresh-STZgHDlLSqSpF4Lxo6289g.md"
+"SinflammationS_{\text{inflammation}}Sinflammation​","IL-6, CRP, TNF-α normalized to baseline",">0.30 (systemic inflammatory response) below-is-math-structs-and-form-fA1IOTewRW2h.lalB3jjOg.md+1"
+"Snano-tissueS_{\text{nano-tissue}}Snano-tissue​","Nanoswarm density, local temperature, perfusion",">0.25 (microvascular stress) below-is-math-structs-and-form-fA1IOTewRW2h.lalB3jjOg.md"
+"SecoS_{\text{eco}}Seco​","Environmental stressor vector (PM, heat, RF)",">0.20 (ecosystem corridor breach) help-me-describe-what-a-poison-g1CSJgetSDG0_ElZnvk3DA.md"

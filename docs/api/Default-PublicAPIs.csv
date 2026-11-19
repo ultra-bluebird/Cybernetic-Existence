@@ -1,0 +1,8 @@
+"File","Default public API","Input","Output"
+"evidence-workbench.js","createEvidenceWorkbench, registerSource, registerEvidence, evaluateAndRegisterClaim, generateGapRegister, generateReadinessReport","Schema-valid local artifacts","Canonical result envelope"
+"claim-scope-firewall.js","evaluateClaimScope, deriveMaximumSupportedState, compareClaimScopeToEvidenceScope","Claim record plus linked evidence","Claim state, evidence minimum, findings"
+"contradiction-detector.js","detectContradictions, compareEvidencePair, findActionableContradictions, summarizeContradictions","Evidence record collection","Conflict register"
+"boundary-completeness-linter.js","lintCorridorGraph, lintBoundary, summarizeBoundaryFindings","Corridor graph","Boundary closure report"
+"uncertainty-catalog.js","createUncertaintyCatalog, evaluateCalculationReadiness, buildInputRequestTable, summarizeUncertaintyFindings","Uncertainty catalog","Input request table and NOT_CALCULATED/review status"
+"accessible-summary-builder.js","buildPlainLanguageSummary, buildScreenReaderSummary, buildLowBandwidthSummary, buildNonDigitalBulletin, buildMachineReadableStatus, validateAccessibleSummary","Readiness report","Accessible outputs with preserved limitations"
+"research-backlog-ranker.js","rankResearchBacklog, validateWeights, explainPriority","Gap register plus explicit weights","Research-ordering artifact, never autonomous action"

@@ -1,0 +1,134 @@
+flowchart TD
+    subgraph Foundation["Foundation"]
+        A[Charter]
+        B[Capability Boundary]
+        C[Monitoring Schema]
+    end
+
+    subgraph Integrity["Cross-Artifact Integrity"]
+        D[Consistency Checker]
+        E[Schema Versioning]
+        F[Supersession Records]
+        G[Conflict Records]
+        H[Non-Authorization Standard]
+        I[Reference Integrity]
+        J[Canonical Enum Registry]
+        K[Governance State Machine]
+        L[Fail-Closed Coverage]
+        M[Trust Boundary Tests]
+    end
+
+    subgraph Uncertainty["Uncertainty and Decision Support"]
+        N[Uncertainty Propagation]
+        O[Confidence Decay]
+        P[OOD Propagation]
+        Q[Threshold Governance]
+        R[Decision-Support Records]
+        S[Visualization Standard]
+        T[Posterior Checkpointing]
+        U[Ensemble Aggregation]
+        V[Uncertainty-Aware Access]
+        W[Calibration Drift]
+    end
+
+    subgraph Rights["Rights-Holder Governance"]
+        X[FPIC Lifecycle]
+        Y[Consent Supersession]
+        Z[Withdrawal Propagation]
+        AA[Benefit Tracking]
+        AB[Attribution Resolution]
+        AC[Inter-Nation Scaffolding]
+        AD[Knowledge Classification]
+        AE[Non-Recordable Handling]
+        AF[Pre-Release Review]
+        AG[Term Expiry]
+    end
+
+    subgraph Community["Community Reporting"]
+        AH[Multi-Channel Intake]
+        AI[Anonymous Case Envelopes]
+        AJ[Anti-Retaliation Routing]
+        AK[Language Access]
+        AL[SLA Tracking]
+        AM[Correction and Appeal]
+        AN[Aggregation Suppression]
+        AO[Location Generalization]
+        AP[Dual Record Generation]
+        AQ[Channel Security]
+    end
+
+    subgraph Chat["Chat Patterns"]
+        AR[Scope Header Parser]
+        AS[Convention Registry]
+        AT[Abstention Log]
+        AU[Artifact Provenance]
+        AV[Context Manager]
+        AW[Interpretation Mode]
+        AX[Conflict Flag Templates]
+        AY[Supersession Templates]
+        AZ[Non-Authorization Declarations]
+        BA[Agent Self-Reporting]
+    end
+
+    A --> D
+    B --> D
+    C --> D
+
+    H --> D
+    I --> D
+    J --> D
+    K --> L
+    G --> L
+    D --> L
+    L --> M
+
+    D --> N
+    N --> O
+    N --> P
+    O --> R
+    P --> R
+    Q --> R
+    R --> S
+    R --> U
+    U --> V
+    W --> V
+    T --> R
+
+    X --> Y
+    Y --> Z
+    X --> AA
+    X --> AB
+    X --> AC
+    X --> AD
+    AD --> AE
+    X --> AF
+    X --> AG
+    Y --> AF
+    Z --> AF
+    AB --> AF
+    AG --> AF
+
+    AH --> AI
+    AH --> AJ
+    AH --> AK
+    AH --> AL
+    AH --> AM
+    AN --> AP
+    AO --> AP
+    AP --> AQ
+
+    AR --> AS
+    AR --> AT
+    AR --> AW
+    AS --> AV
+    AX --> G
+    AY --> F
+    AZ --> H
+    AU --> AV
+    AW --> AU
+    BA --> AU
+
+    X --> AH
+    AF --> AH
+    AH --> AR
+    AR --> A

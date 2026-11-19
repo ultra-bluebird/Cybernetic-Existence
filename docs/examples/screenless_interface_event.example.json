@@ -1,0 +1,19 @@
+{
+  "@context": [
+    "https://schema.org",
+    "https://schemas.augmented-hub.invalid/context/screenless-interface-event/1.0"
+  ],
+  "event_id": "evt-7f2a1d94-81c4-4b22",
+  "event_type": "https://schema.org/InteractionCounter",
+  "timestamp": "2026-09-08T02:45:00Z",
+  "source_component": "HOST_REPORTED_COMPONENT",
+  "semantic_payload_type": "CONTINUITY_NOTE",
+  "subjective_intensity": 0.45,
+  "environmental_context": "OTHER_GENERAL_CONTEXT",
+  "uncertainty_flag": true,
+  "uncertainty_note": "Report is incomplete and should be interpreted as a request for review, not a conclusion.",
+  "advisory_only": true,
+  "retention_profile_revision": "retention-profile-v1",
+  "previous_event_digest": "0000000000000000000000000000000000000000000000000000000000000000",
+  "event_digest": "c0ecceadf9c54f63762a19b1814d54f71047714c4ef704544064ba8050fb749d"
+}

@@ -1,0 +1,12 @@
+flowchart TD
+    A[Public and approved aggregate data] --> B[Application validation and consent boundary]
+    B --> C[popmath typed inputs, units, provenance, and constraints]
+    C --> D[Deterministic calculations]
+    C --> E[Scenario and uncertainty models]
+    C --> F[Optimization problem descriptions]
+    D --> G[Result envelope]
+    E --> G
+    F --> G
+    G --> H[Accessibility, rights, ecological, and review metadata]
+    H --> I[Human and community governance process]
+    I --> J[Accessible public report or operationally reviewed plan]

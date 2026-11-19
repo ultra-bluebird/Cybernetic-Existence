@@ -1,0 +1,4 @@
+"Variable","Definition","Biological Significance"
+"Ψcoherence\Psi_{\text{coherence}}Ψcoherence​","Neural state fidelity","Minimum safe threshold: ≥0.37 (37% recall preservation at 72h). Values <0.37 indicate unacceptable memory disruption mapping-evolve-token-design-to-3r2TOkmcRDqcLq1Var0MmA.md."
+"MMM","Number of sampled BCI epochs","Typically M=100-1000 per session. Higher M improves statistical power quantum-geometry-the-geometric-dviyFDk9TTSpv.8YvdiP6g.md."
+"∥⟨ψpre∥ψpost⟩∥2\| \langle \psi_{\text{pre}} \| \psi_{\text{post}} \rangle \|^2∥⟨ψpre​∥ψpost​⟩∥2","Inner product of neural states","Computed from multi-electrode EEG/implant recordings. Measures state-space overlap before/after intervention quantum-geometry-the-geometric-dviyFDk9TTSpv.8YvdiP6g.md."

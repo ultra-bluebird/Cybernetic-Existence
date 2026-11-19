@@ -1,0 +1,5 @@
+"Variable","Definition","Units","Biological Significance"
+"Kbio,jK_{\text{bio},j}Kbio,j​","BioKarma for region j","dimensionless","Cumulative biophysical risk score. Integrates energy load with tissue vulnerability. Values >10,000 trigger corridor safety gates below-is-math-structs-and-form-fA1IOTewRW2h.lalB3jjOg.md."
+"βj\beta_jβj​","Tissue hazard weight","multiplier","CNS tissue: 2.5-3.0 (high vulnerability to inflammation/thermal stress). Adipose: 0.5-0.8 (lower sensitivity). Calibrated from neurovascular coupling data below-is-math-structs-and-form-fA1IOTewRW2h.lalB3jjOg.md+1."
+"λj\lambda_jλj​","Activity/decay constant","s⁻¹ or J⁻¹","Tissue-specific metabolic clearance rate. Cortical tissue: 0.001-0.01 s⁻¹ (slow recovery). Muscle: 0.05-0.1 s⁻¹ (faster). Evidence tag: 5b93e0c3 below-is-math-structs-and-form-fA1IOTewRW2h.lalB3jjOg.md."
+"EjE_jEj​","Incremental energy load","Joules (J)","Net metabolic/electromagnetic energy: Ej=max⁡(0,Eout,j−Ein,j)E_j = \max(0, E_{\text{out},j} - E_{\text{in},j})Ej​=max(0,Eout,j​−Ein,j​). Typical nanoswarm operation: 10-500 J per 10-min window below-is-math-structs-and-form-fA1IOTewRW2h.lalB3jjOg.md+1."

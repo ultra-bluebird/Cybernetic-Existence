@@ -1,0 +1,7 @@
+"ALN contract","Input","Output","Prohibited behavior"
+"RiskBudgetPolicy","Abstract non-personal state and permitted action grid","Candidate budget assessment","Device command generation"
+"SafetyEnvelope","Declared bound values and evidence references","Envelope validity state","Altering physical settings"
+"EvidenceBundle","Ten allowed evidence tags plus provenance/review state","Structural validity result","Identity/credential binding"
+"IdentityRights","Baseline access policy facts","Non-discrimination verdict","Identity verification"
+"CorridorConstraint","Segment/boundary completeness records","OBSERVE or HOLD_FOR_REVIEW","Physical routing commands"
+"ReviewGate","Findings and role assignments","Review-required state","Auto-approval"

@@ -1,0 +1,5 @@
+"Variable","Definition","Units","Biological Significance"
+"ρswarm,j\rho_{\text{swarm},j}ρswarm,j​","Weighted swarm density","count/mm³","Safe range: 10²-10⁴ bots/mm³ depending on tissue. Exceeding triggers corridor gate below-is-math-structs-and-form-fA1IOTewRW2h.lalB3jjOg.mdpmc.ncbi.nlm.nih+1."
+"NbotsN_{\text{bots}}Nbots​","Active nanobot count","count","Real-time telemetry from swarm mesh. Typical therapeutic load: 10⁶-10⁹ total distributed across target regions below-is-math-structs-and-form-fA1IOTewRW2h.lalB3jjOg.mdpmc.ncbi.nlm.nih."
+"VtissueV_{\text{tissue}}Vtissue​","Tissue volume","mm³","MRI/CT-derived anatomical segmentation. Cortical patch: ~100-500 mm³ below-is-math-structs-and-form-fA1IOTewRW2h.lalB3jjOg.md."
+"ωinflammation,j\omega_{\text{inflammation},j}ωinflammation,j​","Inflammation index","ratio","IL-6/TNF-α ratio normalized to baseline. Normal: 0.5-1.5. Elevated: >2.0 help-me-describe-what-a-poison-g1CSJgetSDG0_ElZnvk3DA.md+1."

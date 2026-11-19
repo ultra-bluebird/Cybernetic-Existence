@@ -1,0 +1,4 @@
+"Variable","Definition","Units","Range"
+"Sbio,jS_{\text{bio},j}Sbio,j​","Normalized bioimpact","0-1 scale","Safe: 0.2-0.6. Warning: 0.6-0.7. Critical: >0.7 triggers auto-downgrade below-is-math-structs-and-form-fA1IOTewRW2h.lalB3jjOg.md+1."
+"αbio\alpha_{\text{bio}}αbio​","Saturation coefficient","dimensionless","Typically 0.3-0.5. Controls nonlinearity: larger α → sharper threshold. Calibrated per tissue from dose-response curves below-is-math-structs-and-form-fA1IOTewRW2h.lalB3jjOg.md."
+"K0,bioK_{0,\text{bio}}K0,bio​","Reference BioKarma","dimensionless","Baseline: 5,000-10,000. When Kbio,j=K0,bioK_{\text{bio},j} = K_{0,\text{bio}}Kbio,j​=K0,bio​, Sbio≈0.63S_{\text{bio}} \approx 0.63Sbio​≈0.63. Evidence tag: 9cd4a7e8 below-is-math-structs-and-form-fA1IOTewRW2h.lalB3jjOg.md."

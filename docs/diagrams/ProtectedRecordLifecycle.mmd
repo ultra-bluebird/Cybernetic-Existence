@@ -1,0 +1,24 @@
+stateDiagram-v2
+    [*] --> created
+    created --> active_use: validation or permitted initial use
+    created --> needs_review: incomplete, uncertain, or sensitive context
+    created --> conflicted: contradictory relevant record detected
+    active_use --> needs_review: evidence freshness or applicability changes
+    active_use --> corrected: documented factual correction
+    active_use --> retracted: authorized review finds active use unsuitable
+    active_use --> superseded: later scope-compatible record becomes active
+    active_use --> conflicted: material contradiction detected
+    needs_review --> under_review: reviewer accepts review
+    conflicted --> under_review: human resolution begins
+    corrected --> active_use: corrected record passes applicable gates
+    superseded --> archived: retained for audit
+    retracted --> archived: retained with retraction rationale
+    under_review --> active_use: resolution record supports use
+    under_review --> corrected: correction outcome
+    under_review --> retracted: retraction outcome
+    under_review --> superseded: supersession outcome
+    created --> expired: validity period ends before active use
+    active_use --> expired: declared temporal validity ends
+    expired --> under_review: revalidation requested
+    expired --> archived: retained with expiry reason
+    conflicted --> archived: unresolved conflict retained for audit

@@ -1,0 +1,6 @@
+"Variable","Definition","Units","Biological Significance"
+"ΔTtissue,j\Delta T_{\text{tissue},j}ΔTtissue,j​","Corrected temperature deviation","°C","Safe limit: ±0.8°C. Exceeding triggers ThermodynamicEnvelope violation below-is-math-structs-and-form-fA1IOTewRW2h.lalB3jjOg.md+2."
+"Tmeasured,jT_{\text{measured},j}Tmeasured,j​","Sensor temperature","°C","Infrared thermography or implanted thermistor. Resolution: ±0.1°C mapping-hepatic-alt-ast-thresh-STZgHDlLSqSpF4Lxo6289g.md."
+"Tbaseline,jT_{\text{baseline},j}Tbaseline,j​","Tissue baseline temperature","°C","Personalized calibration. Cortex: 36.8-37.2°C. Periphery: 33-35°C mapping-hepatic-alt-ast-thresh-STZgHDlLSqSpF4Lxo6289g.md+1."
+"αperfusion\alpha_{\text{perfusion}}αperfusion​","Perfusion cooling coefficient","°C·min/mL","Typically 0.01-0.05. Accounts for blood flow heat dissipation mapping-hepatic-alt-ast-thresh-STZgHDlLSqSpF4Lxo6289g.md."
+"Qblood,jQ_{\text{blood},j}Qblood,j​","Local blood perfusion rate","mL/min/100g","Normal cortex: 50-60. During activation: 80-120. Evidence hex: 7e1da2ff below-is-math-structs-and-form-fA1IOTewRW2h.lalB3jjOg.md+1."

@@ -1,0 +1,7 @@
+"Evidence class","Meaning","Permitted conclusion"
+"formal_bounded","Exhaustive result over a registered finite model","The stated invariant held for every enumerated valid state"
+"synthetic_statistical","Monte Carlo estimate under registered distributions and seed series","The metric has the reported value and interval within the synthetic model"
+"schema_validated","A document or result passed structural validation","The artifact conforms to its declared exchange contract"
+"policy_reviewed","A declared review process completed","The review state and rationale are recorded"
+"field_verified","Reserved for future independently measured evidence","Not produced by the non-actuating research phase"
+"research_only","Hypothesis or model extension with incomplete validation","Must not authorize access restrictions or automated deployment"

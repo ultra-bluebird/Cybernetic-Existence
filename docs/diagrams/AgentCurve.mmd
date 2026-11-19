@@ -1,0 +1,17 @@
+flowchart TD
+  A[Receive research task] --> B[Resolve canonical terms]
+  B --> C[Classify data and requested output]
+  C --> D{Purpose compatible?}
+  D -->|No| E[Blocked by policy]
+  D -->|Yes| F{Evidence sufficient, current, and compatible?}
+  F -->|No| G[Insufficient evidence or needs review]
+  F -->|Yes| H{Protected gates satisfied?}
+  H -->|No| I[Advisory output only with explanation]
+  H -->|Yes| J{Action class allowed for agent?}
+  J -->|No| K[Prepare review package]
+  J -->|Yes| L[Return bounded advisory or local result]
+  E --> M[Preserve audit and explanation]
+  G --> M
+  I --> M
+  K --> M
+  L --> M

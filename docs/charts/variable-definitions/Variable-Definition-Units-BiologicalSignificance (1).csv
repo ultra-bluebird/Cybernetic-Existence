@@ -1,0 +1,3 @@
+"Variable","Definition","Units","Biological Significance"
+"Mprot,jM_{\text{prot},j}Mprot,j​","Equivalent protein mass","grams (g)","Links computational workload to structural biology: Each joule of nanoswarm activity requires protein synthesis for repair/maintenance. Daily limit: 50-100 g from HostBudget below-is-math-structs-and-form-fA1IOTewRW2h.lalB3jjOg.md+1."
+"ATPprot\text{ATP}_{\text{prot}}ATPprot​","Energy-to-protein constant","J/g (fixed)","16,736 J/g: Empirical constant from mitochondrial oxidative phosphorylation. One gram of protein yields this energy when metabolized below-is-math-structs-and-form-fA1IOTewRW2h.lalB3jjOg.mdpmc.ncbi.nlm.nih."

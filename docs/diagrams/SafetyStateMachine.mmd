@@ -1,0 +1,13 @@
+stateDiagram-v2
+    [*] --> PreOperationReview
+    PreOperationReview --> ReadyForSupervisedMovement: Safety case, route, sensors, signage, and accessibility checks pass
+    PreOperationReview --> DoNotOperate: Required evidence missing or path is not accessible
+    ReadyForSupervisedMovement --> SlowMove: Protective field clear and route condition acceptable
+    SlowMove --> ProtectiveStop: Person, animal, obstacle, or uncertain condition in protective radius
+    SlowMove --> SurfaceReview: Wet, damaged, steep, obstructed, or uncertain surface
+    SlowMove --> EmergencyStop: Accessible emergency stop activated or critical sensor state fails
+    ProtectiveStop --> HumanReview: Object persists or sensor evidence conflicts
+    SurfaceReview --> HumanReview: Route safety or accessibility continuity is uncertain
+    EmergencyStop --> HumanReview: Reset requires authorized safety review
+    HumanReview --> PreOperationReview: Review records a safe next state
+    DoNotOperate --> PreOperationReview: New evidence or route review is available
