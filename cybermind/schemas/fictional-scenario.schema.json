@@ -1,0 +1,427 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CyberMind Fictional Scenario Record",
+  "description": "A bounded research record for fictional or approved-redacted composite scenarios. Validation does not establish truth, consent, reviewer authenticity, or authorization.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "attribution",
+    "attribution_scope",
+    "title",
+    "provenance",
+    "narrative",
+    "claim",
+    "pipeline",
+    "privacy",
+    "review"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "attribution": {
+      "const": "bostrom18sd2ujv24ual9c9pshtxys6j8knh6xaead9ye7"
+    },
+    "attribution_scope": {
+      "const": "Credit and workstream metadata only; not identity, consent, authorization, execution evidence, or authority."
+    },
+    "title": {
+      "$ref": "#/$defs/shortText"
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "source_description",
+        "transformation_note"
+      ],
+      "properties": {
+        "kind": {
+          "enum": [
+            "fictional",
+            "approved_redacted_composite"
+          ]
+        },
+        "source_description": {
+          "$ref": "#/$defs/text"
+        },
+        "transformation_note": {
+          "$ref": "#/$defs/text"
+        },
+        "background_sources": {
+          "type": "array",
+          "maxItems": 32,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "description",
+              "relationship",
+              "limitation"
+            ],
+            "properties": {
+              "description": {
+                "$ref": "#/$defs/text"
+              },
+              "locator": {
+                "$ref": "#/$defs/shortText"
+              },
+              "relationship": {
+                "enum": [
+                  "contextualizes",
+                  "supports_background",
+                  "contradicts_background"
+                ]
+              },
+              "limitation": {
+                "$ref": "#/$defs/text"
+              }
+            }
+          }
+        }
+      }
+    },
+    "narrative": {
+      "$ref": "#/$defs/text"
+    },
+    "claim": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "statement",
+        "scope",
+        "residual_uncertainty"
+      ],
+      "properties": {
+        "kind": {
+          "enum": [
+            "research_question",
+            "possibility_under_assumptions",
+            "proposed_requirement"
+          ]
+        },
+        "statement": {
+          "$ref": "#/$defs/text"
+        },
+        "scope": {
+          "$ref": "#/$defs/text"
+        },
+        "residual_uncertainty": {
+          "$ref": "#/$defs/text"
+        }
+      }
+    },
+    "pipeline": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "label",
+        "mechanism",
+        "rival_explanations",
+        "normative_empirical_split",
+        "investigation",
+        "actionable_output",
+        "responsibility_retest"
+      ],
+      "properties": {
+        "label": {
+          "$ref": "#/$defs/stage"
+        },
+        "mechanism": {
+          "$ref": "#/$defs/stage"
+        },
+        "rival_explanations": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "disposition",
+            "alternatives",
+            "distinguishing_evidence",
+            "review"
+          ],
+          "properties": {
+            "disposition": {
+              "enum": [
+                "plausible_alternatives",
+                "alternatives_examined_and_rejected",
+                "none_currently_identified",
+                "insufficient_information"
+              ]
+            },
+            "alternatives": {
+              "type": "array",
+              "maxItems": 16,
+              "uniqueItems": true,
+              "items": {
+                "$ref": "#/$defs/text"
+              }
+            },
+            "distinguishing_evidence": {
+              "$ref": "#/$defs/text"
+            },
+            "review": {
+              "$ref": "#/$defs/stageReview"
+            }
+          },
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "disposition": {
+                    "enum": [
+                      "plausible_alternatives",
+                      "alternatives_examined_and_rejected"
+                    ]
+                  }
+                },
+                "required": [
+                  "disposition"
+                ]
+              },
+              "then": {
+                "properties": {
+                  "alternatives": {
+                    "minItems": 1
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "normative_empirical_split": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "normative_question",
+            "empirical_question",
+            "review"
+          ],
+          "properties": {
+            "normative_question": {
+              "$ref": "#/$defs/text"
+            },
+            "empirical_question": {
+              "$ref": "#/$defs/text"
+            },
+            "review": {
+              "$ref": "#/$defs/stageReview"
+            }
+          }
+        },
+        "investigation": {
+          "$ref": "#/$defs/stage"
+        },
+        "actionable_output": {
+          "$ref": "#/$defs/stage"
+        },
+        "responsibility_retest": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "owner_role",
+            "next_action",
+            "verification_method",
+            "review_trigger",
+            "review"
+          ],
+          "properties": {
+            "owner_role": {
+              "$ref": "#/$defs/shortText"
+            },
+            "next_action": {
+              "$ref": "#/$defs/text"
+            },
+            "verification_method": {
+              "$ref": "#/$defs/text"
+            },
+            "review_trigger": {
+              "$ref": "#/$defs/text"
+            },
+            "review": {
+              "$ref": "#/$defs/stageReview"
+            }
+          }
+        }
+      }
+    },
+    "privacy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "content_scope",
+        "data_minimization_note",
+        "publication",
+        "retention_review",
+        "external_actions"
+      ],
+      "properties": {
+        "content_scope": {
+          "const": "synthetic_or_approved_redacted"
+        },
+        "data_minimization_note": {
+          "$ref": "#/$defs/text"
+        },
+        "publication": {
+          "enum": [
+            "not_requested",
+            "pending_review",
+            "restricted",
+            "separately_approved"
+          ]
+        },
+        "retention_review": {
+          "$ref": "#/$defs/text"
+        },
+        "external_actions": {
+          "const": "require_separate_explicit_approval"
+        }
+      }
+    },
+    "review": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "conflict_status",
+        "scope_note"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "unreviewed",
+            "under_review",
+            "revision_requested",
+            "admission_recommended",
+            "superseded",
+            "withdrawn"
+          ]
+        },
+        "conflict_status": {
+          "enum": [
+            "not_assessed",
+            "unresolved",
+            "cleared"
+          ]
+        },
+        "scope_note": {
+          "$ref": "#/$defs/text"
+        },
+        "reviewer_role": {
+          "$ref": "#/$defs/shortText"
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "review": {
+            "properties": {
+              "status": {
+                "const": "admission_recommended"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          }
+        },
+        "required": [
+          "review"
+        ]
+      },
+      "then": {
+        "properties": {
+          "review": {
+            "required": [
+              "reviewer_role"
+            ],
+            "properties": {
+              "conflict_status": {
+                "const": "cleared"
+              }
+            }
+          },
+          "pipeline": {
+            "properties": {
+              "label": {
+                "$ref": "#/$defs/adequateStage"
+              },
+              "mechanism": {
+                "$ref": "#/$defs/adequateStage"
+              },
+              "rival_explanations": {
+                "$ref": "#/$defs/adequateStage"
+              },
+              "normative_empirical_split": {
+                "$ref": "#/$defs/adequateStage"
+              },
+              "investigation": {
+                "$ref": "#/$defs/adequateStage"
+              },
+              "actionable_output": {
+                "$ref": "#/$defs/adequateStage"
+              },
+              "responsibility_retest": {
+                "$ref": "#/$defs/adequateStage"
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "shortText": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512,
+      "pattern": "\\S"
+    },
+    "text": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 16384,
+      "pattern": "\\S"
+    },
+    "stageReview": {
+      "enum": [
+        "not_assessed",
+        "adequate",
+        "needs_revision",
+        "unable_to_assess"
+      ]
+    },
+    "stage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "statement",
+        "review"
+      ],
+      "properties": {
+        "statement": {
+          "$ref": "#/$defs/text"
+        },
+        "review": {
+          "$ref": "#/$defs/stageReview"
+        }
+      }
+    },
+    "adequateStage": {
+      "type": "object",
+      "required": [
+        "review"
+      ],
+      "properties": {
+        "review": {
+          "const": "adequate"
+        }
+      }
+    }
+  }
+}

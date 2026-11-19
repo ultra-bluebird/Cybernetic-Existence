@@ -1,0 +1,10 @@
+global:
+  scrape_interval: 15s
+
+scrape_configs:
+  - job_name: "nanorobotics-fpot-adjoint"
+    static_configs:
+      - targets: ["nanorobotics-fpot-adjoint:9090"]
+    metrics_path: "/metrics"
+    honor_labels: true
+    scheme: "http"

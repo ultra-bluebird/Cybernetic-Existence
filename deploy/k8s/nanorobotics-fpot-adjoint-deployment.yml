@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nanorobotics-fpot-adjoint
+  labels:
+    app: nanorobotics-fpot-adjoint
+    aln_migration_authority: "ALN.MIGRATION.CYBERCORE_AUTHORITY.v1"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nanorobotics-fpot-adjoint
+  template:
+    metadata:
+      labels:
+        app: nanorobotics-fpot-adjoint
+        host_did: "OrganicCPU"
+    spec:
+      containers:
+        - name: adjoint-core
+          image: mk-bluebird/nanorobotics-fpot-adjoint:0.1.0
+          args: ["--config", "/etc/nanorobotics-fpot-adjoint/config.toml"]
+          volumeMounts:
+            - name: config
+              mountPath: "/etc/nanorobotics-fpot-adjoint"
+          ports:
+            - containerPort: 9090
+              name: metrics
+          env:
+            - name: RUNTIME_MODE
+              valueFrom:
+                configMapKeyRef:
+                  name: nanorobotics-fpot-adjoint-config
+                  key: runtime_mode
+      volumes:
+        - name: config
+          configMap:
+            name: nanorobotics-fpot-adjoint-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nanorobotics-fpot-adjoint
+spec:
+  selector:
+    app: nanorobotics-fpot-adjoint
+  ports:
+    - name: metrics
+      port: 9090
+      targetPort: metrics
+      protocol: TCP

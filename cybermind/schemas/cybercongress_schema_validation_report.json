@@ -1,0 +1,61 @@
+{
+  "schema_standard": "JSON Schema Draft 2020-12",
+  "meta_schema_check": "passed",
+  "instance_tests": [
+    {
+      "test": "valid synthetic complaint",
+      "expected_valid": true,
+      "observed_valid": true,
+      "matched": true
+    },
+    {
+      "test": "valid pending decision",
+      "expected_valid": true,
+      "observed_valid": true,
+      "matched": true
+    },
+    {
+      "test": "undeclared sensitive field",
+      "expected_valid": false,
+      "observed_valid": false,
+      "matched": true
+    },
+    {
+      "test": "environment provenance mismatch",
+      "expected_valid": false,
+      "observed_valid": false,
+      "matched": true
+    },
+    {
+      "test": "delivery without response record",
+      "expected_valid": false,
+      "observed_valid": false,
+      "matched": true
+    },
+    {
+      "test": "recommendation without declared review",
+      "expected_valid": false,
+      "observed_valid": false,
+      "matched": true
+    },
+    {
+      "test": "publication qualification without permission",
+      "expected_valid": false,
+      "observed_valid": false,
+      "matched": true
+    },
+    {
+      "test": "blank summary",
+      "expected_valid": false,
+      "observed_valid": false,
+      "matched": true
+    }
+  ],
+  "limitations": [
+    "Inter-property timestamp order is delegated to Lua",
+    "Source truth, mandate authenticity, free-text privacy, and legal authority are not verified",
+    "Lua implementation not executed in this check"
+  ],
+  "local_lua_executable": null,
+  "lupa_available": false
+}

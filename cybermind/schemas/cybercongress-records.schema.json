@@ -1,0 +1,395 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CyberCongress Complaint and Review Decision",
+  "description": "Structural validation only. Temporal cross-field checks require the companion Lua validator. No public identifiers or execution authority are introduced.",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/complaint"
+    },
+    {
+      "$ref": "#/$defs/reviewDecision"
+    }
+  ],
+  "$defs": {
+    "text": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 4096,
+      "allOf": [
+        {
+          "pattern": "^[^\\u0000-\\u001f\\u007f]+$"
+        },
+        {
+          "pattern": "[^ ]"
+        }
+      ]
+    },
+    "time": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "retention": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "policy_version",
+        "review_due_unix_s",
+        "delete_after_unix_s"
+      ],
+      "properties": {
+        "policy_version": {
+          "$ref": "#/$defs/text"
+        },
+        "review_due_unix_s": {
+          "$ref": "#/$defs/time"
+        },
+        "delete_after_unix_s": {
+          "$ref": "#/$defs/time"
+        }
+      }
+    },
+    "privacy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "purpose",
+        "data_class",
+        "allow_external_contact",
+        "allow_public_summary",
+        "retention"
+      ],
+      "properties": {
+        "purpose": {
+          "const": "complaint_review"
+        },
+        "data_class": {
+          "enum": [
+            "synthetic",
+            "restricted"
+          ]
+        },
+        "allow_external_contact": {
+          "type": "boolean"
+        },
+        "allow_public_summary": {
+          "type": "boolean"
+        },
+        "retention": {
+          "$ref": "#/$defs/retention"
+        }
+      }
+    },
+    "safeguards": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "private_inventory_not_required",
+        "non_retaliation_required",
+        "direct_participation_preserved"
+      ],
+      "properties": {
+        "private_inventory_not_required": {
+          "const": true
+        },
+        "non_retaliation_required": {
+          "const": true
+        },
+        "direct_participation_preserved": {
+          "const": true
+        }
+      }
+    },
+    "complaint": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "record_type",
+        "schema_version",
+        "attribution",
+        "attribution_scope",
+        "environment",
+        "received_at_unix_s",
+        "origin",
+        "summary",
+        "requested_outcome",
+        "communication_mode",
+        "additional_time_requested",
+        "privacy",
+        "safeguards"
+      ],
+      "properties": {
+        "record_type": {
+          "const": "complaint"
+        },
+        "schema_version": {
+          "const": "1.0.0"
+        },
+        "attribution": {
+          "const": "bostrom18sd2ujv24ual9c9pshtxys6j8knh6xaead9ye7"
+        },
+        "attribution_scope": {
+          "const": "Credit and workstream metadata only; not identity, consent, authorization, execution evidence, or authority."
+        },
+        "environment": {
+          "enum": [
+            "synthetic",
+            "voluntary_pilot"
+          ]
+        },
+        "received_at_unix_s": {
+          "$ref": "#/$defs/time"
+        },
+        "origin": {
+          "enum": [
+            "fictional_test",
+            "participant_report",
+            "chosen_representative_report"
+          ]
+        },
+        "summary": {
+          "$ref": "#/$defs/text"
+        },
+        "requested_outcome": {
+          "$ref": "#/$defs/text"
+        },
+        "communication_mode": {
+          "enum": [
+            "asynchronous_text",
+            "chosen_assistance",
+            "no_return_channel"
+          ]
+        },
+        "additional_time_requested": {
+          "type": "boolean"
+        },
+        "privacy": {
+          "$ref": "#/$defs/privacy"
+        },
+        "safeguards": {
+          "$ref": "#/$defs/safeguards"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "environment": {
+                "const": "synthetic"
+              }
+            },
+            "required": [
+              "environment"
+            ]
+          },
+          "then": {
+            "properties": {
+              "origin": {
+                "const": "fictional_test"
+              },
+              "privacy": {
+                "properties": {
+                  "data_class": {
+                    "const": "synthetic"
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "environment": {
+                "const": "voluntary_pilot"
+              }
+            },
+            "required": [
+              "environment"
+            ]
+          },
+          "then": {
+            "properties": {
+              "origin": {
+                "enum": [
+                  "participant_report",
+                  "chosen_representative_report"
+                ]
+              },
+              "privacy": {
+                "properties": {
+                  "data_class": {
+                    "const": "restricted"
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "reviewDecision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "record_type",
+        "schema_version",
+        "complaint",
+        "recorded_at_unix_s",
+        "response_due_at_unix_s",
+        "response_delivery",
+        "disposition",
+        "reasons",
+        "reviewer_role",
+        "independence",
+        "mandate",
+        "publication_status",
+        "execution_authority"
+      ],
+      "properties": {
+        "record_type": {
+          "const": "review_decision"
+        },
+        "schema_version": {
+          "const": "1.0.0"
+        },
+        "complaint": {
+          "$ref": "#/$defs/complaint"
+        },
+        "recorded_at_unix_s": {
+          "$ref": "#/$defs/time"
+        },
+        "response_due_at_unix_s": {
+          "$ref": "#/$defs/time"
+        },
+        "response_recorded_at_unix_s": {
+          "$ref": "#/$defs/time"
+        },
+        "response_delivery": {
+          "enum": [
+            "not_attempted",
+            "confirmed",
+            "unknown"
+          ]
+        },
+        "disposition": {
+          "enum": [
+            "pending",
+            "nonbinding_recommendation",
+            "declined_with_reasons",
+            "referral_offered",
+            "withdrawn"
+          ]
+        },
+        "reasons": {
+          "$ref": "#/$defs/text"
+        },
+        "reviewer_role": {
+          "$ref": "#/$defs/text"
+        },
+        "independence": {
+          "enum": [
+            "cleared",
+            "unresolved",
+            "not_assessed"
+          ]
+        },
+        "mandate": {
+          "enum": [
+            "verified_assertion",
+            "not_verified",
+            "revoked"
+          ]
+        },
+        "publication_status": {
+          "enum": [
+            "not_requested",
+            "pending_review",
+            "not_cleared",
+            "eligible_for_separate_approval"
+          ]
+        },
+        "execution_authority": {
+          "const": "none"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "response_delivery": {
+                "const": "confirmed"
+              }
+            },
+            "required": [
+              "response_delivery"
+            ]
+          },
+          "then": {
+            "required": [
+              "response_recorded_at_unix_s"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "disposition": {
+                "enum": [
+                  "nonbinding_recommendation",
+                  "declined_with_reasons"
+                ]
+              }
+            },
+            "required": [
+              "disposition"
+            ]
+          },
+          "then": {
+            "properties": {
+              "independence": {
+                "const": "cleared"
+              },
+              "mandate": {
+                "const": "verified_assertion"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "publication_status": {
+                "const": "eligible_for_separate_approval"
+              }
+            },
+            "required": [
+              "publication_status"
+            ]
+          },
+          "then": {
+            "properties": {
+              "independence": {
+                "const": "cleared"
+              },
+              "mandate": {
+                "const": "verified_assertion"
+              },
+              "complaint": {
+                "properties": {
+                  "privacy": {
+                    "properties": {
+                      "allow_public_summary": {
+                        "const": true
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}
