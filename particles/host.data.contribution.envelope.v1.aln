@@ -1,0 +1,142 @@
+aln
+aln SHARD host.data-contribution-envelope.v1
+PATH particles/host.data.contribution.envelope.v1.aln
+VER 1.0.0
+LIC MIT-OR-Apache-2.0
+DESC Host-level data contribution envelope for nanoswarm, BCI, and eco telemetry.
+DESC Enforces RoH ≤ 0.30, eco non-regression, neurorights floors, and append-only evolution.
+
+shard host.data-contribution-envelope.v1
+version 1.0.0
+created 2026-06-28T00:00:00Z
+author DataLake Sovereign Nanorobotics
+license MIT-OR-Apache-2.0
+
+binding
+  hostdid did.aln.bostrom-organic-host
+  primarybostromaddress bostrom18sd2ujv24ual9c9pshtxys6j8knh6xaead9ye7
+  alnmigrationclause ALN.MIGRATION.CYBERCOREAUTHORITY.v1
+end
+
+SECTION ENUMS
+section enums
+
+enum ContributionKind
+  value BCI_TRACE
+    description Continuous EEG/BCI telemetry.
+  end
+  value BCI_FEATURE
+    description Derived feature tensors (microstates, bandpower).
+  end
+  value NANOSWARM_STEP
+    description Nanoswarm mission step telemetry.
+  end
+  value ECO_MISSION
+    description Eco-restoration mission metrics.
+  end
+  value PHYSIO_STATE
+    description Host physio state snapshot (HRV, thermal, etc.).
+  end
+end
+
+enum DataRiskTier
+  value LOW
+    description Minimal psych/identity risk, envelope-protected.
+  end
+  value MODERATE
+    description Medium risk, neurorights floors enforced.
+  end
+  value HIGH
+    description High risk, requires explicit host approval and clinical DID.
+  end
+end
+
+end
+
+SECTION SCHEMA
+section schema
+
+record HostIdentityV1
+  hostdid string
+    description Host DID bound to contribution envelope.
+  end
+  primarybostromaddress string
+    description Primary Bostrom address for on-chain anchoring.
+  end
+end
+
+record ContributionEnvelopeV1
+  envelopeid string
+  host HostIdentityV1
+  kind ContributionKind
+  datarisk DataRiskTier
+  rohceiling f32
+    description Global RoH ceiling for contributions, must be ≤ 0.30.
+  end
+  ecoDeltaMax f32
+    description Maximum allowed ecoDelta per contribution, must be ≤ 0.0.
+  end
+  lifeforceFloor f32
+    description Lifeforce floor scalar, 0.0–1.0, mission-specific.
+  end
+  neurorightsProfileId string
+    description ID of the neurorights envelope shard applied to this envelope.
+  end
+  evidenceBundleId string
+    description EvidenceBundle10 ID grounding this envelope.
+  end
+  versionCounter u32
+    description Monotone, append-only version counter for tighten-only updates.
+  end
+end
+
+invariant rohceilingleqglobal ContributionEnvelopeV1.rohceiling ≤ 0.30
+invariant ecodeltanonpositive ContributionEnvelopeV1.ecoDeltaMax ≤ 0.0
+invariant lifeforcefloorbounded 0.0 ≤ ContributionEnvelopeV1.lifeforceFloor ≤ 1.0
+
+invariant hostbinding
+  ContributionEnvelopeV1.host.hostdid = did.aln.bostrom-organic-host
+  ContributionEnvelopeV1.host.primarybostromaddress = bostrom18sd2ujv24ual9c9pshtxys6j8knh6xaead9ye7
+end
+
+end
+
+SECTION STORAGE
+section storage
+
+logseries HostDataContributionEnvelopeLog
+  description Append-only log of data contribution envelopes per host.
+
+  entryschema ContributionEnvelopeV1
+
+  invariants
+    - name appendonly
+      description Entries may only be appended; updates and deletions forbidden.
+      enforcement organichain.appendonly
+    end
+    - name tightenonly
+      description versionCounter must increase, and RoH/eco bounds may only tighten.
+      enforcement organichain.tightenonly
+    end
+  end
+
+  indexing
+    - by envelopeid
+    - by host.hostdid
+    - by kind
+  end
+end
+
+end
+
+SECTION VERSION HISTORY
+section versionhistory
+  version 1.0.0
+  releasedate 2026-06-28
+  changes
+    - Initial host.data-contribution-envelope shard, bound to Bostrom organic host.
+    - Enforced RoH ≤ 0.30, ecoDelta ≤ 0.0, lifeforce floors, and append-only tighten-only updates.
+  end
+end
+
+endshard host.data-contribution-envelope.v1

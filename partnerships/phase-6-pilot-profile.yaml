@@ -1,0 +1,45 @@
+version: "1.0.0"
+phase: 6
+target_partner_type: "academic_or_applied_research_institution"
+
+preferred_partner_characteristics:
+  - "Demonstrated expertise in privacy engineering, digital identity, civic technology, or responsible AI."
+  - "Independent research-review and data-governance capability."
+  - "Ability to host a local-first prototype without collecting sensitive identity or biometric data."
+  - "Existing municipal, climate-resilience, digital-equity, or smart-city research partnership."
+  - "Commitment to reproducibility, accessibility, public methodology, and participant-centered governance."
+  - "Ability to publish dissenting findings and limitations."
+
+pilot_scope:
+  title: "Portable Evidence, Continuity, Consent, and Revocation Pilot"
+  permitted:
+    - "Schema validation."
+    - "Local evidence packaging."
+    - "Append-only continuity checkpoints."
+    - "Purpose-bound disclosure simulation."
+    - "Revocation propagation testing among cooperating replicas."
+    - "Aggregate municipal research metrics with privacy review."
+    - "Independent reproducibility evaluation."
+  prohibited:
+    - "Clinical or medical interpretation."
+    - "Biometric or neural-data collection."
+    - "Public identity registry."
+    - "Automated civic-rights determination."
+    - "Automated denial of access, service, or participation."
+    - "Mandatory platform account linkage."
+    - "Unreviewed public ledger anchoring."
+
+success_metrics:
+  - "Independent team reproduces at least one eligibility result from an export bundle."
+  - "Revocation blocks new cooperative disclosures within the documented freshness interval."
+  - "No raw sensitive personal data is collected for the pilot."
+  - "All participant-facing materials pass accessibility and plain-language review."
+  - "Pilot report identifies limitations and unresolved legal dependencies."
+  - "Municipal partner, if present, receives only aggregate non-identifying outputs."
+
+exit_conditions:
+  - "Evidence-gate failure."
+  - "Privacy review rejection."
+  - "Inability to maintain purpose-bound consent."
+  - "Unresolved security issue affecting data boundaries."
+  - "Pressure to convert the pilot into identity ranking or service eligibility."

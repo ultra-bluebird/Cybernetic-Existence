@@ -1,0 +1,27 @@
+aln_path organ.corridor.hepatic.calibration.v1.aln
+aln_type organ.corridor.hepatic.v1
+aln_license MIT OR Apache-2.0
+
+record HepaticCorridorCalibrationV1 {
+  host_did                 : string,
+  bostrom_address          : string,
+  aln_clause               : string,
+  schema_version           : string,
+  evidence_tags            : string[],
+
+  alt_green_max_u_l        : float,
+  alt_red_min_u_l          : float,
+  ast_green_max_u_l        : float,
+  ast_red_min_u_l          : float,
+  bilirubin_green_max_mg_dL: float,
+  bilirubin_red_min_mg_dL  : float,
+
+  lactate_warn_mmol_l      : float,
+  lactate_veto_mmol_l      : float,
+
+  roh_slice_max            : float,
+  sampling_cadence_h       : float,
+}
+
+constraint HepaticCorridorCalibrationV1.HostBinding { ... }
+constraint HepaticCorridorCalibrationV1.RoH { roh_slice_max <= 0.30; }

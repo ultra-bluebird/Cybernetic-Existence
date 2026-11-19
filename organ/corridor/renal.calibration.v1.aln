@@ -1,0 +1,27 @@
+aln_path organ.corridor.renal.calibration.v1.aln
+aln_type organ.corridor.renal.v1
+aln_license MIT OR Apache-2.0
+
+record RenalCorridorCalibrationV1 {
+  host_did                 : string,
+  bostrom_address          : string,
+  aln_clause               : string,
+  schema_version           : string,
+  evidence_tags            : string[], // KDIGO, NGAL, etc.
+
+  creatinine_abs_ceiling   : float,    // mg/dL
+  creatinine_delta48h_max  : float,    // 0.3 per KDIGO
+  egfr_min_ml_min_173      : float,
+  ngal_warn_ng_ml          : float,
+  ngal_veto_ng_ml          : float,
+
+  urine_output_floor_ml_kg_h: float,
+  roh_slice_max            : float,    // renal slice of 0.30
+  sampling_cadence_h       : float,
+}
+
+constraint RenalCorridorCalibrationV1.HostBinding { ... }
+
+constraint RenalCorridorCalibrationV1.RoHSlice {
+  roh_slice_max <= 0.30;
+}

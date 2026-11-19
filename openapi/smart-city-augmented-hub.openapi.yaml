@@ -1,0 +1,69 @@
+openapi: 3.1.0
+info:
+  title: Smart City Augmented Hub API (local-first contract)
+  version: 1.0.0
+  description: >-
+    Contract for a locally hosted augmented-hub facade over city services.
+    All endpoints operate on minimal metadata exchanged with cooperating local
+    components. The contract makes no claim of remote service availability,
+    regulatory approval, or citizen-status determination; sensitive signals
+    never leave local-only storage under this contract.
+servers:
+  - url: http://127.0.0.1:8080/augmented-hub/v1
+    description: Localhost-only development server; no external deployment implied.
+tags:
+  - name: hub-status
+    description: Read-only status of local hub components.
+  - name: consent-metadata
+    description: Purpose-bound consent epoch metadata (identifiers only).
+paths:
+  /hub/status:
+    get:
+      tags: [hub-status]
+      summary: Report local component posture
+      operationId: getHubStatus
+      responses:
+        "200":
+          description: Current local posture metadata.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HubStatus"
+  /consent/epoch:
+    get:
+      tags: [consent-metadata]
+      summary: Current consent epoch counter for local policy checks
+      operationId: getConsentEpoch
+      responses:
+        "200":
+          description: Consent epoch metadata without personal identifiers.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ConsentEpoch"
+components:
+  schemas:
+    HubStatus:
+      type: object
+      additionalProperties: false
+      required: [version, localOnlyDefault, derivedDataDefaultDeny, auditLedgerEnabled]
+      properties:
+        version:
+          type: string
+        localOnlyDefault:
+          type: boolean
+        derivedDataDefaultDeny:
+          type: boolean
+        auditLedgerEnabled:
+          type: boolean
+    ConsentEpoch:
+      type: object
+      additionalProperties: false
+      required: [epoch, observedAt]
+      properties:
+        epoch:
+          type: integer
+          minimum: 0
+        observedAt:
+          type: string
+          format: date-time

@@ -1,0 +1,96 @@
+aln
+aln SHARD ota.override-policy.v1
+PATH particles/ota.override-policy.v1.aln
+VER 1.0.0
+LIC MIT-OR-Apache-2.0
+DESC OTA override policy shard for nanoswarm and guard crates.
+DESC Enforces no rollback, no capability widening, and host-sovereign approval.
+
+shard ota.override-policy.v1
+version 1.0.0
+created 2026-06-28T00:00:00Z
+author DataLake Sovereign Nanorobotics
+license MIT-OR-Apache-2.0
+
+binding
+  hostdid did.aln.bostrom-organic-host
+  primarybostromaddress bostrom18sd2ujv24ual9c9pshtxys6j8knh6xaead9ye7
+  alnmigrationclause ALN.MIGRATION.CYBERCOREAUTHORITY.v1
+end
+
+SECTION SCHEMA
+section schema
+
+record OtaOverrideRequestV1
+  requestid string
+  hostdid string
+  crateName string
+  oldVersion string
+  newVersion string
+  reason string
+  rohCeilingOld f32
+  rohCeilingNew f32
+  capabilityEnvelopeOld string
+  capabilityEnvelopeNew string
+  neurorightsProfileId string
+  signedByHost bool
+  signedByAuthority bool
+end
+
+invariant hostbinding
+  OtaOverrideRequestV1.hostdid = did.aln.bostrom-organic-host
+end
+
+invariant norollbackversion
+  OtaOverrideRequestV1.newVersion ≥ OtaOverrideRequestV1.oldVersion
+end
+
+invariant rohceilingnottightened
+  OtaOverrideRequestV1.rohCeilingNew ≤ OtaOverrideRequestV1.rohCeilingOld
+end
+
+invariant capabilitynarrowingonly
+  capabilityEnvelopeNew ⊆ capabilityEnvelopeOld
+end
+
+invariant dualsignature
+  OtaOverrideRequestV1.signedByHost = true
+  OtaOverrideRequestV1.signedByAuthority = true
+end
+
+end
+
+SECTION STORAGE
+section storage
+
+logseries OtaOverrideLog
+  description Append-only log of OTA override requests and decisions.
+
+  entryschema OtaOverrideRequestV1
+
+  invariants
+    - name appendonly
+      description Entries may only be appended; no updates or deletions.
+      enforcement organichain.appendonly
+    end
+  end
+
+  indexing
+    - by requestid
+    - by hostdid
+    - by crateName
+  end
+end
+
+end
+
+SECTION VERSION HISTORY
+section versionhistory
+  version 1.0.0
+  releasedate 2026-06-28
+  changes
+    - Initial OTA override policy spec with non-rollback and dual-signature invariants.
+  end
+end
+
+endshard ota.override-policy.v1

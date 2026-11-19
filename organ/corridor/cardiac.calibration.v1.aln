@@ -1,0 +1,28 @@
+aln_path organ.corridor.cardiac.calibration.v1.aln
+aln_type organ.corridor.cardiac.v1
+aln_license MIT OR Apache-2.0
+
+record CardiacCorridorCalibrationV1 {
+  host_did                 : string,
+  bostrom_address          : string,
+  aln_clause               : string,
+  schema_version           : string,
+  evidence_tags            : string[], // BNP/hsTnI hex
+
+  bnp_green_max_pg_ml      : float,
+  bnp_red_min_pg_ml        : float,
+  ntprobnp_green_max_pg_ml : float,
+  ntprobnp_red_min_pg_ml   : float,
+
+  hstni_uln_ng_l           : float,   // assay ULN
+  hstni_yellow_ratio       : float,   // hsTnI/ULN yellow
+  hstni_red_ratio          : float,   // hsTnI/ULN red
+
+  myocardial_temp_warn_c   : float,
+  myocardial_temp_veto_c   : float,
+
+  roh_slice_max            : float,
+  sampling_cadence_h       : float,
+}
+
+constraint CardiacCorridorCalibrationV1.HostBinding { ... }

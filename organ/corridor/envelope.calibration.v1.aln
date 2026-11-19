@@ -1,0 +1,23 @@
+aln_path organ.corridor.envelope.calibration.v1.aln
+aln_type organ.corridor.envelope.v1
+aln_license MIT OR Apache-2.0
+
+record OrganCorridorEnvelopeV1 {
+  host_did          : string,
+  bostrom_address   : string,
+  aln_clause        : string,
+  schema_version    : string,
+  evidence_tags     : string[],
+
+  organ_id          : string, // "myocardium","renal_cortex","brain_cortex",...
+
+  roh_slice_max     : float,
+  duty_daily_max    : float,
+  duty_burst_max_s  : float,
+  cooldown_min_s    : float,
+
+  biomarkers        : string[], // names matching snapshot fields
+  shard_refs        : string[], // e.g. ["organ.corridor.renal.calibration.v1.aln"]
+}
+
+constraint OrganCorridorEnvelopeV1.HostBinding { ... }

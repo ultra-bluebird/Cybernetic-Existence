@@ -1,0 +1,81 @@
+openapi: 3.1.0
+info:
+  title: Augmented Citizen Rights API (local-first contract)
+  version: 1.0.0
+  description: >-
+    Contract for locally served rights-metadata queries about procedural
+    guarantees implemented in this repository (non-removal clause visibility,
+    oversight membership records, decision receipts). Serving these documents
+    does not grant legal rights, clinical status, or regulatory recognition;
+    it exposes procedural metadata held locally.
+servers:
+  - url: http://127.0.0.1:8080/citizen-rights/v1
+    description: Localhost-only development server; no external deployment implied.
+tags:
+  - name: rights-documents
+    description: Locally held governance document metadata.
+  - name: decision-receipts
+    description: Exportable metadata-only decision receipts.
+paths:
+  /documents/non-removal-clause:
+    get:
+      tags: [rights-documents]
+      summary: Fetch the locally held non-removal clause document
+      operationId: getNonRemovalClause
+      responses:
+        "200":
+          description: JSON-LD non-removal clause record.
+          content:
+            application/ld+json:
+              schema:
+                $ref: "#/components/schemas/GovernanceDocument"
+  /receipts/{receiptId}:
+    get:
+      tags: [decision-receipts]
+      summary: Fetch an exportable decision receipt by identifier
+      operationId: getDecisionReceipt
+      parameters:
+        - name: receiptId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Metadata-only decision receipt.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DecisionReceipt"
+        "404":
+          description: Receipt not found in local store.
+components:
+  schemas:
+    GovernanceDocument:
+      type: object
+      additionalProperties: false
+      required: [documentId, documentKind, version]
+      properties:
+        documentId:
+          type: string
+        documentKind:
+          type: string
+          enum: [non_removal_clause, oversight_membership]
+        version:
+          type: string
+    DecisionReceipt:
+      type: object
+      additionalProperties: false
+      required: [receiptId, createdAt, enforcementBoundary, containsSensitivePayload]
+      properties:
+        receiptId:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        enforcementBoundary:
+          type: string
+          const: metadata_and_procedure_only
+        containsSensitivePayload:
+          type: boolean
+          const: false

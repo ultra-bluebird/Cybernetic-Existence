@@ -1,0 +1,317 @@
+aln SHARD tox.combination-protocol.v1
+PATH particles/combination-toxicity.protocol.v1.aln
+VER 1.0.0
+LIC MIT-OR-Apache-2.0
+DESC Combination-toxicity protocol for two-material nanoswarm exposures with EvidenceBundle10 anchoring and tighten-only safety updates.
+
+shard tox.combination-protocol.v1
+  version 1.0.0
+  created 2026-05-28T00:00:00Z
+  author "DataLake Sovereign Nanorobotics"
+  license "MIT-OR-Apache-2.0"
+
+  compatibility
+    - "evidence.bundle10.v1"
+    - "host.budget.v1"
+    - "organichain.anchor.v1"
+  end
+
+  SECTION ENUMS
+
+  section enums
+
+    enum MaterialKind
+      value nanorobot-core
+        description "Core nanoswarm material or coating."
+      end
+      value adjuvant
+        description "Adjunct or adjuvant agent co-administered with nanoswarm."
+      end
+      value carrier
+        description "Carrier lipid, polymer, or scaffold."
+      end
+      value solvent
+        description "Solvent or excipient."
+      end
+      value environmental
+        description "Environmental co-exposure (e.g., pollutant surrogate)."
+      end
+    end
+
+    enum DoseUnit
+      value ug_per_kg
+        description "Micrograms per kg body weight."
+      end
+      value mg_per_kg
+        description "Milligrams per kg body weight."
+      end
+      value nmol_per_kg
+        description "Nanomoles per kg body weight."
+      end
+      value particles_per_ml
+        description "Nanoparticles per milliliter."
+      end
+      value arbitrary_unit
+        description "Calibrated arbitrary unit (must be documented in evidence)."
+      end
+    end
+
+    enum ImmuneMarkerKind
+      value cytokine_panel
+        description "Cytokine panel (e.g., IL-6, TNF-α, IL-1β)."
+      end
+      value cell_subset
+        description "Immune cell subset counts (e.g., CD4+, CD8+, NK)."
+      end
+      value complement
+        description "Complement activation markers."
+      end
+      value acute_phase
+        description "Acute phase proteins (e.g., CRP)."
+      end
+      value histamine_related
+        description "Histamine and related mediators."
+      end
+      value custom_panel
+        description "Custom, protocol-defined immune marker panel."
+      end
+    end
+
+    enum ExclusionRuleKind
+      value host_covariate
+        description "Exclude hosts with specific covariates (e.g., eGFR below threshold)."
+      end
+      value prior_reaction
+        description "Exclude hosts with prior adverse reaction to either material."
+      end
+      value concomitant_drug
+        description "Exclude hosts on specified concomitant drugs."
+      end
+      value physiological_ceiling
+        description "Exclude dose combinations which exceed predeclared HostBudget ceilings."
+      end
+      value jurisdictional
+        description "Exclude combinations disallowed by jurisdictional or neurorights policy."
+      end
+    end
+
+  end
+
+  SECTION SCHEMA
+
+  section schema
+
+    record MaterialRefV1
+      id string
+        description "Material identifier, stable across experiments (e.g., SKO or Organichain ID)."
+      end
+      kind MaterialKind
+      name string
+      version string
+        description "Version or batch identifier for the material."
+      end
+    end
+
+    record DoseLevelV1
+      value f32
+        description "Numeric dose magnitude in the specified unit."
+      end
+      unit DoseUnit
+      label string
+        description "Short label for this dose (e.g., 'low', 'mid', 'high')."
+      end
+    end
+
+    record DoseGridV1
+      material_a_levels list DoseLevelV1
+      material_b_levels list DoseLevelV1
+      description string
+        description "Description of the fractional-factorial layout and randomization scheme."
+      end
+    end
+
+    record ImmuneReadoutV1
+      marker_kind ImmuneMarkerKind
+      marker_panel_id string
+        description "Identifier for the immune marker panel definition (e.g., SKO ID)."
+      end
+      timepoints list string
+        description "ISO-8601 timestamps or relative time markers (e.g., 'T+4h', 'T+24h')."
+      end
+      units string
+        description "Units or normalization scheme for the immune markers."
+      end
+    end
+
+    record InteractionContrastV1
+      contrast_model string
+        description "Name of the interaction model (e.g., 'Bliss', 'Loewe', 'HSA')."
+      end
+      synergy_coefficient f32
+        description "Primary synergy coefficient derived from the model."
+      end
+      synergy_ci_lower f32
+      synergy_ci_upper f32
+      reference_response_model string
+        description "Description or ID of the reference single-agent response model."
+      end
+    end
+
+    record ExclusionRuleV1
+      kind ExclusionRuleKind
+      code string
+        description "Machine-readable exclusion code (e.g., 'eGFR<60', 'prior_anaphylaxis')."
+      end
+      justification string
+        description "Human-readable justification for the exclusion rule."
+      end
+    end
+
+    record EvidenceBundle10RefV1
+      bundle_id string
+        description "EvidenceBundle10 identifier."
+      end
+      verification_root string
+        description "Verifier root or Merkle root used to validate the 10-tag bundle."
+      end
+    end
+
+    record SynergyAnchorV1
+      bundle EvidenceBundle10RefV1
+      primary_synergy_coeff f32
+      model_tag string
+        description "Tag describing the model/fit that produced the synergy coefficient."
+      end
+      lab_provenance_tag string
+        description "Tag referencing lab provenance within the EvidenceBundle10."
+      end
+      proof_link_tag string
+        description "Tag identifying formal proof linkage within the EvidenceBundle10."
+      end
+      host_binding_tag string
+        description "Tag binding this synergy anchor to a specific host physiology profile."
+      end
+      metadata_tags list string
+        description "Remaining tags for dose, temperature, immune markers, reproducibility metadata, etc."
+      end
+    end
+
+    record HostBindingV1
+      host_did string
+        description "Host DID to which this protocol instance is bound."
+      end
+      primary_bostrom_address string
+        description "Primary Bostrom address associated with the host DID."
+      end
+      sovereign_neural_rope_id string
+        description "Identifier of the SovereignNeuralRope instance for this host."
+      end
+    end
+
+    record CombinationToxicityProtocolV1
+      protocol_id string
+      host HostBindingV1
+      material_a MaterialRefV1
+      material_b MaterialRefV1
+
+      dose_grid DoseGridV1
+      immune_readout ImmuneReadoutV1
+
+      interaction_contrast InteractionContrastV1
+
+      exclusion_rules list ExclusionRuleV1
+
+      evidence_bundle SynergyAnchorV1
+
+      organichain_anchor_id string
+        description "Organichain anchor ID for this protocol instance."
+      end
+
+      tighten_only_version u32
+        description "Monotone-increasing version number, used for tighten-only update discipline."
+      end
+    end
+
+    invariant two_materials_only
+      CombinationToxicityProtocolV1.material_a.id != CombinationToxicityProtocolV1.material_b.id
+    end
+
+    invariant evidence_bundle_complete
+      len(CombinationToxicityProtocolV1.evidence_bundle.metadata_tags) >= 7
+    end
+
+    invariant synergy_ceiling_tighten_only
+      monotone_across_versions(
+        object = CombinationToxicityProtocolV1,
+        key = "protocol_id",
+        version_field = "tighten_only_version",
+        field = "interaction_contrast.synergy_ci_upper",
+        direction = "non_increasing"
+      )
+    end
+
+    invariant exclusion_rules_append_only
+      append_only_across_versions(
+        object = CombinationToxicityProtocolV1,
+        key = "protocol_id",
+        version_field = "tighten_only_version",
+        list_field = "exclusion_rules"
+      )
+    end
+
+    invariant host_binding_consistent
+      host_did_prefix(CombinationToxicityProtocolV1.host.host_did, "did:aln:")
+    end
+
+    invariant evidence_bundle10_anchored
+      evidence_bundle10_complete(
+        CombinationToxicityProtocolV1.evidence_bundle.bundle.bundle_id,
+        CombinationToxicityProtocolV1.evidence_bundle.bundle.verification_root
+      )
+    end
+
+  end
+
+  SECTION STORAGE
+
+  section storage
+
+    logseries CombinationToxicityStudyLog
+      description "Append-only log of combination toxicity protocol instances and updates."
+      entryschema CombinationToxicityProtocolV1
+
+      invariants
+        - name append_only
+          description "Entries may only be appended; updates and deletions are forbidden."
+          enforcement "organichain.append_only"
+        end
+
+        - name tighten_only
+          description "tighten_only_version must increase and safety bounds may only tighten."
+          enforcement "organichain.tighten_only"
+        end
+      end
+
+      indexing
+        - by protocol_id
+        - by host.host_did
+        - by material_a.id
+        - by material_b.id
+      end
+    end
+
+  end
+
+  SECTION VERSION HISTORY
+
+  section versionhistory
+    version 1.0.0
+      releasedate 2026-05-28
+      changes
+        - "Initial combination-toxicity protocol for two-material studies, anchored to EvidenceBundle10."
+        - "Introduced tighten-only synergy_ci_upper update rule and append-only exclusion rules."
+      end
+    end
+  end
+
+endshard tox.combination-protocol.v1
