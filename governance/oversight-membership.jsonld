@@ -1,0 +1,36 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "og": "https://javasphere.example/vocab/oversight#",
+    "id": "@id",
+    "type": "@type",
+    "memberId": "og:memberId",
+    "reviewerCategory": "og:reviewerCategory",
+    "independenceDeclaration": "og:independenceDeclaration",
+    "conflictDisclosure": "og:conflictDisclosure",
+    "qualifiedFor": "og:qualifiedFor",
+    "termStart": {
+      "@id": "og:termStart",
+      "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+    },
+    "termEnd": {
+      "@id": "og:termEnd",
+      "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+    },
+    "status": "og:status"
+  },
+  "id": "urn:oversight:membership:reviewer-001",
+  "type": "og:IndependentReviewerMembership",
+  "memberId": "urn:reviewer:pseudonymous:001",
+  "reviewerCategory": "independent_technical_auditor",
+  "independenceDeclaration": "urn:disclosure:independence:001",
+  "conflictDisclosure": "urn:disclosure:conflicts:001",
+  "qualifiedFor": [
+    "privacy_policy_review",
+    "security_architecture_review",
+    "evidence_gate_review"
+  ],
+  "termStart": "2026-09-24T00:00:00Z",
+  "termEnd": "2027-09-24T00:00:00Z",
+  "status": "active"
+}

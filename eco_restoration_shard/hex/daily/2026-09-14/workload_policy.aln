@@ -1,0 +1,158 @@
+module CyboquaticWorkload20260914
+
+type Scalar = Float
+type Text = String
+type Boolean = Bool
+
+record KER {
+  knowledge_factor: Scalar
+  eco_impact_value: Scalar
+  harm_risk: Scalar
+}
+
+record FOGMedia {
+  media_class: Text
+  requires_manual_review: Boolean
+  physical_dispatch_prohibited: Boolean
+}
+
+record CanalNodeLimits {
+  canal_node_id: Text
+  maximum_energyreq_j: Scalar
+  maximum_abs_delta_vt: Scalar
+  minimum_battery_soc: Scalar
+  minimum_renewable_fraction: Scalar
+  maximum_harm_risk: Scalar
+}
+
+record WorkloadInput {
+  workload_id: Text
+  canal_node_id: Text
+  task_type: Text
+  mass_kg: Scalar
+  distance_m: Scalar
+  duty_seconds: Scalar
+  rated_power_w: Scalar
+  motor_efficiency: Scalar
+  baseline_voltage_v: Scalar
+  internal_resistance_ohm: Scalar
+  battery_soc: Scalar
+  renewable_fraction: Scalar
+  media_class: Text
+}
+
+record WorkloadResult {
+  energyreq_j: Scalar
+  delta_vt: Scalar
+  estimated_current_a: Scalar
+  ker: KER
+}
+
+predicate UnitInterval(value: Scalar) =
+  value >= 0.0 and value <= 1.0
+
+predicate Positive(value: Scalar) =
+  value > 0.0
+
+predicate ValidKER(value: KER) =
+  UnitInterval(value.knowledge_factor) and
+  UnitInterval(value.eco_impact_value) and
+  UnitInterval(value.harm_risk)
+
+predicate ValidFOG(media: FOGMedia) =
+  media.media_class in [
+    "known_safe",
+    "unmodeled_media",
+    "pfas_suspected",
+    "hazardous_material",
+    "unknown"
+  ]
+
+predicate FOGRequiresReview(media: FOGMedia) =
+  media.requires_manual_review or
+  media.media_class = "unmodeled_media" or
+  media.media_class = "pfas_suspected" or
+  media.media_class = "hazardous_material" or
+  media.media_class = "unknown"
+
+predicate FOGProhibitsDispatch(media: FOGMedia) =
+  media.physical_dispatch_prohibited or
+  media.media_class = "hazardous_material"
+
+predicate ValidWorkload(input: WorkloadInput) =
+  Positive(input.mass_kg) and
+  input.distance_m >= 0.0 and
+  Positive(input.duty_seconds) and
+  Positive(input.rated_power_w) and
+  input.motor_efficiency > 0.0 and
+  input.motor_efficiency <= 1.0 and
+  Positive(input.baseline_voltage_v) and
+  input.internal_resistance_ohm >= 0.0 and
+  UnitInterval(input.battery_soc) and
+  UnitInterval(input.renewable_fraction) and
+  input.task_type in [
+    "debris_skim",
+    "sediment_dredge",
+    "biofilm_scrub",
+    "aerator_drive"
+  ]
+
+function EstimatedCurrent(input: WorkloadInput): Scalar =
+  input.rated_power_w / input.baseline_voltage_v
+
+function EstimatedDeltaVt(input: WorkloadInput): Scalar =
+  EstimatedCurrent(input) * input.internal_resistance_ohm
+
+function EstimatedEnergyreqJ(input: WorkloadInput): Scalar =
+  (input.rated_power_w * input.duty_seconds) / input.motor_efficiency
+
+predicate NodeWithinLimits(
+  node: CanalNodeLimits,
+  input: WorkloadInput,
+  result: WorkloadResult
+) =
+  result.energyreq_j > 0.0 and
+  result.energyreq_j <= node.maximum_energyreq_j and
+  result.delta_vt >= 0.0 and
+  result.delta_vt <= node.maximum_abs_delta_vt and
+  input.battery_soc >= node.minimum_battery_soc and
+  input.renewable_fraction >= node.minimum_renewable_fraction and
+  result.ker.harm_risk <= node.maximum_harm_risk
+
+predicate EligibleForOperatorReview(
+  node: CanalNodeLimits,
+  media: FOGMedia,
+  input: WorkloadInput,
+  result: WorkloadResult
+) =
+  ValidWorkload(input) and
+  ValidKER(result.ker) and
+  ValidFOG(media) and
+  NodeWithinLimits(node, input, result) and
+  result.ker.knowledge_factor >= 0.75 and
+  result.ker.eco_impact_value >= 0.55 and
+  not FOGProhibitsDispatch(media)
+
+predicate RequiresManualReview(
+  media: FOGMedia,
+  result: WorkloadResult
+) =
+  ValidFOG(media) and
+  ValidKER(result.ker) and
+  (
+    FOGRequiresReview(media) or
+    result.ker.harm_risk > 0.30 or
+    result.ker.knowledge_factor < 0.75 or
+    result.ker.eco_impact_value < 0.55
+  )
+
+predicate PhysicalDispatchAllowed(
+  node: CanalNodeLimits,
+  media: FOGMedia,
+  input: WorkloadInput,
+  result: WorkloadResult,
+  operator_approved: Boolean
+) =
+  operator_approved and
+  EligibleForOperatorReview(node, media, input, result) and
+  not RequiresManualReview(media, result)

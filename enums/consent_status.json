@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mk-bluebird.github.io/Augmented-Hub/enums/consent_status.json",
+  "title": "Consent Status",
+  "description": "Canonical consent lifecycle status. Consent is scoped, revocable, and does not create external operational authorization.",
+  "type": "string",
+  "enum": [
+    "not_required",
+    "pending",
+    "granted",
+    "revoked",
+    "expired"
+  ]
+}

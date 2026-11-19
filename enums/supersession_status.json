@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mk-bluebird.github.io/Augmented-Hub/enums/supersession_status.json",
+  "title": "Supersession Status",
+  "description": "Canonical lifecycle status for supersession records. Supersession preserves historical provenance and does not silently erase predecessor artifacts.",
+  "type": "string",
+  "enum": [
+    "draft",
+    "reviewed",
+    "approved",
+    "effective",
+    "withdrawn"
+  ]
+}

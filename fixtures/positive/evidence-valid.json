@@ -1,0 +1,22 @@
+{
+  "envelope_key": "ev-001",
+  "domain": "thermal-metrics",
+  "evidence_status": "validated",
+  "knowledge_factor": 0.94,
+  "ecological_value": 42.5,
+  "risk_vector": ["sensor-failure"],
+  "uncertainty_status": "low",
+  "provenance_status": "externally-validated",
+  "spatial_scope": {
+    "type": "Polygon",
+    "coordinates": [[[0,0],[1,0],[1,1],[0,1],[0,0]]]
+  },
+  "temporal_scope": {
+    "start_utc": "2026-09-01T00:00:00Z",
+    "end_utc": "2026-09-02T00:00:00Z"
+  },
+  "policy_version": "1.0.0",
+  "review_status": "approved",
+  "blocking_conditions": [],
+  "explanation_code": "EVIDENCE_VALID"
+}

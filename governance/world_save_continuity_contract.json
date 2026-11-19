@@ -1,0 +1,102 @@
+{
+  "schema_version": "1.0.0",
+  "title": "World-Save Person-Directed Continuity Commitment",
+  "license": "MIT OR Apache-2.0",
+  "status": "proposed_specification",
+  "provenance": {
+    "sovereign_attribution": "bostrom18sd2ujv24ual9c9pshtxys6j8knh6xaead9ye7",
+    "attribution_use": "document_credit_and_workstream_metadata_only",
+    "identity_verification_established": false,
+    "consent_established_by_attribution": false,
+    "execution_authority_established": false
+  },
+  "definition": {
+    "world_save": "A reviewed milestone protecting accepted progress against unauthorized erasure, downgrade, or rollback.",
+    "protected_subject": "The person's accepted progress and continuity commitments.",
+    "physical_irreversibility_claimed": false,
+    "automatic_system_control_authorized": false
+  },
+  "establishment": {
+    "default_state": "not_established",
+    "required_review_categories": [
+      "compliance",
+      "safety",
+      "consent",
+      "usage"
+    ],
+    "allowed_review_results": [
+      "pass",
+      "fail",
+      "unknown"
+    ],
+    "all_applicable_requirements_must_pass": true,
+    "empty_requirement_inventory_establishes_milestone": false,
+    "unknown_establishes_pass": false,
+    "explicit_milestone_acceptance_required": true,
+    "acceptance_label_is_proof_of_authority": false
+  },
+  "record_requirements": [
+    "plain_language_milestone_meaning",
+    "review_scope",
+    "applicable_requirement_inventory",
+    "evidence_basis_and_limitations",
+    "acceptance_basis",
+    "protected_baseline",
+    "unauthorized_rollback_definition",
+    "accessible_correction_route",
+    "retention_and_deletion_policy"
+  ],
+  "continuity": {
+    "unauthorized_erasure_prohibited": true,
+    "silent_downgrade_prohibited": true,
+    "historical_acceptance_is_unlimited_future_permission": false,
+    "person_directed_future_change_preserved": true,
+    "record_unavailability_removes_ordinary_access": false,
+    "record_dispute_removes_dignity_or_standing": false
+  },
+  "future_changes": {
+    "separate_scope_review_required": true,
+    "separate_authorization_required": true,
+    "continuity_consequences_must_be_explained": true,
+    "material_change_silently_inherits_prior_approval": false,
+    "person_requested_change_is_automatically_a_violation": false
+  },
+  "correction": {
+    "erroneous_claims_may_be_corrected": true,
+    "correction_reason_required": true,
+    "correction_must_distinguish_record_error_from_real_world_change": true,
+    "administrative_closure_equals_successful_remedy": false
+  },
+  "privacy": {
+    "raw_neural_data_required": false,
+    "augmentation_inventory_required": false,
+    "private_companion_system_information_required": false,
+    "public_personal_registry_created": false,
+    "data_minimization_required": true,
+    "retention_policy_required_before_personal_data_collection": true
+  },
+  "access": {
+    "supported_routes": [
+      "assisted_digital",
+      "human_supported",
+      "offline"
+    ],
+    "cyberrank_used_for_eligibility": false,
+    "medical_proof_required_for_ordinary_accessibility": false
+  },
+  "operational_boundary": {
+    "physical_actuation_authorized": false,
+    "medical_system_operation_authorized": false,
+    "device_parameter_change_authorized": false,
+    "surveillance_authorized": false,
+    "service_denial_authorized": false,
+    "external_action_requires_separate_approval": true
+  },
+  "validation_status": {
+    "authored_specification": true,
+    "runtime_enforcement_tested": false,
+    "real_world_milestone_established": false,
+    "clinical_validation_claimed": false,
+    "deployment_claimed": false
+  }
+}

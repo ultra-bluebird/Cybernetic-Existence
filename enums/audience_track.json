@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mk-bluebird.github.io/Augmented-Hub/enums/audience_track.json",
+  "title": "Audience Track Enum",
+  "description": "Canonical audience-track values for governed research, review, correction, withdrawal, and notice planning. Unknown audience context must remain unknown and must not default to internal_research or any other track.",
+  "type": "string",
+  "enum": [
+    "internal_research",
+    "internal_approved",
+    "restricted_audience",
+    "public_release",
+    "irreversibly_disseminated",
+    "unknown"
+  ],
+  "x-governance": {
+    "enum_name": "audience_track",
+    "enum_version": "1.0.0",
+    "unknown_value": "unknown",
+    "unknown_handling_rule": "When audience context cannot be established, use unknown. Do not infer, substitute, or silently default to internal_research, internal_approved, restricted_audience, public_release, or irreversibly_disseminated.",
+    "non_authorization": {
+      "statement": "This enum classifies declared audience context for internal governance handling only. It does not identify, verify, contact, represent, profile, or determine eligibility for any audience or person.",
+      "external_action_requires_separate_approval": true,
+      "does_not_verify_identity_or_status": true,
+      "does_not_verify_repository_state": true
+    },
+    "privacy": {
+      "data_class": "governance_metadata",
+      "contains_personal_data": false,
+      "minimum_disclosure_rule": "Record only the declared governance track. Do not include identities, recipient lists, health data, biometric data, neural data, telemetry, credentials, or operational-system details."
+    }
+  }
+}

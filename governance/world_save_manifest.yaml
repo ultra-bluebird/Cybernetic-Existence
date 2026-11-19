@@ -1,0 +1,478 @@
+manifest_version: "1.0.0"
+kind: "WorldSaveManifest"
+
+metadata:
+  title: "World-Save Person-Directed Continuity Manifest"
+  lifecycle: "draft"
+  license: "MIT OR Apache-2.0"
+
+  repositories:
+    - "mk-bluebird/Augmented-Hub"
+    - "mk-bluebird/Skynet"
+
+  provenance:
+    sovereign_attribution: "bostrom18sd2ujv24ual9c9pshtxys6j8knh6xaead9ye7"
+    attribution_use: "document_credit_and_workstream_metadata_only"
+    establishes_identity: false
+    establishes_consent: false
+    establishes_execution_authority: false
+
+spec:
+  subject:
+    unit: "one person-directed milestone workstream"
+    purpose: "Protect accepted progress while preserving future choice."
+    protected_target: "recognized achievement and specified continuity commitments"
+    physical_irreversibility_claim: "not_made"
+    binding_legal_status: "not_established_by_this_manifest"
+    cyberrank_use: "private_voluntary_description_and_governance_duties_only"
+    cyberrank_eligibility_or_public_ranking: "prohibited"
+
+  configuration:
+    parsing_profile: "yaml_1_2_json_compatible_subset"
+    string_keys_only: true
+    duplicate_keys: "reject"
+    custom_tags: "reject"
+    anchors_aliases_and_merge_keys: "reject"
+    executable_content_and_interpolation: "reject"
+    remote_includes_and_schema_fetching: "disabled"
+    unknown_manifest_version: "reject_without_reinterpreting"
+    unknown_fields: "reject_under_supported_version"
+    null_semantics: "unresolved_or_unconfigured_never_permission"
+    empty_inventory_semantics: "not_evidence_of_completion"
+    timestamps: "quoted_RFC3339_strings_with_explicit_offset"
+    duration_unit: "seconds"
+    duration_type: "nonnegative_integer"
+    maximum_manifest_bytes: 1048576
+    maximum_nesting_depth: 32
+    schema_validation: "required_before_semantic_review"
+    semantic_validation: "required_before_positive_claims"
+
+  authority_boundary:
+    permitted_local_functions:
+      - "validate_manifest"
+      - "replay_supplied_records"
+      - "evaluate_scoped_evidence"
+      - "prepare_unpublished_reports"
+
+    physical_actuation: "not_authorized"
+    medical_system_operation: "not_authorized"
+    device_parameter_changes: "not_authorized"
+    neural_monitoring: "not_authorized"
+    surveillance: "not_authorized"
+    service_denial: "not_authorized"
+
+    external_publication: "requires_separate_exact_payload_approval"
+    external_record_writes: "requires_separate_exact_payload_approval"
+
+    milestone_is_execution_credential: false
+    declared_role_is_verified_authority: false
+
+  roles:
+    required_accountable_functions:
+      - "person_or_chosen_communication_support"
+      - "continuity_steward"
+      - "prerequisite_reviewer"
+      - "independent_correction_or_appeal_reviewer"
+      - "release_reviewer"
+
+    personal_identity_publication: "not_required"
+    supporter_role_implies_substituted_consent: false
+    reviewer_approval_replaces_person_authorization: false
+    protected_authority_process_binding: null
+
+  establishment:
+    required_categories:
+      - "compliance"
+      - "safety"
+      - "consent"
+      - "usage"
+
+    applicability_states:
+      - "applicable"
+      - "reviewed_inapplicable"
+      - "unresolved"
+
+    evaluation_states:
+      - "pass"
+      - "fail"
+      - "unknown"
+
+    missing_requirement_record: "unresolved"
+    reference_inventory_required: true
+    applicable_requirement_set_must_be_nonempty: true
+    every_exclusion_requires_reason_and_accepted_review: true
+
+    aggregation:
+      first: "fail_if_any_applicable_requirement_fails"
+      second: "pass_only_if_inventory_resolved_and_all_applicable_pass"
+      otherwise: "unknown"
+
+    explicit_person_directed_acceptance_required: true
+
+    acceptance_requires:
+      - "scope_matched_evidence"
+      - "exact_acceptance_payload_binding"
+      - "required_person_authorization_established"
+      - "review_authority_established"
+      - "applicable_validity_established"
+
+    acceptance_label_is_evidence: false
+    manifest_presence_establishes_milestone: false
+
+  records:
+    establishment_required:
+      - "milestone_meaning"
+      - "review_scope_and_reference_inventory"
+      - "requirement_results_and_exclusions"
+      - "evidence_basis_and_limitations"
+      - "accepted_decision_basis"
+      - "protected_baseline"
+
+    commitment_required:
+      - "accepted_establishment_revision"
+      - "specified_support_obligations"
+      - "baseline_revision_history"
+      - "ordinary_access_and_correction_routes"
+      - "resource_horizon_and_contingency_basis"
+
+    change_required:
+      - "proposed_operation_and_reason"
+      - "reviewed_history_boundary"
+      - "accepted_establishment_revision"
+      - "baseline_in_force_at_review"
+      - "person_request_separate_from_execution_authorization"
+      - "affected_dependencies_and_review_disposition"
+
+    historical_change_uses_latest_baseline: false
+    references_are_local_revision_coordinates: true
+    public_personal_registry: "prohibited"
+    cross_record_completeness_requires_separate_review: true
+
+  continuity:
+    unauthorized_erasure_or_downgrade: "prohibited"
+    silent_semantic_relabeling: "prohibited"
+    person_directed_future_change: "preserved"
+    right_to_request_precedes_execution_review: true
+
+    erroneous_attribution: "correct_transparently_preserve_review_history"
+    historical_acceptance: "not_blanket_future_permission"
+
+    record_unavailability: "does_not_remove_ordinary_access"
+    record_dispute: "does_not_reduce_dignity_or_standing"
+
+    audit_labels:
+      - "record_unavailability"
+      - "confirmed_record_removal"
+      - "support_reduction"
+      - "wording_change_requires_review"
+      - "scope_removed"
+      - "scope_added"
+
+    audit_label_alone_establishes_wrongdoing: false
+
+  scope_and_change:
+    required_dimensions:
+      - "purpose"
+      - "recipients_and_onward_sharing"
+      - "interface_and_data_flow"
+      - "intervention_or_activity"
+      - "retention_trigger_and_duration"
+
+    cross_field_conditions: "explicit_reviewed_finite_rules_required"
+    missing_semantics: "unknown"
+    known_bound_failure_overrides_unknown: true
+
+    affected_assurances: "transitive_closure_of_declared_dependency_edges"
+    incomplete_dependency_inventory: "report_potentially_affected_claims"
+
+    original_envelope_comparison: "required"
+    current_accepted_envelope_comparison: "required"
+    predecessor_comparison: "required_not_sufficient"
+
+    renewal_and_semantic_change: "separate_assessments"
+    transfer_failure_erases_historical_acceptance: false
+    within_envelope_is_execution_authorization: false
+
+  history:
+    source_of_current_projection: "replay_of_accepted_event_history"
+    history_origin: "must_be_established_outside_replay"
+    snapshot_only_acceptance: "not_permitted"
+
+    corrections: "additive_logically_with_privacy_governed_evidence"
+
+    accepted_event_requires:
+      - "supported_schema_and_event_kind"
+      - "exact_payload_and_scope_binding"
+      - "current_expected_state_revision"
+      - "current_target_revision_when_required"
+      - "reason_and_review_basis"
+      - "required_authority_and_validity"
+
+    milestone_event_vocabulary:
+      - "establishment_accepted"
+      - "record_correction_accepted"
+      - "wording_revision_accepted"
+      - "person_change_recorded"
+      - "material_change_recorded"
+      - "attribution_reinstatement_accepted"
+      - "deployment_retired"
+      - "deployment_reactivated"
+      - "archival_change_recorded"
+
+    event_semantics_binding: null
+    legacy_replay_compatibility: "not_assumed_requires_explicit_adapter"
+
+    reinstatement: "new_reviewed_event_preserve_earlier_correction"
+    retirement_is_verified_correction: false
+    valid_prefix_establishes_latest_history: false
+    rollback_detection_requires_independent_accepted_reference: true
+    accepted_checkpoint_binding: null
+
+    cryptography:
+      enabled: false
+      algorithm: "SHA-256"
+      implementation: "sha2"
+      canonicalization_profile: null
+      commitment_domain: "world-save-history-v1"
+      enablement_requires_reviewed_profile_and_implementation: true
+      digest_establishes_authority_or_truth: false
+
+  wording:
+    designated_statement_only: true
+    comparison: "exact_unicode_codepoint_sequence"
+    implicit_trimming_or_normalization: "prohibited"
+
+    translation: "separate_reviewed_language_reference"
+    approved_transformations: "versioned_and_reviewed_separately"
+
+    mismatch: "unexplained_difference_not_automatic_misconduct"
+
+    required_qualifiers:
+      - "Protects the specified record and continuity commitment."
+      - "Does not establish bodily irreversibility."
+      - "Does not authorize future activities."
+      - "Person-directed changes and corrections remain available."
+
+    comprehension_evidence_required_for_effectiveness_claim: true
+
+  privacy_and_retention:
+    ordinary_access_requires:
+      neural_data: false
+      augmentation_inventory: false
+      private_companion_system_details: false
+      cyberrank_disclosure: false
+      biometric_enrollment: false
+
+    personal_data_collection_default: "not_authorized"
+    optional_collection_requires_separate_review_and_scope: true
+    per_field_necessity_and_disclosure_review: "required"
+
+    public_history: "minimal_reviewed_view_only"
+    detailed_history: "separately_protected_inspection"
+
+    evidence_commitments: "optional_not_anonymity"
+    retention_policy_required_before_collection: true
+
+    retention_covers:
+      - "buffers"
+      - "primary_copies"
+      - "derivatives"
+      - "exports"
+      - "backups"
+
+    derivatives_reset_applicable_deadlines: false
+    deletion_claim_requires_evidence: true
+    deletion_removes_original_evidence_reinspection: true
+    deletion_does_not_remove_correction_route: true
+    restricted_archival_requires_specific_review: true
+    privacy_policy_binding: null
+
+  access_and_dispute:
+    ordinary_access_independent_of_milestone_status: true
+
+    ordinary_functions:
+      - "obtain_explanation"
+      - "request_correction"
+      - "request_appeal"
+      - "check_progress"
+      - "receive_communication_support"
+
+    required_route_classes:
+      - "assisted_digital"
+      - "human_supported"
+      - "offline"
+
+    route_evidence_must_cover:
+      - "understanding"
+      - "submission"
+      - "acknowledgment"
+      - "progress_checking"
+      - "outcome_explanation"
+      - "appeal_and_recovery"
+
+    account_or_app_required_for_ordinary_help: false
+    request_acceptance_of_disputed_wording: "prohibited"
+    accommodation_available_during_dispute: true
+    repeated_private_disclosure: "minimize_and_justify"
+    dispute_status_for_unrelated_ranking_or_eligibility: "prohibited"
+
+    working_route_and_contact_binding: null
+
+    response_targets_seconds:
+      acknowledgment: null
+      progress_update: null
+      appeal_acknowledgment: null
+
+  correction:
+    case_lifecycle:
+      - "open"
+      - "acknowledged"
+      - "administratively_closed"
+
+    remedy_states:
+      - "unverified"
+      - "mitigated"
+      - "verified_in_accepted_history"
+      - "recurred"
+      - "verification_disputed"
+
+    administrative_closure_changes_verification: false
+    mitigation_is_verified_correction: false
+    recurrence_removes_current_verified_summary: true
+    verification_targets_current_issue_revision: true
+    historical_verification_preserved: true
+
+    durability_followup_seconds: null
+    incomplete_followup: "report_as_unresolved"
+    correction_protocol_binding: null
+
+  time_and_resources:
+    chronology:
+      typed_event_dependencies_required: true
+      causal_cycles: "reject"
+      timestamp_bounds_and_clock_basis: "required"
+      missing_time_evidence: "unknown"
+      joint_feasibility_check: "required"
+      timestamp_sorting_authenticates_history: false
+
+    resource_plan:
+      period_boundaries_and_units: "required"
+      obligations_inventory: "must_be_reviewed"
+      stocks_rates_and_workloads: "separate_accounting"
+      shared_pools_counted_once: true
+      period_aggregation: "fail_then_unknown_then_pass"
+      supported_horizon: "longest_initial_all_pass_prefix"
+      queue_deadlines_and_recovery: "separate_required_review"
+
+      resource_failure: "remediation_not_automatic_abandonment"
+      horizon_end_removes_ordinary_access: false
+      horizon_end_extinguishes_existing_obligations: false
+
+      assessed_plan_binding: null
+      assessed_through: null
+      reassessment_due: null
+
+  succession:
+    duty_assumption_separate_from_data_transfer: true
+
+    successor_requirements:
+      - "explicit_assumption_of_specified_commitments"
+      - "working_correction_and_appeal_routes"
+      - "ordinary_access_continuity"
+      - "reviewed_data_transfer_basis"
+      - "purpose_retention_and_onward_sharing_limits"
+      - "accepted_authority_and_resource_arrangements"
+
+    consent_not_required_label_is_sufficient: false
+    optional_raw_data_transfer_required_for_recognition: false
+    successor_signature_guarantees_future_capacity: false
+    handover_protocol_binding: null
+
+  safeguards:
+    milestone_citation_as_missing_authority: "not_accepted"
+    supporter_declaration_is_delegated_authority: false
+    reviewer_acceptance_replaces_required_person_authorization: false
+    reported_pressure: "offer_support_and_bounded_review"
+    missing_request_record_proves_no_request: false
+    background_monitoring_for_coercion_detection: "prohibited"
+    safeguarding_flag_is_person_level_finding: false
+
+  release:
+    positive_claim_requires:
+      - "claim_specific_obligations_identified"
+      - "scope_matched_current_evidence"
+      - "replay_and_cross_record_consistency"
+      - "faithful_wording_and_limitations"
+
+    external_release_requires:
+      - "content_and_disclosure_review"
+      - "exact_payload_approval"
+      - "destination_binding"
+      - "approval_scope_and_validity"
+
+    status_notice_when_positive_claim_unsupported: "may_be_prepared_not_automatically_published"
+    aggregate_trust_score: "prohibited"
+
+    independent_result_axes:
+      - "historical_acceptance"
+      - "current_attribution"
+      - "current_support"
+      - "wording_agreement"
+      - "ordinary_access"
+      - "current_authorization"
+      - "resource_horizon"
+      - "remedy_and_followup"
+
+  validation:
+    required_before_operational_adoption:
+      - "schema_and_unknown_field_tests"
+      - "policy_to_runtime_mapping_review"
+      - "replay_and_stale_revision_tests"
+      - "cross_record_and_historical_baseline_tests"
+      - "scope_boundary_and_dependency_closure_tests"
+      - "authority_inheritance_rejection_tests"
+      - "administrative_closure_and_recurrence_tests"
+      - "clock_uncertainty_and_joint_resource_tests"
+      - "retention_lineage_and_disclosure_review"
+      - "ordinary_access_dispute_and_missing_record_walkthroughs"
+      - "wording_and_accessible_comprehension_evaluation"
+      - "succession_and_recovery_rehearsal"
+
+    test_count_is_empirical_success_rate: false
+    authored_policy_is_runtime_enforcement: false
+
+instance:
+  intended_use: "draft_configuration_review"
+
+  milestone:
+    meaning: null
+    review_scope: null
+    reference_requirements: []
+    acceptance_record: null
+
+  protected_baseline:
+    achievement_meaning: null
+    affected_activities: []
+    support_commitments: []
+    supported_routes: []
+    original_scope_envelope: null
+    current_accepted_scope_envelope: null
+    privacy_and_retention_basis: null
+
+  accepted_history_binding: null
+  runtime_adapter_binding: null
+  positive_claim_readiness: "not_evaluated"
+
+  activation:
+    state: "blocked_pending_instance_configuration_and_review"
+
+    required_before_establishment_processing:
+      - "reviewed_nonempty_reference_inventory"
+      - "resolved_applicability_and_prerequisite_results"
+      - "protected_baseline_and_scope_envelope"
+      - "supported_event_semantics_and_replay_adapter"
+      - "established_acceptance_and_authority_process"
+      - "working_access_correction_and_appeal_routes"
+      - "applicable_privacy_retention_and_resource_plan"
+
+    missing_binding_behavior: "remain_draft_preserve_ordinary_access"

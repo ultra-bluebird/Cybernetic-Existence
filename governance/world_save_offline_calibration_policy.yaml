@@ -1,0 +1,85 @@
+schema_version: "1.0.0"
+kind: "WorldSaveOfflineCalibrationReviewPolicy"
+status: "proposed_specification"
+license: "MIT OR Apache-2.0"
+
+provenance:
+  sovereign_attribution: "bostrom18sd2ujv24ual9c9pshtxys6j8knh6xaead9ye7"
+  attribution_use: "document_credit_only"
+
+scope:
+  permitted_subject: "application_level_calibration_or_configuration_evidence"
+  medical_device_calibration: "not_authorized"
+  neural_or_companion_system_operation: "not_authorized"
+  automatic_hardware_control: "not_authorized"
+
+record_contract:
+  required_fields:
+    - "record_schema_version"
+    - "declared_purpose"
+    - "input_and_output_units"
+    - "reviewed_operating_range"
+    - "method_and_reference_basis"
+    - "uncertainty_statement"
+    - "validity_period"
+    - "configuration_applicability"
+    - "authority_basis"
+    - "integrity_profile"
+    - "limitations"
+    - "correction_route"
+
+  raw_neural_data_required: false
+  augmentation_inventory_required: false
+  private_companion_system_information_required: false
+  missing_required_evidence: "unknown"
+
+canonicalization:
+  proposed_profile: "world-save-jcs-integer-1"
+  semantic_normalization: "none_without_separate_review"
+  exact_strings_preserved: true
+  array_order_preserved: true
+  independent_implementation_validation_required: true
+
+commitments:
+  enabled: false
+  algorithm: "SHA-256"
+  implementation: "sha2"
+  reviewed_envelope_binding: null
+  hashing_alone_establishes_authority: false
+
+local_trust:
+  trusted_material_provisioning: "separately_reviewed"
+  accepted_local_trust_binding: null
+  mandatory_periodic_cloud_attestation: false
+  offline_status_implies_latest_global_status: false
+  unknown_revocation_currency: "disclose_and_apply_scoped_policy"
+
+time:
+  local_clock_basis_required: true
+  uncertainty_bounds_required: true
+  validity_window: "start_inclusive_end_exclusive"
+  boundary_overlap: "unknown"
+  definitely_expired: "not_current"
+  definitely_future_dated: "not_current"
+
+failure_behavior:
+  affected_positive_claim: "withdraw_or_mark_unresolved"
+  ordinary_help_and_correction: "preserve"
+  clinical_or_device_fallback: "not_selected_by_this_policy"
+  application_alternatives: "user_directed_and_separately_applicable"
+  automatic_cloud_upload: "prohibited"
+
+validation:
+  network_disconnection_walkthrough: "required"
+  clock_uncertainty_faults: "required"
+  record_corruption_test: "required"
+  wrong_context_test: "required"
+  expired_authority_test: "required"
+  accessible_alternative_route_test: "required"
+
+implementation:
+  policy_authored: true
+  local_trust_established: false
+  commitments_created: false
+  offline_walkthrough_completed: false
+  real_system_calibration_claimed: false

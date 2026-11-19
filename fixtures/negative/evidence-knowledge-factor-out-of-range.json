@@ -1,0 +1,22 @@
+{
+  "envelope_key": "ev-002",
+  "domain": "thermal-metrics",
+  "evidence_status": "raw",
+  "knowledge_factor": 1.5,
+  "ecological_value": 0,
+  "risk_vector": [],
+  "uncertainty_status": "high",
+  "provenance_status": "host-declared",
+  "spatial_scope": {
+    "type": "Polygon",
+    "coordinates": [[[0,0],[1,0],[1,1],[0,1],[0,0]]]
+  },
+  "temporal_scope": {
+    "start_utc": "2026-09-01T00:00:00Z",
+    "end_utc": "2026-09-02T00:00:00Z"
+  },
+  "policy_version": "1.0.0",
+  "review_status": "pending-review",
+  "blocking_conditions": [],
+  "explanation_code": "EVIDENCE_BAD"
+}

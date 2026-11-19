@@ -1,0 +1,31 @@
+aln_path energy.tokens.blood_protein_lifeforce.calibration.v1.aln
+aln_type energy.tokens.bpl.v1
+aln_license MIT OR Apache-2.0
+
+record EnergyTokenCalibrationV1 {
+  host_did                 : string,
+  bostrom_address          : string,
+  aln_clause               : string,
+  schema_version           : string,
+  evidence_tags            : string[], // ATP, RMR hex
+
+  atp_heart_max_j_day      : float,
+  atp_skeletal_max_j_day   : float,
+  atp_other_max_j_day      : float,
+
+  blood_token_daily_max    : float,
+  protein_token_daily_max  : float,
+  lifeforce_token_daily_max: float,
+
+  organ_blood_token_max    : map<string,float>,   // organ_id -> ceiling
+  organ_protein_token_max  : map<string,float>,
+  organ_lifeforce_token_max: map<string,float>,
+}
+
+constraint EnergyTokenCalibrationV1.HostBinding { ... }
+
+constraint EnergyTokenCalibrationV1.Tokens {
+  blood_token_daily_max    > 0.0;
+  protein_token_daily_max  > 0.0;
+  lifeforce_token_daily_max> 0.0;
+}

@@ -1,0 +1,12 @@
+{
+  "decision_key": "dec-001",
+  "decision_state": "permitted",
+  "explanation_code": "DECISION_OK",
+  "policy_version": "1.0.0",
+  "evidence_references": [{"evidence_key": "ev-001", "role": "primary"}],
+  "review_required": false,
+  "correction_path": "https://example.com/correct",
+  "appeal_path": "https://example.com/appeal",
+  "created_at_utc": "2026-09-06T12:00:00Z",
+  "material_change_reference": "mc-001"
+}

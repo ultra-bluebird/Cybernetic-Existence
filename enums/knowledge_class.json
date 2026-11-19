@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mk-bluebird.github.io/Augmented-Hub/enums/knowledge_class.json",
+  "title": "Knowledge Class",
+  "description": "Canonical classification of an assertion or source. It prevents direct observation, model estimates, policy proposals, and user-supplied conventions from being conflated.",
+  "type": "string",
+  "enum": [
+    "direct_observation",
+    "derived_measurement",
+    "model_estimate",
+    "research_hypothesis",
+    "policy_proposal",
+    "governance_requirement",
+    "community_statement",
+    "user_supplied_convention",
+    "unknown"
+  ]
+}

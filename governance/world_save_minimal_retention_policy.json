@@ -1,0 +1,71 @@
+{
+  "schema_version": "1.0.0",
+  "title": "World-Save Minimal Record and Evidence Disposition",
+  "license": "MIT OR Apache-2.0",
+  "status": "proposed_policy",
+  "provenance": {
+    "sovereign_attribution": "bostrom18sd2ujv24ual9c9pshtxys6j8knh6xaead9ye7",
+    "attribution_use": "document_credit_only"
+  },
+  "default": {
+    "collection": "not_authorized_by_this_policy",
+    "publication": "not_authorized_by_this_policy",
+    "retention_without_field_classification": "not_permitted",
+    "public_personal_registry": "not_created"
+  },
+  "minimal_record_candidates": [
+    "achievement_summary",
+    "review_scope",
+    "acceptance_and_correction_disposition",
+    "evidence_availability_statement",
+    "correction_route",
+    "retention_and_deletion_disposition"
+  ],
+  "classification_required_for_every_retained_field": [
+    "specific_purpose",
+    "sensitivity",
+    "necessity_basis",
+    "access_restrictions",
+    "retention_trigger",
+    "finite_review_or_deletion_deadline",
+    "deletion_or_restriction_method",
+    "backup_handling",
+    "responsible_role"
+  ],
+  "private_evidence": {
+    "raw_neural_data_required": false,
+    "device_inventory_required": false,
+    "private_companion_system_information_required": false,
+    "automatic_transfer_to_successor": false,
+    "separate_purpose_and_transfer_review_required": true
+  },
+  "commitments": {
+    "algorithm_policy": "approved_sha2_SHA_256_implementation",
+    "creation_authorized_by_this_document": false,
+    "digest_is_anonymity": false,
+    "digest_is_consent": false,
+    "digest_is_proof_of_correctness": false,
+    "linkage_and_dictionary_risk_review_required": true,
+    "source_deleted_means_source_reinspection_unavailable": true
+  },
+  "deletion": {
+    "delete_unnecessary_private_evidence": true,
+    "blanket_delete_all_unlisted_fields": false,
+    "exceptions_require_specific_reviewed_basis": true,
+    "exceptions_require_limited_access_and_review_deadline": true,
+    "deletion_claim_requires_disposition_evidence": true,
+    "copies_exports_and_backups_in_scope": true
+  },
+  "continuity_after_deletion": {
+    "ordinary_access_removed": false,
+    "correction_route_removed": false,
+    "historical_claim_automatically_proved": false,
+    "evidence_limitations_must_be_disclosed": true
+  },
+  "validation": {
+    "authored_policy": true,
+    "retention_enforcement_tested": false,
+    "actual_deletion_verified": false,
+    "cryptographic_commitments_created": false
+  }
+}

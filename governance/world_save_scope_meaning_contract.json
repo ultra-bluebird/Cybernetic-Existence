@@ -1,0 +1,76 @@
+{
+  "schema_version": "1.0.0",
+  "title": "World-Save Scope-and-Meaning Continuity Contract",
+  "license": "MIT OR Apache-2.0",
+  "status": "proposed_specification",
+  "provenance": {
+    "sovereign_attribution": "bostrom18sd2ujv24ual9c9pshtxys6j8knh6xaead9ye7",
+    "attribution_use": "document_credit_and_workstream_metadata_only"
+  },
+  "scope_review": {
+    "required_dimensions": [
+      "purpose",
+      "recipients",
+      "interface",
+      "intervention_or_activity",
+      "retention"
+    ],
+    "declared_bounds_required": true,
+    "cross_field_conditions_required": true,
+    "dependency_review_required": true,
+    "missing_bounds_result": "unknown",
+    "beyond_bounds_result": "fresh_review_required",
+    "within_bounds_is_execution_authorization": false,
+    "renewal_automatically_extends_validity": false,
+    "historical_acceptance_erased_by_review_invalidation": false
+  },
+  "change_handling": {
+    "affected_assurances_must_be_identified": true,
+    "field_change_alone_defines_all_consequences": false,
+    "person_may_request_change_before_execution_review": true,
+    "review_failure_removes_ordinary_access": false,
+    "unknown_change_implies_permission": false
+  },
+  "meaning_protection": {
+    "preferred_research_term": "protected_continuity",
+    "term_effectiveness_established": false,
+    "record_protection_is_physical_irreversibility": false,
+    "milestone_is_blanket_future_consent": false,
+    "person_directed_future_choice_preserved": true,
+    "correction_of_erroneous_records_preserved": true
+  },
+  "comprehension_study": {
+    "status": "not_conducted",
+    "design": "randomized_matched_facts_headline_comparison",
+    "separate_outcomes": [
+      "record_protection_interpretation",
+      "physical_reversibility_interpretation"
+    ],
+    "combined_compensating_score_required": false,
+    "accessible_participation_in_every_arm": true,
+    "missing_answers_reported_separately": true,
+    "response_time_used_as_competence_score": false
+  },
+  "privacy_and_access": {
+    "neural_data_required": false,
+    "augmentation_inventory_required": false,
+    "cyberrank_used_for_eligibility": false,
+    "correction_routes": [
+      "assisted_digital",
+      "human_supported",
+      "offline"
+    ]
+  },
+  "operational_boundary": {
+    "physical_actuation_authorized": false,
+    "medical_system_operation_authorized": false,
+    "external_publication_authorized": false,
+    "service_denial_authorized": false
+  },
+  "validation": {
+    "policy_document_authored": true,
+    "runtime_enforcement_tested": false,
+    "comprehension_benefit_measured": false,
+    "real_world_milestone_established": false
+  }
+}

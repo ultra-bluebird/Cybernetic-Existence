@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mk-bluebird.github.io/Augmented-Hub/enums/attribution_mode.json",
+  "title": "Attribution Mode",
+  "description": "Canonical attribution handling. It must not be used to infer identity, compel disclosure, or create representation authority.",
+  "type": "string",
+  "enum": [
+    "public_attribution",
+    "pseudonymous_attribution",
+    "collective_attribution",
+    "no_public_attribution",
+    "not_applicable"
+  ]
+}

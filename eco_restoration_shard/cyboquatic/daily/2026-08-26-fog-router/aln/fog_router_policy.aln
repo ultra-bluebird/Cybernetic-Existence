@@ -1,0 +1,147 @@
+ALN v2-compatible policy draft; syntax must be validated against the project’s authoritative ALN grammar before deployment.
+
+artifact {
+  identifier: "cyboquatic.fog-router.2026-08-26.variant-21"
+  version: "2.0-local-draft"
+  scope: "offline ecological-observation validation and qualified-review support"
+  status: "local policy artifact"
+}
+
+purpose {
+  allowed: [
+    "validate bounded CanalNode observation context",
+    "route explicit FOG and incomplete evidence to qualified human review",
+    "create concise, accessible, review-ready explanations",
+    "retain minimal provenance and audit records"
+  ]
+  prohibited: [
+    "autonomous physical actuation",
+    "machinery commands",
+    "valve, pump, drain, or flow control",
+    "continuous surveillance",
+    "direct identity collection",
+    "biometric, neural, or health-data processing",
+    "unapproved secondary use"
+  ]
+}
+
+data_classes {
+  pseudonymous_node_identifier: {
+    sensitivity: "moderate"
+    required: true
+    minimization: "store a pseudonymous identifier only; do not store precise location or direct identity"
+  }
+  canal_observation_context: {
+    fields: [
+      "observation_time",
+      "media_classification",
+      "flow_m3_s",
+      "water_temperature_c",
+      "measurement_quality"
+    ]
+    sensitivity: "environmental operational context"
+    minimization: "retain bounded values only; exclude raw continuous telemetry"
+  }
+  evidence_triad: {
+    fields: ["K", "E", "R"]
+    sensitivity: "review-governance data"
+    minimization: "retain values, explanation, and provenance sufficient for audit"
+  }
+  provenance_and_audit: {
+    fields: ["provenance_text", "route_code", "explanation", "review_status", "created_at"]
+    sensitivity: "accountability record"
+  }
+}
+
+consent {
+  required: true
+  scope: "ecological observation validation and qualified human review only"
+  explicit: true
+  informed: true
+  revocable: true
+  revocation_behavior: "reject new processing, open retention/deletion review, preserve only legally or operationally necessary audit minimums under an approved local process"
+  unrelated_processing: "prohibited"
+}
+
+retention {
+  rule: "retain only until the approved local retention date and no longer than necessary for review, appeal, correction, and audit"
+  deletion_path: "data steward verifies authority, exports eligible record on request, deletes eligible local record, and records deletion event"
+  export_path: "provide a human-readable, accessible local export containing retained fields, provenance, route, explanation, and review status"
+  backups: "must follow the same purpose limitation and approved deletion schedule"
+}
+
+invariants {
+  K: "finite number in [0.0, 1.0]"
+  E: "finite number in [0.0, 1.0]"
+  R: "finite number in [0.0, 1.0]"
+  automation_bound: "if R > 0.30, no automated recommendation is eligible; route to QUARANTINED_INPUT and REVIEW_REQUIRED"
+  fail_closed: "missing, invalid, expired, unauthorized, or internally inconsistent required evidence routes to REVIEW_REQUIRED or REJECTED_INPUT; no affirmative operational recommendation"
+  explanation: "every route stores a concise plain-language explanation and stable route code"
+}
+
+fog_handling {
+  definition: "FOG denotes unmodeled media, uncertainty, unknown contaminant behavior, or missing measurement context"
+  rule: "FOG, UNKNOWN, or unknown media must route to FOG_REVIEW"
+  prohibition: "FOG must never be silently coerced into safe, complete, known, or suitable for autonomous action"
+}
+
+canal_node {
+  required_fields: [
+    "pseudonymous_node_identifier",
+    "observation_time",
+    "flow_rate_m3_s",
+    "water_temperature_c",
+    "measurement_quality"
+  ]
+  excluded_fields: [
+    "precise_location",
+    "direct_personal_data",
+    "biometric_data",
+    "neural_data",
+    "continuous_surveillance_fields"
+  ]
+  validation: "flow_rate_m3_s is within configured local physical bounds; water_temperature_c and measurement_quality are finite and bounded"
+}
+
+routing {
+  rejected_input: "missing, non-finite, out-of-range, unauthorized, or inconsistent input"
+  fog_review: "explicit FOG, unknown media, incomplete context, or insufficient confidence, completeness, measurement quality, or K"
+  quarantined_input: "valid known-media evidence where R exceeds 0.30"
+  known_media: "valid, consented, complete, non-FOG known-media observation with R at or below 0.30; human review remains required before any operational use"
+}
+
+review_and_appeal {
+  human_review: "qualified reviewer checks evidence, provenance, uncertainty, and route explanation before any external use"
+  appeal: "affected contributors may request accessible correction, explanation, or review through an appeals coordinator"
+  correction: "data steward records approved correction as an audit event and preserves linked provenance"
+  accountability_owner_role: "ecological data steward"
+}
+
+audit {
+  required_fields: [
+    "artifact_identifier",
+    "observation_identifier",
+    "pseudonymous_node_identifier",
+    "created_at",
+    "route",
+    "route_code",
+    "explanation",
+    "review_status",
+    "provenance_text",
+    "actor_role"
+  ]
+  integrity: "audit entries are append-oriented local records; retention and export remain purpose-limited"
+}
+
+external_action_approval {
+  required: true
+  gate: "A qualified human must provide separate, documented approval before any external action or operational integration."
+  no_implicit_authorization: true
+}
+
+physical_actuation {
+  autonomous_actuation: "prohibited"
+  actuator_commands: "prohibited"
+  machinery_control: "prohibited"
+  interpretation: "this artifact set is non-actuating decision support only"
+}

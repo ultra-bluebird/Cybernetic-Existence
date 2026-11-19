@@ -1,0 +1,78 @@
+{
+  "schema_version": "1.0.0",
+  "title": "World-Save Dispute and Ordinary-Access Protocol",
+  "license": "MIT OR Apache-2.0",
+  "status": "proposed_project_protocol",
+  "provenance": {
+    "sovereign_attribution": "bostrom18sd2ujv24ual9c9pshtxys6j8knh6xaead9ye7",
+    "attribution_use": "document_credit_only"
+  },
+  "scope": {
+    "ordinary_access": [
+      "obtain explanation",
+      "inspect available record information",
+      "request correction",
+      "request appeal",
+      "receive communication support",
+      "check dispute progress"
+    ],
+    "consequential_operations_require_separate_authorization": true
+  },
+  "intake": {
+    "supported_routes": [
+      "assisted_digital",
+      "human_supported",
+      "offline"
+    ],
+    "new_account_required": false,
+    "augmentation_inventory_required": false,
+    "neural_data_required": false,
+    "medical_proof_required": false,
+    "acceptance_of_disputed_statement_required": false
+  },
+  "record_holder_duties": [
+    "acknowledge through the selected accessible route",
+    "explain the dispute scope and unaffected access",
+    "assign an accountable review role",
+    "publish applicable acknowledgment and progress targets",
+    "retain records according to the reviewed retention policy",
+    "provide reasons for the outcome",
+    "provide an appeal and human fallback route"
+  ],
+  "presentation": {
+    "dispute_may_be_shown_as_unresolved": true,
+    "dispute_is_proof_of_falsehood": false,
+    "dispute_is_proof_of_incompetence": false,
+    "administrative_closure_is_verified_correction": false,
+    "historical_acceptance_and_current_support_are_separate": true
+  },
+  "prohibited_uses_of_dispute_status": [
+    "ordinary_access_denial",
+    "augmentation_identity_adjudication",
+    "cyberrank_eligibility",
+    "unrelated_risk_profiling",
+    "disclosure_pressure",
+    "retaliation_for_requesting_correction"
+  ],
+  "walkthrough_requirements": [
+    "compare disputed and undisputed ordinary-access journeys",
+    "test missing and unreadable record conditions",
+    "test all supported communication routes",
+    "record repeated entry and disclosure demands",
+    "verify progress checking and appeal",
+    "report failures and unknowns separately"
+  ],
+  "deployment_preconditions": [
+    "working support contacts",
+    "assigned responsible roles",
+    "defined response targets",
+    "tested accessible routes",
+    "reviewed retention and disclosure handling"
+  ],
+  "validation": {
+    "protocol_authored": true,
+    "live_walkthrough_completed": false,
+    "access_preservation_demonstrated": false,
+    "runtime_enforcement_established": false
+  }
+}

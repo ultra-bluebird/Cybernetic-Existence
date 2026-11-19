@@ -1,0 +1,35 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "hr": "https://javasphere.example/vocab/human-remainder#",
+    "id": "@id",
+    "type": "@type",
+    "clauseId": "hr:clauseId",
+    "appliesTo": "hr:appliesTo",
+    "removalProhibited": "hr:removalProhibited",
+    "amendmentProcedure": "hr:amendmentProcedure",
+    "adoptedAt": {
+      "@id": "hr:adoptedAt",
+      "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+    },
+    "statement": "hr:statement"
+  },
+  "id": "urn:governance:non-removal-clause:1.0.0",
+  "type": "GovernanceClause",
+  "clauseId": "NON-REMOVAL.v1",
+  "version": "1.0.0",
+  "adoptedAt": "2026-09-24T00:00:00Z",
+  "appliesTo": [
+    "governance/oversight-membership.jsonld",
+    "schemas/neural-data-governance/data-classification.json",
+    "schemas/consent/consent-receipt.json",
+    "schemas/consent/revocation-event.json"
+  ],
+  "removalProhibited": true,
+  "statement": "Safety-relevant governance clauses adopted into the local policy plane may be superseded only through the declared amendment procedure with recorded oversight review; they may not be silently removed from active configuration.",
+  "amendmentProcedure": "Record a supersession entry referencing the prior clause version, obtain an oversight-quorum review receipt under the adopted enforcement context, and retain the prior clause text in local history.",
+  "limitations": [
+    "This document records a locally adopted procedure.",
+    "It does not independently create legal authority or enforceability outside the adopting context."
+  ]
+}

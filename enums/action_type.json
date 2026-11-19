@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mk-bluebird.github.io/Augmented-Hub/enums/action_type.json",
+  "title": "Action Type",
+  "description": "Canonical action classification. An approval classification records governance state only; it is not an execution command.",
+  "type": "string",
+  "enum": [
+    "analysis_only",
+    "proposal_only",
+    "external_action_approved"
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mk-bluebird.github.io/Augmented-Hub/enums/uncertainty_status.json",
+  "title": "Uncertainty Status",
+  "description": "Canonical uncertainty treatment status for observations, models, and decision-support outputs.",
+  "type": "string",
+  "enum": [
+    "quantified",
+    "bounded",
+    "qualitative",
+    "not_available",
+    "invalid"
+  ]
+}

@@ -1,0 +1,211 @@
+{
+  "title": "Augmented-Rights Research Charter",
+  "version": "1.0.0",
+  "license": "MIT OR Apache-2.0",
+  "status": "proposed_project_governance",
+  "legal_effect": "Does not independently establish statutory or treaty rights.",
+  "purpose": [
+    "Support voluntary integration and refusal.",
+    "Preserve accessible communication and equal participation.",
+    "Evaluate institutional privacy, continuity, and review practices.",
+    "Separate respectful acknowledgment from technical verification."
+  ],
+  "scope": {
+    "included": [
+      "Research design",
+      "Service accessibility review",
+      "Software governance review",
+      "Data portability requirements",
+      "Continuity planning",
+      "Public policy drafting"
+    ],
+    "excluded": [
+      "Medical-device operation",
+      "Clinical parameter changes",
+      "Diagnosis",
+      "Employment fitness determinations",
+      "Identity certification",
+      "Automated service eligibility decisions"
+    ]
+  },
+  "standing": {
+    "equal_access_independent_of_self_description": true,
+    "augmentation_disclosure_required": false,
+    "diagnosis_required_for_ordinary_accessibility": false,
+    "communication_method_is_competence_proxy": false,
+    "respect_implies_technical_certification": false
+  },
+  "cyberrank": {
+    "personal_layer": [
+      "Voluntary self-description",
+      "Communication preferences",
+      "Privacy boundaries",
+      "Continuity needs",
+      "Non-interference concerns"
+    ],
+    "governance_layer": [
+      "Equal access",
+      "Minimal disclosure",
+      "Accessible communication",
+      "Human fallback",
+      "Correction",
+      "Appeal",
+      "Material-change review"
+    ],
+    "prohibited_uses": [
+      "Public ranking",
+      "Diagnosis",
+      "Verification status",
+      "Eligibility",
+      "Employment classification",
+      "Automated adverse decisions"
+    ]
+  },
+  "rights": {
+    "integration": {
+      "requirement": "Support informed participation in adoption, permitted configuration, maintenance, and review.",
+      "does_not_authorize": [
+        "Unsafe operation",
+        "Unqualified clinical intervention",
+        "Access to another person's systems",
+        "Compelled provision of every technology"
+      ]
+    },
+    "refusal_and_exit": {
+      "requirement": "Provide a non-retaliatory route to refuse or discontinue an activity.",
+      "transition_plan_addresses": [
+        "Foreseeable functional consequences",
+        "Accessible communication",
+        "Continuing care arrangements",
+        "Available alternatives",
+        "Data export and deletion options",
+        "Qualified clinical review where applicable"
+      ],
+      "consequence_free_reversal_guaranteed": false
+    },
+    "privacy": {
+      "requirement": "Separate essential service access from optional collection and secondary use.",
+      "raw_neural_data_required_by_this_project": false,
+      "inference_permissions_separate_from_collection": true,
+      "secondary_use_default": "not_authorized"
+    },
+    "continuity": {
+      "requirement": "Review material changes affecting access, communication, privacy, or maintenance.",
+      "vendor_support_claims_require_evidence": true,
+      "medical_system_control_by_this_project": false
+    },
+    "fair_access": {
+      "requirement": "Evaluate barriers and allocation practices without ranking people's worth.",
+      "refusal_removes_basic_standing": false,
+      "augmentation_increases_civic_worth": false
+    }
+  },
+  "decision_support": {
+    "preferred_communication_respected": true,
+    "support_does_not_remove_authorship": true,
+    "diagnosis_implies_incapacity": false,
+    "supporter_role": "Assist expression and understanding without overriding the person's will and preferences.",
+    "conflicts_and_undue_influence_require_review": true
+  },
+  "research_data": {
+    "data_class": "Aggregate service-evaluation outcomes",
+    "allowed_fields": [
+      "Evaluation period",
+      "Evaluation unit definition",
+      "Applicable safeguard",
+      "Pass count",
+      "Failure count",
+      "Unknown count",
+      "Sampling method",
+      "Operational outcome definition"
+    ],
+    "prohibited_fields": [
+      "Raw neural recordings",
+      "Implant credentials",
+      "Private companion-system records",
+      "Biometric templates",
+      "Unnecessary medical history"
+    ],
+    "consent_scope": "Voluntary service-evaluation research only; no clinical intervention or system control.",
+    "optional_participation_affects_service_access": false,
+    "withdrawal_handling": "Stop future optional collection after withdrawal is received and processed; explain prior-use and irreversible-aggregation limits.",
+    "retention": {
+      "participant_level_collection": "Not authorized by this charter.",
+      "unreviewed_aggregate_retention_days": 90,
+      "deadline_basis": "Local aggregate creation time in UTC",
+      "at_deadline": "Delete unless a documented purpose, disclosure-risk review, and finite retention extension have been approved.",
+      "backups": "Do not create independent backups of unreviewed aggregates under this charter."
+    },
+    "release": {
+      "automatic_publication": false,
+      "human_disclosure_review_required": true,
+      "small_cell_risk_review_required": true,
+      "cross_release_linkage_review_required": true
+    }
+  },
+  "external_actions": {
+    "default": "not_authorized",
+    "separate_explicit_approval_required": true,
+    "approval_must_bind": [
+      "Operation",
+      "Destination",
+      "Complete payload",
+      "Purpose",
+      "Policy revision",
+      "Validity period"
+    ],
+    "medical_or_physical_actuation_authorized": false
+  },
+  "provenance": {
+    "commitment_algorithm": "SHA-256",
+    "canonicalization_required_before_commitment": true,
+    "canonicalization_profile_defined": false,
+    "commitment_creation_until_profile_defined": "not_authorized",
+    "digest_establishes": "Integrity comparison for committed bytes.",
+    "digest_does_not_establish": [
+      "Scientific correctness",
+      "Consent",
+      "Confidentiality",
+      "Clinical safety",
+      "Legal authority"
+    ]
+  },
+  "evaluation": {
+    "states": [
+      "pass",
+      "fail",
+      "unknown",
+      "not_applicable"
+    ],
+    "unknown_is_pass": false,
+    "not_applicable_requires_reason": true,
+    "rights_failures_offset_by_other_scores": false,
+    "population_claim_requires_sampling_basis": true,
+    "metrics_authorize_intervention": false
+  },
+  "accountability": {
+    "responsible_role": "Designated local research steward",
+    "independent_review_role": "Rights and accessibility reviewer",
+    "support_routes": [
+      "Assisted digital",
+      "Human-supported",
+      "Offline"
+    ],
+    "material_change_requires_renewed_review": true,
+    "study_start_requires": [
+      "Named responsible parties in a protected local record",
+      "Accessible participation information",
+      "Defined sampling frame",
+      "Defined evaluation outcomes",
+      "Documented retention administration",
+      "Applicable ethics and legal review",
+      "Working correction and appeal routes"
+    ]
+  },
+  "review_status": {
+    "authored_specification": true,
+    "runtime_enforcement_tested": false,
+    "clinical_validation_claimed": false,
+    "deployment_claimed": false
+  }
+}

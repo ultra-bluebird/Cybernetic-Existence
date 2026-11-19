@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mk-bluebird.github.io/Augmented-Hub/enums/privacy_class.json",
+  "title": "Privacy Class",
+  "description": "Canonical privacy classification. It must not be used to infer identity, eligibility, credibility, health, legal status, or CyberRank.",
+  "type": "string",
+  "enum": [
+    "public",
+    "internal",
+    "restricted",
+    "sensitive",
+    "highly_sensitive"
+  ]
+}

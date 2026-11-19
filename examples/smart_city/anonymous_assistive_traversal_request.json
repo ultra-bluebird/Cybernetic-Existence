@@ -1,0 +1,37 @@
+{
+  "schemaVersion": "1.0.0",
+  "requestId": "assistive-route-request-000001",
+  "anonymousToken": "replace-with-a-single-purpose-short-lived-anonymous-token",
+  "purpose": "temporary-accessible-route-selection",
+  "issuedAt": "2026-09-06T00:48:00-07:00",
+  "expiresAt": "2026-09-06T01:18:00-07:00",
+  "routeConstraints": {
+    "preferShade": true,
+    "avoidHighHeatExposure": true,
+    "requireCurbRamps": true,
+    "avoidStairs": true,
+    "requireElevatorAvailability": false,
+    "preferLowerNoise": false,
+    "preferRestLocations": true,
+    "maximumDetourMeters": 450
+  },
+  "accessibilityFlags": [
+    "shade-preference",
+    "heat-risk-preference",
+    "step-free-route-required",
+    "curb-ramp-required",
+    "rest-location-preference"
+  ],
+  "privacy": {
+    "containsRawBiometrics": false,
+    "containsPrivateHealthData": false,
+    "containsCyberRankData": false,
+    "containsPersistentIdentifier": false,
+    "retentionMinutes": 30
+  },
+  "proof": {
+    "proofType": "anonymous-service-token-proof",
+    "verificationMethod": "local-municipal-service-token-registry",
+    "proofValue": "generated-by-an-authorized-issuer-or-holder-controlled-wallet"
+  }
+}
