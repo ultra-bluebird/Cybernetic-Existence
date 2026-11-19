@@ -1,0 +1,8 @@
+"Level","Identifiable when","Common confounding failure"
+"Coupon / analytical replicate","At least 2–3 independently processed replicates from the same local unit","Analytical uncertainty is absorbed into residual variance"
+"Station or reach","Multiple stations/reaches within each anchor or corridor stratum","Station effect is inseparable from anchor effect when one station exists per anchor"
+"Hex anchor","Multiple anchors observed under comparable regime/time strata","Anchor effect is inseparable from season, event, or access effects when anchors are sampled once"
+"Corridor segment","Multiple segments, with anchors nested within each","Corridor and local substrate/management effect are confounded if only one segment per corridor is measured"
+"Season / regime","Same anchors or stations revisited in multiple seasons/regimes","Season is confounded with a one-time equipment, protocol, or source change"
+"Event window","Multiple events per station/anchor and repeated reference windows","One monsoon event cannot estimate an event-level variance component"
+"Sensor/instrument","Cross-over or co-location design with multiple devices at shared stations","Device bias is misclassified as spatial or temporal variation"

@@ -1,0 +1,7 @@
+"Metric","Formula","Interpretation"
+"Wait-time disparity","(\Delta W = \left","\overline{W}A-\overline{W}_B \right"
+"Reliability disparity","(\Delta R = \left","R_A-R_B \right"
+"Accessible-route continuity","ARC=accessible OD pairs retaining viable routeeligible accessible OD pairsARC = \frac{\text{accessible OD pairs retaining viable route}}{\text{eligible accessible OD pairs}}ARC=eligible accessible OD pairsaccessible OD pairs retaining viable route​","Measures whether a scenario preserves a workable accessible route for origin-destination pairs."
+"Transfer burden","(\Delta X = \left","\overline{Transfers}A-\overline{Transfers}_B \right"
+"Service-loss disparity","(\Delta L = \left","L_A-L_B \right"
+"Appeal availability","AppealPathAvailable∈{true,false}AppealPathAvailable \in \{true,false\}AppealPathAvailable∈{true,false}","Procedural constraint: proposal is not release-ready if an accessible correction/appeal path is absent."

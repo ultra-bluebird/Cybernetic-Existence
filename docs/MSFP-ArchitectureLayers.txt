@@ -1,0 +1,29 @@
++------------------------------------------------------+
+| Local continuity layer                               |
+| - Preferences                                        |
+| - Accessible UI                                      |
+| - Offline notes and receipts                         |
+| - Local recovery guidance                            |
+| - Local policy and consent state                     |
++------------------------------------------------------+
+                         |
+                         | explicit user action only
+                         v
++------------------------------------------------------+
+| Connection mediation layer                           |
+| - Consent console                                    |
+| - Capability attenuation                             |
+| - Lease and watchdog                                 |
+| - Replay and frame validation                        |
+| - Privacy-minimized audit receipts                   |
++------------------------------------------------------+
+                         |
+                         | purpose-bound temporary session
+                         v
++------------------------------------------------------+
+| External interoperability layer                      |
+| - Optional peer connection                           |
+| - Bounded data release                               |
+| - No ambient authority                               |
+| - No silent cloud synchronization                    |
++------------------------------------------------------+

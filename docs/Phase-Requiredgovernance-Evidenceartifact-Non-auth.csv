@@ -1,0 +1,7 @@
+"Phase","Required governance","Evidence artifact","Non-authority constraint"
+"Design","Privacy, safety, accessibility, recovery, export, and non-interference requirements","Design contract and threat model","No claim that design proves real-world system safety"
+"Supply chain","Component provenance, dependency inventory, update sources, licensing, end-of-life plan","Component manifest and dependency map","No supply-chain assurance without evidence"
+"Deployment","Configuration validation, migration record, local backup, rollback prevention, access review","Deployment receipt and baseline commitment","No automatic external activation"
+"Operation","Integrity checks, material-change journal, restore drills, correction and review routes","Operational receipt and drill record","No behavioral or health inference"
+"Maintenance","Patch review, replacement plan, compatibility tests, repair documentation","Maintenance successor record","No silent downgrade or forced external update"
+"End of life","Portable export, key-handling plan, retention/deletion decision, provenance preservation, successor instructions","Decommissioning manifest","No destructive overwrite of preserved records without review"

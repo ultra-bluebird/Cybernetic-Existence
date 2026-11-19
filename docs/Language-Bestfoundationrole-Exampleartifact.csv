@@ -1,0 +1,8 @@
+"Language","Best foundation role","Example artifact"
+"Lua","Lightweight local rules, offline field tools, sensor-frame validation","Offline drainage, shade, or water-observation validator"
+"MATLAB","Scientific exploration, calibration, sensitivity analysis, matrix-based ecological models","Heat, infiltration, or contaminant sensitivity notebooks/scripts"
+"Python","Data ingestion, reproducible analysis, geospatial ETL, optimization, test fixtures","SensorThings importer, quality checks, scenario analysis"
+"Java","Long-lived service layer, enterprise interoperability, public-system integrations","Accessible service API and evidence registry"
+"Kotlin","Android/mobile field tools and typed policy-aware application services","Offline community reporting and accessible inspection app"
+"Rego","Explicit authorization, consent, eligibility, and review policy","Policy-as-code for advisory-only and rights constraints"
+"SQL","Evidence ledger, retention controls, auditable queries, local-first storage","SQLite schema for concepts, metrics, consent, review, and provenance"

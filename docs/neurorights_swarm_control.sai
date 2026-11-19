@@ -1,0 +1,66 @@
+# neurorights_swarm_control.sai
+# Superintelligence data-fragment
+# Scope: Neurorights-aware nanoswarm control interfaces within the nanorobotics stack.
+
+fragment NeurorightsSwarmControlV1 {
+  id: "neurorights-swarm-control.v1"
+  version: "1.0.0"
+
+  intent: """
+  Define the high-level interfaces and invariants for nanoswarm controllers that
+  must honor neurorights constraints, per-host nociceptive floors, EcoWealth metrics,
+  and distributed sovereignty guard meshes. This fragment does not bind to any
+  specific blockchain or L2; it constrains Rust crates and ALN/AKL shards that
+  participate in neurorights-aware nanoswarm actuation.
+  """
+
+  domains: [
+    "nanorobotics.swarm",
+    "nanorobotics.guardmesh",
+    "nanorobotics.neurorights",
+    "nanorobotics.ecoswarm"
+  ]
+
+  invariants: [
+    "No nanoswarm actuation command may be issued without passing through at least one neurorights-aware guard.",
+    "Pain/fear shield LUTs must be monotone non-increasing in output clamp factor with respect to pain and fear indices.",
+    "Effective ceilings for host physiology parameters are the min of universal corridors and host-personal ceilings.",
+    "Any global Brake command must be approved by a supermajority of configured sovereignty guard nodes, except in explicitly defined emergency-solo paths.",
+    "Eco-swarm missions must not violate VampiricHealthcareEnvelope constraints for any host when the host is coupled to the mission."
+  ]
+
+  key_objects: [
+    "PainFearShieldLut",
+    "EcoSwarmMissionPlan",
+    "MeshGuardConfig",
+    "MeshBrakeProposal",
+    "EcoWealthMetrics"
+  ]
+
+  rust_crates: [
+    "nanorobotics-neuroshield",
+    "nanorobotics-ecoswarm",
+    "nanorobotics-guardmesh"
+  ]
+
+  design_notes: """
+  The nanorobotics-neuroshield crate owns the pain/fear LUT generation and
+  runtime clamp evaluation. It presents a pure Rust API such that hardware-
+  facing components can embed the LUT in firmware or FPGA images.
+
+  The nanorobotics-ecoswarm crate owns mission scheduling that optimizes
+  for energy and carbon given region-specific grid carbon catalogs and solar
+  profiles. It communicates with higher-level AI-chat layers via data-only
+  plan objects and never executes arbitrary code from LLMs.
+
+  The nanorobotics-guardmesh crate owns supermajority-based Brake decisions.
+  It does not implement a full consensus protocol; instead, it provides a
+  deterministic threshold engine that can be called from higher-level gossip
+  or message-passing layers. All identities are bound to DIDs and domain-
+  separated signatures.
+
+  This .sai fragment is intentionally language-agnostic. It exists to anchor
+  the invariants and the division of responsibilities so that Rust crates and
+  ALN shards can be checked against a stable superintelligence specification.
+  """
+}

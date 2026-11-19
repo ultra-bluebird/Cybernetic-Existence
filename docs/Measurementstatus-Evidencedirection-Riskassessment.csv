@@ -1,0 +1,7 @@
+"Measurement status","Evidence direction","Risk assessment status","Correct meaning"
+"LEFT_CENSORED","NOT_DETECTED","NOT_ASSESSED","Below the stated reporting/detection limit; no risk conclusion"
+"VALID_QUANTIFIED","SUPPORTS_HYPOTHESIS","REVIEW_REQUIRED","A measured association supports the hypothesis, pending scope/review"
+"VALID_QUANTIFIED","DOES_NOT_SUPPORT_HYPOTHESIS","NOT_ASSESSED","A valid result did not support this hypothesis under this condition"
+"VALID_QUALIFIED","INCONCLUSIVE","NOT_ASSESSED","Method/event design could not discriminate among explanations"
+"VALID_QUANTIFIED","CONTRADICTORY","REVIEW_REQUIRED","Conflicts with qualified evidence; synthesis needed"
+"INVALID","UNINTERPRETABLE","NOT_ASSESSED","Data quality failed; no environmental inference"

@@ -1,0 +1,8 @@
+"Mutation","Expected result"
+"Numeric maximum exceeded","Beyond-bounds review"
+"Individually allowed purpose and recipient violate a cross-condition","Beyond-bounds review"
+"Recipient name unchanged, onward sharing changes","Semantic/dependency review"
+"Interface changes with unreviewed dependencies","Transfer unresolved"
+"Retention decreases below a reviewed support requirement","Continuity/deletion reconciliation review"
+"Same activity, expired authorization","Renewal review"
+"Person requests a change","Request remains available; execution assessed separately"

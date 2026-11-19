@@ -1,0 +1,2 @@
+scenario,population,sample,observed_barriers,weighted_proportion,estimated_count,standard_error_count,lower_95_count,upper_95_count,planning_sample_5pp
+synthetic_stratified_example,10000.0,200.0,76.0,0.38,3800.0,334.4832980792445,3144.4247823345054,4455.575217665495,370.0

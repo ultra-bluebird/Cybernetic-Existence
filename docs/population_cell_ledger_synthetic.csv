@@ -1,0 +1,4 @@
+stratum,population,sample,barrier_count
+context_alpha,6000,180,18
+context_beta,3000,90,27
+context_gamma,1000,30,15

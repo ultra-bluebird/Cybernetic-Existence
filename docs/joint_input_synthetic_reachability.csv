@@ -1,0 +1,4 @@
+scenario,hypergraph_prohibited_reachable,naive_prohibited_reachable
+missing_joint_input,False,True
+environmental_join_only,False,True
+all_modeled_prerequisites,True,True

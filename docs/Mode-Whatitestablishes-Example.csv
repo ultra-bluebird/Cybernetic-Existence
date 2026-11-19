@@ -1,0 +1,6 @@
+"Mode","What it establishes","Example"
+"Declaration check","The policy contains the expected value","Required category list"
+"Behavioral test","A defined implementation behaves as specified in tested cases","Empty inventory does not pass"
+"Expert review","A judgment requires contextual assessment","Adequacy of a continuity arrangement"
+"Hybrid","Tests and contextual review are both necessary","Ordinary access remains available during dispute"
+"Context only","Metadata or explanatory scope, with a reason for exclusion from enforcement testing","License declaration"

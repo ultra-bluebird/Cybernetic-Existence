@@ -1,0 +1,8 @@
+"Level","Minimum design target","Why"
+"Corridors or major segments","2 or more","Allows a segment-level comparison but remains weak for broad transfer"
+"Seasons or regimes","2 or more, with repeated sites","Separates stable spatial differences from temporal regime effects"
+"Hex anchors per segment × season","3 or more","Gives within-segment spatial replication"
+"Stations/reaches per anchor","2 or more where hydraulically distinct","Separates within-anchor hydraulic variation from anchor-level variation"
+"Independent coupon or grab replicates per station × event","3 or more","Estimates local/analytical variability and supports QC"
+"Event windows","2 or more per regime where feasible","Distinguishes event-specific variation from regime effects"
+"Sensor co-locations","At least 1 calibration/transfer subset per instrument class and season","Separates sensor effects from environmental signals"

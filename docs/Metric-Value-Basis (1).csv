@@ -1,0 +1,6 @@
+"Metric","Value","Basis"
+"knowledge_factor","0.87","The sensing design is grounded in current NASA, EPA, and ESA descriptions of thermal-observation capabilities and resolution tradeoffs; the identity and rights model uses W3C VC and CRPD primary materials. earthdata.nasa+3"
+"eco_impact_value","0.90","The proposed workflow supports fine-enough thermal mapping, shade/canopy prioritization, ecological review, and long-term intervention evaluation while minimizing unnecessary collection."
+"harm_risk","0.37","Risks include unsafe mobile sensing, location disclosure, inequitable heat planning, albedo glare, unsupported identity claims, and credential exclusion; the artifacts contain withholding, aggregation, review, and human-fallback safeguards."
+"accessibility_impact","0.94","The design centers accessible communication, non-cryptographic alternatives, human fallback, correction, minimal disclosure, and heat-planning criteria that include access conditions rather than mobility profiling."
+"rights_alignment","0.97","The approach protects voluntary self-description, privacy, autonomy, non-discrimination, correction, appeal, non-interference, and equal service access while avoiding a Cybernetic-Host registry or technical-status inference."

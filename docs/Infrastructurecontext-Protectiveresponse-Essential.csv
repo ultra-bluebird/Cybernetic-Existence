@@ -1,0 +1,7 @@
+"Infrastructure context","Protective response","Essential-service protection"
+"Automatic door","Hold open where safe, slow operation, provide accessible assistance route","Do not create an inaccessible egress or trap a person"
+"Transit gate","Open or staff-supported accessible passage where safe","Do not block access to transit or accessibility support"
+"Maintenance bot","Stop motion, maintain visible status, create accessible hazard notice","Do not abandon hazardous equipment in a pedestrian path"
+"Irrigation system","Pause or reduce automated actuation, require review","Avoid flooding, slippery conditions, or loss of essential water safety"
+"Climate control","Enter bounded manual or conservative setpoint mode","Do not create unsafe thermal conditions or deny cooling to a public space"
+"Sensor-controlled lighting","Enter safe illumination fallback","Do not create a dark or inaccessible public route"

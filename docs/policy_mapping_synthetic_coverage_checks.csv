@@ -1,0 +1,8 @@
+test,result,coverage
+complete_synthetic_mapping,passed,1.0
+missing_leaf_detected,passed,0.8333333333333334
+changed_policy_value_detected,passed,0.8333333333333334
+boolean_integer_distinction,passed,
+duplicate_json_key_rejected,passed,
+pointer_escaping_and_empty_container,passed,
+duplicate_mapping_detected,passed,

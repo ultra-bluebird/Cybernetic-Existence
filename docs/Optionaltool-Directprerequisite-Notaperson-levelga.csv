@@ -1,0 +1,7 @@
+"Optional tool","Direct prerequisite","Not a person-level gate"
+"Add a second passkey","Current authenticated session or credential-continuity ceremony","Does not depend on tenure or match history"
+"Link a supported external provider","User consent, provider-supported authorization flow, current authentication","Does not depend on trust or social activity"
+"Download an account export","Fresh user verification and cooldown checks for account protection","Does not depend on reputation"
+"Show a meeting-planning checklist","Both participants independently choose Waypoint planning and current consent permits it","Does not certify either person as safe"
+"Enable user-selected larger visibility window","User explicitly selects it","No “earned access” logic"
+"Store a local encrypted preference profile","Supported device storage and user opt-in","Not a behavioral privilege"
