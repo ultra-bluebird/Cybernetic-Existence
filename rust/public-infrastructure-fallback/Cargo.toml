@@ -1,0 +1,30 @@
+[package]
+name = "public-infrastructure-fallback"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.86"
+description = "Deterministic, privacy-minimizing fallback selection contracts for public infrastructure interfaces."
+license = "MIT OR Apache-2.0"
+readme = "README.md"
+keywords = [
+    "accessibility",
+    "fallback",
+    "infrastructure",
+    "safety",
+    "smart-city"
+]
+categories = [
+    "accessibility",
+    "embedded",
+    "no-std",
+    "simulation"
+]
+publish = false
+
+[lib]
+name = "public_infrastructure_fallback"
+path = "src/lib.rs"
+
+[features]
+default = []
+std = []

@@ -1,0 +1,22 @@
+[package]
+name = "public-assistance-panel"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.86"
+description = "Local-only accessibility preference storage for a privacy-preserving public assistance panel."
+repository = "https://github.com/mk-bluebird/Augmented-Hub"
+readme = "README.md"
+keywords = ["accessibility", "privacy", "secure-storage", "offline", "municipal"]
+categories = ["accessibility", "cryptography", "no-std"]
+
+[lib]
+name = "public_assistance_panel"
+path = "src/lib.rs"
+
+[features]
+default = ["std"]
+std = []
+
+[dependencies]
+
+[dev-dependencies]

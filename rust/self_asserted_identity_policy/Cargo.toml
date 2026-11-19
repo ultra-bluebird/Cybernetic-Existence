@@ -1,0 +1,12 @@
+[package]
+name = "self_asserted_identity_policy"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.86"
+license = "Apache-2.0 OR MIT"
+description = "Local, non-ranking policy engine for self-asserted identity acceptance in non-essential services."
+
+[dependencies]
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+thiserror = "2.0"
