@@ -1,0 +1,76 @@
+policy RareSpeciesProtectionProtocol version "1.0.0" {
+  data_class "species_occurrence" {
+    purpose "conservation planning, habitat stewardship, recovery research, and authorized ecological review"
+    consent_scope "community observations may be submitted without identity capture; land access and handling require separate lawful authority"
+    retention "retain only while necessary for stated conservation purpose; review annually; delete or further restrict compromised records"
+    deletion "local contributor may request deletion of optional personal contact information; sensitive ecological evidence remains governed by conservation authority retention rules"
+    accountability "designated conservation steward, independent review channel, access-log review, and incident-response process"
+    review_status "required before release, sharing, field intervention, or authority escalation"
+    access_equivalence_safeguard "no public-service, civic, or community-participation benefit may depend on identity disclosure or precise observation disclosure"
+    external_action_approval "required for wildlife handling, land entry, habitat alteration, enforcement referral, public release, or third-party transfer"
+  }
+
+  classification "public_generalized" {
+    coordinate_precision "ecoregion_or_watershed_only"
+    release_delay_days 30
+    public_release true
+    exact_coordinates false
+    observer_identity false
+  }
+
+  classification "community_limited" {
+    coordinate_precision "rotated_coarse_grid_only"
+    release_delay_days 90
+    public_release false
+    exact_coordinates false
+    observer_identity false
+  }
+
+  classification "conservation_restricted" {
+    coordinate_precision "encrypted_exact_coordinate"
+    release_delay_days 365
+    public_release false
+    exact_coordinates true
+    observer_identity false
+    access "designated_conservation_authority_and_approved_stewards_only"
+  }
+
+  classification "sealed_critical" {
+    coordinate_precision "sealed_exact_coordinate"
+    release_delay_days 0
+    public_release false
+    exact_coordinates true
+    observer_identity false
+    access "minimum_designated_custodians_only"
+    incident_response "immediate_access_freeze_and_compromise_review"
+  }
+
+  invariant "no_public_precise_sensitive_locations" {
+    assert "public_release implies classification == public_generalized"
+  }
+
+  invariant "no_identity_capture_requirement" {
+    assert "community_participation does_not_require observer_identity"
+  }
+
+  invariant "no_automated_enforcement" {
+    assert "observation_record does_not_trigger enforcement_or_land_access_action"
+  }
+
+  invariant "no_ecological_claim_from_single_unreviewed_observation" {
+    assert "single_unreviewed_observation cannot establish population_status_or_management_authorization"
+  }
+
+  invariant "indigenous_and_local_governance_review" {
+    assert "projects affecting indigenous_knowledge, tribal_land, cultural_resources, or customary_stewardship require appropriate governance review before sharing_or_action"
+  }
+
+  approval_gate "restricted_data_release" {
+    require "conservation_authority_scope"
+    require "purpose_necessity"
+    require "least_precise_data_sufficient"
+    require "access_log"
+    require "time_limited_access"
+    require "revocation_or_expiry_path"
+  }
+}

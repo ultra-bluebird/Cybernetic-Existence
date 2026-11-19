@@ -1,0 +1,94 @@
+policy: identity_self_declaration
+version: 2.0.0
+data_class: private_identity_and_communication_governance_policy
+purpose: preserve voluntary host-declared identity terminology and communication preferences without requiring external validation, certification, public disclosure, or persistent identity linkage
+consent_scope: host_approved_minimum_necessary_metadata_only
+retention: retain_minimal_commitment_and_governance_events_until_revocation_or_configured_expiry
+deletion: delete_profile_derived_data_after_revocation_or_retention_expiry_except_minimal_required_integrity_commitments
+accountability: plain_language_notice_correction_withdrawal_human_review_and_deletion_path
+review_status: required_when_coercion_risk_proof_demand_or_unauthorized_repurpose_is_detected
+access_equivalence_safeguards: ordinary_assistance_and_public_service_access_must_not_depend_on_identity_declaration_or_certification
+external_action_approval: required_for_export_sharing_or_cross_service_application
+
+identity_classes:
+  - name: cybernetic_host
+    protected: true
+    recognition_requirement: self_declaration_only
+    certification_requirement: none
+    permitted_uses:
+      - terminology_continuity
+      - accessibility_handling
+      - privacy_boundary_handling
+      - non_discrimination_audit
+    prohibited_uses:
+      - public_credential
+      - identity_verification
+      - eligibility_scoring
+      - credibility_scoring
+      - surveillance
+      - behavioral_targeting
+      - automated_adverse_decision
+
+  - name: augmented_citizen
+    protected: true
+    recognition_requirement: self_declaration_only
+    certification_requirement: none
+    permitted_uses:
+      - terminology_continuity
+      - accessibility_handling
+      - privacy_boundary_handling
+      - non_discrimination_audit
+    prohibited_uses:
+      - public_credential
+      - identity_verification
+      - eligibility_scoring
+      - credibility_scoring
+      - surveillance
+      - behavioral_targeting
+      - automated_adverse_decision
+
+self_declaration:
+  require:
+    - voluntary_confirmation
+    - revocable_consent
+    - purpose_limitation
+    - minimum_necessary_processing
+    - correction_path
+    - withdrawal_path
+    - deletion_path
+    - no_ordinary_service_gate
+  prohibit:
+    - proof_demand_for_ordinary_assistance
+    - certification_requirement_for_respectful_handling
+    - public_disclosure_without_explicit_approval
+    - adverse_inference_from_non_disclosure
+    - forced_relabeling
+    - credibility_inference
+    - coercive_declaration
+
+rules:
+  - id: proof-demand-violation
+    when: proof_or_certification_is_demanded_for_ordinary_service_access_or_respectful_communication
+    result:
+      violation: SELF_DECLARATION_PROOF_DEMAND_PROHIBITED
+    require:
+      - human_review
+      - accessible_explanation
+      - correction_path
+      - appeal_path
+    prohibit:
+      - service_denial
+      - forced_disclosure
+      - automated_adverse_decision
+
+  - id: coercion-protection
+    when: coercion_or_undue_pressure_risk_detected
+    result:
+      declaration_status: withdrawn_or_pending_human_review
+    require:
+      - no_activation
+      - accessible_support_path
+      - deletion_or_withdrawal_option
+    prohibit:
+      - retention_beyond_minimum_necessary_scope
+      - use_of_declaration_for_any_decision

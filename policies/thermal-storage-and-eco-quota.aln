@@ -1,0 +1,66 @@
+policy: thermal_storage_and_eco_quota
+version: 2.0.0
+data_class: thermal_storage_and_compute_flexibility_governance_policy
+purpose: size thermal storage from measured heat surplus and losses while using storage headroom only as a bounded scheduling input for flexible workloads
+consent_scope: aggregate_operational_thermal_and_workload_flexibility_data_only
+retention: retain_storage_parameters_timeseries_sizing_results_and_token_policy_events_for_configured_audit_period
+deletion: retain_minimal_provenance_after_raw_thermal_telemetry_retention_expiry
+accountability: parameter_provenance_loss_model_visibility_human_review_and_non_compensating_block_record
+review_status: required_when_storage_parameters_or_loss_model_are_provisional_or_when_quota_is_materially_changed
+access_equivalence_safeguards: compute_flexibility_policy_must_not_reduce_essential_public_services_or_accessibility
+external_action_approval: required_for_remote_operational_scheduling_or_storage_control
+
+thermal_storage:
+  formula: maximum_over_time_of_accumulated_maximum_of_zero_supply_minus_demand_minus_loss_divided_by_density_times_specific_heat_times_usable_delta_temperature
+  require:
+    - approved_storage_medium_parameters
+    - approved_ua_or_standby_loss_parameter
+    - time_aligned_supply_and_demand_measurements
+    - declared_ambient_temperature
+    - uncertainty_reporting
+    - human_review_for_design_claim
+
+eco_quota_token_bucket:
+  token_refill_rate:
+    formula: base_refill_rate_times_storage_headroom_times_water_factor_times_grid_factor_times_thermal_factor
+  require:
+    - workload_explicitly_deferrable
+    - current_water_energy_heat_state
+    - storage_measurement_current
+    - no_active_non_compensating_block
+  prohibit:
+    - using_storage_headroom_to_override_species_threshold
+    - using_storage_headroom_to_override_rights_or_accessibility_failure
+    - using_storage_headroom_to_override_consent_revocation
+    - using_storage_headroom_to_override_human_review_requirement
+    - automatic_physical_actuation
+
+rules:
+  - id: storage-parameter-withhold
+    when:
+      any:
+        - density_missing
+        - specific_heat_missing
+        - usable_delta_temperature_missing
+        - ua_or_loss_parameter_missing
+        - timeseries_not_time_aligned
+    result:
+      sizing_status: withheld
+      explanation_code: THERMAL_STORAGE_SIZING_INPUT_INCOMPLETE
+    require:
+      - human_review
+      - correction_path
+
+  - id: token-refill-non-compensation
+    when:
+      any:
+        - rights_block_active
+        - accessibility_block_active
+        - consent_block_active
+        - species_block_active
+        - safety_block_active
+        - fog_or_provenance_block_active
+        - human_review_required
+    result:
+      token_refill_rate: 0
+      explanation_code: ECO_QUOTA_REFILL_BLOCKED_BY_NON_COMPENSATING_CONDITION

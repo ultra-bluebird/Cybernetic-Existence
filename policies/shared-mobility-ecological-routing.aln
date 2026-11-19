@@ -1,0 +1,133 @@
+policy SharedMobilityEcologicalRouting version "1.0.0" {
+  purpose "Provide accessible, privacy-preserving, low-emission, green-corridor-aware routing and fleet rebalancing without reducing equitable mobility access."
+
+  data_class routing_request {
+    sensitivity "sensitive"
+    allowed_fields [
+      "current_trip_origin",
+      "current_trip_destination",
+      "selected_mode",
+      "temporary_route_preferences",
+      "accessibility_route_requirement",
+      "trip_time_window"
+    ]
+    prohibited_fields [
+      "persistent_trip_history_by_default",
+      "biometric_identifier",
+      "health_diagnosis",
+      "disability_status",
+      "augmentation_status",
+      "income_inference",
+      "protected_trait_inference",
+      "advertising_identifier",
+      "unnecessary_precise_location_retention"
+    ]
+    retention {
+      active_trip_duration_only true
+      aggregate_operational_statistics_days 365
+      raw_identifiable_route_retention_forbidden true
+    }
+  }
+
+  route_generation {
+    required_objectives [
+      "travel_time",
+      "accessibility",
+      "lifecycle_emissions_estimate",
+      "thermal_exposure",
+      "traffic_exposure",
+      "noise_exposure",
+      "green_corridor_value"
+    ]
+    required_route_options [
+      "fastest_accessible",
+      "cooler_shaded",
+      "lower_exposure",
+      "lower_carbon",
+      "green_corridor"
+    ]
+    uncertainty_disclosure_required true
+    user_preference_local_by_default true
+    user_preference_revocable true
+    identity_disclosure_requirement_for_routing_forbidden true
+    essential_trip_denial_for_green_score_forbidden true
+  }
+
+  emissions_accounting {
+    required_components [
+      "traction_energy",
+      "charging_efficiency",
+      "grid_emissions_method",
+      "maintenance_allocation",
+      "rebalancing_allocation",
+      "lifecycle_allocation"
+    ]
+    grid_emissions_method_disclosure_required true
+    false_precision_forbidden true
+    modal_substitution_claim_requires_method_disclosure true
+  }
+
+  fleet_rebalancing {
+    required_constraints [
+      "published_zone_availability_floor",
+      "published_accessibility_ready_vehicle_floor",
+      "deadhead_emissions_estimate",
+      "service_hours",
+      "community_reviewed_access_needs"
+    ]
+    prohibited_actions [
+      "removal_below_availability_floor",
+      "removal_below_accessibility_floor",
+      "protected_trait_profiling",
+      "income_scoring",
+      "neighborhood_disinvestment_by_demand_only",
+      "identity_based_service_priority"
+    ]
+    human_review_required_for [
+      "availability_floor_change",
+      "persistent_service_area_change",
+      "geofence_expansion_or_reduction",
+      "high_impact_rebalancing_rule_change"
+    ]
+  }
+
+  accessibility {
+    required_access_channels [
+      "mobile_application",
+      "accessible_web_interface",
+      "non_smartphone_equivalent_access_path",
+      "plain_language_information",
+      "screen_reader_compatible_information"
+    ]
+    required_route_attributes [
+      "surface_condition",
+      "grade",
+      "curb_and_crossing_information",
+      "vehicle_accessibility_capability",
+      "transfer_distance",
+      "heat_and_shade_context"
+    ]
+    service_access_conditioned_on_optional_telemetry_forbidden true
+  }
+
+  governance {
+    public_reporting_required true
+    report_fields [
+      "zone_availability",
+      "accessibility_ready_availability",
+      "rebalancing_distance",
+      "rebalancing_emissions",
+      "route_option_usage_aggregated",
+      "service_coverage_uncertainty",
+      "community_review_outcomes"
+    ]
+    human_appeal_and_review_required true
+    audit_log_required [
+      "routing_model_version",
+      "emissions_method",
+      "green_data_provenance",
+      "availability_floor_version",
+      "rebalancing_constraint_result"
+    ]
+  }
+}

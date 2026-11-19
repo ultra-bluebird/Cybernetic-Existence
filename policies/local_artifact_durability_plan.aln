@@ -1,0 +1,156 @@
+@SHARD "LOCAL-ARTIFACT-DURABILITY-PLAN" {
+
+  @meta {
+    version: "1.0.0"
+    scope: "long_horizon_local_artifact_recoverability_and_restoration_readiness"
+    audience: "local_archive_tools_recovery_tools_maintainers_and_governance_reviewers"
+    consent_basis: "user_sovereign_default"
+    retention: "artifact_lifetime_or_explicitly_declared_retention_schedule"
+    accountability: "local_artifact_steward"
+    review_status: "draft_for_user_review"
+    operating_mode: "local_only_research_advisory"
+  }
+
+  @SCOPE {
+    durability_subject: "declared_local_corpus_artifacts_and_recovery_materials"
+
+    does_not_establish: [
+      "indefinite_guarantee",
+      "real_world_person_continuity",
+      "real_world_cybernetic_system_continuity",
+      "medical_or_neural_continuity",
+      "institutional_recognition",
+      "platform_immunity",
+      "storage_medium_failure_impossibility",
+      "external_action_authorization"
+    ]
+  }
+
+  @ARTIFACT_PRESERVATION {
+    hash_algorithm: "sha256"
+
+    artifact_requires: [
+      "artifact_sha256",
+      "artifact_role",
+      "artifact_version",
+      "manifest_reference",
+      "format_description",
+      "local_restoration_instruction"
+    ]
+
+    preservation_measures: [
+      "canonical_manifest",
+      "multiple_local_copies",
+      "declared_storage_domain_diversity",
+      "append_only_change_records",
+      "read_only_quarantine",
+      "format_simplicity",
+      "periodic_local_verification",
+      "restoration_drill",
+      "versioned_migration_record",
+      "plain_language_recovery_instruction"
+    ]
+
+    copy_validation_rule: "sha256_of_local_copy_must_equal_declared_artifact_sha256"
+    invalid_copy_result: "suspect_copy_not_selected_for_recovery"
+  }
+
+  @DURABILITY_PARAMETERS {
+    parameters_must_be_declared: [
+      "minimum_valid_copy_count",
+      "minimum_storage_domain_diversity",
+      "verification_interval",
+      "restoration_drill_interval",
+      "retention_window",
+      "format_migration_review_interval"
+    ]
+
+    parameter_change_requires: [
+      "material_change_review",
+      "prior_parameter_record_preserved",
+      "plain_language_change_summary",
+      "local_provenance_record"
+    ]
+
+    hard_coded_universal_durability_claims_prohibited: true
+  }
+
+  @RECOVERABILITY {
+    recoverable_when: [
+      "at_least_one_valid_local_copy_exists",
+      "manifest_is_available",
+      "sha256_can_be_recomputed_locally",
+      "format_is_documented",
+      "restoration_instruction_is_available",
+      "required_local_tooling_is_available"
+    ]
+
+    restoration_drill_requires: [
+      "use_of_declared_local_copy",
+      "sha256_verification",
+      "manifest_verification",
+      "plain_language_result",
+      "machine_readable_result",
+      "no_external_service_access"
+    ]
+
+    failed_restoration_result: "restoration_readiness_not_established"
+  }
+
+  @INDEPENDENCE_BOUNDARY {
+    storage_domain_is_not: [
+      "person_score",
+      "identity_record",
+      "public_registry_entry",
+      "eligibility_category"
+    ]
+
+    storage_domain_diversity_must_consider: [
+      "separate_local_storage_medium",
+      "separate_failure_domain",
+      "separate_physical_custody_context_when_available",
+      "separate_format_readability_path_when_feasible"
+    ]
+
+    no_cloud_or_account_dependency_required: true
+  }
+
+  @NON_INTERFERENCE {
+    never_delete_original_artifact_by_default: true
+    never_modify_user_owned_files: true
+    never_modify_repository_files: true
+    never_contact_external_services: true
+    never_auto_upload_archive_copy: true
+    never_auto_export_artifact: true
+    never_trigger_external_action: true
+    never_trigger_external_notification: true
+    never_require_identity_disclosure: true
+    never_rank_users_sessions_or_artifacts: true
+  }
+
+  @ACCESS_EQUIVALENCE {
+    plain_language_recovery_instruction_required: true
+    machine_readable_manifest_required: true
+    offline_readable: true
+    no_account_required: true
+    no_identity_verification_required: true
+    no_private_disclosure_required: true
+    local_inspection_available: true
+    correction_and_material_change_review_available: true
+  }
+
+  @PROHIBITED_USES {
+    list: [
+      "claim_of_indefinite_guarantee",
+      "claim_of_real_world_person_or_system_continuity",
+      "public_archive_registry",
+      "identity_or_capability_inference",
+      "user_or_artifact_ranking",
+      "automatic_external_upload",
+      "automatic_external_notification",
+      "automatic_repository_modification",
+      "deletion_of_original_artifact_by_default",
+      "use_of_suspect_copy_as_trusted_recovery_source"
+    ]
+  }
+}

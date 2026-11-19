@@ -1,0 +1,63 @@
+policy PublicAssistancePanelAccessibility version "2026-09-17" {
+
+  purpose {
+    data_class = PUBLIC_INFORMATION_AND_ASSISTANCE
+    permitted_use = ACCESSIBLE_SELF_SERVICE
+    permitted_use = CONSENT_SCOPED_DATA_DISPLAY
+    prohibited_use = BIOMETRIC_AUTHENTICATION_BY_DEFAULT
+    prohibited_use = USER_PROFILING
+    prohibited_use = EXTERNAL_ACTION
+  }
+
+  invariant multiple_interaction_modes_are_available {
+    require panel.keyboard_input_available == true
+    require panel.touch_input_available == true
+    require panel.non_touch_input_path_available == true
+    require panel.screen_reader_compatible_output_available == true
+    require panel.visual_output_alternative_available == true
+    require panel.audio_output_alternative_available == true
+    require panel.plain_language_mode_available == true
+  }
+
+  invariant time_limits_are_accessible {
+    require panel.session_extension_available == true
+    require panel.timeout_warning_available == true
+    require panel.user_progress_preserved_during_extension == true
+    require panel.timeout_causes_loss_of_core_access_allowed == false
+  }
+
+  invariant language_support_does_not_create_identity_profiles {
+    require panel.language_selection_is_user_controlled == true
+    require panel.language_inference_from_identity_allowed == false
+    require panel.language_selection_retention_required == false
+    require panel.translation_request_used_for_profiling_allowed == false
+  }
+
+  invariant security_is_low_disclosure_by_default {
+    require panel.face_recognition_required == false
+    require panel.voiceprint_required == false
+    require panel.account_creation_required_for_public_information == false
+    require panel.precise_location_required_for_public_information == false
+    require panel.identity_declaration_required_for_public_information == false
+  }
+
+  invariant consent_scopes_sensitive_display {
+    require panel.sensitive_data_display_requires_explicit_user_request == true
+    require panel.sensitive_data_display_auto_timeout_required == true
+    require panel.sensitive_data_display_saved_in_interaction_log_allowed == false
+    require panel.shoulder_surfing_protection_available == true
+  }
+
+  invariant assistance_has_human_fallback {
+    require panel.human_assistance_route_available == true
+    require panel.contact_method_is_accessible == true
+    require panel.error_recovery_guidance_available == true
+    require panel.correction_and_complaint_route_available == true
+  }
+
+  invariant interaction_logs_are_non_actuating {
+    require panel.interaction_log_identity_inference_allowed == false
+    require panel.interaction_log_personal_content_retention_allowed == false
+    require panel.external_action_authorized == false
+  }
+}

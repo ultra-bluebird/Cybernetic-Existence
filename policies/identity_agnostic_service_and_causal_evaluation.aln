@@ -1,0 +1,112 @@
+policy identity_agnostic_service_and_causal_evaluation_v1 {
+  policy_type "service_access_constraint_and_infrastructure_evaluation"
+  review_status "candidate_for_review"
+
+  identity_agnostic_service {
+    required_service_flow [
+      "accept_request_parameters_only",
+      "apply_operational_and_safety_constraints",
+      "provide_equal_default_service",
+      "offer_voluntary_interface_accommodation",
+      "measure_aggregate_outcome_quality",
+      "provide_accessible_correction_and_review_path"
+    ]
+
+    prohibited_decision_inputs [
+      "claimed_identity",
+      "identity_status",
+      "augmentation_status",
+      "cybernetic_host_status",
+      "assistive_technology_status",
+      "biometric_information",
+      "neural_information",
+      "health_information",
+      "disability_related_information",
+      "private_learning_continuity_information",
+      "absence_of_optional_telemetry",
+      "absence_of_external_identity_verification"
+    ]
+
+    permitted_quality_metrics [
+      "request_completion",
+      "wait_time",
+      "response_accuracy",
+      "service_reliability",
+      "accessibility_function_availability",
+      "error_recovery_success",
+      "appeal_or_correction_resolution",
+      "environmental_or_civic_outcome"
+    ]
+
+    identity_logging {
+      default "prohibited"
+      voluntary_accessibility_preference {
+        allowed true
+        purpose "interface_adaptation_only"
+        retention "user_controlled_or_short_operational_retention"
+        eligibility_effect "prohibited"
+      }
+    }
+
+    ml_service_prioritization {
+      protected_or_identity_proxy_features_prohibited true
+      feature_schema_version_required true
+      input_provenance_required true
+      counterfactual_invariance_test_required true
+      outcome_disparity_monitoring_required true
+      human_review_for_priority_policy_required true
+      unsafe_or_unexplained_model_output "hold_for_review"
+    }
+  }
+
+  causal_evaluation {
+    allowed_purposes [
+      "ecological_infrastructure_evaluation",
+      "heat_mitigation_evaluation",
+      "water_quality_evaluation",
+      "accessibility_infrastructure_evaluation",
+      "community_participation_program_evaluation"
+    ]
+
+    required_design_elements [
+      "pre_intervention_period",
+      "defined_treatment_scope",
+      "comparison_strategy",
+      "seasonal_and_weather_covariates",
+      "uncertainty_interval",
+      "placebo_or_falsification_test",
+      "methodology_version",
+      "assumption_statement",
+      "plain_language_explanation"
+    ]
+
+    acceptable_methods [
+      "difference_in_differences",
+      "event_study",
+      "synthetic_control",
+      "synthetic_difference_in_differences",
+      "matched_comparison",
+      "interrupted_time_series_with_control"
+    ]
+
+    prohibited_claims [
+      "causal_claim_without_stated_assumptions",
+      "causal_claim_from_post_only_comparison",
+      "causal_claim_without_seasonality_control",
+      "individual_level_social_scoring",
+      "identity_linked_infrastructure_effect_estimation"
+    ]
+  }
+
+  legal_boundary {
+    statement "This policy expresses Augmented-Hub technical governance and evaluation requirements. It is not a legal determination or a substitute for jurisdiction-specific review."
+    jurisdiction_specific_review_required true
+  }
+
+  accountability {
+    human_review_required true
+    policy_receipt_required true
+    accessible_appeal_or_correction_path "accessible-grievance-protocol"
+    external_action_status "requires_separate_approval"
+  }
+}

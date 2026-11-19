@@ -1,0 +1,101 @@
+aln_version 2
+particle IdentityEcologySensorAssurance20260907
+data_class civic_identity_ecological_and_sensor_governance
+purpose [
+  self_description_respect,
+  cross_species_ecological_consideration,
+  sensor_drift_review
+]
+mode advisory_only
+external_action_approval required
+review_status human_review_required
+
+identity_and_access {
+  self_description_respected true
+  certification_required false
+  registration_required false
+  proof_requirement prohibited
+  identity_inference prohibited
+  augmentation_inference prohibited
+  health_inference prohibited
+  continuity_inference prohibited
+  eligibility_inference prohibited
+  credibility_inference prohibited
+  equal_service_access required
+  accessible_communication required
+  human_fallback required
+  correction_path required
+  appeal_path required
+  cybernetic_host_non_discrimination required
+  personal_identity_registry prohibited
+  identity_validity_determination prohibited
+}
+
+cross_species_ecology {
+  purpose "multi_criteria_ecological_impact_review"
+  ecological_scope_grouping required
+  individual_animal_tracking prohibited
+  require human_safety_constraint true
+  require essential_access_constraint true
+  require water_safety_constraint true
+  require ecological_harm_limit true
+  ecological_harm_non_compensable true
+  biodiversity_benefit_non_substitutive true
+  species_group_examples [
+    POLLINATOR_HABITAT,
+    URBAN_BIRD_HABITAT,
+    AQUATIC_INVERTEBRATE_HABITAT,
+    RIPARIAN_VEGETATION,
+    NATIVE_PLANT_COMMUNITY,
+    SOIL_MICROBIOME_FUNCTION,
+    URBAN_CANOPY_FUNCTION
+  ]
+  require uncertainty_recording true
+  require human_review_for_material_impact true
+}
+
+sensor_drift_review {
+  allowed_methods [
+    CUSUM,
+    EWMA
+  ]
+  residual_input_required true
+  calibration_revision_required true
+  bounded_parameter_review required
+  require documented_reference_mean true
+  require documented_reference_variance true
+  require documented_lambda_or_k_and_h true
+  threshold_crossing_result DRIFT_REVIEW_REQUIRED
+  threshold_crossing_increases_fog_uncertainty true
+  automatic_sensor_disable prohibited
+  automatic_recalibration prohibited
+  calibration_history_overwrite prohibited
+  human_review_before_sensor_status_change required
+}
+
+privacy {
+  minimum_necessary_data required
+  no_personal_data_collection true
+  no_biometric_data_collection true
+  no_device_owner_tracking true
+  no_precise_location_history true
+  no_identity_registry true
+  retention_bounded required
+  correction_record_required true
+  deletion_review_required true
+}
+
+invariants {
+  no_network_interface true
+  no_actuator_interface true
+  no_hardware_control true
+  no_credentials true
+  no_identity_inference true
+  no_individual_ranking true
+  no_community_ranking true
+  no_resource_allocation true
+  no_eligibility_determination true
+  no_automatic_clear true
+  no_digital_twin true
+  advisory_output_is_not_operational_command true
+}

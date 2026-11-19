@@ -1,0 +1,71 @@
+policy SensorCalibrationTransferQuality {
+  version = "2"
+  data_class = "environmental_sensor_quality_record"
+  purpose = "calibration_transfer_and_uncertainty_qualification"
+  consent_scope = "authorized_monitoring_protocol"
+  retention = "protocol_controlled"
+  deletion = "protocol_controlled"
+  accountability = "human_instrument_quality_review"
+  review_status = "required"
+  access_equivalence = "plain_language_quality_status"
+  external_action_approval = "separate_explicit_approval_required"
+
+  predicate stationary_reference_valid(input) {
+    input.stationary_calibration_status == "VALID"
+    input.reference_standard_traceability in {
+      "TRACEABLE",
+      "CERTIFIED"
+    }
+    input.stationary_calibration_within_validity == true
+  }
+
+  predicate transfer_record_complete(input) {
+    input.mobile_sensor_model_match == true
+    input.mobile_sensor_firmware_match == true
+    input.configuration_digest_match == true
+    input.colocation_completed == true
+    input.colocation_range_coverage_status == "ADEQUATE"
+    input.transfer_model_status == "VALID"
+    input.holdout_verification_status == "PASS"
+    input.transfer_within_validity == true
+    input.mobile_value_within_transfer_range == true
+    input.pre_deployment_check_status == "PASS"
+  }
+
+  predicate post_deployment_check_required(input) {
+    input.mobile_sampling_route_completed == true
+  }
+
+  predicate transfer_observation_eligible(input) {
+    stationary_reference_valid(input)
+    transfer_record_complete(input)
+    input.mobile_sensor_health_status == "VALID"
+    input.time_synchronization_status == "VALID"
+    input.transferred_uncertainty_available == true
+  }
+
+  decision(input) {
+    if input.external_action_requested == true {
+      return "NO_EXTERNAL_ACTION"
+    }
+
+    if stationary_reference_valid(input) == false {
+      return "REQUEST_STATIONARY_REFERENCE_REVIEW"
+    }
+
+    if transfer_record_complete(input) == false {
+      return "REJECT_TRANSFER_REQUEST_COLOCATION_OR_RECALIBRATION"
+    }
+
+    if post_deployment_check_required(input)
+      and input.post_deployment_check_status != "PASS" {
+      return "QUALIFY_ROUTE_REQUEST_POST_DEPLOYMENT_REVIEW"
+    }
+
+    if transfer_observation_eligible(input) == false {
+      return "RETAIN_UNQUALIFIED_OBSERVATION"
+    }
+
+    return "TRANSFERRED_PROXY_OBSERVATION_ELIGIBLE_FOR_REVIEW"
+  }
+}

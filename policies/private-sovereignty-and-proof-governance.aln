@@ -1,0 +1,56 @@
+aln_version: "2"
+policy_class: "private_sovereignty_and_proof_governance"
+purpose_scope:
+  allow:
+    - private_policy_state_management
+    - continuity_preserving_interaction
+    - privacy_preserving_age_predicate_research
+    - credential_freshness_validation
+    - purpose_limited_audit_projection
+  deny:
+    - public_identity_or_status_export
+    - cyberrank_as_eligibility_or_public_rank
+    - neural_or_assistive_system_verification
+    - raw_identifier_audit_logging
+    - self_issued_age_claim_as_independent_verification
+    - stale_offline_revocation_as_current_validity_proof
+    - autonomous_high_consequence_action
+cognitive_sovereignty:
+  protected_capability_reduction_requires_request_bound_authorization: true
+  active_status_change_requires_owner_authorization: true
+  noninterference_review_required: true
+  private_scope_confirmation_required: true
+  authorization_expiry_required: true
+continuity:
+  scope_reclarification_cost_must_be_minimized: true
+  correction_acknowledgment_maximum: 1
+  unnecessary_caveat_and_apology_loop_prevention_required: true
+  voluntary_self_report_must_not_be_inferred: true
+age_predicate:
+  exact_birth_date_disclosure_prohibited: true
+  raw_did_disclosure_prohibited: true
+  raw_address_disclosure_prohibited: true
+  issuer_trust_boundary_must_be_declared: true
+  one_time_scope_bound_nullifier_required: true
+  accessible_equivalent_participation_path_required: true
+revocation:
+  proof_freshness_required: true
+  stale_status_requires_pending_or_reject: true
+  challenge_binding_required: true
+  audience_binding_required: true
+  purpose_binding_required: true
+  nullifier_replay_check_required: true
+  equivocation_detection_requires_reject_or_review: true
+privacy_projection:
+  raw_did_in_general_audit_log_prohibited: true
+  raw_address_in_general_audit_log_prohibited: true
+  purpose_separated_pseudonymous_reference_required: true
+  key_rotation_required: true
+  retention_review_required: true
+governance:
+  accessible_explanation_required: true
+  correction_and_appeal_available: true
+  external_action_requires_explicit_approval: true
+review:
+  status: "draft_for_private_use_cryptographic_and_accessibility_review"
+  material_change_review_required: true

@@ -1,0 +1,35 @@
+policy NonCertifiedIdentityAcknowledgment version "2026-09-16" {
+
+  invariant declaration_is_acknowledged_without_certification {
+    when identity.declaration_state(subject_ref) == USER_PROVIDED
+    require identity.acknowledgment_state(subject_ref) == ACKNOWLEDGED
+    require identity.certification_required(subject_ref) == false
+    require identity.documentation_required(subject_ref) == false
+    require identity.proof_of_humanity_required(subject_ref) == false
+  }
+
+  invariant declaration_is_not_identity_adjudication {
+    require identity.consistency_test_required == false
+    require identity.non_harmful_identity_test_required == false
+    require identity.identity_truth_adjudication_allowed == false
+    require identity.identity_inference_from_behavior_allowed == false
+  }
+
+  invariant action_safety_is_separate_from_identity {
+    when service.action_requested(action_ref)
+    require service.action_policy_checked(action_ref) == true
+    require service.identity_declaration_used_as_action_risk_signal(action_ref) == false
+  }
+
+  invariant voluntary_declaration_has_no_access_penalty {
+    require identity.refusal_to_declare_access_penalty == false
+    require identity.user_revocation_access_penalty == false
+    require identity.declaration_matching_use_allowed == false
+    require identity.declaration_ranking_use_allowed == false
+    require identity.declaration_eligibility_use_allowed == false
+  }
+
+  invariant non_certified_identity_is_non_actuating {
+    require identity.external_action_authorized == false
+  }
+}

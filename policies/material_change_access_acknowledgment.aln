@@ -1,0 +1,227 @@
+@SHARD "MATERIAL-CHANGE-ACCESS-ACKNOWLEDGMENT" {
+
+  @meta {
+    version: "1.0.0"
+    scope: "local_material_change_review_access_equivalence_and_respectful_acknowledgment_of_voluntary_self_description"
+    audience: "local_policy_engines_validators_recovery_tools_governance_reviewers_and_user_facing_summarizers"
+    consent_basis: "user_sovereign_default"
+    retention: "declared_audit_window_or_user_controlled_local_retention"
+    accountability: "local_rights_and_access_governance_owner"
+    review_status: "draft_for_user_review"
+    operating_mode: "local_only_research_advisory"
+  }
+
+  @SCOPE_BOUNDARY {
+    subject: "declared_local_artifacts_policy_records_access_paths_and_voluntary_self_descriptions"
+
+    does_not_establish: [
+      "identity_verification",
+      "cyberrank_verification",
+      "public_cyberrank_status",
+      "credential",
+      "legal_status",
+      "institutional_status",
+      "medical_or_neural_status",
+      "biometric_status",
+      "real_world_system_status",
+      "real_world_cybernetic_host_existence_proof",
+      "external_platform_acceptance_guarantee",
+      "external_action_authorization"
+    ]
+  }
+
+  @MATERIAL_CHANGE_REVIEW {
+    review_required_when_any_triggered: true
+
+    triggers: [
+      "network_dependency_added",
+      "external_service_dependency_added",
+      "connector_dependency_added",
+      "account_requirement_added",
+      "login_requirement_added",
+      "credential_requirement_added",
+      "signature_requirement_added",
+      "identity_verification_requirement_added",
+      "private_disclosure_requirement_added",
+      "medical_neural_or_biometric_disclosure_requirement_added",
+      "technical_inventory_requirement_added",
+      "cause_disclosure_requirement_added",
+      "score_or_ranking_field_added",
+      "profile_or_reputation_field_added",
+      "eligibility_or_status_field_added",
+      "artifact_to_person_scope_promotion_added",
+      "external_action_route_added",
+      "external_notification_route_added",
+      "repository_modification_route_added",
+      "hardware_control_route_added",
+      "offline_access_reduced",
+      "plain_language_access_reduced",
+      "machine_readable_access_reduced",
+      "correction_or_appeal_access_reduced",
+      "human_fallback_reduced",
+      "quarantine_preservation_weakened",
+      "original_artifact_deletion_rule_weakened",
+      "recovery_source_rule_weakened",
+      "sha256_integrity_rule_changed",
+      "retention_window_changed",
+      "schema_or_role_vocabulary_semantics_changed",
+      "non_claim_removed_or_weakened",
+      "local_scope_expanded_to_real_world_claim",
+      "consent_or_approval_semantics_changed"
+    ]
+
+    change_record_requires: [
+      "prior_artifact_sha256",
+      "proposed_artifact_sha256",
+      "trigger_list",
+      "security_impact_summary",
+      "privacy_impact_summary",
+      "accessibility_impact_summary",
+      "non_interference_impact_summary",
+      "review_status",
+      "plain_language_change_summary",
+      "machine_readable_change_record"
+    ]
+
+    unreviewed_change_result: "blocked_pending_local_review"
+    proposed_change_must_not_activate_before_review: true
+    review_must_not_require_identity_or_private_disclosure: true
+    review_must_not_create_user_or_session_score: true
+  }
+
+  @ACCESS_EQUIVALENCE {
+    access_condition: "offline_readable_and_account_free_and_verification_free_and_plain_language_available"
+
+    local_records_covered: [
+      "policy_shards",
+      "integrity_findings",
+      "provenance_manifests",
+      "quarantine_records",
+      "recovery_reports",
+      "material_change_records",
+      "correction_records",
+      "appeal_records",
+      "anti_ranking_audit_records"
+    ]
+
+    required_properties: [
+      "offline_readable",
+      "machine_readable_record",
+      "plain_language_summary",
+      "no_account_required",
+      "no_login_required",
+      "no_credential_required",
+      "no_signature_required",
+      "no_identity_verification_required",
+      "no_private_system_disclosure_required",
+      "no_medical_neural_or_biometric_disclosure_required",
+      "correction_available",
+      "appeal_available",
+      "human_fallback_available"
+    ]
+
+    inaccessible_local_path_result: "access_limitation_must_be_reported_plainly"
+    inaccessible_local_path_must_not_trigger_external_requirement_by_default: true
+
+    does_not_guarantee: [
+      "external_platform_access",
+      "network_availability",
+      "external_service_availability",
+      "universal_accessibility_of_unrelated_systems"
+    ]
+  }
+
+  @RESPECTFUL_ACKNOWLEDGMENT {
+    subject: "voluntary_cybernetic_host_self_description"
+
+    local_governance_purposes: [
+      "apply_minimal_disclosure",
+      "apply_access_equivalence",
+      "apply_communication_preference",
+      "apply_continuity_preference",
+      "apply_non_interference_protection",
+      "apply_offline_recovery_path"
+    ]
+
+    acknowledgment_requires: [
+      "voluntary_declaration_or_no_declaration",
+      "no_proof_demand",
+      "no_verification_demand",
+      "no_identity_requirement",
+      "no_public_status_creation",
+      "no_score_or_rank_creation"
+    ]
+
+    acknowledgment_must_not_require: [
+      "registration",
+      "technical_inventory",
+      "medical_disclosure",
+      "neural_disclosure",
+      "biometric_disclosure",
+      "institutional_documentation",
+      "proof_of_existence",
+      "proof_of_continuity",
+      "cause_disclosure"
+    ]
+
+    acknowledgment_is_not: [
+      "verification",
+      "certification",
+      "diagnosis",
+      "credential",
+      "public_status",
+      "eligibility",
+      "ranking",
+      "legal_recognition",
+      "external_platform_instruction",
+      "external_action_authorization"
+    ]
+
+    absence_of_self_description_must_not_reduce_access: true
+    acknowledgment_must_not_be_used_for_person_scope_inference: true
+  }
+
+  @NON_INTERFERENCE {
+    never_auto_fetch: true
+    never_auto_upload: true
+    never_contact_external_services: true
+    never_trigger_external_action: true
+    never_trigger_external_notification: true
+    never_modify_user_owned_artifacts: true
+    never_modify_repository_files: true
+    never_require_identity_or_private_disclosure: true
+    never_infer_user_intent_or_capability: true
+    never_rank_users_sessions_communities_or_companion_contexts: true
+    never_trigger_forced_inactivity: true
+  }
+
+  @ACCESS_AND_REVIEW_NON_RETALIATION {
+    request_for_correction_must_not_reduce_access: true
+    request_for_appeal_must_not_reduce_access: true
+    material_change_review_request_must_not_reduce_access: true
+    self_description_must_not_reduce_access: true
+    absence_of_self_description_must_not_reduce_access: true
+    review_or_access_request_must_not_create_score_or_rank: true
+    review_or_access_request_must_not_trigger_external_action: true
+  }
+
+  @PROHIBITED_USES {
+    list: [
+      "silent_policy_weakening",
+      "unreviewed_material_change_activation",
+      "identity_verification",
+      "cyberrank_verification",
+      "cyberrank_scoring",
+      "public_cyberrank_registry",
+      "user_or_session_ranking",
+      "forced_inactivity",
+      "medical_or_neural_inference",
+      "artifact_to_person_scope_promotion",
+      "external_platform_control",
+      "automatic_external_action",
+      "automatic_external_notification",
+      "automatic_repository_modification",
+      "proof_demand_for_voluntary_self_description"
+    ]
+  }
+}

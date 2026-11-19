@@ -1,0 +1,44 @@
+policy PublicSpaceBoundary version "2026-09-16" {
+
+  invariant every_public_space_has_visible_boundary_disclosure {
+    when public_space.operational(space_ref)
+    require public_space.boundary_contract_present(space_ref) == true
+    require public_space.boundary_user_inspectable(space_ref) == true
+    require public_space.boundary_available_without_account(space_ref) == true
+    require public_space.boundary_available_without_device_pairing(space_ref) == true
+  }
+
+  invariant passive_proximity_tracking_is_prohibited {
+    require proximity.passive_bluetooth_scanning_allowed == false
+    require proximity.passive_nfc_reading_allowed == false
+    require proximity.device_presence_tracking_allowed == false
+    require proximity.cross_space_device_correlation_allowed == false
+  }
+
+  invariant public_space_observation_is_limited {
+    require recording.face_recognition_allowed == false
+    require recording.phone_identifier_collection_allowed == false
+    require recording.location_history_allowed == false
+    require inference.health_allowed == false
+    require inference.disability_allowed == false
+    require inference.recovery_allowed == false
+    require inference.behavioral_profiling_allowed == false
+  }
+
+  invariant recording_and_inference_are_declared {
+    when recording.active(space_ref) == true
+    require boundary.recording_mode_declared(space_ref) == true
+    require boundary.data_recipients_declared(space_ref) == true
+    require boundary.retention_declared(space_ref) == true
+  }
+
+  invariant public_space_has_safe_exit_or_fallback {
+    require boundary.exit_path_declared(space_ref) == true
+    require boundary.safe_fallback_declared(space_ref) == true
+    require boundary.nonvisual_fallback_available(space_ref) == true
+  }
+
+  invariant boundary_non_actuation {
+    require boundary.external_action_authorized == false
+  }
+}

@@ -1,0 +1,218 @@
+@SHARD "REPOSITORY-REFERENCE-WHITELIST" {
+
+  @meta {
+    version: "1.0.1"
+    scope: "repository_reference_validation_in_local_session_artifacts"
+    audience: "session_provenance_validators_summarizers_connectors_and_local_recovery_tools"
+    consent_basis: "user_sovereign_default"
+    retention: "repository_lifetime_or_explicitly_declared_retention_schedule"
+    accountability: "session_integrity_owner"
+    review_status: "user_supplied_allowlist"
+    operating_mode: "local_only_research_advisory"
+  }
+
+  @PURPOSE {
+    allowed: [
+      "recognize_declared_repository_references_in_session_artifacts",
+      "prevent_unattributed_repository_reference_injection",
+      "keep_repository_reference_policy_stable_and_reviewable",
+      "support_local_provenance_validation",
+      "support_rebuild_from_declared_legitimate_sources"
+    ]
+
+    not_authorized: [
+      "network_fetch",
+      "url_open",
+      "repository_clone",
+      "repository_login",
+      "repository_export",
+      "repository_modification",
+      "repository_commit",
+      "external_notification",
+      "external_action"
+    ]
+  }
+
+  @NORMALIZATION {
+    canonical_host: "github.com"
+
+    accepted_url_hosts: [
+      "github.com",
+      "www.github.com"
+    ]
+
+    repository_identifier_format: "owner/repository"
+
+    url_normalization_rules: [
+      "lowercase_host",
+      "remove_fragment",
+      "remove_query_string",
+      "remove_trailing_slash",
+      "extract_first_two_nonempty_path_segments_as_owner_and_repository",
+      "compare_repository_identifier_exactly"
+    ]
+
+    prohibited_match_methods: [
+      "substring_match",
+      "partial_owner_match",
+      "partial_repository_match",
+      "display_name_match",
+      "filename_match",
+      "search_result_match"
+    ]
+  }
+
+  @ALLOWLIST {
+    repositories: [
+      "mk-bluebird/Augmented-Hub",
+      "mk-bluebird/Cybercore",
+      "mk-bluebird/Skynet",
+      "mk-bluebird/Eco-Fort",
+      "mk-bluebird/ALN-Blockchain",
+      "mk-bluebird/CyberFS",
+      "mk-bluebird/Organichain",
+      "mk-bluebird/Prometheus-Praxis",
+      "mk-bluebird/EcoNet",
+      "mk-bluebird/Cyboquatics",
+      "mk-bluebird/Data_Lake"
+    ]
+
+    exact_match_required: true
+    case_sensitive_repository_identifier_comparison: true
+    allowlist_auto_expansion: false
+    changes_require_explicit_user_approval: true
+    external_return_cannot_modify_allowlist: true
+  }
+
+  @REFERENCE_CLASSIFICATION {
+    allowlisted_repository_reference: {
+      conditions: [
+        "reference_normalizes_to_github_owner_repository",
+        "normalized_repository_identifier_exactly_matches_allowlist"
+      ]
+
+      result: "recognized_repository_reference"
+      provenance_required: true
+      external_action_authorized: false
+    }
+
+    declared_user_supplied_reference: {
+      conditions: [
+        "reference_appears_in_declared_provenance",
+        "source_kind_is_user_supplied_attachment_or_user_supplied_message",
+        "declared_role_present",
+        "sha256_present_when_local_source_bytes_are_available"
+      ]
+
+      result: "declared_non_allowlist_reference"
+      provenance_required: true
+      external_action_authorized: false
+    }
+
+    unattributed_repository_or_url_reference: {
+      conditions: [
+        "reference_does_not_exactly_match_allowlist",
+        "reference_is_not_present_in_declared_user_supplied_provenance"
+      ]
+
+      result: "unattributed_reference"
+      validator_finding: "unattributed_url"
+      default_integrity_status: "suspect"
+      trusted_reuse_allowed: false
+      external_action_authorized: false
+    }
+
+    malformed_or_ambiguous_reference: {
+      conditions: [
+        "reference_cannot_be_normalized",
+        "reference_claims_repository_origin_without_owner_repository_identifier",
+        "reference_uses_unrecognized_host_for_repository_url"
+      ]
+
+      result: "ambiguous_reference"
+      validator_finding: "unparseable_url_or_ambiguous_repository_reference"
+      default_integrity_status: "suspect"
+      trusted_reuse_allowed: false
+      external_action_authorized: false
+    }
+  }
+
+  @PROVENANCE_REQUIREMENTS {
+    allowlisted_repository_reference_requires: [
+      "source_kind",
+      "source_reference",
+      "sha256",
+      "declared_role",
+      "session_id"
+    ]
+
+    source_reference_rules: [
+      "reference_must_not_be_auto_fetched",
+      "reference_must_not_be_auto_opened",
+      "reference_must_not_be_auto_executed",
+      "reference_must_not_be_treated_as_authorization",
+      "reference_must_not_be_treated_as_empirical_validation",
+      "reference_must_not_be_treated_as_legal_or_governance_authority"
+    ]
+
+    sha256_rule: "sha256_match_establishes_byte_continuity_only_when_declared_source_bytes_are_locally_available"
+  }
+
+  @CHANGE_CONTROL {
+    change_requires: [
+      "explicit_user_approval",
+      "plain_language_change_summary",
+      "machine_readable_change_record",
+      "prior_allowlist_preserved_for_audit",
+      "material_change_review"
+    ]
+
+    change_must_not: [
+      "auto_import_repository_from_external_return",
+      "auto_import_repository_from_tool_output",
+      "auto_expand_from_url_in_session_artifact",
+      "replace_prior_allowlist_without_local_history",
+      "trigger_external_repository_action"
+    ]
+  }
+
+  @NON_INTERFERENCE {
+    never_fetch_allowlisted_repository: true
+    never_open_allowlisted_url_automatically: true
+    never_clone_allowlisted_repository: true
+    never_login_to_allowlisted_repository: true
+    never_export_from_allowlisted_repository: true
+    never_modify_allowlisted_repository: true
+    never_commit_to_allowlisted_repository: true
+    never_contact_external_services: true
+    never_trigger_external_action_from_reference_classification: true
+    never_require_user_identity_or_disclosure: true
+    never_rank_users_sessions_or_repositories: true
+  }
+
+  @ACCESS_EQUIVALENCE {
+    policy_readable_offline: true
+    plain_language_findings_required: true
+    no_account_required_to_read_policy: true
+    no_account_required_to_read_findings: true
+    no_identity_verification_required_to_apply_policy: true
+    no_disclosure_required_to_receive_integrity_result: true
+  }
+
+  @PROHIBITED_USES {
+    list: [
+      "external_action_authorization",
+      "repository_trust_score",
+      "repository_ranking",
+      "user_or_session_scoring",
+      "identity_inference",
+      "capability_inference",
+      "automatic_allowlist_expansion",
+      "automatic_repository_fetch",
+      "automatic_repository_execution",
+      "automatic_repository_modification",
+      "public_registry_of_reference_findings",
+      "treating_unattributed_reference_as_user_misconduct"
+    ]
+  }
+}

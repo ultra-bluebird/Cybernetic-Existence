@@ -1,0 +1,74 @@
+policy_name = "sensor_fusion_transfer_and_event_compatibility"
+policy_version = "1.0"
+record_class = "sensor_fusion_assessment"
+purpose = "Bound calibration-transfer use, drift interpretation, latency, passive-sampler compatibility, and turbidity decomposition claims."
+consent_scope = "local_validation_and_non_actuating_research_only"
+retention = "bounded_by_repository_retention_policy"
+deletion = "remove_derived_test_records_when_no_longer_required"
+accountability = "method_review_calibration_review_and_evidence_review"
+review_status = "required_when_transfer_or_event_compatibility_is_not_confirmed"
+access_equivalence_safeguard = "plain_language_reason_codes_and_machine_readable_states"
+external_action_approval = "prohibited"
+
+require external_action_authorized == false
+
+require transfer_state in [
+    "TRANSFER_VALID",
+    "TRANSFER_VALID_WITH_LIMITATIONS",
+    "TRANSFER_RECHECK_DUE",
+    "TRANSFER_EXPIRED",
+    "TRANSFER_OUT_OF_DOMAIN",
+    "TRANSFER_AMBIGUOUS_DRIFT_OR_ENVIRONMENT"
+]
+
+require drift_interpretation_state in [
+    "ENVIRONMENTAL_CHANGE_SUPPORTED",
+    "DRIFT_SUPPORTED",
+    "AMBIGUOUS_DRIFT_OR_ENVIRONMENT",
+    "INSUFFICIENT_EVIDENCE"
+]
+
+require passive_sampler_state in [
+    "PASSIVE_SAMPLER_EVENT_COMPATIBLE",
+    "PASSIVE_SAMPLER_EVENT_INCOMPATIBLE",
+    "PASSIVE_SAMPLER_BACKGROUND_CONTEXT_ONLY",
+    "PASSIVE_SAMPLER_REVIEW_REQUIRED"
+]
+
+require turbidity_decomposition_state in [
+    "MINERAL_ORGANIC_DECOMPOSITION_IDENTIFIABLE",
+    "TSS_COMPOSITE_SURROGATE_ONLY",
+    "MINERAL_ORGANIC_DECOMPOSITION_UNIDENTIFIABLE",
+    "REQUIRES_TARGETED_GRAB_CAMPAIGN"
+]
+
+when observed_at_utc > transfer_valid_until_utc:
+    require transfer_state == "TRANSFER_EXPIRED"
+    require promotion_allowed == false
+
+when drift_interpretation_state == "AMBIGUOUS_DRIFT_OR_ENVIRONMENT":
+    require evidence_state in [
+        "REVIEW_REQUIRED",
+        "INSUFFICIENT_EVIDENCE"
+    ]
+    require promotion_allowed == false
+
+when event_duration_seconds < passive_sampler_integration_seconds:
+    require passive_sampler_state not_in [
+        "PASSIVE_SAMPLER_EVENT_COMPATIBLE"
+    ]
+
+when passive_sampler_state == "PASSIVE_SAMPLER_EVENT_INCOMPATIBLE":
+    require event_flux_claim_allowed == false
+
+when turbidity_vif_max > 5:
+    require turbidity_decomposition_state not_in [
+        "MINERAL_ORGANIC_DECOMPOSITION_IDENTIFIABLE"
+    ]
+    require promotion_allowed == false
+
+deny when external_action_authorized == true
+deny when transfer_state in [
+    "TRANSFER_EXPIRED",
+    "TRANSFER_OUT_OF_DOMAIN"
+] and evidence_state == "ACCEPTED_FOR_DESIGN_NON_ACTUATING"

@@ -1,0 +1,80 @@
+policy_name = "monitoring_design_redesign_triggers"
+policy_version = "1.0"
+record_class = "monitoring_design_review"
+purpose = "Require review of monitoring-design validity when evidence, assumptions, constraints, or decision objectives materially change."
+consent_scope = "local_validation_and_non_actuating_research_only"
+retention = "bounded_by_repository_retention_policy"
+deletion = "remove_derived_design_reviews_when_no_longer_required"
+accountability = "method_review_evidence_review_and_governance_boundary_review"
+review_status = "required_when_any_material_redesign_trigger_is_present"
+access_equivalence_safeguard = "plain_language_trigger_reason_and_review_path"
+external_action_approval = "prohibited"
+
+require external_action_authorized == false
+
+require redesign_status in [
+    "CURRENT",
+    "REVIEW_REQUIRED",
+    "STALE_UNVERIFIED",
+    "REDESIGN_REQUIRED",
+    "REVALIDATION_PASSED",
+    "WITHDRAWN_METHOD_INVALID"
+]
+
+require redesign_trigger in [
+    "MAJOR_EVENT",
+    "SEASONAL_REVIEW_DUE",
+    "SENSOR_FAILURE_RATE_EXCEEDED",
+    "EVENT_TRIGGER_FALSE_NEGATIVE_BOUND_NOT_MET",
+    "PFAS_QC_REPEATED_FAILURE",
+    "ACCESS_CONSTRAINT_CHANGED",
+    "FOG_STATE_CHANGED",
+    "RESUSPENSION_STATE_CHANGED",
+    "HOTSPOT_PRIOR_CHANGED",
+    "LOSS_FUNCTION_CHANGED",
+    "CORRELATION_LENGTH_PRIOR_CHANGED",
+    "ENVIRONMENTAL_SUPPORT_SHIFT",
+    "CALIBRATION_TRANSFER_EXPIRED",
+    "DRIFT_PRIOR_CHANGED",
+    "COMPARATOR_SET_CHANGED",
+    "VERSION_TUPLE_CHANGED",
+    "CENSORING_PATTERN_CHANGED",
+    "LATENCY_OR_MISSINGNESS_CHANGED",
+    "PRIVACY_OR_ACCESSIBILITY_CONSTRAINT_CHANGED",
+    "BUDGET_OR_DISTURBANCE_CONSTRAINT_CHANGED",
+    "CONTEST_OR_METHOD_INVALIDATION"
+]
+
+when redesign_trigger in [
+    "HOTSPOT_PRIOR_CHANGED",
+    "LOSS_FUNCTION_CHANGED",
+    "CORRELATION_LENGTH_PRIOR_CHANGED",
+    "VERSION_TUPLE_CHANGED",
+    "CALIBRATION_TRANSFER_EXPIRED",
+    "DRIFT_PRIOR_CHANGED",
+    "CONTEST_OR_METHOD_INVALIDATION"
+]:
+    require redesign_status in [
+        "REVIEW_REQUIRED",
+        "STALE_UNVERIFIED",
+        "REDESIGN_REQUIRED",
+        "WITHDRAWN_METHOD_INVALID"
+    ]
+    require promotion_allowed == false
+
+when redesign_trigger == "LOSS_FUNCTION_CHANGED":
+    require loss_function_version_changed == true
+    require value_of_information_recalculation_required == true
+
+when redesign_trigger == "HOTSPOT_PRIOR_CHANGED":
+    require hotspot_prior_version_changed == true
+    require placement_sensitivity_recalculation_required == true
+
+when redesign_trigger == "CORRELATION_LENGTH_PRIOR_CHANGED":
+    require spatial_placement_recalculation_required == true
+
+when redesign_trigger == "VERSION_TUPLE_CHANGED":
+    require adapter_revalidation_required == true
+    require promotion_allowed == false
+
+deny when external_action_authorized == true

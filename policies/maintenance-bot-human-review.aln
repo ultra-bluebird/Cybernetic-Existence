@@ -1,0 +1,81 @@
+policy: maintenance_bot_human_review_corridor
+version: 2.0.0
+data_class: operational_automation_governance_policy
+purpose: constrain cooling-infrastructure maintenance automation through action classification, human review, time-bounded emergency handling, and fail-closed authorization
+consent_scope: operational_maintenance_data_only
+retention: retain_minimal_action_proposals_reviews_and_execution_events_for_configured_safety_audit_period
+deletion: delete_raw_operational_data_after_retention_expiry_except_minimal_required_audit_commitments
+accountability: action_provenance_human_review_explanation_incident_record_and_material_change_review
+review_status: required_before_corrective_action_execution
+access_equivalence_safeguards: automation_must_not_reduce_safe_human_override_or_accessible_maintenance_intervention
+external_action_approval: required_for_remote_actuation_or_external_export
+
+action_classes:
+  - routine_inspection
+  - preventive_maintenance
+  - corrective_action
+  - emergency_intervention
+
+rules:
+  - id: routine-inspection-authority
+    when: action_class_is_routine_inspection
+    require:
+      - bounded_operational_scope
+      - action_log
+      - accessible_manual_override
+    permit:
+      - execution_without_pre_execution_human_review
+
+  - id: preventive-maintenance-authority
+    when: action_class_is_preventive_maintenance
+    require:
+      - bounded_operational_scope
+      - action_log
+      - accessible_manual_override
+    permit:
+      - execution_without_pre_execution_human_review
+
+  - id: corrective-action-human-review
+    when: action_class_is_corrective_action
+    require:
+      - proposed_action_record
+      - human_review_request
+      - explicit_human_approval
+      - approved_reviewer_identity_in_operational_record
+      - final_pre_execution_authorization_check
+    prohibit:
+      - autonomous_execution_without_approval
+      - execution_when_review_status_is_pending_review
+      - execution_when_review_status_is_rejected
+      - execution_when_review_status_is_expired
+    default:
+      execution: denied
+
+  - id: emergency-intervention-window
+    when: action_class_is_emergency_intervention
+    require:
+      - emergency_review_deadline_seconds: 60
+      - proposed_action_record
+      - incident_explanation
+      - final_pre_execution_authorization_check
+    permit:
+      - execution_when_human_approval_received_within_deadline
+      - execution_when_imminent_safety_or_ecological_harm_is_documented
+    when_review_window_expires_without_review:
+      execution: denied
+      review_status: expired
+      require:
+        - emergency_window_expired_event
+        - human_follow_up_review
+        - accessible_manual_intervention_route
+
+  - id: novel-action-fail-closed
+    when: action_class_is_unknown_or_novel
+    result:
+      execution: denied
+      review_status: pending_review
+      require:
+        - human_classification
+        - safety_review
+        - ecological_impact_review
+        - rights_impact_review

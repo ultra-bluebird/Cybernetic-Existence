@@ -1,0 +1,65 @@
+policy: public_reserve_civic_utility_commitment
+version: 2.0.0
+data_class: public_compute_social_goods_governance_policy
+purpose: establish utility-like internal commitments for no-fee, non-discriminatory, privacy-preserving access to defined public-interest compute workloads
+consent_scope: request_scoped_minimum_necessary_non_linkable_allocation_data_only
+retention: retain_minimal_aggregate_utilization_wait_time_decision_and_appeal_records_for_configured_accountability_period
+deletion: delete_session_linking_material_after_completion_or_retention_expiry
+accountability: published_capacity_rules_accessible_explanations_human_review_appeal_and_aggregate_equity_audit
+review_status: required_for_denials_disparity_flags_and_material_capacity_rule_changes
+access_equivalence_safeguards: no_fee_universal_access_for_eligible_public_interest_workloads_without_identity_certification_or_persistent_account
+external_action_approval: required_for_export_or_cross_service_application_of_request_metadata
+
+social_goods:
+  voluntary_reserve:
+    legal_character: voluntary_internal_program
+    minimum_commitments:
+      - published_eligibility_rules
+      - no_fee_access_for_defined_public_interest_uses
+      - privacy_minimization
+      - accessible_explanations
+      - human_appeal_path
+    limitation: does_not_create_statutory_utility_status
+
+  civic_utility_commitment:
+    legal_character: governance_target_not_legal_status_claim
+    service_characteristics:
+      - universal_access_for_eligible_public_interest_workloads
+      - non_discrimination
+      - no_fee_baseline_access
+      - transparent_capacity_rules
+      - predictable_queue
+      - accessible_service_information
+      - human_review_and_appeal
+      - aggregate_public_accountability_reporting
+    prohibit:
+      - identity_certification_requirement
+      - persistent_identity_linkage
+      - identity_based_denial
+      - behavioral_targeting
+      - undisclosed_queue_prioritization
+
+rules:
+  - id: reserve-denial-due-process
+    when: public_reserve_request_denied_or_partially_approved
+    require:
+      - written_accessible_explanation
+      - specific_reason_code
+      - human_reviewer
+      - appeal_path
+      - aggregate_audit_event
+    prohibit:
+      - automated_final_denial
+      - unexplained_capacity_restriction
+      - identity_based_denial
+
+  - id: aggregate-equity-audit
+    when: aggregate_utilization_pattern_indicates_disparity
+    require:
+      - mandatory_human_review
+      - methodology_review
+      - remedy_pathway
+      - follow_up_measurement
+    prohibit:
+      - treating_small_sample_statistics_as_individual_evidence
+      - individual_identity_profiling

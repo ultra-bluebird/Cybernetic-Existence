@@ -1,0 +1,73 @@
+policy: human_review_timeout
+version: 2.0.0
+data_class: human_review_and_decision_governance_policy
+purpose: require timely human review for material decisions while ensuring every timeout resolves to denial rather than implied approval
+consent_scope: minimum_necessary_decision_and_review_metadata_only
+retention: retain_minimal_review_deadline_status_decision_explanation_and_appeal_events_for_configured_audit_period
+deletion: delete_nonessential_review_metadata_after_retention_expiry_subject_to_minimal_integrity_commitments
+accountability: human_reviewer_reference_timeout_event_accessible_explanation_appeal_and_follow_up
+review_status: pending_until_human_decision_or_timeout
+access_equivalence_safeguards: timeout_must_not_remove_accessibility_or_emergency_egress_protections
+external_action_approval: required_for_remote_or_physical_action_execution
+
+decision:
+  default: deny
+
+timeout_policies:
+  emergency_intervention:
+    timeout_seconds: 60
+    on_timeout:
+      decision: denied
+      require:
+        - human_follow_up
+        - incident_record
+        - accessible_explanation
+
+  corrective_maintenance:
+    timeout_seconds: 86400
+    on_timeout:
+      decision: denied
+      require:
+        - human_follow_up
+        - maintenance_status_notice
+        - accessible_manual_override_route
+
+  ker_authorization:
+    timeout_seconds: 86400
+    on_timeout:
+      decision: denied
+      require:
+        - authorization_review_event
+        - accessible_explanation
+        - correction_and_appeal_path
+
+  public_reserve_appeal:
+    timeout_seconds: 259200
+    on_timeout:
+      decision: denied
+      require:
+        - human_remedy_review
+        - accessible_status_notice
+        - appeal_escalation_path
+
+rules:
+  - id: timeout-never-approves
+    when: review_deadline_reached_without_approved_human_review
+    result:
+      review_status: expired
+      decision: denied
+      explanation_code: HUMAN_REVIEW_TIMEOUT_FAIL_CLOSED
+    prohibit:
+      - implicit_approval
+      - automatic_permit_grant
+      - automatic_actuation
+      - silent_expiration
+
+  - id: approved-review-requirements
+    when: decision_is_approved
+    require:
+      - named_or_pseudonymous_authorized_reviewer_reference
+      - review_timestamp
+      - review_scope
+      - accessible_explanation
+      - current_evidence_and_policy_check

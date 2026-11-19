@@ -1,0 +1,56 @@
+policy MaintenanceBotRouting version "2026-09-17" {
+
+  purpose {
+    data_class = INFRASTRUCTURE_ROUTING
+    permitted_use = MAINTENANCE_WORK_ORDER_PRIORITIZATION
+    permitted_use = ECO_RESTORATION_SUPPORT
+    permitted_use = ACCESS_ROUTE_RESTORATION_SUPPORT
+    prohibited_use = PERSON_PROFILING
+    prohibited_use = BIOMETRIC_INFERENCE
+    prohibited_use = AUTONOMOUS_PUBLIC_ENFORCEMENT
+  }
+
+  invariant route_constraints_are_publicly_governed {
+    require route.no_go_zone_source_present == true
+    require route.time_window_source_present == true
+    require route.accessible_route_impact_assessed == true
+    require route.constraint_review_owner_present == true
+    require route.undocumented_geofence_allowed == false
+  }
+
+  invariant routing_does_not_profile_residents {
+    require route.named_person_input_allowed == false
+    require route.face_image_input_allowed == false
+    require route.voiceprint_input_allowed == false
+    require route.device_identifier_input_allowed == false
+    require route.identity_inference_allowed == false
+    require route.health_inference_allowed == false
+    require route.augmentation_inference_allowed == false
+    require route.vulnerability_classifier_created == false
+  }
+
+  invariant school_and_community_protection_is_time_bounded {
+    require route.school_zone_peak_window_respected == true
+    require route.quiet_window_respected == true
+    require route.emergency_access_preserved == true
+    require route.accessible_detour_verified_before_route_obstruction == true
+  }
+
+  invariant eco_priority_is_evidence_backed {
+    require route.ecological_benefit_evidence_present == true
+    require route.habitat_protection_constraint_present == true
+    require route.waste_diversion_estimate_present == true
+    require route.energy_estimate_present == true
+  }
+
+  invariant dynamic_rerouting_is_reviewable {
+    require route.replan_reason_recorded == true
+    require route.replan_preserves_no_go_constraints == true
+    require route.replan_preserves_accessibility_constraints == true
+    require route.human_override_available == true
+  }
+
+  invariant route_planning_is_non_actuating {
+    require route.external_action_authorized == false
+  }
+}

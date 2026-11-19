@@ -1,0 +1,109 @@
+policy PeriphytonRecommendationReview {
+  version = "2"
+  data_class = "environmental_research_recommendation"
+  purpose = "privacy_minimized_contestable_non_actuating_recommendation_review"
+  consent_scope = "authorized_research_governance_protocol"
+  retention = "protocol_controlled"
+  deletion = "protocol_controlled"
+  accountability = "role_based_human_review"
+  review_status = "required"
+  access_equivalence = "plain_language_recommendation_and_contest_path"
+  external_action_approval = "separate_explicit_approval_required"
+
+  predicate reconstruction_package_complete(input) {
+    input.recommendation_id_present == true
+    input.recommendation_version_present == true
+    input.plain_language_summary_present == true
+    input.technical_rationale_present == true
+    input.scope_present == true
+    input.intended_use_present == true
+    input.evidence_links_present == true
+    input.method_version_present == true
+    input.model_version_or_not_applicable == true
+    input.parameter_set_or_not_applicable == true
+    input.assumption_register_present == true
+    input.uncertainty_summary_present == true
+    input.limitation_summary_present == true
+    input.alternative_explanation_summary_present == true
+    input.canonical_payload_digest_present == true
+  }
+
+  predicate privacy_boundary_valid(input) {
+    input.contains_personal_profile_data == false
+    input.contains_private_governance_deliberation == false
+    input.contains_private_credential_data == false
+    input.contains_sensitive_operational_detail == false
+    input.access_tier_declared == true
+    input.redaction_status_declared == true
+  }
+
+  predicate contest_path_complete(input) {
+    input.contest_submission_route_present == true
+    input.contest_status_present == true
+    input.response_deadline_or_review_window_present == true
+    input.counterevidence_linking_supported == true
+    input.prior_versions_retained == true
+  }
+
+  predicate review_package_complete(input) {
+    input.method_quality_review_present == true
+    input.hydraulic_evidence_review_present == true
+    input.biofilm_evidence_review_present == true
+    input.governance_boundary_review_present == true
+    input.independent_review_present == true
+  }
+
+  predicate supersession_path_complete(input) {
+    input.supersession_linking_supported == true
+    input.supersession_reason_present == true
+    input.effective_time_present == true
+    input.prior_version_retained == true
+  }
+
+  predicate eligible_for_non_actuating_design(input) {
+    reconstruction_package_complete(input)
+    privacy_boundary_valid(input)
+    contest_path_complete(input)
+    review_package_complete(input)
+    supersession_path_complete(input)
+    input.external_action_authorized == false
+    input.accepted_evidence_status == "ACCEPTED_FOR_DESIGN"
+  }
+
+  decision(input) {
+    if input.external_action_requested == true {
+      return "NO_EXTERNAL_ACTION_RETAIN_RECOMMENDATION"
+    }
+
+    if reconstruction_package_complete(input) == false {
+      return "REQUEST_RECONSTRUCTION_EVIDENCE"
+    }
+
+    if privacy_boundary_valid(input) == false {
+      return "REQUEST_PRIVACY_MINIMIZATION_REVIEW"
+    }
+
+    if contest_path_complete(input) == false {
+      return "REQUEST_CONTEST_PATH_COMPLETION"
+    }
+
+    if input.contest_status == "OPEN"
+      or input.contest_status == "UNDER_REVIEW" {
+      return "CONTEST_OPEN_RETAIN_PREVIOUS_STATUS"
+    }
+
+    if review_package_complete(input) == false {
+      return "ROUTE_TO_ROLE_BASED_REVIEW"
+    }
+
+    if supersession_path_complete(input) == false {
+      return "REQUEST_SUPERSESSION_PATH"
+    }
+
+    if eligible_for_non_actuating_design(input) == true {
+      return "ACCEPTED_FOR_NON_ACTUATING_DESIGN"
+    }
+
+    return "REQUIRES_REVISION"
+  }
+}

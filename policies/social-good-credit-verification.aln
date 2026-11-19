@@ -1,0 +1,71 @@
+policy SocialGoodCreditVerification version "2026-09-17" {
+
+  purpose {
+    data_class = CONTRIBUTION_CLAIM_GOVERNANCE
+    permitted_use = EVIDENCE_LIMITED_IMPACT_VERIFICATION
+    permitted_use = USER_CONTROLLED_ATTRIBUTION
+    permitted_use = METHOD_AND_PROVENANCE_REVIEW
+    prohibited_use = PERSON_SOCIAL_CREDIT
+    prohibited_use = IDENTITY_CERTIFICATION
+    prohibited_use = ELIGIBILITY_DECISION
+    prohibited_use = AUTOMATED_REWARD_OR_SANCTION
+  }
+
+  invariant verification_applies_to_claims_not_people {
+    require credit.person_score_created == false
+    require credit.person_rank_created == false
+    require credit.person_reputation_profile_created == false
+    require credit.person_eligibility_effect_allowed == false
+    require credit.identity_verification_required == false
+    require credit.identity_inference_allowed == false
+  }
+
+  invariant every_verifiable_claim_has_defined_scope {
+    require claim.outcome_definition_present == true
+    require claim.intervention_definition_present == true
+    require claim.time_period_present == true
+    require claim.geographic_or_service_scope_present == true
+    require claim.method_description_present == true
+    require claim.baseline_or_counterfactual_statement_present == true
+    require claim.uncertainty_statement_present == true
+    require claim.provenance_reference_present == true
+  }
+
+  invariant credit_attribution_is_user_controlled {
+    require attribution.private_by_default == true
+    require attribution.public_disclosure_requires_user_action == true
+    require attribution.revocable_by_user == true
+    require attribution.revocation_explanation_required == false
+    require attribution.cross_platform_matching_allowed == false
+    require attribution.used_for_ranking_allowed == false
+  }
+
+  invariant review_is_independent_and_contestable {
+    require review.conflict_of_interest_declaration_required == true
+    require review.claim_submitter_self_verification_allowed == false
+    require review.challenge_path_available == true
+    require review.correction_path_available == true
+    require review.withdrawal_path_available == true
+    require review.material_method_change_review_required == true
+  }
+
+  invariant anti_gaming_is_evidence_limited {
+    require anti_gaming.duplicate_claim_flag_requires_human_review == true
+    require anti_gaming.identity_matching_allowed == false
+    require anti_gaming.behavioral_profiling_allowed == false
+    require anti_gaming.automatic_sanction_allowed == false
+    require anti_gaming.automatic_reward_allowed == false
+  }
+
+  invariant impact_claims_are_not_overstated {
+    require impact.causal_claim_without_counterfactual_allowed == false
+    require impact.additionality_claim_without_method_allowed == false
+    require impact.displacement_review_required == true
+    require impact.negative_effects_disclosure_required == true
+    require impact.prediction_presented_as_guarantee_allowed == false
+  }
+
+  invariant verification_is_non_actuating {
+    require social_good_credit.external_action_authorized == false
+  }
+}

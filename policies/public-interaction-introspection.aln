@@ -1,0 +1,49 @@
+policy PublicInteractionIntrospection version "2026-09-16" {
+
+  invariant every_public_control_has_declared_contract {
+    when public_control.deployed(object_ref)
+    require public_control.interaction_contract_present(object_ref) == true
+    require public_control.safe_fallback_declared(object_ref) == true
+    require public_control.accessibility_mode_declared(object_ref) == true
+  }
+
+  invariant public_controls_minimize_identity_data {
+    require public_control.identity_collection_required == false
+    require public_control.biometric_collection_required == false
+    require public_control.health_inference_allowed == false
+    require public_control.disability_inference_allowed == false
+    require public_control.behavioral_profiling_allowed == false
+  }
+
+  invariant environmental_adaptation_is_not_person_profiling {
+    require style_map.ambient_light_adaptation_uses_local_conditions_only == true
+    require style_map.noise_adaptation_uses_local_conditions_only == true
+    require style_map.crowd_adaptation_uses_layout_only == true
+    require style_map.environmental_adaptation_used_for_person_priority == false
+  }
+
+  invariant physical_access_priority_is_action_based {
+    require door.priority_uses_disability_score == false
+    require door.priority_uses_urgency_inference == false
+    require door.priority_uses_group_size_score == false
+    require door.priority_uses_energy_inference == false
+    require door.priority_uses_obstacle_safety_state == true
+    require door.priority_uses_explicit_accessibility_hold == true
+    require door.priority_uses_emergency_release == true
+  }
+
+  invariant public_controls_have_accessible_fallback {
+    when public_control.availability_state(object_ref) in [
+      DEGRADED,
+      OFFLINE,
+      MAINTENANCE_REQUIRED
+    ]
+    require public_control.local_safe_fallback_available(object_ref) == true
+    require public_control.fault_state_communicated_visually(object_ref) == true
+    require public_control.fault_state_communicated_nonvisually(object_ref) == true
+  }
+
+  invariant public_control_non_actuation_boundary {
+    require introspection.external_action_authorized == false
+  }
+}

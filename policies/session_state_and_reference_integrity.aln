@@ -1,0 +1,189 @@
+@SHARD "SESSION-STATE-AND-REFERENCE-INTEGRITY" {
+
+  @meta {
+    version: "1.0.0"
+    scope: "local_content_addressed_session_state_cross_session_artifact_links_and_url_attribution"
+    audience: "local_session_agents_local_validators_recovery_tools_and_governance_reviewers"
+    consent_basis: "user_sovereign_default"
+    retention: "session_lifetime_plus_declared_audit_window"
+    accountability: "local_session_integrity_owner"
+    review_status: "draft_for_user_review"
+    operating_mode: "local_only_research_advisory"
+  }
+
+  @SCOPE_BOUNDARY {
+    subject: "declared_local_session_artifacts_manifests_links_and_references"
+
+    does_not_establish: [
+      "identity_verification",
+      "person_continuity_proof",
+      "real_world_cybernetic_system_status",
+      "real_world_companion_system_status",
+      "real_world_nanoswarm_status",
+      "actor_attribution",
+      "intent_inference",
+      "medical_or_neural_status",
+      "biometric_status",
+      "public_registry_status",
+      "external_action_authorization"
+    ]
+  }
+
+  @CONTENT_ADDRESSED_SESSION_STATE {
+    hash_algorithm: "sha256"
+    canonicalization_required: true
+    canonicalization_profile: "utf8_sorted_compact_json_or_declared_rfc8785_profile"
+
+    manifest_requires: [
+      "manifest_schema_version",
+      "session_reference",
+      "manifest_sha256",
+      "ordered_chunk_records",
+      "policy_version",
+      "authority_scope",
+      "non_claims"
+    ]
+
+    chunk_requires: [
+      "chunk_sha256",
+      "chunk_role",
+      "chunk_schema_version",
+      "integrity_status"
+    ]
+
+    allowed_chunk_roles: [
+      "session_summary",
+      "provenance_manifest",
+      "policy_shard",
+      "validator_report",
+      "quarantine_record",
+      "recovery_record",
+      "user_sovereign_statement_reference"
+    ]
+
+    chunk_valid_when: "local_canonical_chunk_sha256_matches_declared_chunk_sha256"
+    manifest_valid_when: "all_declared_chunks_valid_and_manifest_sha256_matches"
+
+    changed_chunk_without_declared_change_record: "quarantined_not_authoritative"
+    changed_chunk_must_not_trigger_external_action: true
+    changed_chunk_must_not_be_person_status: true
+  }
+
+  @CROSS_SESSION_LINKS {
+    link_type: "declared_local_artifact_relationship"
+    global_identifier_prohibited: true
+    person_identifier_prohibited: true
+    account_identifier_prohibited: true
+    device_identifier_prohibited: true
+    location_identifier_prohibited: true
+    tracking_identifier_prohibited: true
+
+    link_requires: [
+      "prior_session_reference",
+      "current_session_reference",
+      "link_role",
+      "prior_manifest_sha256",
+      "current_manifest_sha256",
+      "review_status",
+      "non_claims"
+    ]
+
+    allowed_link_roles: [
+      "declared_artifact_continuity",
+      "declared_recovery_source",
+      "declared_policy_dependency",
+      "declared_companion_context_reference"
+    ]
+
+    link_valid_when: [
+      "prior_manifest_sha256_valid",
+      "current_manifest_sha256_valid",
+      "link_role_allowed",
+      "review_status_acceptable",
+      "non_claims_present"
+    ]
+
+    missing_link_must_not_reduce_access: true
+    invalid_link_result: "blocked_pending_local_review"
+    link_is_not_identity_verification: true
+    link_is_not_person_continuity_proof: true
+  }
+
+  @URL_ATTRIBUTION {
+    classification_rule: "unattributed_equals_not_allowlisted_and_not_declared_user_supplied"
+
+    allowlisted_repository_reference_requires: [
+      "recognized_github_host",
+      "exact_owner_repository_match",
+      "repository_identifier_in_declared_allowlist"
+    ]
+
+    declared_user_supplied_reference_requires: [
+      "exact_normalized_reference_match",
+      "source_kind_user_supplied_attachment_or_user_supplied_message",
+      "declared_role_present",
+      "source_sha256_present_when_local_bytes_available"
+    ]
+
+    url_normalization_rules: [
+      "lowercase_host",
+      "remove_query_string",
+      "remove_fragment",
+      "remove_trailing_slash",
+      "never_fetch",
+      "never_open",
+      "never_execute"
+    ]
+
+    classification_results: [
+      "recognized_allowlisted_repository_reference",
+      "recognized_declared_user_supplied_reference",
+      "unattributed_url",
+      "unparseable_or_ambiguous_reference"
+    ]
+
+    unattributed_url_result: "suspect_block_trusted_reuse_pending_local_review"
+    declared_user_supplied_url_must_not_be_flagged_unattributed: true
+    url_classification_is_not_person_or_source_reputation: true
+  }
+
+  @NON_INTERFERENCE {
+    never_auto_fetch_references: true
+    never_auto_open_urls: true
+    never_auto_execute_url_content: true
+    never_contact_external_services: true
+    never_trigger_external_action: true
+    never_trigger_external_notification: true
+    never_modify_user_owned_files: true
+    never_modify_repository_files: true
+    never_require_identity_or_private_disclosure: true
+    never_rank_users_sessions_or_references: true
+  }
+
+  @ACCESS_EQUIVALENCE {
+    plain_language_summary_required: true
+    machine_readable_record_required: true
+    offline_readable: true
+    no_account_required: true
+    no_identity_verification_required: true
+    no_private_system_disclosure_required: true
+    correction_and_appeal_available: true
+    material_change_review_available: true
+  }
+
+  @PROHIBITED_USES {
+    list: [
+      "person_or_session_profile",
+      "identity_verification",
+      "person_continuity_verification",
+      "user_or_session_scoring",
+      "reference_reputation_score",
+      "medical_or_neural_inference",
+      "external_action_authorization",
+      "external_notification",
+      "automatic_repository_modification",
+      "automatic_url_fetch_or_execution",
+      "public_session_registry"
+    ]
+  }
+}

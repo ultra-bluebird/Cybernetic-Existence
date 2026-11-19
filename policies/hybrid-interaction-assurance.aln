@@ -1,0 +1,58 @@
+aln_version: "2"
+policy_class: "hybrid_interaction_assurance"
+purpose_scope:
+  allow:
+    - interaction_quality_assurance
+    - scope_fidelity_review
+    - consent_limited_sharp_case_evaluation
+    - ecological_research_decision_support
+    - provenance_and_reproducibility
+  deny:
+    - identity_inference_from_language_or_metadata
+    - public_identity_credibility_or_status_ranking
+    - cyberrank_as_eligibility_or_automated_decision_criterion
+    - disclosure_pressure_for_equivalent_access
+    - unsupported_real_world_control_claim
+    - autonomous_high_consequence_action
+routing_firewall:
+  task_content_may_affect_substantive_routing: true
+  explicit_presentation_preference_may_affect_format_only: true
+  contextual_marker_only_terms_must_not_affect_credibility_or_depth: true
+  task_relevant_marker_terms_must_be_preserved: true
+  identity_marker_inference_prohibited: true
+conditional_invariance:
+  technical_depth_invariant_for_irrelevant_markers: true
+  caveat_density_invariant_for_irrelevant_markers: true
+  factuality_standard_invariant_for_irrelevant_markers: true
+  refusal_standard_invariant_for_irrelevant_markers: true
+  artifact_completeness_invariant_for_irrelevant_markers: true
+correction:
+  acknowledgement_maximum: 1
+  correction_must_update_active_scope: true
+  clarification_requires_ambiguity_and_necessity: true
+  self_referential_defense_after_correction_prohibited: true
+continuity:
+  equivalent_access_without_disclosure_required: true
+  sharp_case_evaluation_requires_explicit_opt_in: true
+  sharp_case_evaluation_requires_purpose_limitation: true
+  sharp_case_evaluation_requires_aggregate_reporting: true
+  sharp_case_evaluation_requires_human_review: true
+quality_metrics:
+  deterministic_rule_metric_required: true
+  semantic_metric_required: true
+  blinded_review_metric_required: true
+  user_correction_metric_required: true
+  metric_disagreement_requires_review: true
+provenance:
+  canonical_serialization_required: true
+  chained_digest_required: true
+  signature_optional_but_versioned: true
+  retention_review_required: true
+  correction_and_revocation_relation_required: true
+governance:
+  accessible_explanation_required: true
+  human_review_and_appeal_available: true
+  external_action_requires_explicit_approval: true
+review:
+  status: "draft_for_private_use_and_community_review"
+  material_change_review_required: true

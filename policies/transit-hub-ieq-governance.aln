@@ -1,0 +1,145 @@
+policy TransitHubIEQGovernance version "1.0.0" {
+  purpose "Maintain healthy, accessible, energy-aware indoor environmental quality in transit hubs through transparent, privacy-preserving sensor and HVAC control."
+
+  data_class environmental_telemetry {
+    sensitivity "operational"
+    allowed_fields [
+      "zone_identifier",
+      "timestamp",
+      "co2_ppm",
+      "pm25_ug_m3",
+      "pm10_ug_m3",
+      "tvoc_trend_ppb",
+      "temperature_c",
+      "relative_humidity_percent",
+      "outdoor_pm25_ug_m3",
+      "filter_pressure_drop_pa",
+      "fan_state",
+      "damper_state",
+      "airflow_measurement",
+      "sensor_confidence",
+      "calibration_status"
+    ]
+    prohibited_fields [
+      "facial_template",
+      "biometric_identifier",
+      "mobile_device_identifier",
+      "passenger_identity",
+      "health_record",
+      "disability_status",
+      "cybernetic_host_status",
+      "persistent_individual_location_trace"
+    ]
+    retention {
+      raw_days 90
+      aggregated_days 1825
+      deletion_on_verified_request false
+      reason "Environmental telemetry is retained only for safety, maintenance, public reporting, and model validation."
+    }
+  }
+
+  occupancy_estimation {
+    permitted_inputs [
+      "aggregate_turnstile_count",
+      "aggregate_platform_count",
+      "non_identifying_thermal_or_people_count",
+      "timetable_context"
+    ]
+    prohibited_inputs [
+      "face_recognition",
+      "device_tracking",
+      "biometric_classification",
+      "passenger_profiling",
+      "identity_linked_mobility_analysis"
+    ]
+    public_notice_required true
+    accessible_explanation_required true
+  }
+
+  sensor_assurance {
+    required_measurements [
+      "indoor_co2",
+      "indoor_pm25",
+      "outdoor_pm25",
+      "temperature",
+      "relative_humidity",
+      "filter_pressure_drop",
+      "hvac_actuator_state"
+    ]
+    validation {
+      range_checks_required true
+      rate_of_change_checks_required true
+      peer_comparison_required true
+      actuator_response_check_required true
+      reference_colocation_required true
+      uncertainty_recording_required true
+    }
+    degraded_sensor_response {
+      control_mode "conservative_protective"
+      public_status_notice_required true
+      maintenance_request_required true
+      silent_exclusion_forbidden true
+    }
+  }
+
+  control_constraints {
+    required_priorities [
+      "life_safety",
+      "health_protection",
+      "accessibility",
+      "thermal_comfort",
+      "energy_efficiency"
+    ]
+    prohibited_actions [
+      "deny_transit_access_by_health_status",
+      "deny_transit_access_by_disability",
+      "deny_transit_access_by_augmentation_status",
+      "identity_conditioned_ventilation",
+      "undisclosed_air_quality_degradation"
+    ]
+    smoke_event {
+      outdoor_air_reduction_allowed true
+      must_preserve_code_and_life_safety_requirements true
+      increase_filtered_recirculation_required true
+      portable_cleaning_if_available_required true
+      filter_pressure_monitoring_required true
+      time_limited_review_required true
+    }
+  }
+
+  explainability {
+    control_decision_log_required true
+    log_fields [
+      "mode",
+      "sensor_inputs",
+      "sensor_confidence",
+      "actuator_command",
+      "constraint_trigger",
+      "energy_estimate",
+      "operator_override",
+      "maintenance_state"
+    ]
+    public_reporting {
+      cadence "monthly"
+      required_metrics [
+        "zone_level_aggregate_pm25",
+        "zone_level_aggregate_co2",
+        "filter_service_completion",
+        "sensor_uptime",
+        "sensor_degraded_duration",
+        "smoke_mode_duration",
+        "energy_per_clean_air_unit"
+      ]
+      must_include_uncertainty true
+      must_be_accessible true
+    }
+  }
+
+  review {
+    human_operator_override_allowed true
+    override_reason_required true
+    operator_override_expiration_required true
+    accessible_grievance_path_required true
+    independent_periodic_review_required true
+  }
+}

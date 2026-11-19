@@ -1,0 +1,53 @@
+policy TransitAiWorkloadDistribution version "2026-09-17" {
+
+  purpose {
+    data_class = TRANSIT_SYSTEM_OPERATIONS
+    permitted_use = LATENCY_RESILIENCE_ENERGY_OPTIMIZATION
+    prohibited_use = PASSENGER_PROFILING
+    prohibited_use = IDENTITY_INFERENCE
+    prohibited_use = AUTOMATED_ADVERSE_DECISION
+  }
+
+  invariant workload_placement_respects_data_classification {
+    require workload.data_class_present == true
+    require workload.maximum_latency_present == true
+    require workload.fallback_mode_present == true
+    require workload.retention_schedule_present == true
+    require workload.raw_sensitive_data_to_unapproved_node_allowed == false
+  }
+
+  invariant edge_processing_prefers_minimal_data {
+    require edge.raw_personal_data_retention_allowed == false
+    require edge.device_identifier_correlation_allowed == false
+    require edge.identity_inference_allowed == false
+    require edge.passenger_profile_creation_allowed == false
+    require edge.local_data_deletion_path_available == true
+  }
+
+  invariant federated_learning_is_not_assumed_private {
+    require federated_learning.privacy_threat_model_required == true
+    require federated_learning.secure_aggregation_required == true
+    require federated_learning.update_clipping_required == true
+    require federated_learning.minimum_contributor_threshold_required == true
+    require federated_learning.model_update_provenance_required == true
+    require federated_learning.raw_training_data_upload_allowed == false
+  }
+
+  invariant failover_preserves_core_service {
+    require workload.edge_fallback_available == true
+    require workload.cloud_dependency_for_safety_critical_operation_allowed == false
+    require workload.manual_operations_fallback_available == true
+    require workload.degraded_mode_notice_available == true
+  }
+
+  invariant scheduling_has_bounded_energy_and_latency_tradeoffs {
+    require scheduling.latency_budget_enforced == true
+    require scheduling.energy_budget_documented == true
+    require scheduling.accessibility_service_degradation_allowed == false
+    require scheduling.human_override_available == true
+  }
+
+  invariant workload_governance_is_non_actuating {
+    require workload.external_action_authorized == false
+  }
+}

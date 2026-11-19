@@ -1,0 +1,86 @@
+policy_name = "state_vocabulary_and_boundary_gate"
+policy_version = "1.0"
+record_class = "cross_language_ecological_decision_packet"
+purpose = "Fail closed on stale or unmapped detachment-mode vocabulary and preserve recovery and spatial-causal boundaries."
+consent_scope = "local_validation_and_non_actuating_research_only"
+retention = "bounded_by_repository_retention_policy"
+deletion = "remove_derived_test_records_when_no_longer_required"
+accountability = "digest_bound_inventory_conformance_and_method_review"
+review_status = "required_when_any_gate_is_not_confirmed"
+access_equivalence_safeguard = "machine_readable_states_and_plain_language_review_reasons"
+external_action_approval = "prohibited"
+
+require external_action_authorized == false
+
+require mode_mapping_status in [
+    "CANONICAL",
+    "LEGACY_MAPPED",
+    "UNMAPPED_REJECTED",
+    "REVIEW_REQUIRED"
+]
+
+require inventory_status in [
+    "CONFIRMED_CANONICAL",
+    "CONFIRMED_VARIANT",
+    "CONFIRMED_ABSENT",
+    "UNVERIFIED_SO_FAR",
+    "STALE_UNVERIFIED"
+]
+
+require simulation_status in [
+    "SIMULATED",
+    "REAL_CHECKOUT_CONFIRMED"
+]
+
+require recovery_state in [
+    "UNASSESSED",
+    "STRUCTURAL_RECOVERY",
+    "FUNCTIONAL_OR_COMMUNITY_SHIFT",
+    "RECOVERED_WITHIN_SCOPE",
+    "INSUFFICIENT_EVIDENCE",
+    "REVIEW_REQUIRED"
+]
+
+require functional_community_resolution in [
+    "UNASSESSED",
+    "FUNCTIONAL_RECOVERY_SUPPORTED",
+    "FUNCTIONAL_RECOVERY_NOT_SUPPORTED",
+    "FUNCTIONAL_EVIDENCE_ABSENT",
+    "FUNCTIONAL_OR_COMMUNITY_SHIFT_INCONCLUSIVE",
+    "FUNCTIONAL_OR_COMMUNITY_SHIFT_REQUIRES_REVIEW"
+]
+
+require hex_anchor_role in [
+    "STRATIFIER",
+    "CLUSTER_INDEX",
+    "RANDOM_EFFECT_GROUP",
+    "SPATIAL_HOLDOUT_KEY",
+    "AGGREGATION_KEY",
+    "DISCLOSURE_BOUNDED_REFERENCE"
+]
+
+when mode_mapping_status in ["UNMAPPED_REJECTED", "REVIEW_REQUIRED"]:
+    require promotion_allowed == false
+    require recommendation_state == "METHOD_REVIEW"
+    require evidence_state == "REVIEW_REQUIRED"
+
+when inventory_status in ["UNVERIFIED_SO_FAR", "STALE_UNVERIFIED"]:
+    require promotion_allowed == false
+    require recommendation_state == "METHOD_REVIEW"
+
+when recovery_state == "RECOVERED_WITHIN_SCOPE":
+    require structural_state == "STRUCTURAL_RECOVERY"
+    require functional_community_resolution == "FUNCTIONAL_RECOVERY_SUPPORTED"
+    require functional_resolution_provenance_digest is_not_null
+
+when functional_community_resolution == "FUNCTIONAL_EVIDENCE_ABSENT":
+    require recovery_state not_in ["RECOVERED_WITHIN_SCOPE"]
+    require promotion_allowed == false
+    require recommendation_state == "METHOD_REVIEW"
+
+deny when hex_anchor_role == "CAUSAL_PARENT"
+deny when causal_graph_has_directed_edge_from(hex_anchor_id)
+deny when causal_graph_has_directed_path_from(hex_anchor_id)
+deny when hex_anchor_id in declared_adjustment_set
+deny when simulation_status == "SIMULATED" and evidence_state == "ACCEPTED_FOR_DESIGN_NON_ACTUATING"
+deny when external_action_authorized == true

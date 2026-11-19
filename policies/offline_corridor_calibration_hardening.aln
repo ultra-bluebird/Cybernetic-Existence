@@ -1,0 +1,254 @@
+policy "offline-corridor-calibration-hardening" {
+  version = "1.1.0"
+  status = "reviewable"
+  operation_mode = "offline-execution-local-artifact-validation"
+  commitment_algorithm = "sha256"
+
+  normative_stance {
+    calibration = "local_evidence_bound_and_derived"
+    external_authority_requirement = "not_required"
+    institutional_certification_requirement = "not_required"
+
+    limitation = [
+      "offline_execution_does_not_imply_local_independence",
+      "local_execution_does_not_imply_local_containment",
+      "record_integrity_does_not_imply_calibration_correctness",
+      "local_calibration_validity_does_not_imply_universal_sensor_accuracy"
+    ]
+  }
+
+  execution_and_dependency {
+    offline_execution = [
+      "no_network_request_during_calibration_run",
+      "no_network_time_protocol_during_calibration_run",
+      "no_cloud_sensor_fusion_during_calibration_run"
+    ]
+
+    local_dependencies = [
+      "local_trust_root",
+      "local_reference_artifact",
+      "local_clock_artifact",
+      "local_role_vocabulary",
+      "local_topology_artifact",
+      "local_geometry_artifact_when_required",
+      "local_schema",
+      "local_canonicalization_profile"
+    ]
+
+    input_provenance_declaration = "required"
+    external_dependency_declaration = "required"
+  }
+
+  containment {
+    local_execution_is_not_local_containment = true
+
+    declared_assumptions = [
+      "calibration_directory_permissions",
+      "automatic_sync_disabled",
+      "cloud_backup_exclusion_declared",
+      "system_indexing_exclusion_declared",
+      "local_export_policy_declared",
+      "local_process_access_boundary_declared"
+    ]
+
+    containment_guarantee = "not_asserted"
+  }
+
+  artifact_composition {
+    jointly_necessary = [
+      "reference_artifact",
+      "drift_evidence",
+      "drift_declaration",
+      "time_reconciliation",
+      "topology_artifact",
+      "geometry_artifact_when_required",
+      "calibration_purpose"
+    ]
+
+    sufficient_for_declared_state_only_when = [
+      "schema_field_completeness",
+      "canonical_encoding_verified",
+      "record_digest_verified",
+      "trust_root_verified",
+      "reference_current_and_verified",
+      "drift_evidence_locally_available",
+      "drift_declaration_consistent",
+      "time_within_declared_tolerance",
+      "topology_and_geometry_privacy_bounds_verified",
+      "record_currentness_current"
+    ]
+
+    new_mandatory_artifact = "material_change_review_required"
+  }
+
+  reference_artifact {
+    content_addressed = true
+    declared_scope = "required"
+    declared_conditions = "required"
+    declared_role = "required"
+    declared_provenance_head = "required"
+    declared_non_claims = "required"
+    declared_replacement_pattern = "required"
+    declared_redundancy_state = "required"
+
+    redundancy = [
+      "multiple_matching_local_copies_permitted",
+      "copy_digest_mismatch_is_failure",
+      "reference_loss_is_not_established",
+      "reference_replacement_is_append_only"
+    ]
+
+    reference_drift = [
+      "reference_drift_must_be_declared_not_silent",
+      "reference_provenance_does_not_prove_reference_never_drifted"
+    ]
+  }
+
+  drift {
+    evidence_and_declaration_are_separate = true
+
+    drift_evidence = [
+      "sensor_reading",
+      "reference_reading",
+      "sensor_timestamp",
+      "reference_timestamp",
+      "measurement_unit",
+      "conditions_reference_when_declared"
+    ]
+
+    drift_declaration = [
+      "declaration_state",
+      "declared_relationship",
+      "declared_value_when_available",
+      "uncertainty_bound",
+      "interpretation_scope",
+      "non_conversion_constraints"
+    ]
+
+    drift_formula = "declared_drift = sensor_reading - reference_reading"
+
+    non_conversion_constraints = [
+      "not_a_sensor_trust_score",
+      "not_a_sensor_priority_signal",
+      "not_a_sensor_eligibility_criterion",
+      "not_a_sensor_rank",
+      "not_a_device_reputation_value",
+      "not_aggregatable_for_sensor_comparison"
+    ]
+  }
+
+  topology_and_geometry {
+    topology = "adjacency_and_connectivity"
+    geometry = "bounded_relative_separation"
+    topology_geometry_conflation = "prohibited"
+
+    geometry_requirement_state = [
+      "topology_only",
+      "topology_plus_bounded_geometry",
+      "geometry_not_required_for_declared_purpose"
+    ]
+
+    privacy_metrics = [
+      "local_reference_grid_sha256",
+      "minimum_resolution_meters",
+      "minimum_named_entity_distance_meters",
+      "endpoint_bounding_required",
+      "maximum_node_degree",
+      "maximum_exportable_path_length",
+      "graph_coarsening_rule",
+      "set_level_intersection_threshold"
+    ]
+
+    failed_privacy_metric = "privacy_bounding_not_established"
+  }
+
+  local_time {
+    local_time_authority_label = "required"
+    clock_artifact_sha256 = "required"
+    tolerance_seconds = "required"
+    bounded_time_drift_evidence = "required"
+    raw_clock_fingerprint_series = "prohibited"
+
+    formula = "abs(sensor_timestamp - corridor_time_reference) <= tolerance_seconds"
+
+    outside_tolerance = [
+      "reconciliation_state = outside_tolerance",
+      "calibration_state = calibration_recorded_outside_time_tolerance",
+      "consumer_use_state = needs_local_review",
+      "record_remains_readable",
+      "correction_path_remains_available"
+    ]
+  }
+
+  consumer_rule {
+    default_state_without_current_valid_record = "calibration_not_established"
+
+    positive_requirement = [
+      "consumer_may_treat_sensor_as_locally_calibrated_only_with_current_valid_record",
+      "consumer_must_check_declared_purpose",
+      "consumer_must_check_non_claims",
+      "consumer_must_check_currentness"
+    ]
+
+    negative_constraints = [
+      "no_calibration_inference_from_sensor_adjacency",
+      "no_calibration_inference_from_corridor_membership",
+      "no_calibration_inference_from_matching_hardware",
+      "no_calibration_inference_from_similar_reading",
+      "no_calibration_inference_from_other_purpose_record",
+      "no_calibration_inference_from_expired_or_superseded_record"
+    ]
+
+    generalization = "requires_explicit_generalization_record"
+  }
+
+  calibration_record_state {
+    state_property = "record_scoped_not_sensor_scoped"
+    currentness_property = "per_record_per_purpose"
+    unknown_state = "calibration_not_established"
+
+    usable_states = [
+      "calibration_not_established",
+      "calibration_recorded_incomplete",
+      "calibration_recorded_needs_local_review",
+      "calibration_recorded_outside_time_tolerance",
+      "calibration_recorded_reference_not_established",
+      "calibration_recorded_topology_not_established",
+      "calibration_recorded_integrity_failed",
+      "calibration_recorded_expired",
+      "calibration_recorded_superseded",
+      "calibration_locally_aligned_within_tolerance",
+      "calibration_quarantined_not_authoritative"
+    ]
+
+    record_currentness = [
+      "current",
+      "superseded",
+      "withdrawn",
+      "disputed",
+      "expired",
+      "unknown"
+    ]
+
+    cross_sensor_comparison = "requires_separate_declared_comparison_rule"
+  }
+
+  integrity {
+    field_completeness = "under_declared_schema_version"
+    record_completeness_not_equal_calibration_validity = true
+
+    sha256 = [
+      "provides_byte_level_continuity_relative_to_declared_digest",
+      "does_not_provide_attribution",
+      "does_not_provide_authenticity",
+      "does_not_provide_non_repudiation",
+      "does_not_provide_factual_correctness"
+    ]
+
+    canonicalization_profile = "versioned_and_locally_preserved"
+    genesis_record = "required"
+    trust_root = "declared_local_artifact"
+    chain_claims_begin = "declared_genesis"
+    trust_root_change = "material_change_review_required"
+  }
+}

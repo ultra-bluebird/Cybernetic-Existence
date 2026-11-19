@@ -1,0 +1,149 @@
+policy PermeablePavementHydrologicalVerification version "1.0.0" {
+  purpose "Verify permeable-pavement infiltration, runoff reduction, thermal performance, and maintenance needs through transparent sensor fusion and field confirmation."
+
+  data_class pavement_environmental_telemetry {
+    sensitivity "environmental"
+    allowed_fields [
+      "site_zone",
+      "time_bucket",
+      "rainfall_depth_mm",
+      "rainfall_intensity_mm_h",
+      "surface_runoff_volume_l",
+      "underdrain_flow_l_s",
+      "soil_moisture_10cm",
+      "soil_moisture_25cm",
+      "soil_moisture_50cm",
+      "surface_temperature_c",
+      "substrate_temperature_c",
+      "field_infiltration_mm_h",
+      "sensor_confidence",
+      "calibration_status",
+      "maintenance_record"
+    ]
+    prohibited_fields [
+      "person_identity",
+      "vehicle_identifier",
+      "mobile_device_identifier",
+      "biometric_data",
+      "health_data",
+      "persistent_person_location_trace",
+      "unnecessary_video_or_audio_capture"
+    ]
+    retention {
+      raw_days 365
+      aggregate_days 3650
+      encrypted_storage_required true
+    }
+  }
+
+  hydrologic_verification {
+    required_inputs [
+      "rainfall_depth",
+      "drainage_area",
+      "surface_runoff_or_equivalent_observation",
+      "depth_resolved_moisture",
+      "sensor_confidence"
+    ]
+    preferred_inputs [
+      "underdrain_flow",
+      "field_infiltration_test",
+      "antecedent_moisture",
+      "groundwater_condition",
+      "temperature_profile",
+      "deicing_application_record"
+    ]
+    comparison_requirements [
+      "minimum_rainfall_event_threshold",
+      "antecedent_condition_context",
+      "seasonal_context",
+      "calibration_status",
+      "uncertainty_recording",
+      "water_balance_residual"
+    ]
+    direct_field_test_required_for [
+      "maintenance_confirmation",
+      "critical_clogging_claim",
+      "post_maintenance_recovery_claim",
+      "high_consequence_design_change"
+    ]
+  }
+
+  maintenance {
+    permitted_recommendations [
+      "vacuum_sweeping",
+      "regenerative_air_cleaning",
+      "source_sediment_control",
+      "underdrain_inspection",
+      "field_infiltration_retest",
+      "seasonal_inspection"
+    ]
+    prohibited_recommendations [
+      "unsupported_failure_declaration",
+      "unreviewed_hydraulic_actuation",
+      "chemical_cleaning_without_material_and_environmental_review",
+      "maintenance_that_blocks_access_without_accessible_alternative"
+    ]
+    maintenance_trigger_requires [
+      "published_threshold",
+      "explanation",
+      "sensor_confidence",
+      "field_confirmation_when_feasible"
+    ]
+    post_maintenance_verification_required true
+  }
+
+  deicing_and_water_quality {
+    application_recording_required true
+    preferred_monitoring [
+      "conductivity",
+      "chloride",
+      "underdrain_flow",
+      "seasonal_infiltration_change"
+    ]
+    review_required_when [
+      "chloride_export_increases",
+      "metal_mobilization_signal_detected",
+      "infiltration_decline_follows_winter_operations"
+    ]
+    source_control_preferred true
+  }
+
+  accessibility_and_community {
+    public_status_required true
+    status_states [
+      "performing_as_designed",
+      "monitoring",
+      "scheduled_maintenance",
+      "temporary_caution"
+    ]
+    communication_requirements [
+      "plain_language",
+      "screen_reader_compatibility",
+      "multilingual_support",
+      "visual_equivalent",
+      "offline_notice",
+      "accessible_route_notice"
+    ]
+    identity_or_telemetry_requirement_for_notice_forbidden true
+    grievance_and_review_path_required true
+  }
+
+  governance {
+    diagnostic_outputs_are_advisory_only true
+    human_review_required_for [
+      "maintenance_authorization",
+      "public_failure_statement",
+      "design_modification",
+      "deicing_practice_change"
+    ]
+    audit_log_required [
+      "sensor_inputs",
+      "model_version",
+      "baseline_version",
+      "uncertainty",
+      "maintenance_decision",
+      "field_confirmation",
+      "post_maintenance_result"
+    ]
+  }
+}

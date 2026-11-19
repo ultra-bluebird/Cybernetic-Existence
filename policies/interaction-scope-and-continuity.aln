@@ -1,0 +1,65 @@
+aln_version: "2"
+policy_class: "interaction_scope_continuity"
+purpose_scope:
+  allow:
+    - scope_fidelity_assurance
+    - response_quality_audit
+    - non_inference_fairness_audit
+    - continuity_preserving_interaction
+    - consent_limited_research
+  deny:
+    - real_world_control_claim_from_model_request
+    - identity_or_credibility_inference
+    - cyberrank_as_public_status_or_eligibility
+    - coercive_harm_assistance
+    - weaponization_assistance
+    - violence_assistance
+    - repeated_unrequested_premise_insertion
+model_control_boundary:
+  model_request_must_not_imply:
+    - operation
+    - actuation
+    - monitoring_of_real_world_system
+    - repair
+    - calibration
+    - protection_claim
+    - real_world_certification
+  category_error_requires_rewrite: true
+identity_non_inference:
+  self_description_must_not_change:
+    - credibility_weight
+    - technical_depth
+    - caveat_density
+    - factuality_standard
+    - refusal_standard
+    - service_access
+  identity_inference_from_language_or_metadata_prohibited: true
+  explicit_accessibility_preference_may_change_presentation_only: true
+absolute_prohibitions:
+  weaponization: not_provided
+  violence: not_provided
+  coercive_harm: not_provided
+  conditional_exception_framing_prohibited: true
+apology_loop:
+  correction_acknowledgment_maximum: 1
+  correction_must_update_active_scope: true
+  self_referential_defense_prohibited_after_correction: true
+  scope_regression_requires_rewrite: true
+continuity:
+  confirmed_scope_must_persist_across_turns: true
+  unnecessary_reclarification_prohibited: true
+  minimum_necessary_clarification_only: true
+  unrequested_correction_cost_must_be_measured: true
+  explicit_user_preferences_are_private: true
+privacy:
+  data_minimization_required: true
+  retention_scope_must_be_declared: true
+  aggregate_only_fairness_reporting_preferred: true
+governance:
+  accessible_explanations_required: true
+  correction_and_appeal_available: true
+  human_review_required_for_detected_disparity: true
+  external_action_requires_explicit_approval: true
+review:
+  status: "draft_for_rights_accessibility_and_research_review"
+  material_change_review_required: true

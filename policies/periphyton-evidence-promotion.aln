@@ -1,0 +1,138 @@
+policy PeriphytonEvidencePromotion {
+  version = "2"
+  data_class = "environmental_research_evidence"
+  purpose = "periphyton_resuspension_evidence_promotion_for_non_actuating_design"
+  consent_scope = "authorized_research_protocol"
+  retention = "protocol_controlled"
+  deletion = "protocol_controlled"
+  accountability = "independent_human_review"
+  review_status = "required"
+  access_equivalence = "plain_language_evidence_state_available"
+  external_action_approval = "separate_explicit_approval_required"
+
+  predicate bounded_hypothesis_evidence(input) {
+    input.hypothesis_id_present == true
+    input.hypothesis_version_present == true
+    input.hex_anchor_id_present == true
+    input.anchor_geometry_version_present == true
+    input.corridor_scope_present == true
+    input.event_window_id_present == true
+    input.flow_regime_declared == true
+    input.substrate_class_declared == true
+    input.protocol_version_present == true
+    input.method_version_present == true
+  }
+
+  predicate exposure_and_response_evidence(input) {
+    input.wall_shear_pa_present == true
+    input.wall_shear_uncertainty_present == true
+    input.response_metric_present == true
+    input.response_metric_uncertainty_present == true
+    input.detachment_mode_present == true
+    input.time_alignment_status == "VALID"
+    input.calibration_status == "VALID"
+    input.provenance_status == "COMPLETE"
+  }
+
+  predicate confounder_review_complete(input) {
+    input.upstream_reference_status in {
+      "PRESENT",
+      "NOT_APPLICABLE_WITH_JUSTIFICATION"
+    }
+    input.sediment_or_mineral_fraction_status in {
+      "MEASURED",
+      "NOT_APPLICABLE_WITH_JUSTIFICATION"
+    }
+    input.fog_status in {
+      "NOT_OBSERVED",
+      "OBSERVED_AND_REVIEWED",
+      "UNKNOWN_AND_REVIEWED"
+    }
+    input.alternative_source_review_status == "COMPLETE"
+  }
+
+  predicate uncertainty_is_adequate(input) {
+    input.uncertainty_method_version_present == true
+    input.expanded_uncertainty_present == true
+    input.lower_confidence_bound_present == true
+    input.uncertainty_calibration_status == "ACCEPTABLE"
+    input.estimate_within_declared_use_range == true
+  }
+
+  predicate replication_is_adequate(input) {
+    input.independent_unit_count >= input.minimum_independent_unit_count
+    input.independent_event_window_count >= input.minimum_event_window_count
+    input.holdout_validation_status == "PASS"
+  }
+
+  predicate independent_review_complete(input) {
+    input.method_quality_review_status == "APPROVED"
+    input.hydraulic_evidence_review_status == "APPROVED"
+    input.biofilm_evidence_review_status == "APPROVED"
+    input.independent_replication_review_status == "APPROVED"
+    input.governance_review_status == "APPROVED"
+  }
+
+  predicate contradiction_is_resolved(input) {
+    input.contradiction_status in {
+      "NONE_IDENTIFIED",
+      "RESOLVED_WITH_VERSIONED_RATIONALE"
+    }
+  }
+
+  predicate evidence_score_is_internal_and_bounded(input) {
+    input.ess_present == true
+    input.ess >= 0
+    input.ess <= 1
+    input.ess_namespace == "INTERNAL_RESEARCH_QUALITY"
+    input.ess_used_for_access_control == false
+    input.ess_used_for_identity_or_eligibility == false
+    input.ess_used_for_public_ranking == false
+    input.ess_used_for_external_action_authorization == false
+  }
+
+  predicate provisional_evidence_complete(input) {
+    bounded_hypothesis_evidence(input)
+    exposure_and_response_evidence(input)
+  }
+
+  predicate design_acceptance_eligible(input) {
+    provisional_evidence_complete(input)
+    confounder_review_complete(input)
+    uncertainty_is_adequate(input)
+    replication_is_adequate(input)
+    independent_review_complete(input)
+    contradiction_is_resolved(input)
+    evidence_score_is_internal_and_bounded(input)
+    input.ess >= input.minimum_internal_ess
+  }
+
+  decision(input) {
+    if input.external_action_requested == true {
+      return "NO_EXTERNAL_ACTION_RETAIN_EVIDENCE"
+    }
+
+    if provisional_evidence_complete(input) == false {
+      return "RETAIN_METHOD_OR_PARTIAL_EVIDENCE"
+    }
+
+    if input.result_state == "CONTRADICTORY"
+      and contradiction_is_resolved(input) == false {
+      return "RETAIN_CONTRADICTORY_ROUTE_TO_SYNTHESIS_REVIEW"
+    }
+
+    if input.result_state == "INCONCLUSIVE" {
+      return "RETAIN_INCONCLUSIVE_REQUEST_TARGETED_REPLICATION"
+    }
+
+    if input.result_state == "NOT_DETECTED" {
+      return "RETAIN_CENSORED_RESULT_NO_LOW_RISK_INFERENCE"
+    }
+
+    if design_acceptance_eligible(input) == false {
+      return "PROVISIONAL_OR_EVIDENCE_QUALIFIED_REQUEST_REVIEW"
+    }
+
+    return "ACCEPTED_FOR_DESIGN_NON_ACTUATING_ONLY"
+  }
+}

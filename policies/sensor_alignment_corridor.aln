@@ -1,0 +1,61 @@
+policy: sensor_alignment_corridor
+version: 2.0.0
+data_class: operational_telemetry_governance_policy
+purpose: prevent misaligned telemetry from entering automated permit-decision corridors
+consent_scope: operational_sensor_data_only
+retention: retain_calibration_and_alignment_events_for_configured_safety_audit_period
+deletion: delete_raw_telemetry_after_retention_expiry_subject_to_minimal_safety_audit_commitments
+accountability: calibration_provenance_human_review_explanation_and_recalibration_log
+review_status: required_before_corridor_reopening
+access_equivalence_safeguards: operational_sensor_failure_must_not_be_used_to_deny_pedestrian_accessibility_or_emergency_egress
+external_action_approval: required_for_remote_calibration_change_or_external_telemetry_export
+
+sensor_types:
+  - voltage_v
+  - current_a
+  - flow_m3_s
+  - temperature_c
+  - dissolved_oxygen_mg_l
+  - turbidity_ntu
+
+alignment_condition:
+  formula: absolute(primary_value - redundant_value) <= epsilon_sensor * maximum(absolute(primary_value), 1)
+  require:
+    - active_primary_sensor
+    - active_redundant_sensor
+    - current_calibration
+    - type_specific_epsilon
+    - recorded_alignment_result
+    - physical_model_check_when_required
+
+machinery_corridor:
+  - name: water_energy_thermal_permit_corridor
+    sensor_dependencies:
+      - voltage_v
+      - current_a
+      - flow_m3_s
+      - temperature_c
+      - dissolved_oxygen_mg_l
+      - turbidity_ntu
+    on_sensor_misalignment:
+      status: fail_closed
+      prohibit:
+        - automated_permit_grant
+        - automated_actuation
+        - corridor_reopen_without_recalibration_log
+      require:
+        - alignment_failure_event
+        - human_review
+        - recalibration_log
+        - post_recalibration_validation
+        - plain_language_explanation
+
+  - name: pedestrian_door_access_corridor
+    on_sensor_misalignment:
+      status: fail_open_for_safe_pedestrian_access
+      prohibit:
+        - denial_of_accessibility_request
+        - denial_of_emergency_egress
+      require:
+        - maintenance_alert
+        - sensor_fault_record

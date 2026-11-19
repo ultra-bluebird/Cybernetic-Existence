@@ -1,0 +1,51 @@
+policy PublicPowerManagement version "2026-09-17" {
+
+  purpose {
+    data_class = ENERGY_RESILIENCE_DECISION_SUPPORT
+    permitted_use = SCENARIO_PLANNING
+    permitted_use = CRITICAL_LOAD_CONTINUITY_ANALYSIS
+    prohibited_use = UNSUPERVISED_GRID_CONTROL
+    prohibited_use = PERSON_LEVEL_SERVICE_TRIAGE
+    prohibited_use = IDENTITY_BASED_LOAD_PRIORITY
+  }
+
+  invariant critical_loads_are_governed_not_inferred {
+    require power.critical_load_authority_present == true
+    require power.critical_load_definition_documented == true
+    require power.identity_based_priority_allowed == false
+    require power.health_inference_based_priority_allowed == false
+    require power.augmentation_inference_based_priority_allowed == false
+    require power.named_person_priority_allowed == false
+  }
+
+  invariant battery_state_is_bounded_and_observable {
+    require power.usable_energy_capacity_present == true
+    require power.charge_efficiency_present == true
+    require power.discharge_efficiency_present == true
+    require power.state_of_charge_lower_bound_present == true
+    require power.state_of_charge_upper_bound_present == true
+    require power.measurement_uncertainty_present == true
+  }
+
+  invariant load_shedding_preserves_declared_critical_services {
+    require power.critical_load_shedding_allowed == false
+    require power.accessibility_service_shedding_without_review_allowed == false
+    require power.shedding_plan_reviewable == true
+    require power.manual_override_available == true
+    require power.degraded_mode_notice_available == true
+  }
+
+  invariant renewable_integration_is_evidence_limited {
+    require power.generation_forecast_uncertainty_present == true
+    require power.storage_degradation_assumption_present == true
+    require power.islanding_capability_verified_before_use == true
+    require power.prediction_presented_as_guarantee_allowed == false
+  }
+
+  invariant power_policy_does_not_directly_control_live_equipment {
+    require power.direct_switchgear_control_authorized == false
+    require power.direct_battery_management_control_authorized == false
+    require power.direct_hospital_power_control_authorized == false
+    require power.external_action_authorized == false
+  }
+}

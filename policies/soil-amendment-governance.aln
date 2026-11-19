@@ -1,0 +1,78 @@
+policy: soil_amendment_governance
+version: 2.0.0
+data_class: ecological_materials_and_restoration_governance_policy
+purpose: support traceable soil-amendment production and restoration use while preventing contaminant transfer, salinity harm, unsupported eco-benefit claims, and ecological displacement
+consent_scope: environmental_materials_testing_and_aggregate_restoration_data_only
+retention: retain_batch_provenance_test_results_site_suitability_application_and_persistence_records_for_configured_environmental_audit_period
+deletion: retain_minimal_material_provenance_after_raw_test_retention_expiry
+accountability: batch_traceability_independent_review_site_suitability_human_review_and_remediation_pathway
+review_status: required_before_distribution_application_or_verified_eco_benefit_claim
+access_equivalence_safeguards: restoration_projects_must_not_reduce_public_accessibility_or shift contaminant_burdens_to_protected_communities
+external_action_approval: required_for_physical_distribution_or_application
+
+material_classes:
+  - biochar
+  - compost
+  - treated_mineral_water
+  - approved_blended_amendment
+
+approval_requirements:
+  require:
+    - source_material_traceability
+    - treatment_process_record
+    - batch_chemical_testing
+    - treatment_chemical_inventory_for_cooling_blowdown_sources
+    - salinity_and_sodicity_assessment
+    - metals_and_priority_contaminant_assessment
+    - pathogen_or_microbiological_assessment_when_relevant
+    - independent_review
+    - site_soil_suitability_review
+    - groundwater_protection_review
+  prohibit:
+    - untreated_cooling_blowdown_as_soil_amendment
+    - application_to_contaminated_or_unknown_soil_site
+    - application_when_batch_test_failed
+    - application_when_salinity_or_sodicity_harm_is_unresolved
+    - application_without_human_review
+
+eco_impact_value:
+  soil_amendment_verified_benefit:
+    require:
+      - additionality_demonstrated
+      - persistence_measurement
+      - no_species_impact_threshold_exceedance
+      - no_rights_or_accessibility_block
+      - documented_application_rate_and_site_scope
+      - baseline_and_follow_up_soil_measurements
+      - independent_validation
+    prohibit:
+      - claiming_benefit_from_production_volume_alone
+      - claiming_permanence_without_persistence_evidence
+      - using_soil_amendment_benefit_to_offset_contamination_or_accessibility_harm
+
+rules:
+  - id: soil-amendment-benefit-withhold
+    when:
+      any:
+        - additionality_not_demonstrated
+        - persistence_not_measured
+        - site_contamination_status_not_clear
+        - batch_chemical_test_failed
+        - species_impact_threshold_exceeded
+    result:
+      eco_impact_value_status: withheld
+      explanation_code: SOIL_AMENDMENT_ECO_BENEFIT_NOT_VERIFIED
+    require:
+      - human_review
+      - corrective_or_remediation_pathway
+      - accessible_explanation
+
+  - id: treated-blowdown-boundary
+    when: source_material_class_is_treated_cooling_blowdown
+    require:
+      - source_water_characterization
+      - treatment_validation
+      - applicable_reuse_authorization
+      - batch_specific_quality_record
+    prohibit:
+      - assumption_of_irrigation_or_soil_suitability_from_cooling_tower_origin

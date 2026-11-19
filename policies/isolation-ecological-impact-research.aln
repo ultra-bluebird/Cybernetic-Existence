@@ -1,0 +1,50 @@
+policy IsolationEcologicalImpactResearch version "2026-09-17" {
+
+  purpose {
+    data_class = AGGREGATE_SOCIAL_AND_ECOLOGICAL_RESEARCH
+    permitted_use = HYPOTHESIS_TESTING
+    permitted_use = VOLUNTARY_INTERVENTION_EVALUATION
+    prohibited_use = INDIVIDUAL_BLAME_ASSIGNMENT
+    prohibited_use = IDENTITY_PROFILING
+    prohibited_use = SERVICE_ELIGIBILITY_DECISION
+  }
+
+  invariant relationship_claims_distinguish_association_from_causation {
+    require research.study_design_documented == true
+    require research.unit_of_analysis_documented == true
+    require research.outcome_definition_documented == true
+    require research.confounds_documented == true
+    require research.causal_claim_without_counterfactual_allowed == false
+    require research.association_presented_as_causation_allowed == false
+  }
+
+  invariant research_does_not_penalize_people_for_access_choices {
+    require research.delivery_use_as_negative_person_score_allowed == false
+    require research.energy_use_as_negative_person_score_allowed == false
+    require research.waste_use_as_negative_person_score_allowed == false
+    require research.assistive_access_use_as_negative_person_score_allowed == false
+    require research.private_communication_use_as_negative_person_score_allowed == false
+  }
+
+  invariant data_is_aggregate_and_minimized {
+    require research.named_person_data_allowed == false
+    require research.device_identifier_data_allowed == false
+    require research.identity_inference_allowed == false
+    require research.health_inference_allowed == false
+    require research.augmentation_inference_allowed == false
+    require research.small_group_reporting_allowed == false
+    require research.minimum_aggregation_threshold_required == true
+  }
+
+  invariant intervention_is_voluntary_and_access_equivalent {
+    require intervention.participation_is_voluntary == true
+    require intervention.identity_disclosure_required == false
+    require intervention.nonparticipation_access_penalty == false
+    require intervention.accessible_communication_path_available == true
+    require intervention.human_fallback_available == true
+  }
+
+  invariant research_outputs_are_non_actuating {
+    require research.external_action_authorized == false
+  }
+}

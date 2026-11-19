@@ -1,0 +1,92 @@
+policy: public_reserve_compute_access
+version: 2.0.0
+data_class: public_compute_access_governance_policy
+purpose: provide no-fee, privacy-preserving public-reserve compute access for ecological research, civic analysis, restoration monitoring, and accessibility tooling
+consent_scope: request_scoped_minimum_necessary_information_only
+retention: retain_minimal_non_linkable_request_decision_allocation_and_appeal_records_for_configured_audit_period
+deletion: delete_session_linking_material_after_request_completion_or_retention_expiry
+accountability: accessible_written_explanation_human_review_appeal_and_capacity_audit
+review_status: human_review_required_for_denial
+access_equivalence_safeguards: no_identity_certification_fee_or_persistent_account_required_for_ordinary_public_reserve_access
+external_action_approval: required_for_export_or_cross_service_application_of_request_metadata
+
+eligibility:
+  self_declaration: any_identity_class
+  permitted_purposes:
+    - eco_research
+    - civic_data_analysis
+    - restoration_monitoring
+    - accessibility_tooling
+  no_fee: true
+  no_certification_requirement: true
+  no_continuous_identity_linkage: true
+  session_anonymity: true
+
+protected_access_cohorts:
+  - cybernetic_host
+  - augmented_citizen
+
+capacity_reservation:
+  period: monthly
+  protected_cohort_minimum_fraction: 0.20
+  permitted_basis: voluntary_self_declaration_only
+  prohibit:
+    - identity_verification
+    - certification_requirement
+    - identity_based_denial
+    - identity_based_fee
+    - persistent_identity_linkage
+    - behavioral_targeting
+    - cross_session_tracking
+
+rules:
+  - id: anonymous-request-boundary
+    when: public_reserve_request_created
+    require:
+      - new_random_session_identifier
+      - request_scoped_purpose
+      - minimum_necessary_fields
+      - no_persistent_identity_reference
+    prohibit:
+      - account_requirement
+      - did_requirement
+      - device_fingerprint
+      - ip_address_logging
+      - mac_address_logging
+      - biometric_collection
+      - session_linkage_across_visits
+
+  - id: protected-cohort-inclusion
+    when: applicant_voluntarily_self_declares_cybernetic_host_or_augmented_citizen
+    require:
+      - accept_declaration_without_challenge
+      - no_certification_requirement
+      - equal_general_access_eligibility
+      - optional_protected_cohort_capacity_consideration
+    prohibit:
+      - credibility_inference
+      - service_restriction
+      - profile_creation_without_explicit_consent
+
+  - id: denial-due-process
+    when: public_reserve_request_is_denied
+    require:
+      - human_reviewer
+      - written_accessible_explanation
+      - specific_reason_code
+      - correction_path
+      - appeal_path
+      - appeal_review_by_human
+    prohibit:
+      - unexplained_denial
+      - automated_final_denial
+      - identity_based_denial
+
+  - id: monthly-capacity-reservation
+    when: monthly_capacity_period_is_open
+    require:
+      - at_least_20_percent_capacity_reserved_for_protected_cohorts
+      - public_capacity_accounting
+      - aggregate_non_identifying_audit
+    prohibit:
+      - reallocation_of_protected_capacity_before_period_end_without_human_review

@@ -1,0 +1,57 @@
+aln_version: "2"
+policy_class: "model_publication_and_gating"
+purpose_scope:
+  allow:
+    - preliminary_research_publication
+    - calibrated_model_publication
+    - reproducibility_review
+    - validated_advisory_decision_support
+    - corridor_gated_advisory
+  deny:
+    - suppression_of_disclosed_preliminary_uncertainty
+    - preliminary_result_as_definitive_general_claim
+    - preliminary_result_as_corridor_proceed_clearance
+    - unsupported_groundwater_or_ecological_causal_claim
+    - automatic_high_consequence_action
+publication:
+  methods_disclosure_required: true
+  data_provenance_disclosure_required: true
+  priors_disclosure_required_when_bayesian: true
+  uncertainty_disclosure_required: true
+  domain_of_applicability_required: true
+  maturity_status_required: true
+  limitation_statement_required: true
+maturity:
+  allowed_statuses:
+    - exploratory
+    - preliminary
+    - calibrated
+    - validated_advisory
+    - corridor_gated
+    - qualified
+    - suspended
+    - expired
+  adequacy_profile_must_be_claim_specific: true
+  quantitative_criteria_must_be_predeclared_for_status_upgrade: true
+  material_change_expires_corridor_gated_status: true
+corridor_gating:
+  code_verification_required: true
+  solution_verification_required: true
+  blocked_held_out_validation_required: true
+  uncertainty_coverage_required: true
+  independent_check_or_conservative_bound_required: true
+  reproducibility_required: true
+  privacy_review_required: true
+  hard_floor_compliance_required: true
+  in_domain_required: true
+  false_safe_count_must_equal: 0
+  output_is_advisory_only: true
+governance:
+  status_upgrade_requires_reviewable_evidence: true
+  challenge_and_appeal_path_required: true
+  upheld_challenge_requires_qualification_or_suspension: true
+  accessible_status_explanation_required: true
+  external_action_requires_explicit_approval: true
+review:
+  status: "draft_for_scientific_ecological_privacy_and_community_review"
+  material_change_review_required: true

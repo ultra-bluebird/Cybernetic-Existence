@@ -1,0 +1,50 @@
+policy SensorCalibrationGovernance version "2026-09-17" {
+
+  purpose {
+    data_class = ECOLOGICAL_AND_INFRASTRUCTURE_MEASUREMENT
+    permitted_use = DECISION_SUPPORT
+    prohibited_use = PERSON_PROFILING
+    prohibited_use = IDENTITY_INFERENCE
+    prohibited_use = AUTOMATED_ADVERSE_DECISION
+    prohibited_use = EXTERNAL_ACTION
+  }
+
+  invariant measurement_has_calibration_context {
+    require sensor.measurement_unit_present == true
+    require sensor.calibration_state_present == true
+    require sensor.calibration_date_present == true
+    require sensor.calibration_method_present == true
+    require sensor.measurement_uncertainty_present == true
+    require sensor.drift_tolerance_present == true
+    require sensor.provenance_reference_present == true
+  }
+
+  invariant drift_is_a_review_signal_not_a_claim {
+    when sensor.normalized_drift_exceeds_tolerance(sensor_ref)
+    require sensor.calibration_state(sensor_ref) == REVIEW_REQUIRED
+    require sensor.data_quality_flag(sensor_ref) == DRIFT_ALERT
+    require sensor.recalibration_claimed_without_review(sensor_ref) == false
+  }
+
+  invariant failure_modes_have_safe_fallbacks {
+    require sensor.fallback_mode_present == true
+    require sensor.failure_silence_allowed == false
+    require sensor.stale_reading_marked_as_current_allowed == false
+    require sensor.unvalidated_redundant_reading_allowed == false
+  }
+
+  invariant sensor_network_does_not_profile_people {
+    require sensor.personal_data_collected == false
+    require sensor.identity_inference_allowed == false
+    require sensor.biometric_inference_allowed == false
+    require sensor.health_inference_allowed == false
+    require sensor.augmentation_inference_allowed == false
+    require sensor.communication_mode_inference_allowed == false
+  }
+
+  invariant sensor_results_remain_decision_support {
+    require sensor.automated_eligibility_decision_allowed == false
+    require sensor.automated_enforcement_decision_allowed == false
+    require sensor.external_action_authorized == false
+  }
+}

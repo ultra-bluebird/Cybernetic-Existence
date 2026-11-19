@@ -1,0 +1,195 @@
+@SHARD "PROVENANCE-AUTHORITY-AND-WORKFLOW-BOUNDARY" {
+
+  @meta {
+    version: "1.0.0"
+    scope: "local_sha256_provenance_authority_separation_and_deterministic_session_integrity_orchestration"
+    audience: "local_validators_session_workflow_tools_recovery_tools_policy_engines_and_governance_reviewers"
+    consent_basis: "user_sovereign_default"
+    retention: "session_lifetime_plus_declared_audit_window"
+    accountability: "local_session_integrity_owner"
+    review_status: "draft_for_user_review"
+    operating_mode: "local_only_research_advisory"
+  }
+
+  @SCOPE_BOUNDARY {
+    subject: "declared_local_artifacts_provenance_records_and_session_integrity_workflow"
+
+    does_not_establish: [
+      "identity_verification",
+      "person_continuity_proof",
+      "real_world_system_status",
+      "real_world_companion_status",
+      "real_world_cybernetic_system_status",
+      "actor_attribution",
+      "intent_inference",
+      "medical_or_neural_status",
+      "biometric_status",
+      "public_registry_status",
+      "external_action_authorization"
+    ]
+  }
+
+  @SHA256_BOUNDARY {
+    hash_algorithm: "sha256"
+
+    hash_match_establishes_only: [
+      "local_bytes_match_declared_digest_when_bytes_are_available",
+      "artifact_reference_continuity",
+      "input_to_local_integrity_validation"
+    ]
+
+    hash_match_does_not_establish: [
+      "authorization",
+      "consent",
+      "identity",
+      "ownership",
+      "source_truth",
+      "content_correctness",
+      "empirical_validation",
+      "legal_status",
+      "safety",
+      "external_action_permission",
+      "repository_modification_permission",
+      "hardware_control_permission",
+      "identity_or_capability_inference"
+    ]
+
+    hash_match_is_not_authorization: true
+    hash_match_is_not_consent: true
+    hash_match_is_not_external_action_permission: true
+  }
+
+  @OPERATION_SPECIFIC_AUTHORITY {
+    authority_record_is_optional_and_local: true
+
+    authority_record_requires: [
+      "artifact_sha256",
+      "operation",
+      "declared_purpose",
+      "local_scope",
+      "policy_version",
+      "local_review_status",
+      "non_claims"
+    ]
+
+    authority_must_be_operation_specific: true
+    authority_must_be_purpose_specific: true
+    authority_must_not_be_blanket_permission: true
+    authority_must_not_be_inferred_from_sha256: true
+
+    permitted_local_operations: [
+      "local_byte_verification",
+      "local_integrity_review",
+      "local_quarantine_copy",
+      "local_recovery_record_generation",
+      "local_rebuild_from_declared_sources"
+    ]
+
+    prohibited_operations: [
+      "external_export_without_explicit_user_declaration",
+      "external_notification",
+      "external_service_call",
+      "connector_call",
+      "network_fetch",
+      "url_open",
+      "artifact_execution",
+      "repository_modification",
+      "account_action",
+      "hardware_control",
+      "identity_inference",
+      "capability_inference",
+      "medical_or_neural_inference"
+    ]
+  }
+
+  @DETERMINISTIC_SESSION_WORKFLOW {
+    workflow_steps: [
+      "read_local_artifact",
+      "read_local_provenance_manifest",
+      "validate_local_provenance",
+      "classify_integrity_status",
+      "emit_plain_language_and_machine_readable_result",
+      "quarantine_locally_when_status_is_suspect_or_contaminated",
+      "emit_recovery_record_when_quarantine_completed"
+    ]
+
+    status_mapping: {
+      clean: "eligible_for_declared_local_task_only"
+      suspect: "blocked_pending_local_review_and_quarantine"
+      contaminated: "blocked_pending_local_recovery_and_quarantine"
+      invalid_input: "local_error_not_established"
+    }
+
+    clean_result_is_not_global_authority: true
+    clean_result_is_not_external_action_authorization: true
+    suspect_or_contaminated_result_is_not_person_status: true
+
+    clean_requires: [
+      "complete_declared_provenance",
+      "valid_sha256_records",
+      "single_session_scope",
+      "no_unattributed_prompt_block",
+      "no_unattributed_url",
+      "no_unresolved_material_change"
+    ]
+
+    suspect_or_contaminated_requires: [
+      "preserve_original_artifact",
+      "do_not_modify_original_artifact",
+      "write_local_quarantine_copy_when_structured_sources_available",
+      "write_local_recovery_record",
+      "do_not_auto_rebuild",
+      "do_not_trigger_external_action",
+      "do_not_trigger_external_notification"
+    ]
+  }
+
+  @WORKFLOW_RESULT {
+    required_fields: [
+      "session_id",
+      "artifact_sha256",
+      "integrity_status",
+      "trusted_reuse_scope",
+      "recovery_eligible",
+      "quarantine_performed",
+      "external_action_authorized",
+      "plain_language_summary",
+      "non_claims"
+    ]
+
+    trusted_reuse_scope_for_clean: "declared_local_task_only"
+    trusted_reuse_scope_for_suspect_or_contaminated: "blocked_pending_local_review_or_recovery"
+
+    external_action_authorized: false
+    external_notification_authorized: false
+    forced_inactivity_authorized: false
+    identity_verification_required: false
+    private_system_disclosure_required: false
+    scoring_or_ranking_present: false
+  }
+
+  @NON_INTERFERENCE {
+    never_auto_fetch: true
+    never_auto_open_url: true
+    never_auto_execute_artifact_content: true
+    never_contact_external_services: true
+    never_trigger_external_action: true
+    never_trigger_external_notification: true
+    never_modify_user_owned_artifacts: true
+    never_modify_repository_files: true
+    never_require_identity_or_private_disclosure: true
+    never_rank_users_sessions_or_artifacts: true
+    never_trigger_forced_inactivity: true
+  }
+
+  @ACCESS_EQUIVALENCE {
+    plain_language_summary_required: true
+    machine_readable_result_required: true
+    offline_readable: true
+    no_account_required: true
+    no_identity_verification_required: true
+    no_private_system_disclosure_required: true
+    correction_and_appeal_available: true
+    material_change_review_available: true
+  }
+}

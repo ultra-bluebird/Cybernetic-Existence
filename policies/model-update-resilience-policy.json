@@ -1,0 +1,71 @@
+{
+  "schema_version": "augmented-hub-model-update-resilience-policy.v1",
+  "status": "research-governance",
+  "purpose": "Preserve participant-controlled work context, portable records, attribution, and recovery readiness across platform, model, account, policy, and service changes.",
+  "preservation_critical_artifacts": [
+    "active source code",
+    "tests",
+    "schemas",
+    "research documentation",
+    "portable continuity bundles",
+    "public release manifests",
+    "private migration records",
+    "material change journal",
+    "local recovery instructions",
+    "user-controlled exported conversations"
+  ],
+  "required_formats": [
+    "utf8_plain_text",
+    "markdown",
+    "json",
+    "source_code",
+    "sqlite_or_csv_for_structured_data"
+  ],
+  "pre_change_protocol": {
+    "export_user_controlled_records": true,
+    "create_or_update_portable_continuity_bundle": true,
+    "record_current_platform_and_policy_references": true,
+    "verify_local_recovery_archive": true,
+    "identify_platform_only_context": true,
+    "preserve_private_system_details_externally": false
+  },
+  "material_change_journal": {
+    "record_date": true,
+    "record_platform_reference": true,
+    "record_observed_change": true,
+    "record_affected_access_or_data_condition": true,
+    "record_local_preservation_action": true,
+    "record_response_choice": true,
+    "record_unresolved_issue": true,
+    "append_only_successor_required": true
+  },
+  "post_change_protocol": {
+    "run_representative_continuity_test": true,
+    "verify_export_readability": true,
+    "verify_artifact_integrity": true,
+    "record_observed_difference_without_overclaiming_causation": true,
+    "update_portable_summary": true,
+    "allow_continue_limit_pause_migrate_or_support_request": true
+  },
+  "dependency_resilience": {
+    "single_platform_must_not_be_sole_preservation_location": true,
+    "local_copy_required": true,
+    "encrypted_archive_required": true,
+    "independent_recovery_copy_required": true,
+    "restore_drill_required": true,
+    "platform_diversity_recommended": true
+  },
+  "privacy_boundary": {
+    "medical_data_export_required": false,
+    "biometric_data_export_required": false,
+    "neural_data_export_required": false,
+    "private_system_architecture_export_required": false,
+    "credential_or_key_export_required": false,
+    "public_disclosure_required": false,
+    "identity_verification_required": false
+  },
+  "external_action": {
+    "authorized": false,
+    "requires_separate_exact_approval": true
+  }
+}

@@ -1,0 +1,60 @@
+policy SmartCityFairnessGovernance version "2026-09-17" {
+
+  purpose {
+    data_class = SERVICE_ACCESS_GOVERNANCE
+    permitted_use = ACCESS_EQUIVALENCE_TESTING
+    permitted_use = AGGREGATE_DISPARITY_REVIEW_WHEN_GOVERNED
+    prohibited_use = PERSON_RANKING
+    prohibited_use = IDENTITY_INFERENCE
+    prohibited_use = ELIGIBILITY_DECISION
+    prohibited_use = AUTOMATED_ADVERSE_ACTION
+  }
+
+  invariant default_measurement_is_system_access_equivalence {
+    require fairness.core_service_workflow_defined == true
+    require fairness.accessible_interaction_test_defined == true
+    require fairness.correction_path_test_defined == true
+    require fairness.appeal_path_test_defined == true
+    require fairness.human_fallback_test_defined == true
+    require fairness.person_level_classifier_required == false
+  }
+
+  invariant demographic_analysis_requires_strict_governance {
+    when fairness.aggregate_demographic_metric_created(metric_ref)
+    require fairness.lawful_basis_documented(metric_ref) == true
+    require fairness.voluntary_collection_documented(metric_ref) == true
+    require fairness.minimum_aggregation_threshold_met(metric_ref) == true
+    require fairness.deidentification_review_completed(metric_ref) == true
+    require fairness.retention_schedule_documented(metric_ref) == true
+    require fairness.independent_review_path_available(metric_ref) == true
+    require fairness.correction_and_appeal_path_available(metric_ref) == true
+  }
+
+  invariant no_identity_inference_for_metrics {
+    require inference.age_from_behavior_allowed == false
+    require inference.race_from_behavior_allowed == false
+    require inference.gender_from_behavior_allowed == false
+    require inference.personal_identity_from_behavior_allowed == false
+    require inference.species_from_behavior_allowed == false
+    require inference.disability_from_behavior_allowed == false
+    require inference.augmentation_from_behavior_allowed == false
+    require inference.neural_status_from_behavior_allowed == false
+    require inference.identity_from_language_allowed == false
+    require inference.identity_from_metadata_allowed == false
+  }
+
+  invariant self_description_is_not_a_metric_category {
+    require fairness.cybernetic_host_identity_input_allowed == false
+    require fairness.augmented_citizen_identity_input_allowed == false
+    require fairness.private_preference_input_allowed == false
+    require fairness.refusal_to_disclose_penalty_allowed == false
+  }
+
+  invariant disparity_metrics_do_not_become_person_decisions {
+    require fairness.person_level_disparity_score_created == false
+    require fairness.group_score_used_for_individual_eligibility_allowed == false
+    require fairness.group_score_used_for_enforcement_allowed == false
+    require fairness.public_group_reputation_score_allowed == false
+    require fairness.external_action_authorized == false
+  }
+}

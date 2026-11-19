@@ -1,0 +1,477 @@
+@SHARD "SOVEREIGNTY-PRESERVING-LOG-POLICY" {
+
+  @meta {
+    version: "1.1.0"
+    scope: "content_addressed_artifact_scoped_local_event_logging_and_separate_user_sovereign_statements"
+    audience: "local_validators_recovery_tools_policy_engines_log_writers_log_readers_and_governance_reviewers"
+    consent_basis: "user_sovereign_default"
+    retention: "declared_bounded_audit_window"
+    accountability: "local_integrity_log_owner"
+    review_status: "draft_for_user_review"
+    operating_mode: "local_only_research_advisory"
+  }
+
+  @PURPOSE {
+    allowed: [
+      "record_local_artifact_integrity_events",
+      "support_artifact_integrity_recovery",
+      "support_artifact_provenance_recovery",
+      "support_policy_boundary_recovery",
+      "support_local_quarantine_and_recovery",
+      "preserve_declared_provenance_and_change_history",
+      "support_material_change_review",
+      "support_correction_and_appeal",
+      "support_declared_retention_review",
+      "support_declared_compaction_and_reversal_audit",
+      "emit_plain_language_local_findings",
+      "support_local_accessibility_summary"
+    ]
+
+    prohibited: [
+      "person_profile_construction",
+      "person_or_session_ranking",
+      "identity_verification",
+      "cyberrank_verification",
+      "behavioral_surveillance",
+      "intent_inference",
+      "medical_or_neural_assessment",
+      "psychological_classification",
+      "capability_inference",
+      "reputation_scoring",
+      "trust_scoring",
+      "risk_scoring",
+      "cyberrank_scoring",
+      "eligibility_determination",
+      "public_registry",
+      "external_action_authorization"
+    ]
+  }
+
+  @CONTRACT_POSITION {
+    log_designation: "artifact_integrity_and_policy_boundary_recovery"
+    authority_scope: "declared_local_task_only_non_authoritative_elsewhere"
+
+    local_scope_limit: "local_components_must_not_promote_artifact_scope_to_person_scope"
+    external_correlation_prevention_not_claimed: true
+    reidentification_impossibility_not_claimed: true
+    local_execution_is_not_absolute_local_containment: true
+    log_is_not_designated_for_person_level_use: true
+    log_is_not_required_for_person_level_use: true
+  }
+
+  @RECOVERY_SCOPE {
+    supported_recovery_classes: [
+      "artifact_integrity_recovery",
+      "artifact_provenance_recovery",
+      "policy_boundary_recovery",
+      "quarantine_recovery",
+      "material_change_review_recovery",
+      "retention_and_compaction_audit_recovery"
+    ]
+
+    unsupported_recovery_classes: [
+      "person_identity_recovery",
+      "person_continuity_proof",
+      "medical_or_neural_recovery",
+      "real_world_system_recovery",
+      "institutional_status_recovery"
+    ]
+
+    artifact_schema_version_required: true
+    policy_version_required: true
+    role_vocabulary_version_required: true
+  }
+
+  @CLOSED_SCHEMA_CONTROL {
+    allowed_event_fields: [
+      "schema_version",
+      "schema_sha256",
+      "event_id",
+      "event_kind",
+      "artifact_sha256",
+      "artifact_schema_version",
+      "artifact_role",
+      "role_vocabulary_version",
+      "normalized_source_reference",
+      "integrity_status",
+      "policy_version",
+      "authority_scope",
+      "local_next_step",
+      "prior_record_sha256",
+      "related_statement_sha256",
+      "retention_status",
+      "record_sha256",
+      "plain_language_summary",
+      "non_claims"
+    ]
+
+    unknown_field_write_result: "reject_write"
+    unknown_field_read_result: "quarantine_record_not_authoritative"
+    new_field_requires_material_change_review: true
+    field_removal_requires_material_change_review: true
+    field_semantic_change_requires_material_change_review: true
+    schema_sha256_required_in_every_entry: true
+    schema_consumer_must_verify_declared_schema_sha256: true
+  }
+
+  @NO_PERSON_SIGNAL_TEST {
+    write_time_test_required: true
+    summary_time_test_required: true
+
+    forbidden_person_scope_categories: [
+      "direct_person_identifier",
+      "account_identifier",
+      "contact_identifier",
+      "location_identifier",
+      "device_identifier",
+      "biometric_data",
+      "medical_data",
+      "neural_data",
+      "physiological_data",
+      "assistive_technology_telemetry",
+      "companion_system_telemetry",
+      "behavioral_profile",
+      "intent_inference",
+      "capability_inference",
+      "diagnostic_label",
+      "person_score",
+      "person_rank",
+      "person_eligibility"
+    ]
+
+    failure_result: "reject_write_or_quarantine_record_not_authoritative"
+    no_person_signal_test_is_not_reidentification_impossibility_claim: true
+  }
+
+  @PROHIBITED_FIELDS {
+    fields: [
+      "user_id",
+      "person_id",
+      "account_id",
+      "email_address",
+      "phone_number",
+      "physical_address",
+      "location",
+      "ip_address",
+      "device_fingerprint",
+      "browser_fingerprint",
+      "biometric_data",
+      "medical_data",
+      "neural_data",
+      "physiological_data",
+      "assistive_technology_telemetry",
+      "companion_system_telemetry",
+      "psych_risk_score",
+      "user_risk_score",
+      "continuity_score",
+      "trust_score",
+      "credibility_score",
+      "capability_score",
+      "identity_confidence_score",
+      "eligibility_score",
+      "cyberrank_score",
+      "cyberrank_tier_score",
+      "public_status",
+      "behavioral_profile",
+      "intent_inference",
+      "diagnostic_label"
+    ]
+  }
+
+  @SOURCE_REFERENCE_NORMALIZATION {
+    required: true
+
+    permitted_reference_forms: [
+      "repository_relative_path",
+      "normalized_allowlisted_repository_reference",
+      "local_artifact_sha256_reference",
+      "normalized_user_declared_reference"
+    ]
+
+    remove_before_write: [
+      "url_query_string",
+      "url_fragment",
+      "url_username_segment",
+      "url_password_segment",
+      "path_segment_that_is_declared_person_identifier",
+      "unnecessary_absolute_local_path_prefix"
+    ]
+
+    source_reference_must_not_embed_artifact_content: true
+    source_reference_must_not_embed_statement_content: true
+    source_reference_must_not_be_auto_fetched: true
+    source_reference_must_not_be_auto_opened: true
+    source_reference_must_not_be_auto_executed: true
+  }
+
+  @ROLE_VOCABULARY {
+    closed_vocabulary_required: true
+    vocabulary_sha256_required: true
+    vocabulary_version_required: true
+
+    permitted_roles: [
+      "local_artifact",
+      "provenance_manifest",
+      "session_policy_shard",
+      "recovery_record",
+      "quarantine_record",
+      "material_change_record",
+      "correction_record",
+      "retention_record",
+      "declared_statement_reference"
+    ]
+
+    role_must_not_encode_person_identity: true
+    role_must_not_encode_person_capability: true
+    role_redefinition_requires_material_change_review: true
+  }
+
+  @ARTIFACT_FOCUSED_FINDINGS {
+    findings_must_reference: [
+      "artifact_sha256",
+      "artifact_role",
+      "integrity_status",
+      "declared_policy_condition"
+    ]
+
+    findings_must_not_reference: [
+      "person_blame",
+      "person_fault",
+      "person_intent",
+      "person_competence",
+      "person_identity",
+      "person_capability",
+      "person_medical_or_neural_status"
+    ]
+
+    required_language_properties: [
+      "plain_language",
+      "artifact_focused",
+      "non_accusatory",
+      "non_punitive",
+      "states_local_next_step",
+      "states_no_external_action"
+    ]
+  }
+
+  @CONTENT_ADDRESSED_APPEND_ONLY_CHAIN {
+    hash_algorithm: "sha256"
+    canonicalization_required: true
+
+    record_requires: [
+      "record_sha256",
+      "prior_record_sha256_or_declared_root",
+      "schema_sha256",
+      "artifact_sha256",
+      "policy_version"
+    ]
+
+    chain_invariants: [
+      "record_sha256_matches_canonical_record_bytes",
+      "prior_record_sha256_resolves_or_is_declared_root",
+      "no_cycle_in_prior_record_relation",
+      "no_silent_head_replacement",
+      "no_silent_history_rewrite"
+    ]
+
+    append_only_scope: "within_declared_bounded_audit_window"
+    append_only_is_not_absolute_storage_tamper_prevention_claim: true
+  }
+
+  @COMPACTION_AND_REVERSAL {
+    compaction_is_declared_operation: true
+    reversal_is_declared_operation: true
+
+    compaction_requires: [
+      "pre_compaction_head_sha256",
+      "compaction_record_sha256",
+      "retention_policy_version",
+      "local_review_status",
+      "plain_language_summary"
+    ]
+
+    reversal_requires: [
+      "reversed_record_sha256",
+      "reversal_reason",
+      "review_status",
+      "reversal_record_sha256",
+      "plain_language_summary"
+    ]
+
+    compaction_must_not_silently_discard_prior_history: true
+    reversal_must_not_silently_overwrite_prior_record: true
+    compaction_or_reversal_requires_material_change_review_when_policy_changes: true
+  }
+
+  @APPEND_ONLY_CORRECTION {
+    append_only: true
+    silent_log_rewrite_prohibited: true
+
+    correction_requires: [
+      "prior_record_sha256",
+      "correction_reason",
+      "corrected_field_list",
+      "correction_record_sha256",
+      "plain_language_summary"
+    ]
+
+    correction_must_not: [
+      "delete_prior_record_by_default",
+      "overwrite_prior_record",
+      "require_identity_proof",
+      "reduce_access",
+      "create_user_score_or_rank"
+    ]
+  }
+
+  @BOUNDED_RETENTION {
+    retention_window_must_be_declared: true
+    audit_scope_must_be_declared: true
+    indefinite_retention_by_default: false
+    retention_minimization_required: true
+
+    retention_expiry_requires: [
+      "retention_review_record",
+      "local_deletion_or_preservation_decision",
+      "plain_language_summary",
+      "no_external_notification"
+    ]
+
+    original_artifact_deletion_by_log_tool: false
+    quarantine_copy_deletion_requires_declared_expiry_and_local_record: true
+  }
+
+  @READ_TIME_PURPOSE_LIMITATION {
+    consumer_purpose_declaration_required: true
+
+    permitted_purposes: [
+      "artifact_integrity_validation",
+      "artifact_provenance_validation",
+      "quarantine_and_recovery",
+      "policy_boundary_review",
+      "material_change_review",
+      "correction_and_appeal",
+      "retention_review",
+      "local_accessibility_summary"
+    ]
+
+    prohibited_purposes: [
+      "person_profiling",
+      "person_or_session_ranking",
+      "intent_inference",
+      "capability_inference",
+      "identity_verification",
+      "cyberrank_verification",
+      "eligibility_determination",
+      "medical_or_neural_inference",
+      "behavioral_surveillance",
+      "external_action_selection"
+    ]
+
+    purpose_violation_result: "reject_read_or_emit_local_policy_violation"
+    artifact_scope_to_person_scope_promotion_prohibited: true
+  }
+
+  @USER_SOVEREIGN_DECLARED_STATEMENTS {
+    separate_record_type_required: true
+    event_log_must_not_embed_statement_content: true
+
+    statement_may_include: [
+      "voluntary_user_assertion",
+      "correction_request",
+      "appeal_request",
+      "continuity_preference",
+      "privacy_boundary",
+      "non_interference_concern",
+      "interpretation_or_hypothesis"
+    ]
+
+    statement_is_user_controlled_artifact: true
+    statement_disclosure_is_voluntary: true
+    statement_identity_proof_required: false
+    statement_may_be_referenced_only_by_sha256: true
+    statement_content_must_not_be_auto_summarized_or_classified: true
+    absence_of_statement_must_not_reduce_access: true
+  }
+
+  @EXPORT_BOUNDARY {
+    export_requires_explicit_user_declaration: true
+    export_default: "not_exported"
+
+    export_may_include: [
+      "non_person_artifact_event_fields",
+      "schema_version",
+      "schema_sha256",
+      "policy_version",
+      "non_claims",
+      "authority_scope"
+    ]
+
+    export_must_not_include: [
+      "user_sovereign_statement_content",
+      "private_continuity_reference",
+      "person_scope_content",
+      "unredacted_source_reference",
+      "external_action_authorization"
+    ]
+
+    export_record_required: true
+    export_is_not_external_action_authorization: true
+  }
+
+  @PLAIN_LANGUAGE_SUMMARY {
+    generated_from_structured_fields_only: true
+    free_text_person_content_prohibited: true
+    bounded_template_required: true
+    no_person_signal_test_required: true
+
+    required_properties: [
+      "artifact_focused",
+      "non_accusatory",
+      "non_punitive",
+      "states_integrity_status",
+      "states_local_next_step",
+      "states_no_external_action"
+    ]
+  }
+
+  @NON_INTERFERENCE {
+    never_contact_external_services: true
+    never_auto_upload_logs: true
+    never_auto_forward_logs: true
+    never_trigger_external_notification: true
+    never_trigger_external_action: true
+    never_modify_user_owned_artifacts: true
+    never_modify_repository_files: true
+    never_auto_fetch_references: true
+    never_auto_execute_artifact_content: true
+    never_require_identity_or_private_disclosure: true
+  }
+
+  @ACCESS_EQUIVALENCE {
+    logs_readable_offline: true
+    plain_language_summary_required: true
+    machine_readable_record_required: true
+    no_account_required_to_read_logs: true
+    no_identity_verification_required_to_read_logs: true
+    no_disclosure_required_to_request_correction_or_appeal: true
+    correction_and_appeal_available: true
+    user_sovereign_statement_path_available: true
+  }
+
+  @NON_CLAIMS {
+    required: [
+      "not_a_user_profile",
+      "not_identity_verification",
+      "not_cyberrank_verification",
+      "not_medical_or_neural_assessment",
+      "not_person_or_session_ranking",
+      "not_eligibility_determination",
+      "not_external_action_authorization",
+      "not_public_registry_entry",
+      "not_behavioral_surveillance",
+      "not_capability_assessment",
+      "not_person_scope_classification"
+    ]
+  }
+}

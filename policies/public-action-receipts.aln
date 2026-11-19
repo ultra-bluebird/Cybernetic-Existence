@@ -1,0 +1,44 @@
+policy PublicActionReceipts version "2026-09-16" {
+
+  invariant receipt_is_user_initiated {
+    when receipt.created(receipt_ref)
+    require receipt.user_initiated(receipt_ref) == true
+  }
+
+  invariant receipt_is_short_lived_and_local {
+    require receipt.default_storage_scope == CURRENT_LOCAL_SESSION
+    require receipt.expiry_present == true
+    require receipt.dismissible == true
+  }
+
+  invariant receipt_contains_no_behavioral_profile {
+    require receipt.contains_personal_identity == false
+    require receipt.contains_recipient_identity == false
+    require receipt.contains_content == false
+    require receipt.contains_location_history == false
+    require receipt.contains_behavioral_count == false
+    require receipt.contains_cross_service_identifier == false
+  }
+
+  invariant receipt_is_not_used_for_evaluation {
+    require ranking.receipt_input_allowed == false
+    require eligibility.receipt_input_allowed == false
+    require profiling.receipt_input_allowed == false
+    require advertising.receipt_input_allowed == false
+    require law_enforcement_export_automation_allowed == false
+  }
+
+  invariant receipt_explains_reversibility {
+    when receipt.reversible(receipt_ref) == true
+    require receipt.undo_path_present(receipt_ref) == true
+  }
+
+  invariant receipt_has_accessible_presentation {
+    require receipt.visual_presentation_available == true
+    require receipt.nonvisual_presentation_available == true
+  }
+
+  invariant receipt_non_actuation {
+    require receipt.external_action_authorized == false
+  }
+}

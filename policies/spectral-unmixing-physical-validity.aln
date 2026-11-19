@@ -1,0 +1,46 @@
+policy_name = "spectral_unmixing_physical_validity"
+policy_version = "1.0"
+record_class = "spectral_unmixing_assessment"
+purpose = "Allow linear spectral fractions only when their physical areal-mixture assumptions and endmember identifiability conditions are declared and validated."
+consent_scope = "local_validation_and_non_actuating_research_only"
+retention = "bounded_by_repository_retention_policy"
+deletion = "remove_derived_spectral_assessment_records_when_no_longer_required"
+accountability = "method_review_and_sensor_quality_review"
+review_status = "required_before_composition_or_causal_promotion"
+access_equivalence_safeguard = "plain_language_mixing_assumption_and_model_limitations"
+external_action_approval = "prohibited"
+
+require external_action_authorized == false
+
+require mixing_model_class in [
+    "LINEAR_AREAL",
+    "LAYERED_RADIATIVE_TRANSFER",
+    "INTIMATE_MIXTURE_NONLINEAR",
+    "EMPIRICAL_NONLINEAR",
+    "DESCRIPTIVE_SPECTRAL_PATTERN"
+]
+
+require unmixing_validation_state in [
+    "PHYSICALLY_VALIDATED",
+    "ENDMEMBER_UNIDENTIFIABLE",
+    "LINEAR_MIXTURE_INADEQUATE",
+    "OUT_OF_DOMAIN",
+    "METHOD_REVIEW_REQUIRED"
+]
+
+when mixing_model_class == "LINEAR_AREAL":
+    require fraction_nonnegative_constraint_applied == true
+    require fraction_sum_to_one_constraint_applied == true
+    require endmember_library_digest is_not_null
+    require endmember_separability_review_passed == true
+    require heldout_reconstruction_validation_passed == true
+    require layered_or_intimate_mixing_assessed == true
+
+when layered_or_intimate_mixing_present == true:
+    require mixing_model_class not_in ["LINEAR_AREAL"]
+
+when unmixing_validation_state != "PHYSICALLY_VALIDATED":
+    require composition_claim_allowed == false
+    require causal_effect_promotion_allowed == false
+
+deny when external_action_authorized == true

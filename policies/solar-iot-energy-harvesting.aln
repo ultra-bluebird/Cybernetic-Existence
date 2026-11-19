@@ -1,0 +1,139 @@
+policy SolarIoTEnergyHarvesting version "1.0.0" {
+  purpose "Maintain reliable ecological sensing with solar energy harvesting while minimizing battery degradation, electronic waste, data-quality loss, and inequitable coverage."
+
+  data_class energy_telemetry {
+    sensitivity "operational"
+    allowed_fields [
+      "node_reference",
+      "coarse_site_zone",
+      "timestamp",
+      "battery_state_of_charge",
+      "battery_health_estimate",
+      "battery_temperature",
+      "panel_voltage",
+      "panel_current",
+      "harvested_energy",
+      "load_energy",
+      "forecast_energy",
+      "forecast_uncertainty",
+      "duty_mode",
+      "sampling_interval",
+      "sensor_health",
+      "maintenance_state"
+    ]
+    prohibited_fields [
+      "person_identity",
+      "mobile_device_identifier",
+      "biometric_data",
+      "health_data",
+      "precise_person_location",
+      "unnecessary_audio_or_video_capture"
+    ]
+    retention {
+      detailed_days 365
+      aggregate_days 3650
+      encrypted_storage_required true
+    }
+  }
+
+  energy_budget {
+    required_inputs [
+      "battery_state_of_charge",
+      "battery_health_estimate",
+      "solar_harvest_or_forecast",
+      "forecast_uncertainty",
+      "essential_load_estimate",
+      "reserve_requirement"
+    ]
+    required_constraints [
+      "minimum_state_of_charge",
+      "reserve_state_of_charge",
+      "maximum_depth_of_discharge",
+      "battery_temperature_guard",
+      "essential_sampling_minimum"
+    ]
+    prohibited_actions [
+      "unbounded_battery_discharge",
+      "silent_loss_of_essential_monitoring",
+      "unsupported_battery_health_claim",
+      "destructive_overcharge_or_overdischarge"
+    ]
+  }
+
+  duty_cycle {
+    required_modes [
+      "critical_reserve",
+      "baseline_only",
+      "adaptive",
+      "energy_surplus"
+    ]
+    degradation_priority_order [
+      "pause_optional_workloads",
+      "batch_noncritical_transmission",
+      "reduce_noncritical_sampling",
+      "preserve_essential_sampling",
+      "request_maintenance_review"
+    ]
+    ecological_temporal_resolution {
+      baseline_cadence_required true
+      cadence_change_requires_log true
+      cadence_change_requires_explanation true
+      data_gap_annotation_required true
+    }
+  }
+
+  sensor_placement {
+    required_criteria [
+      "low_quantile_harvest_reliability",
+      "ecological_coverage",
+      "measurement_representativeness",
+      "maintenance_access",
+      "physical_safety",
+      "accessibility",
+      "privacy_risk"
+    ]
+    prohibited_criteria [
+      "community_disinvestment_due_to_lower_solar_yield",
+      "identity_based_coverage_priority",
+      "health_or_augmentation_status_inference"
+    ]
+    low_energy_site_response [
+      "increase_panel_capacity",
+      "increase_energy_reserve",
+      "reduce_nonessential_load",
+      "use_appropriate_hybrid_power",
+      "retain_equitable_measurement_coverage"
+    ]
+  }
+
+  repair_and_materials {
+    battery_chemistry_review_required true
+    replaceable_battery_design_preferred true
+    battery_management_system_required true
+    end_of_life_collection_plan_required true
+    repairability_and_maintenance_log_required true
+    e_waste_minimization_required true
+  }
+
+  governance {
+    diagnostic_outputs_are_advisory_only true
+    human_review_required_for [
+      "essential_sampling_cadence_reduction",
+      "battery_chemistry_change",
+      "long_duration_node_shutdown",
+      "coverage_reduction",
+      "placement_policy_change"
+    ]
+    public_reporting_required [
+      "node_uptime_aggregate",
+      "energy_shortfall_frequency",
+      "data_gap_rate",
+      "battery_replacement_rate",
+      "repair_completion_rate",
+      "coverage_equity_summary",
+      "forecast_error_summary"
+    ]
+    accessible_explanation_required true
+    grievance_and_review_path_required true
+  }
+}

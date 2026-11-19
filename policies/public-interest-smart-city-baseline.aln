@@ -1,0 +1,500 @@
+aln_version: "2"
+policy_type: "public_interest_smart_city_baseline"
+policy_name: "Public Interest Smart-City Privacy, Rights, and Resilience Baseline"
+status: "review_required"
+scope: "Augmented-Hub cross-domain technical, operational, research, planning, and public-service artifacts"
+
+purpose:
+  - "Protect dignity, privacy, autonomy, accessibility, repairability, and equal access."
+  - "Support ecological restoration, climate resilience, public safety, civic participation, and accountable maintenance."
+  - "Prevent surveillance, social scoring, discrimination, essential-service denial, and covert identity inference."
+  - "Require accessible human and non-digital alternatives for consequential public interactions."
+
+data_classes:
+  sensitive:
+    - "identity"
+    - "self_asserted_identity"
+    - "health"
+    - "disability"
+    - "augmentation"
+    - "cybernetic_host_status"
+    - "assistive_technology"
+    - "neural"
+    - "biometric"
+    - "precise_location"
+    - "movement_history"
+    - "household_utility_data"
+    - "device_identifier"
+    - "communications_content"
+    - "raw_audio"
+    - "raw_video"
+  generally_permitted_when_minimized:
+    - "aggregate_environmental_measurement"
+    - "fixed_sensor_health_state"
+    - "aggregate_service_reliability_metric"
+    - "coarsened_geographic_zone"
+    - "public_facility_inventory"
+    - "publicly_releasable_weather_data"
+    - "calibration_residual"
+    - "aggregate_accessibility_barrier_metric"
+    - "aggregate_repair_status"
+  prohibited_for_general_public_release:
+    - "individual_level_record"
+    - "household_level_record"
+    - "property_value_metric"
+    - "financial_rank"
+    - "social_rank"
+    - "reputation_score"
+    - "identity_validity_score"
+    - "individual_vulnerability_score"
+    - "behavioral_profile"
+    - "reidentification_key"
+
+core_invariants:
+  - id: "essential_service_non_denial"
+    rule: "essential_service_access SHALL NOT depend on cryptography, proof, credential, phone, app, account, network, device, identity verification, health disclosure, augmentation disclosure, or self_asserted_identity."
+    protected_services:
+      - "emergency_shelter"
+      - "cooling"
+      - "warming"
+      - "drinking_water"
+      - "sanitation"
+      - "safety_information"
+      - "emergency_communications"
+      - "life_safety_services"
+
+  - id: "human_fallback_required"
+    rule: "Every consequential automated workflow SHALL provide an accessible human-mediated and non-digital fallback."
+    required_paths:
+      - "paper"
+      - "telephone_or_relay"
+      - "public_terminal_or_kiosk"
+      - "staff_assisted_submission"
+      - "accessible_explanation"
+      - "appeal_or_correction"
+
+  - id: "no_identity_inference"
+    rule: "Systems SHALL classify temporary environmental, infrastructure, or scene-safety conditions rather than infer identity, disability, health, augmentation, cybernetic_host_status, or assistive_technology status."
+
+  - id: "no_social_or_financial_scoring"
+    rule: "Systems SHALL NOT compute, retain, publish, or operationalize a social score, reputation score, CyberRank tier, financial rank, wealth score, property-value preference, influence score, or behavior-derived eligibility score."
+
+  - id: "data_minimization"
+    rule: "Only data necessary for the explicitly declared public-interest purpose may be collected, processed, retained, or released."
+
+  - id: "purpose_limitation"
+    rule: "Data collected for maintenance, safety, calibration, accessibility, or environmental planning SHALL NOT be reused for advertising, identity inference, law-enforcement targeting, financial screening, employment screening, social scoring, or unrelated eligibility decisions."
+
+  - id: "aggregate_first"
+    rule: "Public reporting and routine analytical access SHALL use aggregate, coarsened, small-cell-protected data. Individual, household, and property-linked release is prohibited unless a separate lawful and rights-reviewed authority exists."
+
+  - id: "offline_resilience"
+    rule: "Loss of network connectivity SHALL NOT remove essential information, accessible public access, appeal intake, correction intake, or emergency fallback routes."
+
+  - id: "repair_first"
+    rule: "Public infrastructure sensing, lighting, access, transit, and communications components SHALL support diagnosable faults, maintainable interfaces, signed updates, rollback, and documented repair pathways."
+
+  - id: "non_actuating_decision_support"
+    rule: "Research analytics, fairness metrics, anomaly detection, calibration models, and planning scores SHALL NOT directly actuate safety-critical infrastructure without separately validated engineering controls, human authority, and documented operational approval."
+
+  - id: "review_and_appeal"
+    rule: "Any consequential denial, restriction, correction failure, data-access refusal, moderation action, or safety lockout SHALL provide accessible notice, plain-language explanation, human review, correction, appeal, and retention information."
+
+  - id: "non_compensation"
+    rule: "High ecological, financial, operational, or optimization benefit SHALL NOT compensate for a violated privacy, accessibility, safety, anti-displacement, non-discrimination, or essential-service continuity constraint."
+
+offline_credentials:
+  use_case: "optional_nonessential_capability_statement"
+  essential_service_dependency: false
+  permitted_claims:
+    - "narrow_service_capability"
+    - "validity_window"
+    - "issuer_scope"
+    - "format_version"
+    - "revocation_or_status_snapshot_reference"
+  prohibited_claims:
+    - "medical_diagnosis"
+    - "augmentation_status"
+    - "cybernetic_host_status"
+    - "biometric_reference"
+    - "persistent_cross_service_identifier"
+    - "emergency_service_use_history"
+  verifier_requirements:
+    network_required: false
+    local_trust_bundle_required: true
+    signed_issuer_manifest_required: true
+    status_snapshot_required: true
+    human_readable_result_required: true
+    verifier_logging_default: "none"
+    failure_response: "human_or_equivalent_service_path"
+  accessibility:
+    required_representations:
+      - "paper"
+      - "large_print"
+      - "screen_reader_compatible"
+      - "keyboard_operable"
+      - "human_assisted"
+    optional_representations:
+      - "qr"
+      - "nfc"
+  anti_linkability:
+    static_identifier_prohibited: true
+    scanner_log_retention: "none_by_default"
+    transport_metadata_minimization_required: true
+    time_window_minimization_required: true
+
+waste_management:
+  collection_model: "shared_bin_first"
+  household_linkage_prohibited: true
+  property_value_linkage_prohibited: true
+  route_planning:
+    execution_location: "local_operational_appliance"
+    cloud_dependency: false
+    low_emission_optimization_permitted: true
+    sanitation_coverage_reduction_prohibited: true
+  public_reporting:
+    aggregate_only: true
+    small_cell_suppression_required: true
+    property_level_metrics_prohibited: true
+  repairability:
+    modular_sensor_required: true
+    local_diagnostics_required: true
+    signed_firmware_required: true
+    rollback_required: true
+  correction_path:
+    anonymous_available: true
+    paper_available: true
+    telephone_available: true
+    accessibility_review_available: true
+
+street_lighting:
+  sensing_scope:
+    permitted:
+      - "illuminance"
+      - "luminaire_health"
+      - "energy_consumption_aggregate"
+      - "repair_status"
+    prohibited:
+      - "person_detection"
+      - "movement_tracking"
+      - "identity_inference"
+      - "device_detection"
+      - "presence_profile"
+  route_safety:
+    pedestrian_and_accessible_route_floor_must_be_preserved: true
+    ecological_schedule_may_override_route_floor: false
+  resilience:
+    local_operation_required: true
+    solar_storage_permitted: true
+    cloud_dependency: false
+    replaceable_storage_preferred: true
+  public_reporting:
+    anonymous_reporting_available: true
+    account_required: false
+    aggregate_energy_bulletin_allowed: true
+    presence_events_prohibited: true
+
+transit_accessibility:
+  request_feature:
+    recommended_label:
+      - "need_more_time"
+      - "request_assistance"
+    identity_or_medical_explanation_required: false
+    daily_request_cap_allowed: false
+    minimum_time_floor_seconds: 10
+    additional_time_available_through_staff: true
+  request_channels:
+    - "tactile_control"
+    - "driver_interaction"
+    - "visual_control"
+    - "auditory_control"
+    - "staff_assistance"
+    - "offline_display"
+  reporting:
+    route_level_metrics_only:
+      - "headway_variance"
+      - "aggregate_dwell_time"
+      - "equipment_uptime"
+      - "aggregate_request_activation_rate"
+    person_level_tracking_prohibited: true
+  maintenance:
+    lift_and_ramp_program: "repair_first"
+    accessible_correction_path_required: true
+    community_reliability_review_required: true
+  heat_access:
+    cooling_center_route_guidance_required: true
+    offline_guidance_required: true
+
+urban_digital_twin:
+  architecture:
+    detailed_model_use: "calibration_and_high_stakes_review"
+    reduced_order_model_use: "public_interaction_and_scenario_exploration"
+    automatic_construction_decision_allowed: false
+    human_reviewable_proposal_required: true
+  public_outputs:
+    required:
+      - "shade_access"
+      - "accessible_route_continuity"
+      - "transit_stop_protection"
+      - "water_access"
+      - "cooling_route_access"
+      - "water_requirement"
+      - "maintenance_requirement"
+      - "repairability"
+      - "benefit_distribution"
+      - "uncertainty"
+      - "community_review_status"
+  data_sources:
+    permitted:
+      - "fixed_environmental_sensors"
+      - "public_geospatial_data"
+      - "public_weather_data"
+      - "aggregate_planning_data"
+    prohibited:
+      - "resident_devices"
+      - "home_data"
+      - "person_movement_data"
+      - "identity_data"
+  non_compensation_gates:
+    - "privacy"
+    - "accessible_route_continuity"
+    - "ecological_feasibility"
+    - "anti_displacement_review"
+    - "essential_service_access"
+
+civic_feedback:
+  identity_model: "report_specific_capability_receipt"
+  anonymous_account_required: false
+  receipt_secret:
+    stored_by_system: false
+    verifier_hash_only: true
+    domain_separated_hash_required: true
+    constant_time_comparison_required: true
+    log_redaction_required: true
+    recovery_policy: "lost_secret_not_recoverable"
+  duplicate_detection:
+    purpose: "human_review_aid"
+    auto_merge_allowed: false
+    auto_discard_allowed: false
+    permitted_inputs:
+      - "coarse_public_location_cell"
+      - "issue_category"
+      - "time_window"
+      - "sanitized_text_similarity"
+  anti_spam:
+    inaccessible_captcha_prohibited: true
+    proof_of_work_only_allowed: false
+    equivalent_low_compute_path_required: true
+    paper_phone_staff_assisted_path_required: true
+  attachments:
+    default: "restricted"
+    photo_allowed_only_with:
+      - "metadata_stripping"
+      - "local_redaction"
+      - "manual_review"
+      - "short_retention"
+      - "not_public_by_default"
+  service_states:
+    - "RECEIVED"
+    - "ACKNOWLEDGED"
+    - "MITIGATED"
+    - "REPAIRED"
+    - "VERIFIED"
+    - "REOPENED"
+    - "CLOSED"
+  accountability:
+    aggregate_dashboard_required: true
+    reporter_identity_public: false
+    acknowledgement_target_hours: 24
+    repair_and_acknowledgement_reported_separately: true
+
+autonomous_transit:
+  operating_design_domain_required: true
+  permitted_scene_categories:
+    - "person_associated_space"
+    - "mobility_aid_associated_space"
+    - "service_animal_and_handler_space"
+    - "unidentified_dynamic_occupancy"
+    - "child_sized_dynamic_occupancy"
+    - "static_obstacle"
+    - "uncertain_obstacle"
+  prohibited_capabilities:
+    - "facial_recognition"
+    - "biometric_tracking"
+    - "persistent_movement_profile"
+    - "identity_inference"
+    - "disability_classification"
+    - "health_inference"
+    - "augmentation_inference"
+  predicted_occupancy_rule: "conservative_occupancy_envelope = predicted_occupancy_distribution expanded_by_uncertainty_region"
+  time_to_collision:
+    target_seconds: 3
+    strict_rule: "TTC > max(3 seconds, total_delay + speed/safe_deceleration)"
+  stopping_distance_rule: "distance_stop = speed*total_delay + speed^2/(2*safe_deceleration) + uncertainty_margin"
+  courtesy_controls:
+    yield_to_person_or_uncertain_occupancy: true
+    aggressive_honking_prohibited: true
+    aggressive_creeping_prohibited: true
+    repeated_automated_movement_requests_prohibited: true
+    accessible_external_signals_supplementary_only: true
+  fallback:
+    minimal_risk_stop_required: true
+    human_operable_fallback_required: true
+    accessible_alternative_transport_required_when_release_blocked: true
+  release_block_conditions:
+    - "sensor_health_failure"
+    - "localization_below_threshold"
+    - "critical_hardware_or_software_fault"
+    - "weather_or_lighting_outside_odd"
+    - "pedestrian_detection_below_validated_threshold"
+    - "missing_accessibility_relevant_validation_evidence"
+    - "occupancy_envelope_overlap"
+    - "ttc_or_stopping_constraint_not_satisfied"
+    - "human_fallback_unavailable"
+    - "unvalidated_model_map_firmware_or_hardware_update"
+
+fair_load_shedding:
+  essential_loads:
+    protected:
+      - "life_safety"
+      - "hospital_and_emergency_operations"
+      - "water_and_wastewater_safety"
+      - "accessibility_continuity"
+      - "accessible_shelter"
+      - "emergency_communications"
+      - "thermal_refuge"
+      - "cooling_center"
+      - "public_resilience_hub"
+      - "essential_charging"
+      - "public_warning_system"
+  prohibited_priority_inputs:
+    - "household_health_data"
+    - "household_disability_data"
+    - "identity_data"
+    - "augmentation_data"
+    - "smart_meter_behavior_profile"
+    - "credit_score"
+    - "rent"
+    - "home_value"
+    - "property_tax_yield"
+    - "payment_history"
+    - "customer_profitability"
+  required_inputs:
+    - "public_facility_inventory"
+    - "critical_infrastructure_designation"
+    - "aggregate_feeder_data"
+    - "weather_and_demand_scenario"
+    - "aggregate_population_count"
+    - "asset_condition"
+    - "emergency_plan"
+  feasibility_rules:
+    protected_load_curtailment_allowed_for_cost_or_optimization: false
+    required_reduction_rule: "sum(curtailed_nonessential_load) >= required_reduction"
+    protected_load_rule: "curtailed_load_area <= max(0, total_demand_area - essential_demand_area)"
+    insufficiency_response:
+      - "emergency_operations"
+      - "demand_response"
+      - "backup_generation"
+      - "mutual_aid"
+      - "public_warning"
+      - "human_incident_command"
+  fairness:
+    metric: "jain_fairness_index"
+    target: 0.9
+    burden_rule: "outage_duration_area <= comparable_area_mean + permitted_deviation unless documented_physical_limitation and authorized_human_review"
+    technical_exception_requires:
+      - "reason"
+      - "duration"
+      - "mitigation"
+      - "restoration_plan"
+      - "human_incident_command_review"
+    compensating_continuity_measures:
+      - "cooling_access"
+      - "public_charging"
+      - "water_access"
+      - "accessible_transportation"
+      - "plain_language_notice"
+      - "multilingual_notice"
+  public_notice_channels:
+    - "accessible_web"
+    - "public_display"
+    - "radio"
+    - "opt_in_sms"
+    - "telephone"
+    - "relay"
+    - "printed_notice"
+    - "community_organization"
+  audit_fields:
+    permitted:
+      - "essential_load_protected"
+      - "jain_fairness_index"
+      - "technical_exception_count"
+      - "accessible_notice_available"
+      - "human_incident_command_reviewed"
+    required_false_flags:
+      - "individual_meter_data_used"
+      - "health_or_identity_data_used"
+      - "wealth_or_property_value_used"
+
+privacy_budget:
+  differential_privacy:
+    required_for_fine_grained_aggregate_release: true
+    epsilon_per_query_max: 0.1
+    accounting_scope:
+      - "approved_project"
+      - "dataset_class"
+      - "release_window"
+      - "declared_public_purpose"
+    identity_based_researcher_score_prohibited: true
+    composition_rule: "cumulative_epsilon = sum(query_epsilon)"
+    insufficient_budget_response:
+      - "coarser_geography"
+      - "longer_time_window"
+      - "reduced_dimension"
+      - "higher_noise"
+      - "synthetic_data"
+      - "public_aggregate"
+  release_protections:
+    small_cell_suppression_required: true
+    complementary_suppression_required: true
+    differencing_attack_review_required: true
+    membership_inference_review_required: true
+    reconstruction_attack_review_required: true
+    linkage_attack_review_required: true
+
+retention:
+  general_rule: "retain only the minimum data for the declared purpose, appeal period, security review, and lawful records obligation"
+  default_controls:
+    encryption_at_rest_required: true
+    encryption_in_transit_required: true
+    role_separation_required: true
+    access_review_required: true
+    deletion_path_required: true
+    export_path_required: true
+    retention_deadline_required: true
+  prohibited_defaults:
+    - "indefinite_retention"
+    - "secondary_use_without_new_purpose_review"
+    - "raw_audio_retention"
+    - "raw_video_retention"
+    - "identity_linkage"
+    - "behavioral_profiling"
+
+required_artifact_set:
+  - "public-purpose-policy.aln"
+  - "aggregate-metrics.schema.json"
+  - "repair-first-status.schema.json"
+  - "offline-trust-bundle.schema.json"
+  - "no-disclosure-usability-checklist.md"
+  - "small-cell-dignity-policy.md"
+  - "public-correction-intake.schema.json"
+  - "ai-chat-evidence-contract.schema.json"
+  - "local-verification-runbook.md"
+  - "community-review-record.schema.json"
+
+metrics:
+  knowledge_factor: 0.93
+  eco_impact_value: 0.87
+  harm_risk: 0.31
+  accessibility_impact: 0.99
+  rights_alignment: 0.99

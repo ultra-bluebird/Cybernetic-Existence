@@ -1,0 +1,65 @@
+policy: thermal_benefit_equivalence
+version: 2.0.0
+data_class: thermal_social_good_governance_policy
+purpose: measure and distribute thermal-relief benefit equitably across community groups without using identity as a basis for service priority or exclusion
+consent_scope: aggregate_community_and_calibrated_environmental_measurement_data_only
+retention: retain_aggregate_thermal_measurements_methods_and_audit_results_for_configured_environmental_review_period
+deletion: delete_raw_or_granular_data_after_retention_expiry_subject_to_minimal_provenance_commitments
+accountability: transparent_formula_calibration_status_human_review_and_equity_remedy_path
+review_status: required_when_equivalence_or_measurement_requirements_fail
+access_equivalence_safeguards: thermal_benefit_delivery_must_not_favor_or_exclude_any_identity_class
+
+social_goods:
+  thermal_benefit:
+    formula: integral_over_time(maximum(0, comfort_threshold_wbgt_c - observed_wbgt_c) * population_count * interval_hours)
+    unit: person_degree_hours
+    require:
+      - declared_comfort_threshold
+      - calibrated_active_sensor
+      - documented_population_method
+      - explicit_time_interval
+      - visible_measurement_status
+    prohibit:
+      - identity_based_exclusion
+      - identity_based_service_deprioritization
+      - identity_based_thermal_benefit_preference
+      - individual_health_inference
+      - individual_location_tracking
+      - identity_verification_requirement
+
+rules:
+  - id: thermal-benefit-equal-counting
+    when: thermal_benefit_is_calculated_or_delivered
+    require:
+      - equal_population_counting_method
+      - same_declared_comfort_threshold_for_comparable_conditions
+      - documented_measurement_scope
+      - accessible_public_explanation
+    prohibit:
+      - lowering_benefit_priority_due_to_identity_class
+      - denying_cooling_information_due_to_identity_class
+      - using_identity_class_as_eligibility_signal
+
+  - id: invalid-thermal-measurement-withhold
+    when:
+      any:
+        - population_zero_or_missing
+        - observed_wbgt_outside_declared_plausibility_range
+        - sensor_calibration_not_current
+        - interval_missing
+    result:
+      measurement_status: withheld
+      require:
+        - plain_language_explanation
+        - correction_path
+        - human_review_when_material
+
+  - id: benefit-equity-review
+    when: thermal_benefit_delivery_pattern_indicates_identity_based_disparity
+    require:
+      - mandatory_human_review
+      - accessible_explanation
+      - remedy_pathway
+      - follow_up_measurement
+    prohibit:
+      - automated_final_service_restriction

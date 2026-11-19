@@ -1,0 +1,55 @@
+aln_version: "2"
+policy_class: "hex_hte_privacy_governance"
+purpose_scope:
+  allow:
+    - urban_heat_research
+    - green_infrastructure_assessment
+    - canopy_resilience_monitoring
+    - aggregate_water_metabolism_analysis
+    - corridor_gated_decision_support
+  deny:
+    - household_telemetry_disclosure
+    - identity_inference_from_environmental_data
+    - unsupported_tree_mortality_claim
+    - unsupported_real_world_control_claim
+    - autonomous_high_consequence_action
+hex_resolution:
+  spatial_support_match_required: true
+  parent_child_aggregation_required: true
+  canonical_boundary_flux_orientation_required: true
+thermal:
+  canopy_et_response_requires_local_calibration: true
+  vpd_limitation_required: true
+  thermal_model_discrepancy_required: true
+  radiant_exposure_assessment_required_for_reflective_surfaces: true
+albedo:
+  initial_and_aged_albedo_measurement_required: true
+  dust_and_traffic_covariates_required: true
+  maintenance_event_provenance_required: true
+hte_coupling:
+  bounded_gain_matrix_required: true
+  dissipation_margin_required: true
+  robust_small_gain_test_required: true
+  carbon_limit_gco2e_per_kwh: 50
+  water_reserve_required: true
+  ecological_floor_required: true
+water_privacy:
+  raw_household_telemetry_prohibited: true
+  aggregation_threshold_required: true
+  small_cell_suppression_required: true
+  time_coarsening_review_required: true
+  quality_class_separation_required: true
+  public_release_requires_privacy_review: true
+canopy:
+  mortality_claim_requires_local_longitudinal_validation: true
+  high_stress_output_is_review_not_death_determination: true
+  species_soil_water_and_vpd_context_required: true
+governance:
+  model_outputs_are_decision_support_only: true
+  uncertainty_statement_required: true
+  accessible_explanation_required: true
+  correction_and_appeal_available: true
+  external_action_requires_explicit_approval: true
+review:
+  status: "draft_for_ecological_hydraulic_privacy_and_community_review"
+  material_change_review_required: true

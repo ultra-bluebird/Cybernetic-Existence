@@ -1,0 +1,277 @@
+@SHARD "RESEARCH-INTEGRITY-AND-CIVIC-ACKNOWLEDGMENT" {
+
+  @meta {
+    version: "1.0.0"
+    scope: "local_provenance_bound_research_integrity_and_non_legal_non_hierarchical_civic_contribution_acknowledgment"
+    audience: "local_research_tools_validators_governance_reviewers_and_user_facing_summarizers"
+    consent_basis: "user_sovereign_default"
+    retention: "artifact_lifetime_or_explicitly_declared_retention_schedule"
+    accountability: "local_research_integrity_owner"
+    review_status: "draft_for_user_review"
+    operating_mode: "local_only_research_advisory"
+  }
+
+  @SCOPE_BOUNDARY {
+    subject: "declared_local_research_artifacts_provenance_records_and_civic_contribution_records"
+
+    does_not_establish: [
+      "claim_truth",
+      "empirical_validation",
+      "legal_authorship",
+      "institutional_authorship",
+      "publication_acceptance",
+      "citation_requirement",
+      "social_value_determination",
+      "hero_title",
+      "civic_rank",
+      "credential",
+      "eligibility",
+      "legal_status",
+      "institutional_status",
+      "public_registry_status",
+      "external_action_authorization"
+    ]
+  }
+
+  @RESEARCH_INTEGRITY_ENVELOPE {
+    required_components: [
+      "research_content",
+      "content_sha256",
+      "machine_readable_metadata",
+      "declared_source_provenance",
+      "declared_assumptions",
+      "declared_scope_and_limitations",
+      "machine_readable_non_claims",
+      "version_history",
+      "material_change_history",
+      "reproduction_instructions",
+      "correction_path"
+    ]
+
+    content_sha256_algorithm: "sha256"
+    canonicalization_required: true
+
+    research_envelope_valid_when: [
+      "content_sha256_valid",
+      "metadata_complete",
+      "source_provenance_declared",
+      "assumptions_declared",
+      "scope_and_limitations_declared",
+      "non_claims_present",
+      "version_history_preserved",
+      "reproduction_path_documented",
+      "correction_path_available"
+    ]
+
+    revision_requires: [
+      "prior_artifact_sha256",
+      "new_artifact_sha256",
+      "declared_change_reason",
+      "material_change_assessment",
+      "review_status",
+      "plain_language_change_summary"
+    ]
+
+    revision_is_append_only: true
+    silent_replacement_prohibited: true
+    original_artifact_deletion_by_default: false
+
+    research_envelope_does_not_prevent: [
+      "criticism",
+      "independent_reanalysis",
+      "disagreement",
+      "external_misquotation",
+      "external_copying",
+      "external_value_judgment",
+      "external_storage_loss"
+    ]
+  }
+
+  @RESEARCH_PROVENANCE {
+    required_fields: [
+      "artifact_sha256",
+      "artifact_role",
+      "artifact_version",
+      "source_kind",
+      "source_reference",
+      "declared_role",
+      "assumption_record",
+      "non_claims"
+    ]
+
+    provenance_must_not_be_used_for: [
+      "identity_verification",
+      "person_ranking",
+      "capability_inference",
+      "eligibility_determination",
+      "external_action_authorization"
+    ]
+
+    sha256_match_establishes_only: [
+      "local_byte_continuity",
+      "declared_artifact_reference"
+    ]
+
+    sha256_match_is_not: [
+      "claim_truth",
+      "authorization",
+      "consent",
+      "ownership_verification",
+      "legal_authorship",
+      "empirical_validation"
+    ]
+  }
+
+  @CIVIC_CONTRIBUTION_RECORD {
+    record_type: "non_legal_non_hierarchical_local_acknowledgment"
+
+    required_fields: [
+      "contribution_record_sha256",
+      "contribution_category",
+      "declared_contribution_summary",
+      "artifact_sha256",
+      "artifact_role",
+      "declared_scope",
+      "declared_limitations",
+      "provenance_record",
+      "review_status",
+      "non_claims"
+    ]
+
+    permitted_contribution_categories: [
+      "research_documentation",
+      "accessibility_support",
+      "privacy_and_rights_engineering",
+      "ecological_support",
+      "integrity_and_reproducibility",
+      "community_support_documentation"
+    ]
+
+    contribution_record_complete_when: [
+      "declared_contribution_present",
+      "artifact_provenance_record_present",
+      "scope_declared",
+      "limitations_declared",
+      "non_claims_present"
+    ]
+
+    contribution_record_must_not_create: [
+      "hero_title",
+      "civic_rank",
+      "credential",
+      "reputation_score",
+      "merit_score",
+      "eligibility",
+      "benefit_entitlement",
+      "institutional_representation",
+      "public_status",
+      "public_registry"
+    ]
+
+    contribution_category_is_not_rank: true
+    contribution_record_is_not_person_profile: true
+    contribution_record_is_not_legal_or_institutional_recognition: true
+  }
+
+  @ACKNOWLEDGMENT_LANGUAGE {
+    permitted_phrases: [
+      "declared civic contribution recorded",
+      "local artifact provenance preserved",
+      "contribution scope and limitations documented",
+      "local acknowledgment does not create title or entitlement",
+      "research artifact remains reviewable and correctable"
+    ]
+
+    prohibited_phrases: [
+      "hero qualification confirmed",
+      "hero status granted",
+      "civic rank awarded",
+      "credential issued",
+      "superior contributor",
+      "eligibility established",
+      "institutional recognition granted",
+      "legal right conferred"
+    ]
+
+    plain_language_summary_required: true
+    non_hierarchical_language_required: true
+  }
+
+  @CORRECTION_AND_APPEAL {
+    correction_available: true
+    appeal_available: true
+    material_change_review_available: true
+
+    correction_may_address: [
+      "artifact_sha256",
+      "source_reference",
+      "declared_role",
+      "contribution_category",
+      "contribution_summary",
+      "scope",
+      "limitations",
+      "non_claims",
+      "plain_language_summary"
+    ]
+
+    correction_is_append_only: true
+    correction_requires_prior_record_sha256: true
+
+    request_must_not_require: [
+      "identity_proof",
+      "account",
+      "credential",
+      "signature",
+      "medical_or_neural_disclosure",
+      "biometric_disclosure",
+      "proof_of_merit",
+      "proof_of_personal_status"
+    ]
+
+    request_must_not_create_score_rank_or_access_restriction: true
+  }
+
+  @NON_INTERFERENCE {
+    never_auto_fetch: true
+    never_auto_upload: true
+    never_contact_external_services: true
+    never_trigger_external_action: true
+    never_trigger_external_notification: true
+    never_modify_user_owned_artifacts: true
+    never_modify_repository_files: true
+    never_require_identity_or_private_disclosure: true
+    never_infer_user_intent_or_capability: true
+    never_rank_users_sessions_communities_or_contributors: true
+    never_trigger_forced_inactivity: true
+  }
+
+  @ACCESS_EQUIVALENCE {
+    plain_language_summary_required: true
+    machine_readable_record_required: true
+    offline_readable: true
+    no_account_required: true
+    no_identity_verification_required: true
+    no_private_system_disclosure_required: true
+    correction_and_appeal_available: true
+    material_change_review_available: true
+  }
+
+  @PROHIBITED_USES {
+    list: [
+      "silent_research_replacement",
+      "research_provenance_as_identity_verification",
+      "research_provenance_as_eligibility",
+      "research_provenance_as_score_or_rank",
+      "hero_title",
+      "civic_rank",
+      "credential",
+      "public_contributor_registry",
+      "public_status",
+      "automatic_external_action",
+      "automatic_external_notification",
+      "automatic_repository_modification",
+      "forced_disclosure",
+      "forced_inactivity"
+    ]
+  }
+}

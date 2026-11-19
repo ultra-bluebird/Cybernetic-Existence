@@ -1,0 +1,164 @@
+policy RadiativeCoolingSurfaceVerification version "1.0.0" {
+  purpose "Verify radiative-cooling surface performance, durability, pedestrian safety, accessibility, and ecological heat-recovery benefit using transparent, uncertainty-aware measurements."
+
+  data_class cooling_surface_telemetry {
+    sensitivity "environmental"
+    allowed_fields [
+      "coarse_site_zone",
+      "surface_type",
+      "installation_context",
+      "timestamp",
+      "surface_temperature",
+      "air_temperature",
+      "substrate_temperature",
+      "solar_irradiance",
+      "downwelling_longwave_radiation",
+      "solar_reflectance",
+      "infrared_emissivity",
+      "sky_view_factor",
+      "wind_context",
+      "surface_luminance",
+      "wet_friction_measurement",
+      "dry_friction_measurement",
+      "sensor_confidence",
+      "maintenance_record"
+    ]
+    prohibited_fields [
+      "person_identity",
+      "mobile_device_identifier",
+      "biometric_data",
+      "health_data",
+      "persistent_person_location",
+      "unnecessary_audio_or_video_capture"
+    ]
+    retention {
+      detailed_days 730
+      aggregate_days 3650
+      encrypted_storage_required true
+    }
+  }
+
+  performance_verification {
+    required_measurements [
+      "surface_temperature",
+      "air_temperature",
+      "solar_irradiance",
+      "solar_reflectance",
+      "infrared_emissivity",
+      "sensor_confidence"
+    ]
+    preferred_measurements [
+      "paired_control_surface",
+      "downwelling_longwave_radiation",
+      "substrate_temperature",
+      "wind_speed",
+      "sky_view_factor",
+      "surface_luminance",
+      "wet_and_dry_friction"
+    ]
+    required_analysis_controls [
+      "kelvin_temperature_conversion_for_radiative_flux",
+      "solar_absorptance_from_reflectance",
+      "paired_control_comparison",
+      "weather_and_time_matching",
+      "geometry_context",
+      "uncertainty_recording",
+      "degradation_tracking"
+    ]
+    prohibited_claims [
+      "cooling_to_space_without_geometry_and_longwave_context",
+      "unverified_urban_air_temperature_reduction",
+      "performance_claim_from_surface_temperature_alone",
+      "regulatory_compliance_claim_without_jurisdiction_review"
+    ]
+  }
+
+  durability {
+    required_tracking [
+      "initial_optical_properties",
+      "aged_optical_properties",
+      "soiling_condition",
+      "cleaning_events",
+      "uv_exposure_context",
+      "surface_damage",
+      "repairability",
+      "maintenance_outcome"
+    ]
+    maintenance_recommendations_allowed [
+      "inspection",
+      "cleaning_review",
+      "repair_review",
+      "paired_retest",
+      "material_warranty_review",
+      "drainage_review"
+    ]
+    human_review_required_for [
+      "coating_replacement",
+      "material_substitution",
+      "public_claim_of_failure",
+      "long_term_maintenance_contract"
+    ]
+  }
+
+  pedestrian_and_access_safety {
+    required_for_public_paths [
+      "glare_assessment",
+      "wet_traction_assessment",
+      "dry_traction_assessment",
+      "drainage_review",
+      "tactile_wayfinding_review",
+      "wheelchair_and_mobility_device_access_review",
+      "visual_contrast_review",
+      "accessible_detour_plan_when_work_occurs"
+    ]
+    prohibited_actions [
+      "deploy_surface_that_fails_accessibility_review",
+      "deploy_surface_that_creates_unreviewed_glare_risk",
+      "block_accessible_route_without_equivalent_access",
+      "use_heat_mitigation_to_justify_exclusion"
+    ]
+  }
+
+  equity_and_community {
+    deployment_equity_review_required true
+    prohibited_decision_inputs [
+      "race",
+      "ethnicity",
+      "disability_status",
+      "health_status",
+      "augmentation_status",
+      "identity_disclosure",
+      "individual_income_inference"
+    ]
+    required_public_information [
+      "plain_language_performance_summary",
+      "measurement_uncertainty",
+      "maintenance_status",
+      "pedestrian_safety_status",
+      "accessible_feedback_path"
+    ]
+    public_information_without_account_required true
+  }
+
+  governance {
+    diagnostic_outputs_are_advisory_only true
+    human_review_required_for [
+      "public_path_deployment",
+      "high_reflectance_material_selection",
+      "maintenance_authorization",
+      "material_performance_claim",
+      "citywide_heat_mitigation_priority"
+    ]
+    audit_log_required [
+      "measurement_summary",
+      "control_comparison",
+      "material_property_version",
+      "weather_context",
+      "uncertainty",
+      "safety_review",
+      "maintenance_decision",
+      "human_review_outcome"
+    ]
+    grievance_and_review_path_required true
+  }
+}

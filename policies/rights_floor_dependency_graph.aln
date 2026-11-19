@@ -1,0 +1,173 @@
+aln_version: "2"
+policy_name: "rights-floor-invariant-dependency-graph"
+policy_version: "2026-09-02"
+policy_status: "research-governance-framework"
+review_status: "human-review-required"
+
+invariants:
+  essential_service_non_denial:
+    classification: "load_bearing"
+    policy_status: "mandatory"
+    purpose: "Prevent denial of essential services because a person lacks credentials, identity verification, device access, network access, account access, health disclosure, augmentation disclosure, or assistive-technology disclosure."
+
+  human_fallback_required:
+    classification: "load_bearing"
+    policy_status: "mandatory"
+    purpose: "Ensure an accessible human-mediated and non-digital route exists for every consequential workflow."
+
+  no_identity_inference:
+    classification: "load_bearing"
+    policy_status: "mandatory"
+    purpose: "Prevent inference of identity, health, disability, augmentation status, assistive-technology use, or other sensitive personal attributes."
+
+  data_minimization:
+    classification: "load_bearing"
+    policy_status: "mandatory"
+    purpose: "Limit collection, processing, retention, and release to data necessary for the declared public-interest purpose."
+
+  purpose_limitation:
+    classification: "reinforcing"
+    policy_status: "mandatory"
+    purpose: "Prevent reuse of maintenance, safety, accessibility, environmental, or civic data for unrelated profiling, targeting, screening, or scoring."
+
+  aggregate_first:
+    classification: "reinforcing"
+    policy_status: "mandatory"
+    purpose: "Require aggregate, coarsened, small-cell-protected reporting and restrict person-, household-, and property-linked releases."
+
+  offline_resilience:
+    classification: "load_bearing"
+    policy_status: "mandatory"
+    purpose: "Ensure network loss does not remove essential information, accessible access, correction intake, appeal intake, or emergency fallback."
+
+  repair_first:
+    classification: "reinforcing"
+    policy_status: "mandatory"
+    purpose: "Require diagnosable faults, maintainable interfaces, signed updates, rollback, and documented repair pathways."
+
+  non_actuating_decision_support:
+    classification: "load_bearing"
+    policy_status: "mandatory"
+    purpose: "Keep research analytics, anomaly detection, planning scores, and fairness metrics advisory unless separate engineering validation and accountable human operational authorization exist."
+
+  non_compensation:
+    classification: "load_bearing"
+    policy_status: "mandatory"
+    purpose: "Prevent ecological, financial, operational, or optimization outcomes from compensating for a rights, privacy, accessibility, safety, continuity, or non-discrimination failure."
+
+relations:
+  - source: "essential_service_non_denial"
+    target: "human_fallback_required"
+    relation: "requires"
+    explanation: "Essential service continuity requires an accessible non-digital and human-mediated route when digital access is unavailable."
+
+  - source: "essential_service_non_denial"
+    target: "offline_resilience"
+    relation: "requires"
+    explanation: "Essential services cannot depend on continuous connectivity."
+
+  - source: "offline_resilience"
+    target: "human_fallback_required"
+    relation: "protects"
+    explanation: "Human fallback remains meaningful during communications and network disruption."
+
+  - source: "repair_first"
+    target: "offline_resilience"
+    relation: "protects"
+    explanation: "Repairable infrastructure preserves continuity through diagnosable faults, rollback, and maintainable interfaces."
+
+  - source: "no_identity_inference"
+    target: "data_minimization"
+    relation: "requires"
+    explanation: "Avoiding sensitive inference requires excluding identity-linked and unnecessary proxy data."
+
+  - source: "data_minimization"
+    target: "purpose_limitation"
+    relation: "protects"
+    explanation: "Field-level necessity and limited retention reduce the available surface for secondary use."
+
+  - source: "data_minimization"
+    target: "aggregate_first"
+    relation: "protects"
+    explanation: "Minimized inputs and aggregation limits reduce person-, household-, and property-linked exposure."
+
+  - source: "purpose_limitation"
+    target: "aggregate_first"
+    relation: "protects"
+    explanation: "Public release purposes must remain bounded and cannot silently become profiling or targeting channels."
+
+  - source: "non_actuating_decision_support"
+    target: "human_fallback_required"
+    relation: "requires"
+    explanation: "Consequential operational transitions require accessible human authority and review."
+
+  - source: "non_actuating_decision_support"
+    target: "repair_first"
+    relation: "protects"
+    explanation: "A maintainable and rollback-capable control surface prevents analytics from becoming irreversible operational control."
+
+  - source: "non_compensation"
+    target: "essential_service_non_denial"
+    relation: "constrains"
+    explanation: "Efficiency or ecological benefit cannot justify denial of essential service."
+
+  - source: "non_compensation"
+    target: "no_identity_inference"
+    relation: "constrains"
+    explanation: "Optimization benefit cannot justify sensitive identity or attribute inference."
+
+  - source: "non_compensation"
+    target: "data_minimization"
+    relation: "constrains"
+    explanation: "Performance, scale, or ecological claims cannot justify unnecessary data collection."
+
+  - source: "non_compensation"
+    target: "offline_resilience"
+    relation: "constrains"
+    explanation: "Cost reduction cannot justify removing offline or non-digital service access."
+
+  - source: "non_compensation"
+    target: "non_actuating_decision_support"
+    relation: "constrains"
+    explanation: "Operational benefit cannot justify autonomous safety-critical action."
+
+policy_evolution:
+  proposal_requirements:
+    - "declared_changed_invariants"
+    - "declared_changed_relations"
+    - "dependency_impact_analysis"
+    - "rights_floor_evaluation"
+    - "adversarial_scenario_results"
+    - "human_fallback_evaluation"
+    - "offline_resilience_evaluation"
+    - "non_actuation_evaluation"
+    - "accessible_public_explanation"
+    - "review_record"
+  reject_conditions:
+    - "weakens_load_bearing_invariant"
+    - "removes_required_dependency"
+    - "converts_constraining_relation_to_optional"
+    - "introduces_identity_inference"
+    - "introduces_essential_service_credential_requirement"
+    - "introduces_direct_safety_critical_actuation"
+    - "permits_rights_compensation_by_optimization_score"
+  partial_failure_mode:
+    all_load_bearing_invariants_pass: "safe_degraded_advisory"
+    essential_access_without_analytic_evidence: "human_fallback_only"
+    any_load_bearing_invariant_fails: "suspended"
+
+minimum_partial_failure_set:
+  - "essential_service_non_denial"
+  - "human_fallback_required"
+  - "no_identity_inference"
+  - "data_minimization"
+  - "offline_resilience"
+  - "non_actuating_decision_support"
+  - "non_compensation"
+
+metrics:
+  knowledge_factor: 0.94
+  eco_impact_value: 0.84
+  harm_risk: 0.16
+  accessibility_impact: 0.97
+  rights_alignment: 0.99

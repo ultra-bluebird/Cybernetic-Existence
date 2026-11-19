@@ -1,0 +1,109 @@
+policy research_workflow_readiness {
+  version = "1.0.0"
+  status = "review_required"
+
+  data_class = "environmental_observation"
+  purpose = "ecological_research_and_public_interest_planning"
+  external_action_approval = "required_for_any_non_advisory_effect"
+
+  invariant no_direct_control {
+    automated_output_kind == "ADVISORY"
+    prohibits = [
+      "physical_actuation",
+      "service_denial",
+      "enforcement_action",
+      "identity_ranking",
+      "medical_or_neural_inference",
+      "credential_requirement_for_access"
+    ]
+  }
+
+  invariant aggregate_is_not_privacy_proof {
+    aggregate_release_requires = [
+      "defined_threat_model",
+      "release_linkage_assessment",
+      "minimum_cohort_check",
+      "temporal_and_spatial_overlap_check",
+      "group_harm_assessment",
+      "privacy_budget_check_when_differential_privacy_is_used",
+      "human_release_approval"
+    ]
+  }
+
+  invariant privacy_budget_is_non_compensating {
+    when privacy_mechanism == "DIFFERENTIAL_PRIVACY" {
+      requires = [
+        "bounded_contribution",
+        "documented_sensitivity",
+        "approved_epsilon",
+        "composition_accounting",
+        "atomic_budget_reservation",
+        "public_method_note"
+      ]
+    }
+
+    if privacy_budget_remaining <= 0 {
+      release_decision = "WITHHOLD"
+    }
+  }
+
+  invariant advisory_requires_governance {
+    advisory_requires = [
+      "decision_scope",
+      "uncertainty_statement",
+      "method_provenance",
+      "affected_group_review_path",
+      "accessible_explanation",
+      "correction_path",
+      "human_fallback",
+      "material_change_review"
+    ]
+  }
+
+  invariant attestation_scope_is_bounded {
+    allowed_attestation_claims = [
+      "key_control",
+      "message_integrity",
+      "receipt_inclusion",
+      "credential_validity",
+      "limited_policy_predicate",
+      "voluntary_interaction_preference"
+    ]
+
+    prohibited_attestation_claims = [
+      "universal_identity_proof",
+      "medical_status",
+      "neural_status",
+      "augmentation_verification",
+      "public_cybernetic_host_registry",
+      "automated_eligibility",
+      "legal_status_creation"
+    ]
+  }
+
+  invariant voluntary_self_description_is_respected {
+    disclosure_is_optional = true
+    verification_is_not_required_for = [
+      "respectful_treatment",
+      "accessible_communication",
+      "human_assistance",
+      "correction",
+      "appeal",
+      "privacy_request",
+      "non_interference_request"
+    ]
+  }
+
+  decision withhold_when {
+    any_of = [
+      "missing_or_expired_provenance",
+      "unreviewed_material_method_change",
+      "unbounded_privacy_risk",
+      "small_cell_or_sensitive_location_risk",
+      "unresolved_group_harm_risk",
+      "inaccessible_review_path",
+      "identity_or_status_inference_attempt",
+      "direct_control_path_detected"
+    ]
+  }
+}

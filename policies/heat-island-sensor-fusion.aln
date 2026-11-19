@@ -1,0 +1,53 @@
+policy HeatIslandSensorFusion version "2026-09-17" {
+
+  purpose {
+    data_class = ECOLOGICAL_MEASUREMENT_AND_PLANNING
+    permitted_use = HEAT_RISK_DECISION_SUPPORT
+    permitted_use = GREEN_INFRASTRUCTURE_SCENARIO_ANALYSIS
+    prohibited_use = PERSON_PROFILING
+    prohibited_use = PROPERTY_VALUE_SCORING
+    prohibited_use = AUTOMATED_RESOURCE_DENIAL
+  }
+
+  invariant thermal_measurements_keep_physical_meaning {
+    require heat.air_temperature_labeled_separately_from_surface_temperature == true
+    require heat.reference_baseline_documented == true
+    require heat.measurement_unit_present == true
+    require heat.timestamp_present == true
+    require heat.spatial_resolution_documented == true
+    require heat.uncertainty_present == true
+  }
+
+  invariant fusion_respects_sensor_quality {
+    require heat.sensor_calibration_state_present == true
+    require heat.sensor_drift_flag_respected == true
+    require heat.stale_measurement_weight == 0
+    require heat.out_of_range_measurement_weight == 0
+    require heat.reference_mismatch_weight == 0
+    require heat.uncertainty_reported == true
+  }
+
+  invariant mitigation_models_report_assumptions {
+    require heat.shade_assumption_documented == true
+    require heat.evapotranspiration_assumption_documented == true
+    require heat.albedo_assumption_documented == true
+    require heat.water_and_maintenance_impact_documented == true
+    require heat.ecological_co_benefit_evidence_present == true
+    require heat.prediction_presented_as_guarantee_allowed == false
+  }
+
+  invariant heat_data_does_not_profile_people {
+    require heat.named_person_input_allowed == false
+    require heat.device_identifier_input_allowed == false
+    require heat.identity_inference_allowed == false
+    require heat.health_inference_allowed == false
+    require heat.augmentation_inference_allowed == false
+  }
+
+  invariant heat_recommendations_are_reviewable {
+    require heat.provenance_reference_required == true
+    require heat.human_review_for_material_intervention_required == true
+    require heat.community_feedback_path_available == true
+    require heat.external_action_authorized == false
+  }
+}

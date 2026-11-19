@@ -1,0 +1,92 @@
+{
+  "schema_version": "augmented-hub-private-system-lifecycle-management-policy.v1",
+  "status": "research-governance",
+  "purpose": "Manage the lifecycle of participant-controlled records, approved software artifacts, portable formats, provenance records, and recovery materials without operating, diagnosing, inspecting, or modifying a real neural, medical, companion, or cybernetic system.",
+  "lifecycle_scope": {
+    "included": [
+      "records",
+      "source_code",
+      "schemas",
+      "policies",
+      "approved_software_components",
+      "dependency_manifests",
+      "configuration_records",
+      "portable_exports",
+      "recovery_artifacts",
+      "provenance_records"
+    ],
+    "excluded": [
+      "real_world_system_operation",
+      "medical_or_neural_assessment",
+      "physical_device_configuration",
+      "physical_intervention",
+      "private_system_inspection"
+    ]
+  },
+  "phases": {
+    "design": {
+      "privacy_by_design_required": true,
+      "accessibility_by_design_required": true,
+      "security_threat_model_required": true,
+      "recovery_path_required": true,
+      "portable_export_required": true,
+      "non_interference_boundary_required": true
+    },
+    "supply_chain": {
+      "component_manifest_required": true,
+      "dependency_mapping_required": true,
+      "license_reference_required": true,
+      "update_source_reference_required": true,
+      "end_of_life_plan_required": true,
+      "unsupported_component_admission_allowed": false
+    },
+    "deployment": {
+      "configuration_validation_required": true,
+      "local_backup_required": true,
+      "encrypted_archive_required": true,
+      "rollback_protection_required": true,
+      "access_review_required": true,
+      "automatic_external_activation_authorized": false
+    },
+    "operation": {
+      "integrity_check_required": true,
+      "material_change_journal_required": true,
+      "restore_drill_required": true,
+      "correction_path_required": true,
+      "human_review_path_required": true,
+      "identity_inference_authorized": false,
+      "health_inference_authorized": false
+    },
+    "maintenance": {
+      "patch_review_required": true,
+      "compatibility_test_required": true,
+      "replacement_plan_required": true,
+      "silent_downgrade_authorized": false,
+      "forced_external_update_authorized": false
+    },
+    "end_of_life": {
+      "portable_export_required": true,
+      "retention_decision_required": true,
+      "deletion_or_key_destruction_review_required": true,
+      "provenance_preservation_required": true,
+      "successor_instruction_required": true,
+      "destructive_overwrite_without_review_authorized": false
+    }
+  },
+  "material_change_requirements": {
+    "impact_assessment_required": true,
+    "export_check_required": true,
+    "integrity_check_required": true,
+    "recovery_check_required": true,
+    "append_only_successor_record_required": true,
+    "public_disclosure_required": false,
+    "external_action_authorized": false
+  },
+  "authority_boundary": {
+    "identity_determination_authorized": false,
+    "system_operation_authorized": false,
+    "physical_intervention_authorized": false,
+    "technical_certification_authorized": false,
+    "eligibility_use_authorized": false
+  }
+}

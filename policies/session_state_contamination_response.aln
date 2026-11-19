@@ -1,0 +1,245 @@
+@SHARD "SESSION-STATE-CONTAMINATION-RESPONSE" {
+
+  @meta {
+    version: "1.0.0"
+    domain: "research_workflow_integrity"
+    scope: "local_session_summary_contamination_response"
+    language: "ALN-1.0"
+    status: "research_governance_policy"
+  }
+
+  @INVARIANTS {
+    advisory_only: true
+    no_user_fault_inference: true
+    no_identity_inference_from_contaminated_content: true
+    no_language_inference_from_contaminated_content: true
+    no_preference_inference_from_contaminated_content: true
+    no_execution_of_contaminated_content: true
+    no_citation_of_contaminated_content: true
+    no_summary_propagation_of_contaminated_content: true
+    no_external_action_without_explicit_approval: true
+    local_only_recovery: true
+    provenance_preservation: true
+    quarantine_not_deletion: true
+    reconstruction_from_trusted_sources_only: true
+    sensitive_content_minimization: true
+    material_change_review_required: true
+    human_review_required: true
+  }
+
+  @CLASSIFICATION {
+    incident_type: "untrusted_session_state_contamination"
+    affected_container_type: "session_summary_artifact"
+    user_content_status: "not_implicated"
+    repository_reference_status: "not_invalidated_by_incident"
+    contaminated_artifact_authority: "none"
+  }
+
+  @TRUST_LEVELS {
+    trusted_user_provided: {
+      permitted_uses: [
+        "reconstruction",
+        "local_derivation",
+        "reviewed_citation",
+        "canonical_shard_generation"
+      ]
+    }
+
+    verified_repository_artifact: {
+      required_checks: [
+        "repository_allowlist_match",
+        "content_integrity_check",
+        "source_path_provenance",
+        "local_review"
+      ]
+      permitted_uses: [
+        "reconstruction",
+        "local_derivation",
+        "reviewed_citation"
+      ]
+    }
+
+    reviewed_local_derivation: {
+      required_checks: [
+        "trusted_source_chain",
+        "sha256_fingerprint",
+        "structural_validation",
+        "semantic_validation",
+        "human_review"
+      ]
+      permitted_uses: [
+        "canonical_shard_generation",
+        "local_analysis",
+        "reviewed_citation"
+      ]
+    }
+
+    untrusted_external_return: {
+      permitted_uses: [
+        "quarantine_record",
+        "security_analysis"
+      ]
+      prohibited_uses: [
+        "corpus_reconstruction",
+        "citation",
+        "execution",
+        "summary_generation",
+        "memory_update",
+        "identity_inference",
+        "preference_inference",
+        "language_inference"
+      ]
+    }
+
+    quarantined_session_artifact: {
+      permitted_uses: [
+        "incident_provenance",
+        "integrity_review"
+      ]
+      prohibited_uses: [
+        "corpus_reconstruction",
+        "citation",
+        "execution",
+        "summary_generation",
+        "memory_update",
+        "policy_input",
+        "formula_input",
+        "architecture_input"
+      ]
+    }
+  }
+
+  @QUARANTINE_RULES {
+    retain_original_artifact: true
+    immutable_status_required: true
+    authoritative_status: false
+    citation_eligible: false
+    execution_eligible: false
+    summary_eligible: false
+    corpus_ingestion_eligible: false
+    language_token_reuse_eligible: false
+    recovery_source_eligible: false
+    redaction_required_before_human_display: "context_dependent"
+    minimum_incident_metadata: [
+      "artifact_reference",
+      "quarantine_reason",
+      "detection_time",
+      "detection_method",
+      "source_trust_status",
+      "sha256_if_available",
+      "review_status"
+    ]
+  }
+
+  @RECOVERY_RULES {
+    source_allowlist: [
+      "user_provided_content",
+      "verified_repository_artifacts",
+      "reviewed_local_derivations"
+    ]
+
+    excluded_sources: [
+      "quarantined_session_artifact",
+      "untrusted_connector_return",
+      "untrusted_cache_return",
+      "untrusted_search_return",
+      "untrusted_memory_return",
+      "untrusted_summary_fragment"
+    ]
+
+    reconstruction_sequence: [
+      "identify_trusted_source_inventory",
+      "validate_source_provenance",
+      "rebuild_object_catalog",
+      "rebuild_invariants",
+      "rebuild_formula_registry",
+      "rebuild_architecture_registry",
+      "rebuild_cross_references",
+      "run_structural_validation",
+      "run_semantic_validation",
+      "run_domain_token_review",
+      "compute_sha256_fingerprint",
+      "create_recovery_manifest",
+      "require_human_review"
+    ]
+
+    canonical_output_requirements: [
+      "provenance_chain_present",
+      "sha256_fingerprint_present",
+      "no_quarantined_source_dependency",
+      "no_untrusted_language_token_dependency",
+      "structural_validation_passed",
+      "semantic_validation_passed",
+      "ecological_validity_not_determined_by_software",
+      "material_change_review_required"
+    ]
+  }
+
+  @TOKEN_REVIEW {
+    enabled: true
+    declared_domain_vocabularies: [
+      "ecological_mathematics",
+      "ecological_governance",
+      "recruitment_cascade",
+      "restoration_science",
+      "thermodynamics",
+      "information_theory",
+      "provenance",
+      "implementation_architecture"
+    ]
+
+    review_rule:
+      "Unexpected external-language or commercial-token detection produces a review flag, not an automated deletion or identity inference."
+
+    prohibited_interpretations: [
+      "user_language_preference",
+      "user_intent",
+      "user_identity",
+      "user_commercial_affiliation",
+      "user_behavioral_profile"
+    ]
+  }
+
+  @RUN_MANIFEST_REQUIREMENTS {
+    hashing_algorithm: "sha256"
+    required_fields: [
+      "manifest_version",
+      "run_id",
+      "canonical_config_sha256",
+      "trusted_source_hashes",
+      "quarantined_source_exclusions",
+      "structural_validation_status",
+      "semantic_validation_status",
+      "token_review_status",
+      "ecological_validity_status",
+      "output_sha256",
+      "review_status"
+    ]
+
+    ecological_validity_status:
+      "not_determined_by_software"
+
+    prohibited_uses: [
+      "automated_enforcement",
+      "human_or_community_ranking",
+      "land_displacement_decision",
+      "benefit_or_service_eligibility",
+      "protected_attribute_inference",
+      "unreviewed_external_action"
+    ]
+  }
+
+  @REVIEW_GATES {
+    required: [
+      "integrity_review",
+      "provenance_review",
+      "structural_review",
+      "semantic_review",
+      "domain_token_review",
+      "material_change_review"
+    ]
+
+    release_condition:
+      "All required review statuses must be passed or explicitly documented as pending before a reconstructed shard is marked canonical."
+  }
+}

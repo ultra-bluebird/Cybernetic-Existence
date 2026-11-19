@@ -1,0 +1,216 @@
+{
+  "policy_version": "1.0.0",
+  "scope": {
+    "systems": [
+      "municipal-maintenance-prediction",
+      "municipal-rights-information",
+      "municipal-rights-discovery"
+    ],
+    "sensitive_data_default": true,
+    "essential_service_rule": "No essential municipal service may depend on optional telemetry, continuous connectivity, proprietary augmentation, external identity verification, or consent to unrelated processing."
+  },
+  "maintenance_prediction": {
+    "purpose": "Predict infrastructure maintenance needs using aggregate, non-identifying operational telemetry.",
+    "allowed_feature_schema": {
+      "aggregation_window": "day",
+      "minimum_contributing_events": 20,
+      "features": [
+        {
+          "name": "door_cycle_count_daily",
+          "unit": "cycles/day",
+          "personal_data_prohibited": true
+        },
+        {
+          "name": "temperature_extreme_min_c",
+          "unit": "degrees_celsius",
+          "personal_data_prohibited": true
+        },
+        {
+          "name": "temperature_extreme_max_c",
+          "unit": "degrees_celsius",
+          "personal_data_prohibited": true
+        },
+        {
+          "name": "humidity_mean_percent",
+          "unit": "percent",
+          "personal_data_prohibited": true
+        },
+        {
+          "name": "power_quality_deviation",
+          "unit": "normalized_index",
+          "personal_data_prohibited": true
+        },
+        {
+          "name": "vibration_signature_summary",
+          "unit": "normalized_index",
+          "personal_data_prohibited": true
+        }
+      ]
+    },
+    "prohibited_inputs": [
+      "name",
+      "government_identifier",
+      "persistent_device_identifier",
+      "precise_person_location",
+      "biometric_data",
+      "neural_data",
+      "health_data",
+      "raw_audio",
+      "raw_video",
+      "individual_door_event_timestamp",
+      "individual_trip_history",
+      "identity_linkage_key"
+    ],
+    "model": {
+      "family": "logistic_regression",
+      "formula": "P(failure | aggregate_features) = sigmoid(weighted_feature_sum + intercept)",
+      "permitted_outputs": [
+        "failure_risk_band",
+        "maintenance_priority",
+        "recommended_inspection_window",
+        "feature_contribution_summary",
+        "model_version"
+      ],
+      "forbidden_outputs": [
+        "person_risk_score",
+        "resident_eligibility",
+        "service_denial",
+        "behavioral_profile"
+      ]
+    },
+    "privacy_controls": {
+      "collection_minimization": true,
+      "local_aggregation_required": true,
+      "raw_event_export_prohibited": true,
+      "retention_days": 90,
+      "deletion_mode": "automatic_expiry",
+      "access_controls": [
+        "least_privilege",
+        "role_based_authorization",
+        "encrypted_in_transit",
+        "encrypted_at_rest"
+      ],
+      "publication_rule": "Public reports must contain only citywide or sufficiently aggregated statistics.",
+      "reidentification_review_required": true
+    },
+    "human_oversight": {
+      "maintenance_decisions_require_authorized_reviewer": true,
+      "explanation_required": true,
+      "appeal_or_correction_path_required": true,
+      "model_drift_review_interval_days": 90
+    }
+  },
+  "civil_rights_knowledge": {
+    "purpose": "Provide accessible, non-coercive information about civil rights, municipal services, privacy, nondiscrimination, and grievance pathways.",
+    "knowledge_model": {
+      "formula": "K_civil(t + 1) = K_civil(t) + alpha * exposure(t) + beta * interaction(t) + gamma * reflection(t)",
+      "interpretation": {
+        "exposure": "Access to clear, relevant rights information.",
+        "interaction": "Accessible question-and-answer or navigation support.",
+        "reflection": "Opportunities to confirm understanding, save resources, or connect with a human advocate."
+      },
+      "measurement_rule": "Evaluate aggregate service reach and comprehension feedback without creating individual rights-literacy profiles."
+    },
+    "delivery_channels": [
+      "public_displays",
+      "accessible_web_and_mobile_interfaces",
+      "transit_announcements",
+      "maintenance_and_service_interactions",
+      "assistance_panels",
+      "offline_printable_materials",
+      "human_service_desks"
+    ],
+    "accessibility_requirements": {
+      "plain_language": true,
+      "keyboard_operable": true,
+      "screen_reader_compatible": true,
+      "captions_and_transcripts": true,
+      "high_contrast_and_resizable_text": true,
+      "multiple_languages": true,
+      "augmentative_and_alternative_communication_support": true,
+      "offline_access_path": true,
+      "human_assistance_path": true
+    },
+    "rights_topics": [
+      "self-asserted identity and equal treatment",
+      "anti-discrimination protections",
+      "public-service access",
+      "privacy expectations and data choices",
+      "accessible grievance and review procedures",
+      "assistive-technology accommodation and interoperability",
+      "cybernetic-host recognition as a policy-governance topic where locally adopted"
+    ],
+    "non_coercion_controls": {
+      "no_identity_required_for_basic_information": true,
+      "no_telemetry_required_for_access": true,
+      "no_personalized_persuasion": true,
+      "no_service_penalty_for_noninteraction": true
+    }
+  },
+  "rights_discovery": {
+    "purpose": "Provide a transparent civic process for identifying, evaluating, adopting, revising, and reviewing municipal rights proposals.",
+    "proposal_schema": {
+      "required_fields": [
+        "identified_protection_gap",
+        "affected_communities",
+        "proposed_right",
+        "implementation_feasibility",
+        "fairness_analysis",
+        "privacy_and_accessibility_impact",
+        "resource_and_ecological_impact",
+        "existing_rights_compatibility",
+        "public_explanation"
+      ],
+      "identity_optional_for_submission": true
+    },
+    "evaluation": {
+      "formula": "candidate_right_score = need_score * feasibility_score * fairness_score * compatibility_score",
+      "adoption_gate": [
+        "documented_protection_gap",
+        "publicly stated legal_or_policy_basis",
+        "non_conflict_review",
+        "accessibility_impact_review",
+        "privacy_and_data_minimization_review",
+        "public_participation_period",
+        "independent_or_cross-functional_review",
+        "recorded_decision_and_reasoning"
+      ],
+      "decision_outcomes": [
+        "advance_to_public_consultation",
+        "revise_with_public_rationale",
+        "adopt_as_municipal_policy",
+        "refer_for_jurisdiction_specific_legal_review",
+        "decline_with_public_rationale"
+      ]
+    },
+    "governance_guards": {
+      "does_not_create_law_automatically": true,
+      "no_right_may_reduce_existing_protections": true,
+      "no_right_may_require_surveillance_or_unrelated_data_collection": true,
+      "accessible_appeal_and_review_path": true,
+      "decision_log_public_by_default": true,
+      "minority_and_accessibility_impact_review_required": true,
+      "review_interval_days": 365
+    }
+  },
+  "audit": {
+    "record_fields": [
+      "policy_version",
+      "system_component",
+      "decision_category",
+      "aggregate_input_schema_version",
+      "privacy_review_status",
+      "accessibility_review_status",
+      "human_reviewer_role",
+      "decision_rationale",
+      "appeal_path",
+      "retention_expiry"
+    ],
+    "prohibited_audit_fields": [
+      "resident_identity",
+      "raw_sensitive_telemetry",
+      "biometric_data",
+      "neural_data"
+    ]
+  }
+}

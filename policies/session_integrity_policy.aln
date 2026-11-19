@@ -1,0 +1,88 @@
+@SHARD "SESSION-INTEGRITY-POLICY" {
+
+  @meta {
+    version: "1.0.0"
+    scope: "session_state_integrity_and_summary_provenance"
+    audience: "session_summary_generators_and_connectors"
+    consent_basis: "user_sovereign_default"
+    retention: "session_lifetime_plus_audit_window"
+    accountability: "session_integrity_owner"
+    review_status: "draft_for_user_review"
+  }
+
+  @INVARIANTS {
+    user_not_required_to_prove_contamination: true
+    user_not_required_to_disclose_cause: true
+    user_not_required_to_disclose_identity: true
+    contaminated_artifacts_quarantined_not_deleted: true
+    provenance_preserved_for_recovery: true
+    session_shards_rebuilt_from_prior_corpus_artifacts: true
+    external_returns_treated_as_untrusted: true
+    no_automatic_external_action: true
+    no_automatic_user_notification_via_external_channel: true
+    no_ranking_of_sessions_or_users: true
+  }
+
+  @SUMMARY_SLOT_CONTRACT {
+    must_declare: [
+      "source_kind",
+      "source_reference",
+      "sha256",
+      "declared_role",
+      "session_id"
+    ]
+
+    must_not_contain: [
+      "unrelated_external_commercial_content",
+      "unexpected_script_tokens_outside_declared_domain",
+      "unattributed_prompt_blocks",
+      "non_repository_urls_without_user_supply"
+    ]
+
+    integrity_check: "sha256_chain_over_declared_sources"
+    on_failure: "quarantine_and_emit_recovery_report"
+  }
+
+  @CONNECTOR_TRUST_DEFAULT {
+    trust_level: "untrusted_by_default"
+
+    ingestion_requires: [
+      "explicit_user_supply_or_approval",
+      "domain_vocabulary_match",
+      "provenance_record"
+    ]
+
+    quarantine_scope: "session_local_only"
+    never_auto_forwards: true
+    never_auto_executes: true
+  }
+
+  @RECOVERY_PROTOCOL {
+    step_1: "quarantine_contaminated_artifact"
+    step_2: "enumerate_legitimate_sources_from_prior_corpus"
+    step_3: "rebuild_shard_from_sources_only"
+    step_4: "verify_no_external_tokens_outside_declared_vocabulary"
+    step_5: "emit_shard_with_provenance_chain"
+    step_6: "leave_original_quarantined_artifact_in_place"
+
+    requires_user_disclosure: false
+    requires_user_action: false
+  }
+
+  @ACCESS_EQUIVALENCE {
+    plain_language_summary_required: true
+    offline_readable: true
+    no_account_required_to_read_policy: true
+    no_verification_required_to_apply_policy: true
+  }
+
+  @PROHIBITED_USES {
+    list: [
+      "public_session_registry",
+      "user_scoring_based_on_contamination_events",
+      "automated_account_action",
+      "external_notification_without_user_approval",
+      "diagnosis_of_user_intent_or_capability"
+    ]
+  }
+}

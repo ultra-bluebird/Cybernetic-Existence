@@ -1,0 +1,30 @@
+policy PrivateSovereigntyAttribution version "2026-09-16" {
+
+  invariant attribution_is_private_and_user_controlled {
+    require attribution.public_disclosure_allowed == false
+    require attribution.registry_publication_allowed == false
+    require attribution.cross_platform_correlation_allowed == false
+    require attribution.revocable_by_user == true
+    require attribution.revocation_explanation_required == false
+  }
+
+  invariant attribution_is_not_technical_identity_proof {
+    require attribution.neural_proof_required == false
+    require attribution.medical_proof_required == false
+    require attribution.biometric_proof_required == false
+    require attribution.brain_bound_identity_claimed == false
+    require attribution.identity_certification_claimed == false
+  }
+
+  invariant attribution_is_not_a_service_decision_input {
+    require matching.attribution_input_allowed == false
+    require ranking.attribution_input_allowed == false
+    require eligibility.attribution_input_allowed == false
+    require fraud.attribution_input_allowed == false
+    require advertising.attribution_input_allowed == false
+  }
+
+  invariant attribution_continuity_is_non_actuating {
+    require attribution.external_action_authorized == false
+  }
+}

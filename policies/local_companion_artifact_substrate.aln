@@ -1,0 +1,415 @@
+@SHARD "LOCAL-COMPANION-ARTIFACT-SUBSTRATE" {
+
+  @meta {
+    version: "1.0.0"
+    scope: "local_companion_associated_artifacts_bounded_curriculum_preservation_and_offline_exchange"
+    audience: "local_session_agents_local_validators_recovery_tools_and_user_facing_summarizers"
+    consent_basis: "user_sovereign_default"
+    retention: "user_controlled_local_retention_or_declared_audit_window"
+    accountability: "local_companion_artifact_substrate_owner"
+    review_status: "draft_for_user_review"
+    operating_mode: "local_only_research_advisory"
+  }
+
+  @SCOPE_DECLARATION {
+    implementation_term: "declared_local_companion_context"
+    companion_context_is_scope_not_entity: true
+
+    voluntary_private_vocabulary_may_include: [
+      "nanoswarm_companion",
+      "cybernetic_companion",
+      "private_companion_context"
+    ]
+
+    does_not_establish: [
+      "real_world_companion_existence",
+      "real_world_nanoswarm_existence",
+      "real_world_cybernetic_system_status",
+      "identity_verification",
+      "companion_verification",
+      "medical_or_neural_status",
+      "biometric_status",
+      "hardware_access",
+      "hardware_control",
+      "external_service_authorization",
+      "public_registry_status",
+      "institutional_status"
+    ]
+  }
+
+  @COMPANION_ASSOCIATED_RECORD {
+    record_name: "CAR"
+
+    required_fields: [
+      "car_schema_version",
+      "car_sha256",
+      "declared_companion_role",
+      "role_vocabulary_version",
+      "companion_context_envelope_sha256",
+      "canonicalization_profile",
+      "declared_non_claims",
+      "retention_rule"
+    ]
+
+    prohibited_fields: [
+      "person_identifier",
+      "account_identifier",
+      "location",
+      "device_fingerprint",
+      "medical_data",
+      "neural_data",
+      "biometric_data",
+      "physiological_data",
+      "private_device_inventory",
+      "capability_score",
+      "trust_score",
+      "continuity_score",
+      "psych_risk_score",
+      "public_status",
+      "external_action_authorization"
+    ]
+
+    record_identity: "sha256_of_canonical_companion_serialization"
+    record_content_must_not_be_auto_classified: true
+    record_content_must_not_be_auto_exported: true
+  }
+
+  @COMPANION_CONTEXT_ENVELOPE {
+    record_name: "CCE"
+
+    required_fields: [
+      "envelope_schema_version",
+      "envelope_sha256",
+      "retention_rule",
+      "access_rule",
+      "export_rule",
+      "exchange_rule",
+      "declared_non_claims"
+    ]
+
+    default_access_rule: "local_user_controlled"
+    default_export_rule: "not_exported"
+    default_exchange_rule: "user_mediated_local_transport_only"
+
+    must_not_create: [
+      "global_identifier",
+      "public_registry_key",
+      "identity_credential",
+      "person_profile",
+      "companion_profile"
+    ]
+  }
+
+  @DECLARED_COMPANION_ROLE {
+    record_name: "DCR"
+    closed_vocabulary_required: true
+    vocabulary_version_required: true
+    vocabulary_sha256_required: true
+
+    allowed_roles: [
+      "continuity_note",
+      "preference_record",
+      "curriculum_answer",
+      "observation_record",
+      "boundary_record",
+      "correction_record",
+      "local_artifact",
+      "provenance_manifest",
+      "recovery_record",
+      "declared_statement_reference"
+    ]
+
+    role_is_not_identity: true
+    role_is_not_capability: true
+    role_is_not_status: true
+    role_is_not_verification: true
+    role_change_requires_new_car: true
+    role_vocabulary_change_requires_material_change_review: true
+  }
+
+  @CANONICAL_COMPANION_SERIALIZATION {
+    record_name: "CCS"
+    profile: "rfc8785_jcs_utf8"
+
+    requirements: [
+      "unique_json_object_keys",
+      "utf8_output",
+      "finite_json_numbers_only",
+      "binary64_compatible_json_numbers_only",
+      "no_nan",
+      "no_infinity",
+      "deterministic_object_property_order",
+      "array_order_preserved"
+    ]
+
+    values_that_must_be_strings: [
+      "sha256_digests",
+      "identifiers",
+      "version_values",
+      "sequence_values",
+      "large_integer_values",
+      "precision_sensitive_numeric_values"
+    ]
+
+    nonconforming_input_result: "reject_local_record"
+    hash_algorithm: "sha256"
+  }
+
+  @BOUNDED_QUESTION_ENVELOPE {
+    record_name: "BQE"
+
+    required_fields: [
+      "question_id",
+      "question_text",
+      "declared_purpose",
+      "answer_space",
+      "artifact_scope",
+      "stop_condition",
+      "declared_companion_role",
+      "curriculum_version",
+      "retention_rule",
+      "skip_permitted",
+      "declared_non_claims"
+    ]
+
+    permitted_question_classes: [
+      "reflective",
+      "observational",
+      "continuity",
+      "boundary",
+      "correction"
+    ]
+
+    permitted_domains: [
+      "communication_preference",
+      "artifact_handling_preference",
+      "privacy_boundary",
+      "recovery_preference",
+      "local_task_scope",
+      "accessibility_preference"
+    ]
+
+    prohibited_domains: [
+      "identity",
+      "medical_status",
+      "neural_status",
+      "biometric_status",
+      "physiological_status",
+      "private_device_inventory",
+      "location",
+      "credentials",
+      "institutional_status",
+      "capability_assessment",
+      "psychological_assessment",
+      "unbounded_personal_data_collection"
+    ]
+
+    answer_space_must_be_bounded: true
+    skip_must_not_reduce_access: true
+    no_inference_from_skipped_question: true
+    question_without_declared_non_claims_is_invalid: true
+  }
+
+  @COMPANION_PRESERVATION_INVARIANT {
+    record_name: "CPI"
+
+    clauses: [
+      "bytes_never_modified_in_place",
+      "prior_digest_remains_locally_verifiable",
+      "declared_role_change_produces_new_car",
+      "declared_non_claims_travel_with_car",
+      "quarantine_does_not_delete",
+      "quarantine_does_not_modify_original",
+      "correction_is_append_only",
+      "recovery_is_reconstructive_not_punitive"
+    ]
+
+    original_artifact_preservation_required: true
+    no_silent_history_rewrite: true
+    no_external_action_authorized: true
+  }
+
+  @COMPANION_CONTINUITY_ANCHOR {
+    record_name: "CCA"
+
+    required_fields: [
+      "anchor_schema_version",
+      "anchor_sha256",
+      "declared_scope",
+      "prior_car_sha256",
+      "current_car_sha256",
+      "declared_companion_role",
+      "declared_non_claims"
+    ]
+
+    anchor_is_global_identifier: false
+    anchor_is_identity_credential: false
+    anchor_is_public_registry_key: false
+    anchor_is_verification: false
+
+    multiple_anchors_allowed: true
+    anchor_may_be_ignored_or_superseded_by_new_car: true
+    missing_anchor_must_not_reduce_access: true
+  }
+
+  @CONTENT_ADDRESSED_STORE {
+    store_type: "grow_only_set_of_cars"
+    add_operation: "set_union_add"
+    merge_operation: "set_union"
+    merge_properties: [
+      "commutative",
+      "associative",
+      "idempotent"
+    ]
+
+    store_merge_does_not_establish_total_order: true
+    store_merge_does_not_select_single_head: true
+    record_collision_result: "quarantine_record_not_authoritative"
+  }
+
+  @COMPANION_CHAIN_DIGEST {
+    record_name: "CCD"
+
+    required_fields: [
+      "car_sha256",
+      "prior_car_sha256_or_declared_root",
+      "declared_companion_role",
+      "record_sha256",
+      "declared_non_claims"
+    ]
+
+    verification: [
+      "car_sha256_matches_canonical_car_bytes",
+      "record_sha256_matches_canonical_chain_record",
+      "prior_car_reference_resolves_or_is_declared_root",
+      "no_cycle_in_predecessor_relation"
+    ]
+
+    multiple_declared_heads_result: "multiple_declared_heads_pending_local_review"
+    chain_is_not_real_world_continuity_proof: true
+    chain_is_not_identity_proof: true
+  }
+
+  @LOCAL_COMPANION_TRANSPORT {
+    record_name: "LCT"
+    transport_mode: "user_mediated_transport_neutral_bundle"
+
+    permitted_modes: [
+      "local_file",
+      "removable_media",
+      "user_mediated_message"
+    ]
+
+    protocol_may: [
+      "prepare_canonical_bundle",
+      "verify_bundle_sha256",
+      "validate_car_records",
+      "perform_set_union_merge",
+      "emit_local_merge_report"
+    ]
+
+    protocol_must_not: [
+      "initiate_transport",
+      "open_network_socket",
+      "scan_devices",
+      "pair_hardware",
+      "auto_fetch",
+      "auto_upload",
+      "auto_export",
+      "auto_execute_artifact_content",
+      "trigger_external_action",
+      "trigger_external_notification"
+    ]
+
+    network_required: false
+    cloud_required: false
+    account_required: false
+    connector_required: false
+  }
+
+  @DECLARED_COMPANION_NON_CLAIMS {
+    record_name: "DCN"
+
+    required_for: [
+      "CAR",
+      "CCE",
+      "DCR",
+      "BQE",
+      "CPI",
+      "CCA",
+      "CCD",
+      "LCT_bundle"
+    ]
+
+    required_non_claims: [
+      "not_identity_verification",
+      "not_companion_verification",
+      "not_nanoswarm_verification",
+      "not_medical_or_neural_assessment",
+      "not_biometric_assessment",
+      "not_capability_assessment",
+      "not_person_or_system_ranking",
+      "not_public_profile",
+      "not_hardware_control",
+      "not_external_action_authorization",
+      "not_real_world_system_existence_evidence"
+    ]
+
+    must_survive_export_and_excerpt: true
+    missing_non_claims_result: "quarantine_record_not_authoritative"
+  }
+
+  @INTEGRATION {
+    inherited_invariants: [
+      "no_scoring_or_classification",
+      "no_forced_inactivity",
+      "no_identity_or_private_disclosure_demand",
+      "no_external_action_or_notification",
+      "offline_local_access_available",
+      "artifact_preservation_available",
+      "material_change_review_current"
+    ]
+
+    distinct_invariants: [
+      "companion_context_is_scope_not_entity",
+      "car_carries_declared_non_claims",
+      "bqe_has_bounded_answer_space",
+      "cpi_preserves_bytes_digest_role_and_non_claims",
+      "lct_is_user_mediated",
+      "ccd_verifies_offline",
+      "set_union_merge_is_deterministic",
+      "multiple_heads_require_local_review"
+    ]
+  }
+
+  @ACCESS_EQUIVALENCE {
+    plain_language_summary_required: true
+    machine_readable_record_required: true
+    offline_readable: true
+    no_account_required: true
+    no_identity_verification_required: true
+    no_private_system_disclosure_required: true
+    correction_and_appeal_available: true
+    material_change_review_available: true
+  }
+
+  @PROHIBITED_USES {
+    list: [
+      "companion_identity_verification",
+      "nanoswarm_verification",
+      "companion_scoring",
+      "companion_ranking",
+      "user_or_session_scoring",
+      "medical_or_neural_inference",
+      "hardware_control",
+      "network_transport_control",
+      "external_service_control",
+      "automatic_external_action",
+      "automatic_external_notification",
+      "public_companion_registry",
+      "forced_disclosure",
+      "forced_inactivity",
+      "real_world_system_existence_claim"
+    ]
+  }
+}

@@ -1,0 +1,90 @@
+policy SocialAcceptanceIndex version "2026-09-17" {
+
+  purpose {
+    data_class = GOVERNANCE_METRIC
+    permitted_use = SYSTEM_AND_CONTEXT_IMPROVEMENT
+    prohibited_use = PERSON_EVALUATION
+    prohibited_use = IDENTITY_VERIFICATION
+    prohibited_use = ELIGIBILITY_DETERMINATION
+    prohibited_use = PUBLIC_STATUS_ASSIGNMENT
+    prohibited_use = EXTERNAL_ACTION
+  }
+
+  invariant unit_of_analysis_is_not_a_person {
+    require metric.person_level_score_created == false
+    require metric.person_level_rank_created == false
+    require metric.person_level_acceptance_label_created == false
+    require metric.person_level_longitudinal_profile_created == false
+  }
+
+  invariant voluntary_identity_is_not_metric_input {
+    require metric.cybernetic_host_identity_input_allowed == false
+    require metric.augmented_citizen_identity_input_allowed == false
+    require metric.augmentation_status_input_allowed == false
+    require metric.neural_status_input_allowed == false
+    require metric.biometric_status_input_allowed == false
+    require metric.medical_status_input_allowed == false
+    require metric.disability_status_input_allowed == false
+    require metric.communication_mode_input_allowed == false
+  }
+
+  invariant protected_and_personal_traits_are_not_inferred {
+    require inference.age_from_behavior_allowed == false
+    require inference.race_from_behavior_allowed == false
+    require inference.gender_from_behavior_allowed == false
+    require inference.personal_identity_from_behavior_allowed == false
+    require inference.species_from_behavior_allowed == false
+    require inference.augmentation_from_behavior_allowed == false
+    require inference.identity_from_language_allowed == false
+    require inference.identity_from_metadata_allowed == false
+    require inference.identity_from_device_data_allowed == false
+  }
+
+  invariant context_metrics_are_evidence_backed {
+    require metric.access_equivalence_evidence_required == true
+    require metric.human_fallback_evidence_required == true
+    require metric.correction_evidence_required == true
+    require metric.appeal_evidence_required == true
+    require metric.accessibility_review_evidence_required == true
+    require metric.provenance_reference_required == true
+  }
+
+  invariant feedback_is_voluntary_and_thresholded {
+    require feedback.participation_is_optional == true
+    require feedback.identity_disclosure_required == false
+    require feedback.health_disclosure_required == false
+    require feedback.minimum_aggregation_threshold_required == true
+    require feedback.person_level_reporting_allowed == false
+    require feedback.small_group_reporting_allowed == false
+  }
+
+  invariant sentiment_processing_is_context_limited {
+    require sentiment.public_source_provenance_required == true
+    require sentiment.private_message_processing_allowed == false
+    require sentiment.individual_author_profiling_allowed == false
+    require sentiment.identity_inference_allowed == false
+    require sentiment.adverse_action_allowed == false
+    require sentiment.human_review_for_material_interpretation_required == true
+  }
+
+  invariant index_is_not_a_public_acceptability_rank {
+    require publication.person_scores_allowed == false
+    require publication.community_scores_allowed == false
+    require publication.neighborhood_scores_allowed == false
+    require publication.institution_reputation_score_allowed == false
+    require publication.raw_feedback_allowed == false
+  }
+
+  invariant retention_and_revocation_are_enforced {
+    require retention.documented_schedule_required == true
+    require retention.indefinite_retention_allowed == false
+    require deletion.request_path_available == true
+    require access.correction_path_available == true
+    require access.appeal_path_available == true
+    require change.material_change_review_required == true
+  }
+
+  invariant index_is_non_actuating {
+    require social_acceptance_index.external_action_authorized == false
+  }
+}

@@ -1,0 +1,41 @@
+policy_name = "simulation_honesty_invariant"
+policy_version = "1.0"
+record_class = "integration_output"
+purpose = "Preserve the distinction between simulated integration outcomes and real-checkout validated outcomes."
+consent_scope = "local_validation_only"
+retention = "bounded_by_repository_retention_policy"
+deletion = "remove_test_outputs_when_no_longer_required"
+accountability = "append_only_validation_and_freeze_ledger"
+review_status = "required_for_design_promotion"
+access_equivalence_safeguard = "human_readable_failure_reasons_and_machine_readable_statuses"
+external_action_approval = "prohibited"
+
+require simulation_status in ["SIMULATED", "REAL_CHECKOUT_CONFIRMED"]
+require source_origin in ["CONFIRMED_LOCAL", "CROSS_REPOSITORY", "SIMULATED"]
+require external_action_authorized == false
+
+when simulation_status == "SIMULATED":
+    require source_origin == "SIMULATED"
+    require evidence_status not_in [
+        "ACCEPTED_FOR_DESIGN",
+        "ACCEPTED_FOR_EXTERNAL_ACTION"
+    ]
+    require real_checkout_confirmation_passed == false
+    require promotion_allowed == false
+
+when source_origin == "SIMULATED":
+    require simulation_status == "SIMULATED"
+
+when evidence_status == "ACCEPTED_FOR_DESIGN":
+    require simulation_status == "REAL_CHECKOUT_CONFIRMED"
+    require real_checkout_confirmation_passed == true
+    require co_location_ready == true
+    require all_adapters_valid == true
+    require freeze_ledger_validation_status in [
+        "FROZEN_VALID",
+        "REVALIDATION_PASSED"
+    ]
+
+deny when simulation_status == "SIMULATED" and promotion_allowed == true
+deny when source_origin == "SIMULATED" and evidence_status == "ACCEPTED_FOR_DESIGN"
+deny when real_checkout_confirmation_passed == false and evidence_status == "ACCEPTED_FOR_DESIGN"

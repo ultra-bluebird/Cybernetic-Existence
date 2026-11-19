@@ -1,0 +1,168 @@
+policy PublicSpacePrivacyPreservingAnalytics version "1.0.0" {
+  purpose "Provide aggregate public-space design evidence without identifying, profiling, tracking, or surveilling people."
+
+  data_class edge_sensor_input {
+    sensitivity "high"
+    allowed_fields [
+      "thermal_array_frame",
+      "lidar_point_cloud",
+      "pressure_sensor_state",
+      "short_lived_acoustic_feature_buffer",
+      "environmental_context"
+    ]
+    prohibited_uses [
+      "identity_resolution",
+      "face_recognition",
+      "voiceprint_extraction",
+      "speech_to_text",
+      "emotion_inference",
+      "age_inference",
+      "gender_inference",
+      "disability_inference",
+      "health_inference",
+      "augmentation_status_inference",
+      "cross_space_tracking",
+      "law_enforcement_person_identification",
+      "commercial_behavioral_profiling"
+    ]
+    edge_processing_required true
+    raw_data_transmission_forbidden true
+    raw_data_retention_seconds 15
+    encrypted_volatile_memory_required true
+  }
+
+  data_class aggregate_public_space_metrics {
+    sensitivity "restricted"
+    allowed_fields [
+      "coarse_zone",
+      "time_bucket",
+      "occupancy_count",
+      "ingress_count",
+      "egress_count",
+      "aggregate_flow_count",
+      "dwell_time_histogram",
+      "weather_context",
+      "environmental_condition",
+      "sensor_confidence",
+      "privacy_budget_record",
+      "uncertainty_interval"
+    ]
+    prohibited_fields [
+      "person_identifier",
+      "persistent_pseudonym",
+      "individual_trajectory",
+      "individual_dwell_time",
+      "device_identifier",
+      "raw_sensor_payload",
+      "voice_data",
+      "biometric_template",
+      "inferred_demographic_attribute"
+    ]
+    retention {
+      detailed_aggregate_days 90
+      coarsened_aggregate_days 1825
+      raw_identity_linked_retention_forbidden true
+      encrypted_storage_required true
+    }
+  }
+
+  sensor_processing {
+    local_counting_required true
+    local_flow_aggregation_required true
+    persistent_track_creation_forbidden true
+    cross_sensor_identity_linkage_forbidden true
+    unknown_class_required true
+    acoustic_processing {
+      raw_audio_transmission_forbidden true
+      speech_recognition_forbidden true
+      demographic_or_health_classification_forbidden true
+      permitted_outputs [
+        "occupancy_change_likely",
+        "nonhuman_activity_likely",
+        "mechanical_or_traffic",
+        "weather",
+        "unknown"
+      ]
+    }
+  }
+
+  differential_privacy {
+    required_for_public_release true
+    contribution_bound_required true
+    minimum_group_threshold_required true
+    privacy_budget_accounting_required true
+    privacy_budget_exhaustion_action "suppress_or_coarsen"
+    uncertainty_disclosure_required true
+    false_precision_forbidden true
+    public_release_must_include [
+      "mechanism",
+      "epsilon",
+      "delta_if_used",
+      "contribution_bound",
+      "suppression_rule",
+      "sensor_confidence",
+      "uncertainty_interval",
+      "release_purpose"
+    ]
+  }
+
+  civic_design_use {
+    permitted_uses [
+      "shade_and_seating_design",
+      "accessible_path_improvement",
+      "restroom_and_water_access_planning",
+      "public-space_maintenance",
+      "transit_connection_design",
+      "heat_refuge_planning",
+      "community_program_evaluation"
+    ]
+    prohibited_uses [
+      "individual_enforcement",
+      "exclusion_or_removal",
+      "social_scoring",
+      "service_denial",
+      "predictive_policing",
+      "immigration_enforcement",
+      "housing_screening",
+      "benefit_eligibility"
+    ]
+    low_usage_must_not_be_used_as_sole_basis_for_disinvestment true
+    community_review_required_for_high_impact_allocation true
+  }
+
+  accessibility {
+    public_notice_required true
+    notice_requirements [
+      "plain_language",
+      "screen_reader_compatible",
+      "multilingual_support",
+      "offline_visible_notice",
+      "sensor_type_description",
+      "data_retention_summary",
+      "rights_and_grievance_path"
+    ]
+    public_information_access_without_account_required true
+    essential_space_access_conditioned_on_sensor_consent_forbidden true
+  }
+
+  governance {
+    diagnostic_outputs_are_advisory_only true
+    human_review_required_for [
+      "sensor_scope_expansion",
+      "new_data_use",
+      "public_dataset_release",
+      "resource_allocation_change",
+      "retention_policy_change"
+    ]
+    audit_log_required [
+      "sensor_configuration",
+      "model_version",
+      "raw_deletion_attestation",
+      "privacy_budget_event",
+      "release_decision",
+      "uncertainty",
+      "community_review_outcome"
+    ]
+    accessible_appeal_and_review_required true
+  }
+}

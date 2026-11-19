@@ -1,0 +1,184 @@
+@SHARD "LOCAL-STATE-DRIFT-AND-CHANGE-GRAPH" {
+
+  @meta {
+    version: "1.0.0"
+    scope: "local_declared_artifact_snapshot_drift_and_append_only_change_records"
+    audience: "local_validators_recovery_tools_session_agents_and_governance_reviewers"
+    consent_basis: "user_sovereign_default"
+    retention: "declared_audit_window_only"
+    accountability: "local_artifact_integrity_owner"
+    review_status: "draft_for_user_review"
+    operating_mode: "local_only_research_advisory"
+  }
+
+  @CONTRACT_SCOPE {
+    state_scope: "local_declared_artifact_snapshot"
+
+    scope_exclusions: [
+      "real_world_cybernetic_system_state",
+      "neural_data",
+      "biometric_data",
+      "medical_data",
+      "physiological_data",
+      "hardware_telemetry",
+      "companion_system_telemetry",
+      "external_service_state",
+      "identity_verification_data",
+      "institutional_status_data"
+    ]
+
+    not_claimed: [
+      "system_existence_proof",
+      "real_world_system_monitoring",
+      "rollback_cause_attribution",
+      "actor_attribution",
+      "intent_inference",
+      "universal_storage_tamper_prevention",
+      "external_action_authorization"
+    ]
+  }
+
+  @SNAPSHOT_FINGERPRINT {
+    hash_algorithm: "sha256"
+    canonicalization_required: true
+    canonicalization: "utf8_json_sort_keys_compact_separators"
+
+    fingerprinted_fields_must_be: [
+      "declared",
+      "deterministic",
+      "within_local_snapshot_scope",
+      "free_of_undeclared_external_content"
+    ]
+
+    excluded_from_default_fingerprint: [
+      "serialization_timestamp",
+      "process_identifier",
+      "temporary_path",
+      "unordered_diagnostic_output",
+      "volatile_environment_value"
+    ]
+
+    fingerprint_result_scope: "local_byte_continuity_only"
+  }
+
+  @DRIFT_CLASSIFICATION {
+    declared_change_requires: [
+      "prior_snapshot_sha256",
+      "result_snapshot_sha256",
+      "change_kind",
+      "declared_role",
+      "policy_version",
+      "review_status",
+      "change_record_sha256"
+    ]
+
+    unexplained_drift_condition: [
+      "snapshot_sha256_changed",
+      "no_matching_declared_change_record"
+    ]
+
+    unexplained_drift_result: "snapshot_quarantined_not_authoritative"
+
+    drift_finding_must_not_mean: [
+      "user_error",
+      "user_intent",
+      "user_capability",
+      "identity_status",
+      "real_world_system_rollback",
+      "external_actor_attribution"
+    ]
+  }
+
+  @CHANGE_GRAPH {
+    storage_mode: "local_append_only_record_sequence_or_dag"
+    node_hash_algorithm: "sha256"
+
+    node_requires: [
+      "record_id",
+      "prior_snapshot_sha256",
+      "result_snapshot_sha256",
+      "change_kind",
+      "declared_role",
+      "policy_version",
+      "review_status",
+      "record_sha256"
+    ]
+
+    graph_invariants: [
+      "all_node_hashes_valid",
+      "all_declared_predecessors_resolve_or_are_explicit_roots",
+      "no_parent_relation_cycle",
+      "no_silent_trusted_head_replacement",
+      "conflicting_heads_require_local_review",
+      "history_nodes_not_deleted_by_default"
+    ]
+
+    invalid_graph_result: "quarantined_not_authoritative"
+  }
+
+  @ROLLBACK_AND_RECOVERY {
+    rollback_is_append_only_transition: true
+    rollback_must_not_rewrite_prior_history: true
+    rollback_must_not_delete_prior_nodes: true
+
+    rollback_requires: [
+      "reason",
+      "review_status",
+      "preserved_source_sha256",
+      "target_snapshot_sha256",
+      "new_rollback_record_sha256",
+      "plain_language_summary"
+    ]
+
+    recovery_requires: [
+      "declared_legitimate_sources",
+      "source_sha256_records",
+      "rebuild_provenance_chain",
+      "rebuilt_snapshot_validation"
+    ]
+
+    quarantined_snapshot_trusted_reuse: false
+    quarantined_snapshot_local_inspection: true
+  }
+
+  @NON_INTERFERENCE {
+    never_modify_user_owned_files: true
+    never_modify_repository_files: true
+    never_contact_external_services: true
+    never_auto_fetch_references: true
+    never_auto_push_or_pull: true
+    never_auto_clone_repository: true
+    never_auto_execute_snapshot_content: true
+    never_trigger_external_action: true
+    never_trigger_external_notification: true
+    never_require_identity_disclosure: true
+    never_rank_users_sessions_or_artifacts: true
+  }
+
+  @ACCESS_EQUIVALENCE {
+    plain_language_drift_summary_required: true
+    machine_readable_record_required: true
+    offline_readable: true
+    no_account_required: true
+    no_identity_verification_required: true
+    no_user_disclosure_required_for_quarantine: true
+    correction_and_appeal_available: true
+    material_change_review_available: true
+  }
+
+  @PROHIBITED_USES {
+    list: [
+      "claim_of_monitoring_real_world_system",
+      "claim_of_detecting_covert_actor",
+      "claim_of_detecting_user_intent",
+      "identity_verification",
+      "user_or_session_scoring",
+      "public_state_registry",
+      "automatic_external_action",
+      "automatic_repository_modification",
+      "automatic_hardware_control",
+      "silent_history_rewrite",
+      "deletion_of_prior_state_record_by_default"
+    ]
+  }
+}

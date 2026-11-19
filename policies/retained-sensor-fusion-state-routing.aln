@@ -1,0 +1,103 @@
+policy_name = "retained_sensor_fusion_state_routing"
+policy_version = "1.0"
+record_class = "sensor_fusion_retained_state"
+purpose = "Retain and route unresolved calibration, integration-window, and regression-identifiability conditions without treating them as negative results or operational signals."
+consent_scope = "local_validation_and_non_actuating_research_only"
+retention = "bounded_by_declared_state_retention_class"
+deletion = "delete_or_aggregate_minimized_state_metadata_after_closure_and_accountability_window"
+accountability = "versioned_diagnostic_owner_and_closure_rationale"
+review_status = "required_for_open_overdue_or_infeasible_states"
+access_equivalence_safeguard = "plain_language_state_scope_block_and_resolution_path"
+external_action_approval = "prohibited"
+
+require external_action_authorized == false
+require not_an_operational_signal == true
+
+require retained_state in [
+    "DRIFT_ENVIRONMENT_AMBIGUOUS",
+    "PASSIVE_SAMPLER_EVENT_INCOMPATIBLE",
+    "TURBIDITY_SOURCE_COLLINEAR"
+]
+
+require closure_status in [
+    "OPEN",
+    "DIAGNOSTIC_PASSED",
+    "DIAGNOSTIC_FAILED",
+    "DIAGNOSTIC_INFEASIBLE",
+    "OVERDUE_REVIEW",
+    "SUPERSEDED"
+]
+
+require evidence_interpretation in [
+    "RETAINED_AMBIGUOUS",
+    "INADEQUATE_FOR_PROMOTION",
+    "VALID_FOR_NARROW_SCOPE",
+    "INVALID"
+]
+
+require owner_role in [
+    "INSTRUMENT_QUALITY_REVIEWER",
+    "ANALYTICAL_QUALITY_REVIEWER",
+    "METHOD_REVIEWER",
+    "GOVERNANCE_BOUNDARY_REVIEWER"
+]
+
+require diagnostic_id is_not_null
+require diagnostic_version is_not_null
+require opened_at_utc is_not_null
+require review_due_at_utc is_not_null
+require retention_class is_not_null
+require blocked_transition_set is_not_null
+require allowed_claim_scopes is_not_null
+
+when retained_state == "DRIFT_ENVIRONMENT_AMBIGUOUS":
+    require owner_role == "INSTRUMENT_QUALITY_REVIEWER"
+    require evidence_interpretation in [
+        "RETAINED_AMBIGUOUS",
+        "INADEQUATE_FOR_PROMOTION",
+        "VALID_FOR_NARROW_SCOPE"
+    ]
+    require blocked_transition_set contains "CAUSAL_EFFECT_PROMOTION"
+
+when retained_state == "PASSIVE_SAMPLER_EVENT_INCOMPATIBLE":
+    require owner_role == "ANALYTICAL_QUALITY_REVIEWER"
+    require evidence_interpretation in [
+        "RETAINED_AMBIGUOUS",
+        "INADEQUATE_FOR_PROMOTION",
+        "VALID_FOR_NARROW_SCOPE"
+    ]
+    require blocked_transition_set contains "EVENT_FLUX_PROMOTION"
+
+when retained_state == "TURBIDITY_SOURCE_COLLINEAR":
+    require owner_role == "METHOD_REVIEWER"
+    require evidence_interpretation in [
+        "RETAINED_AMBIGUOUS",
+        "INADEQUATE_FOR_PROMOTION",
+        "VALID_FOR_NARROW_SCOPE"
+    ]
+    require blocked_transition_set contains "MINERAL_ORGANIC_DECOMPOSITION_PROMOTION"
+
+when closure_status == "OPEN" and current_time_utc > review_due_at_utc:
+    require closure_status == "OVERDUE_REVIEW"
+
+when closure_status == "DIAGNOSTIC_INFEASIBLE":
+    require evidence_interpretation == "INADEQUATE_FOR_PROMOTION"
+    require closure_rationale_digest is_not_null
+    require promotion_allowed == false
+
+when closure_status in ["OPEN", "OVERDUE_REVIEW"]:
+    require promotion_allowed == false
+
+deny when evidence_interpretation == "RETAINED_AMBIGUOUS"
+    and result_state == "NEGATIVE"
+
+deny when retained_state == "DRIFT_ENVIRONMENT_AMBIGUOUS"
+    and causal_effect_promotion_allowed == true
+
+deny when retained_state == "PASSIVE_SAMPLER_EVENT_INCOMPATIBLE"
+    and event_flux_promotion_allowed == true
+
+deny when retained_state == "TURBIDITY_SOURCE_COLLINEAR"
+    and mineral_organic_decomposition_promotion_allowed == true
+
+deny when external_action_authorized == true

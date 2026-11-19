@@ -1,0 +1,101 @@
+policy social_acceptance_and_identity_respect_v1 {
+  policy_type "rights_constraint_and_aggregate_social_conditions"
+  review_status "candidate_for_review"
+  accountability {
+    owner_role "Augmented-Hub governance reviewer"
+    human_review_required true
+    appeal_or_correction_path "accessible-grievance-protocol"
+    policy_change_requires_versioned_review true
+  }
+
+  identity_respect {
+    self_description {
+      allowed true
+      voluntary true
+      purpose "user-controlled presentation and respectful interaction"
+      external_certification_required false
+      evidence_weight 0
+      retention "user-controlled or session-bound"
+    }
+
+    prohibited_decision_inputs [
+      "claimed_identity",
+      "augmentation_status",
+      "assistive_technology_status",
+      "biometric_information",
+      "neural_information",
+      "health_information",
+      "private_learning_continuity_information",
+      "absence_of_optional_telemetry",
+      "absence_of_external_identity_verification"
+    ]
+
+    invariant no_identity_linked_adverse_decision {
+      applies_to [
+        "environmental_service",
+        "civic_service",
+        "repair_service",
+        "transit_service",
+        "accessibility_service",
+        "planning_priority",
+        "ecological_score",
+        "credibility_score",
+        "eligibility_decision"
+      ]
+      action "deny_and_create_auditable_policy_receipt"
+      explanation "A person’s self-description, augmentation status, accessibility need, or absence of optional data must not reduce service access, credibility, or participation."
+    }
+  }
+
+  acceptance_measurement {
+    permitted_data_classes [
+      "public_policy_records",
+      "aggregated_service_access_outcomes",
+      "aggregate_infrastructure_accessibility_metrics",
+      "voluntary_nonidentifying_community_feedback",
+      "aggregate_grievance_resolution_statistics"
+    ]
+
+    prohibited_data_classes [
+      "identity_roster",
+      "individual_acceptance_score",
+      "behavioral_surveillance",
+      "sentiment_inference_about_identifiable_persons",
+      "biometric_or_neural_data",
+      "assistive_device_telemetry_for_social_scoring"
+    ]
+
+    publication {
+      minimum_aggregation_count 20
+      spatial_precision "neighborhood_or_coarser"
+      require_uncertainty_statement true
+      require_plain_language_explanation true
+      require_methodology_version true
+    }
+  }
+
+  distinction {
+    tolerance {
+      definition "absence of documented exclusionary or discriminatory system behavior"
+      minimum_required true
+    }
+
+    acceptance {
+      definition "positive, evidenced conditions of equitable access, participation, accessible infrastructure, respectful interaction, and remedy availability"
+      automatic_claim_prohibited true
+      requires_multidimensional_evidence true
+    }
+  }
+
+  external_actions {
+    default_status "requires_separate_approval"
+    automatic_service_denial_prohibited true
+    automatic_identity_inference_prohibited true
+  }
+
+  retention {
+    aggregate_measurement_schedule "defined_by_program_governance"
+    personal_preference_data "user-controlled_or_short_operational_retention"
+    deletion_path "accessible_export_and_deletion_workflow"
+  }
+}

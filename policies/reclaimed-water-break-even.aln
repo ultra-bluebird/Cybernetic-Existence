@@ -1,0 +1,58 @@
+policy: reclaimed_water_break_even
+version: 2.0.0
+data_class: water_resource_decision_support_policy
+purpose: compare potable and reclaimed water using direct cost, ecological harm, social harm, resilience harm, and infrastructure cost while applying declared drought conditions
+consent_scope: aggregate_water_resource_and_operational_cost_data_only
+retention: retain_monthly_estimates_condition_records_method_versions_and_human_review_events_for_configured_audit_period
+deletion: retain_minimal_method_and_decision_provenance_after_raw_data_retention_expiry
+accountability: harm_method_visibility_drought_declaration_provenance_human_review_and_public_explanation
+review_status: required_for_non_emergency_option_selection
+access_equivalence_safeguards: water-choice_policy_must_not_reduce_essential_service_access_or_shift_burdens_to_protected_communities
+external_action_approval: required_for_operational_water_source_switching
+
+harm_model:
+  potable:
+    formula: base_harm_times_drought_multiplier_plus_ecological_harm_plus_social_harm_plus_resilience_harm
+  drought_emergency:
+    require:
+      - formal_declaration_record
+      - declared_validity_window
+      - approved_drought_harm_multiplier
+    decision:
+      water_source: reclaimed
+      mandatory: true
+
+rules:
+  - id: drought-emergency-reclaimed-water-mandate
+    when: drought_emergency_declared
+    result:
+      water_source: reclaimed
+      explanation_code: RECLAIMED_WATER_MANDATORY_DROUGHT_EMERGENCY
+    require:
+      - source_quality_and_safety_corridor_valid
+      - human_review_of_exception_if_reclaimed_supply_unavailable
+      - accessible_public_explanation
+    prohibit:
+      - potable_water_selection_based_only_on_lower_direct_cost
+      - break_even_override_of_emergency_requirement
+
+  - id: non-emergency-break-even
+    when: drought_emergency_not_declared
+    require:
+      - approved_monthly_cost_estimates
+      - approved_harm_method
+      - current_drought_condition_record
+      - rights_accessibility_and_species_impact_checks
+      - human_review_when_material
+    prohibit:
+      - automatic_operational_switching_without_approval
+
+  - id: reclaimed-water-unavailable
+    when: reclaimed_water_required_but_supply_or_quality_corridor_invalid
+    result:
+      operational_state: emergency_or_withhold
+    require:
+      - human_review
+      - essential_service_protection
+      - public_explanation
+      - remediation_pathway

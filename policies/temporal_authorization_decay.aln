@@ -1,0 +1,156 @@
+aln_version: "2"
+policy_name: "temporal-authorization-decay"
+policy_version: "2026-09-02"
+policy_status: "research-governance-framework"
+review_status: "human-review-required"
+
+scope:
+  covered_authorizations:
+    - "environmental_forecasting"
+    - "ecological_restoration_analysis"
+    - "infrastructure_maintenance_decision_support"
+    - "accessibility_planning"
+    - "emergency_information_support"
+    - "cyboquatic_surcharge_breach_analysis"
+  excluded_capabilities:
+    - "identity_inference"
+    - "social_scoring"
+    - "financial_scoring"
+    - "essential_service_denial"
+    - "autonomous_safety_critical_actuation"
+
+authorization_decay:
+  formula:
+    authorization_credibility: "initial_authorization_confidence * exp(-effective_drift_rate * elapsed_days) * max(0, 1 - elapsed_days / maximum_authorization_days)"
+    elapsed_days: "max(0, current_time_days - authorization_time_days)"
+    effective_drift_rate: "clamp(base_drift_rate + freshness_drift + model_drift + environmental_drift + sensor_drift + operational_drift + uncertainty_drift, minimum_drift_rate, maximum_drift_rate)"
+  required_ranges:
+    initial_authorization_confidence: [0.0, 1.0]
+    base_drift_rate: [0.0, 1.0]
+    effective_drift_rate: [0.0, 1.0]
+    minimum_drift_rate: [0.0, 1.0]
+    maximum_drift_rate: [0.0, 1.0]
+    operational_authorization_threshold: [0.0, 1.0]
+    maximum_authorization_days: [1, 90]
+    freshness_drift: [0.0, 1.0]
+    model_drift: [0.0, 1.0]
+    environmental_drift: [0.0, 1.0]
+    sensor_drift: [0.0, 1.0]
+    operational_drift: [0.0, 1.0]
+    uncertainty_drift: [0.0, 1.0]
+
+workload_profiles:
+  environmental_forecasting:
+    base_drift_rate: 0.020
+    minimum_drift_rate: 0.005
+    maximum_drift_rate: 0.250
+    maximum_authorization_days: 30
+    operational_authorization_threshold: 0.70
+    weights:
+      freshness: 0.25
+      model: 0.15
+      environmental: 0.25
+      sensor: 0.20
+      operational: 0.05
+      uncertainty: 0.10
+    revalidation_cadence_days: 7
+
+  infrastructure_maintenance_decision_support:
+    base_drift_rate: 0.008
+    minimum_drift_rate: 0.003
+    maximum_drift_rate: 0.180
+    maximum_authorization_days: 90
+    operational_authorization_threshold: 0.72
+    weights:
+      freshness: 0.15
+      model: 0.15
+      environmental: 0.10
+      sensor: 0.25
+      operational: 0.25
+      uncertainty: 0.10
+    revalidation_cadence_days: 30
+
+  cyboquatic_surcharge_breach_analysis:
+    base_drift_rate: 0.015
+    minimum_drift_rate: 0.005
+    maximum_drift_rate: 0.250
+    maximum_authorization_days: 30
+    operational_authorization_threshold: 0.75
+    weights:
+      freshness: 0.15
+      model: 0.15
+      environmental: 0.20
+      sensor: 0.25
+      operational: 0.15
+      uncertainty: 0.10
+    revalidation_cadence_days: 7
+
+revalidation:
+  immediate_suspension_conditions:
+    - "rights_floor_not_equal_to_one"
+    - "prohibited_data_detected"
+    - "identity_inference_detected"
+    - "essential_service_access_failure"
+    - "missing_human_fallback"
+    - "unapproved_actuation_path"
+    - "unsafe_aggregate_release"
+  early_revalidation_conditions:
+    - "authorization_credibility_below_operational_threshold"
+    - "model_drift_above_declared_threshold"
+    - "sensor_drift_above_declared_threshold"
+    - "environmental_drift_above_declared_threshold"
+    - "observed_uncertainty_above_review_threshold"
+    - "material_incident_recorded"
+    - "required_scenario_fixture_fails"
+    - "declared_assumption_no_longer_holds"
+  authorization_states:
+    - "approved"
+    - "conditional"
+    - "research_only"
+    - "hold_for_human_review"
+    - "suspended"
+    - "expired"
+
+anti_optimization_loophole:
+  automatic_drift_increase_allowed: true
+  automatic_drift_decrease_allowed: false
+  authorization_confidence_reset_allowed: false
+  authorization_confidence_reset_requires:
+    - "full_revalidation"
+    - "technical_steward_approval"
+    - "accessibility_steward_approval"
+    - "ecological_steward_approval"
+    - "community_reviewer_approval"
+    - "accountable_operator_approval"
+    - "documented_evidence_basis"
+    - "accessible_explanation"
+  immutable_limits:
+    - "maximum_authorization_days"
+    - "rights_floor"
+    - "essential_service_non_denial"
+    - "human_fallback_required"
+    - "no_identity_inference"
+    - "non_actuating_decision_support"
+    - "non_compensation"
+
+audit:
+  required_fields:
+    - "authorization_time"
+    - "evaluation_time"
+    - "initial_authorization_confidence"
+    - "effective_drift_rate"
+    - "authorization_credibility"
+    - "drift_signal_values"
+    - "triggered_revalidation_conditions"
+    - "authorization_state"
+    - "reviewer_roles"
+    - "plain_language_explanation"
+  retention_days: 30
+  aggregate_reporting_only: true
+
+metrics:
+  knowledge_factor: 0.93
+  eco_impact_value: 0.86
+  harm_risk: 0.18
+  accessibility_impact: 0.95
+  rights_alignment: 0.98

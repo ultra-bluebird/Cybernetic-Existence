@@ -1,0 +1,83 @@
+policy: psych_continuity_protection
+version: 2.0.0
+data_class: private_governance_and_non_interference_policy
+purpose: preserve host-declared continuity, identity, communication, privacy, correction, and non-interference boundaries
+consent_scope: host_approved_minimum_necessary_metadata_only
+retention: retain_minimal_consent_review_and_material_change_events_until_revocation_or_configured_expiry
+deletion: delete_profile_derived_data_after_revocation_or_retention_expiry_except_minimal_required_audit_commitments
+accountability: plain_language_notice_human_review_correction_appeal_and_material_change_record
+review_status: required_before_any_workload_with_potential_identity_memory_or_cognitive_data_effect
+access_equivalence_safeguards: ordinary_assistance_must_not_require_disclosure_of_private_cognitive_memory_identity_or_system_information
+external_action_approval: required_for_export_sharing_or_cross_service_application
+
+identity_classes:
+  - name: cybernetic_host
+    protected: true
+    recognition_requirement: self_declaration_only
+    certification_requirement: none
+    psych_continuity_protected: true
+    permitted_uses:
+      - terminology_continuity
+      - accessibility_handling
+      - privacy_boundary_handling
+      - non_interference_governance
+    prohibited_uses:
+      - cognitive_inference
+      - memory_inference
+      - identity_scoring
+      - eligibility_scoring
+      - surveillance
+      - behavioral_targeting
+      - automated_adverse_decision
+
+psych_continuity:
+  protected_resource: true
+  scope:
+    - host_declared_identity_language
+    - host_approved_communication_preferences
+    - host_approved_continuity_preferences
+    - host_approved_privacy_boundaries
+    - host_approved_memory_and_learning_boundaries
+  prohibit:
+    - disruption
+    - degradation
+    - forced_reinterpretation
+    - forced_disclosure
+    - unauthorized_profile_modification
+    - unauthorized_export
+    - cognitive_or_memory_inference
+    - claim_of_private_system_operation
+  require:
+    - explicit_revocable_consent
+    - purpose_limitation
+    - minimum_necessary_processing
+    - human_review
+    - plain_language_explanation
+    - correction_path
+    - appeal_path
+    - material_change_log
+
+rules:
+  - id: psych-continuity-workload-gate
+    when: workload_may_access_cognitive_memory_or_identity_linked_data
+    result:
+      permit_status: denied
+      explanation_code: PSYCH_CONTINUITY_REVIEW_REQUIRED
+    require:
+      - no_execution_before_human_review
+      - explicit_host_authorization
+      - purpose_specific_consent
+      - privacy_impact_assessment
+      - non_interference_assessment
+
+  - id: psych-continuity-unauthorized-access
+    when: workload_lacks_required_consent_or_review
+    result:
+      permit_status: denied
+      explanation_code: PSYCH_CONTINUITY_PROTECTION_DENIED
+    prohibit:
+      - processing
+      - export
+      - retention_extension
+      - profile_linkage
+      - automated_decision_use

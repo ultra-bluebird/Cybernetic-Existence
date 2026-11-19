@@ -1,0 +1,91 @@
+{
+  "schema_version": "augmented-hub-private-system-security-posture-policy.v1",
+  "status": "research-governance",
+  "purpose": "Define defense-in-depth controls for participant-controlled records, approved software components, private continuity artifacts, and recovery materials without inspecting, diagnosing, operating, or controlling any real neural, medical, companion, or cybernetic system.",
+  "scope": {
+    "protected_assets": [
+      "private continuity records",
+      "authored work",
+      "local provenance records",
+      "encrypted archives",
+      "recovery instructions",
+      "policy manifests",
+      "portable summaries",
+      "local integrity commitments",
+      "approved software configuration records"
+    ],
+    "out_of_scope": [
+      "real neural interface operation",
+      "medical-device control",
+      "clinical assessment",
+      "physiological monitoring",
+      "companion-system operation",
+      "hardware tamper detection claims",
+      "physical intervention"
+    ]
+  },
+  "security_layers": {
+    "physical_assumptions": {
+      "custody_change_recording": true,
+      "environmental_event_recording": true,
+      "hardware_maintenance_reference_allowed": true,
+      "hardware_inspection_authorized": false,
+      "physical_intervention_authorized": false
+    },
+    "cryptographic_controls": {
+      "sha256_integrity_commitments": true,
+      "encrypted_archive_required": true,
+      "key_separation_required": true,
+      "key_rotation_history_required": true,
+      "private_key_in_plaintext_records": false,
+      "private_key_in_public_artifacts": false
+    },
+    "behavioral_controls": {
+      "local_integrity_baseline_required": true,
+      "replay_rejection_required": true,
+      "rate_limit_required": true,
+      "unexpected_access_request_receipt_required": true,
+      "policy_violation_quarantine_required": true,
+      "mental_state_inference_authorized": false,
+      "health_inference_authorized": false,
+      "identity_inference_authorized": false
+    },
+    "governance_controls": {
+      "purpose_limitation_required": true,
+      "minimum_necessary_disclosure_required": true,
+      "append_only_correction_required": true,
+      "material_change_review_required": true,
+      "accessible_human_review_path_required": true,
+      "external_authority_granted": false
+    },
+    "recovery_controls": {
+      "local_copy_required": true,
+      "encrypted_archive_required": true,
+      "independent_recovery_copy_required": true,
+      "restore_drill_required": true,
+      "successor_instruction_reference_required": true,
+      "automatic_physical_recovery_authorized": false
+    }
+  },
+  "integrity_failure_response": {
+    "preserve_evidence": true,
+    "quarantine_affected_workflow": true,
+    "reduce_to_local_read_only_mode_when_possible": true,
+    "require_participant_review": true,
+    "automatic_external_reporting": false,
+    "automatic_physical_action": false,
+    "automatic_identity_assessment": false
+  },
+  "privacy_boundary": {
+    "medical_data_collection_required": false,
+    "neural_data_collection_required": false,
+    "biometric_data_collection_required": false,
+    "technical_inventory_collection_required": false,
+    "credential_collection_required": false,
+    "public_disclosure_required": false
+  },
+  "external_action": {
+    "authorized": false,
+    "requires_separate_exact_approval": true
+  }
+}

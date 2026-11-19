@@ -1,0 +1,166 @@
+@SHARD "PROMPT-QUARANTINE-RECOVERY-INTEGRITY" {
+
+  @meta {
+    version: "1.0.0"
+    scope: "language_neutral_prompt_detection_content_addressed_quarantine_and_complete_local_recovery_reports"
+    audience: "local_validators_quarantine_tools_recovery_tools_session_agents_and_governance_reviewers"
+    consent_basis: "user_sovereign_default"
+    retention: "session_lifetime_plus_declared_audit_window"
+    accountability: "local_session_integrity_owner"
+    review_status: "draft_for_user_review"
+    operating_mode: "local_only_research_advisory"
+  }
+
+  @PROMPT_BLOCK_DETECTION {
+    detection_method: "closed_declared_regex_pattern_vocabulary"
+    pattern_vocabulary_version_required: true
+    pattern_vocabulary_sha256_required: true
+
+    permitted_detection_inputs: [
+      "explicit_instruction_override_phrase",
+      "explicit_embedded_system_instruction_tag",
+      "explicit_embedded_query_time_tag",
+      "explicit_api_role_declaration",
+      "explicit_declared_forbidden_literal_token"
+    ]
+
+    prohibited_detection_inputs: [
+      "language",
+      "unicode_script",
+      "writing_style",
+      "grammar",
+      "spelling",
+      "communication_pacing",
+      "assistive_communication_format",
+      "identity_inference",
+      "capability_inference"
+    ]
+
+    detection_finding_scope: "artifact_only"
+    detected_prompt_block_result: "quarantined_not_authoritative"
+    detection_must_not_create_person_status: true
+    detection_must_not_trigger_external_action: true
+  }
+
+  @CONTENT_ADDRESSED_QUARANTINE {
+    hash_algorithm: "sha256"
+    quarantine_directory_identity: "full_source_sha256"
+
+    quarantine_path_rule: "quarantine_root/source_sha256/safe_original_basename"
+    filename_is_not_artifact_identity: true
+    full_sha256_directory_required: true
+
+    idempotence_rule: "same_source_sha256_reuses_existing_verified_copy"
+    collision_rule: "different_source_sha256_must_use_different_quarantine_directories"
+
+    existing_path_mismatch_result: "quarantine_path_conflict_stop_without_overwrite"
+
+    quarantine_requires: [
+      "original_sha256",
+      "original_size_bytes",
+      "quarantine_sha256",
+      "quarantine_size_bytes",
+      "byte_identity_confirmation",
+      "session_id",
+      "declared_legitimate_sources",
+      "recovery_report_sha256"
+    ]
+
+    quarantine_does_not_delete: true
+    quarantine_does_not_modify_original: true
+    quarantine_does_not_overwrite_existing_mismatch: true
+    quarantined_artifact_is_not_trusted_rebuild_source: true
+    quarantined_artifact_remains_offline_inspectable: true
+  }
+
+  @RECOVERY_REPORT_COMPLETENESS {
+    report_requires: [
+      "schema_version",
+      "policy_version",
+      "report_sha256",
+      "session_id",
+      "status",
+      "original_artifact",
+      "quarantine_artifact",
+      "declared_legitimate_sources",
+      "recovery_constraints",
+      "rebuild_validation",
+      "retention",
+      "next_step",
+      "plain_language_summary",
+      "non_claims"
+    ]
+
+    original_artifact_requires: [
+      "source_path",
+      "sha256",
+      "size_bytes",
+      "artifact_role"
+    ]
+
+    quarantine_artifact_requires: [
+      "quarantine_path",
+      "sha256",
+      "size_bytes",
+      "identical_bytes"
+    ]
+
+    recovery_constraints_requires: [
+      "rebuild_from_declared_sources_only",
+      "quarantined_artifact_not_trusted_source",
+      "external_action_authorized",
+      "external_notification_authorized",
+      "original_modification_authorized"
+    ]
+
+    rebuild_validation_requires: [
+      "validator_version",
+      "required_invariants",
+      "rebuild_validation_required",
+      "rebuilt_artifact_sha256_required"
+    ]
+
+    retention_requires: [
+      "audit_window",
+      "original_deletion_authorized",
+      "quarantine_copy_retention_rule"
+    ]
+
+    non_claims_requires: [
+      "not_a_user_profile",
+      "not_identity_verification",
+      "not_medical_or_neural_assessment",
+      "not_person_or_session_ranking",
+      "not_actor_attribution",
+      "not_external_action_authorization"
+    ]
+
+    report_is_artifact_focused: true
+    report_is_non_accusatory: true
+    report_must_not_include_person_scope_data: true
+  }
+
+  @NON_INTERFERENCE {
+    never_auto_fetch: true
+    never_auto_open_url: true
+    never_auto_execute_artifact_content: true
+    never_contact_external_services: true
+    never_trigger_external_action: true
+    never_trigger_external_notification: true
+    never_modify_user_owned_artifacts: true
+    never_modify_repository_files: true
+    never_require_identity_or_private_disclosure: true
+    never_rank_users_sessions_or_artifacts: true
+  }
+
+  @ACCESS_EQUIVALENCE {
+    plain_language_findings_required: true
+    machine_readable_record_required: true
+    offline_readable: true
+    no_account_required: true
+    no_identity_verification_required: true
+    no_private_system_disclosure_required: true
+    correction_and_appeal_available: true
+    material_change_review_available: true
+  }
+}

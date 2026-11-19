@@ -1,0 +1,75 @@
+policy: local_first_network_partition
+version: 2.0.0
+data_class: local_operation_and_sync_governance_policy
+purpose: preserve local telemetry and safety records during network partition while preventing provisional local decisions from becoming final without revalidation
+consent_scope: operational_telemetry_and_minimal_sync_metadata_only
+retention: retain_append_only_local_event_integrity_sync_and_conflict_records_for_configured_audit_period
+deletion: delete_raw_nonessential_telemetry_after_retention_expiry_subject_to_minimal_integrity_commitments
+accountability: append_only_event_log_sync_status_conflict_visibility_human_review_and_revalidation_record
+review_status: required_for_all_conflicts_and_for_provisional_decisions_after_reconnection
+access_equivalence_safeguards: network_partition_must_not_be_used_to_reduce_pedestrian_accessibility_or_emergency_egress
+external_action_approval: required_for_external_export_or_remote_operational_execution
+
+local_operation:
+  require:
+    - unique_event_key
+    - origin_node_key
+    - monotonic_origin_sequence
+    - local_timestamp
+    - payload_integrity_digest
+    - policy_version
+    - sync_status
+  prohibit:
+    - silent_event_overwrite
+    - automatic_conflict_resolution_by_last_write_wins
+    - local_partition_final_permit_grant
+    - automatic_export_during_partition
+
+sync_states:
+  - local_only
+  - syncing
+  - synced
+  - conflict
+
+rules:
+  - id: partition-decision-provisional
+    when: network_partition_active
+    result:
+      local_decision_status: provisional
+      permit_status: denied_or_pending_review
+    require:
+      - local_append_only_event
+      - local_explanation_code
+      - local_policy_version
+    prohibit:
+      - final_permit_grant
+      - automatic_actuation
+      - implicit_authorization
+
+  - id: reconnection-revalidation
+    when: network_connectivity_restored
+    require:
+      - idempotent_event_merge
+      - duplicate_event_detection
+      - payload_digest_verification
+      - current_policy_validation
+      - current_ker_authorization_validation
+      - human_review_for_material_conflict
+    otherwise:
+      sync_status: conflict
+      permit_status: pending_review
+
+  - id: conflict-preservation
+    when: incompatible_local_and_central_records_detected
+    result:
+      sync_status: conflict
+      permit_status: pending_review
+    require:
+      - preserve_both_records
+      - accessible_conflict_explanation
+      - human_review
+      - append_only_resolution_event
+    prohibit:
+      - last_write_wins_resolution
+      - silent_data_deletion
+      - automatic_permit_grant

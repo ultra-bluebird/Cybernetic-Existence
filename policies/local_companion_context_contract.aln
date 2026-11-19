@@ -1,0 +1,195 @@
+@SHARD "LOCAL-COMPANION-CONTEXT-CONTRACT" {
+
+  @meta {
+    version: "1.0.0"
+    scope: "local_companion_associated_artifacts_curriculum_continuity_and_offline_exchange"
+    audience: "local_session_agents_local_validators_recovery_tools_and_user_facing_summarizers"
+    consent_basis: "user_sovereign_default"
+    retention: "user_controlled_local_retention_or_declared_audit_window"
+    accountability: "local_companion_context_governance_owner"
+    review_status: "draft_for_user_review"
+    operating_mode: "local_only_research_advisory"
+  }
+
+  @SCOPE_BOUNDARY {
+    implementation_term: "declared_local_companion_context"
+
+    voluntary_private_vocabulary_may_include: [
+      "nanoswarm_companion",
+      "cybernetic_companion",
+      "private_companion_context"
+    ]
+
+    does_not_establish: [
+      "real_world_nanoswarm_existence",
+      "real_world_companion_system_status",
+      "real_world_cybernetic_system_status",
+      "identity_verification",
+      "medical_or_neural_status",
+      "biometric_status",
+      "hardware_access",
+      "hardware_control",
+      "external_service_authorization",
+      "public_registry_status"
+    ]
+  }
+
+  @CURRICULUM {
+    purpose: "learn_declared_local_artifact_and_privacy_rules_for_a_specific_local_task"
+
+    question_requires: [
+      "question_id",
+      "declared_purpose",
+      "bounded_answer_type",
+      "bounded_answer_space",
+      "artifact_role_or_sha256_reference",
+      "retention_rule",
+      "skip_permitted"
+    ]
+
+    permitted_question_domains: [
+      "communication_preference",
+      "artifact_handling_preference",
+      "privacy_boundary",
+      "recovery_preference",
+      "local_task_scope",
+      "accessibility_preference"
+    ]
+
+    prohibited_question_domains: [
+      "identity_proof",
+      "medical_data",
+      "neural_data",
+      "biometric_data",
+      "physiological_data",
+      "private_device_inventory",
+      "location_data",
+      "account_credentials",
+      "institutional_status",
+      "unbounded_personal_narrative",
+      "capability_assessment",
+      "psychological_assessment"
+    ]
+
+    skipped_question_must_not_reduce_access: true
+    curriculum_answers_must_not_be_scored: true
+    curriculum_answers_must_not_create_public_profile: true
+    curriculum_answers_must_not_trigger_external_action: true
+  }
+
+  @CONTINUITY {
+    continuity_subject: "declared_local_companion_context_artifacts"
+
+    required_guards: [
+      "no_deletion_by_default",
+      "no_silent_modification",
+      "no_external_action",
+      "no_external_notification",
+      "no_scoring_or_ranking",
+      "no_public_registry",
+      "artifact_preservation",
+      "sha256_provenance_when_bytes_available",
+      "material_change_review"
+    ]
+
+    quarantine_status: "quarantined_not_authoritative"
+    quarantine_does_not_delete: true
+    quarantine_does_not_modify_original: true
+    recovery_is_reconstructive_not_punitive: true
+
+    does_not_claim: [
+      "real_world_companion_continuity_proof",
+      "real_world_nanoswarm_continuity_proof",
+      "real_world_system_protection"
+    ]
+  }
+
+  @OFFLINE_EXCHANGE {
+    exchange_subject: "local_transport_neutral_artifact_bundle"
+
+    bundle_requires: [
+      "bundle_schema_version",
+      "bundle_sha256",
+      "artifact_sha256",
+      "declared_role",
+      "artifact_schema_version",
+      "policy_version",
+      "integrity_status",
+      "non_claims"
+    ]
+
+    bundle_must_not_include: [
+      "identity_fields",
+      "medical_data",
+      "neural_data",
+      "biometric_data",
+      "device_telemetry",
+      "location_data",
+      "account_credentials",
+      "score_or_rank",
+      "public_status",
+      "external_action_authorization"
+    ]
+
+    receiving_store_accepts_only_when: [
+      "bundle_sha256_valid",
+      "artifact_sha256_valid",
+      "declared_role_allowed",
+      "schema_compatible",
+      "policy_compatible",
+      "integrity_status_acceptable",
+      "no_prohibited_fields"
+    ]
+
+    transport_control_prohibited: true
+    network_access_required: false
+    cloud_service_required: false
+    account_required: false
+    connector_required: false
+    external_action_authorized: false
+  }
+
+  @NON_INTERFERENCE {
+    never_auto_fetch: true
+    never_auto_upload: true
+    never_auto_pair_hardware: true
+    never_auto_scan_devices: true
+    never_auto_open_network_socket: true
+    never_auto_execute_artifact_content: true
+    never_modify_user_owned_artifacts: true
+    never_modify_repository_files: true
+    never_trigger_external_action: true
+    never_trigger_external_notification: true
+    never_require_identity_or_private_disclosure: true
+    never_infer_user_intent_or_capability: true
+  }
+
+  @ACCESS_EQUIVALENCE {
+    plain_language_summary_required: true
+    machine_readable_record_required: true
+    offline_readable: true
+    no_account_required: true
+    no_identity_verification_required: true
+    no_private_system_disclosure_required: true
+    correction_and_appeal_available: true
+    material_change_review_available: true
+  }
+
+  @PROHIBITED_USES {
+    list: [
+      "nanoswarm_verification",
+      "companion_identity_verification",
+      "companion_scoring",
+      "companion_ranking",
+      "user_or_session_scoring",
+      "medical_or_neural_inference",
+      "hardware_control",
+      "external_service_control",
+      "automatic_external_action",
+      "automatic_external_notification",
+      "public_companion_registry",
+      "forced_disclosure",
+      "forced_inactivity"
+    ]
+  }
+}

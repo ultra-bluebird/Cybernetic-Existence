@@ -1,0 +1,72 @@
+policy: species_inclusive_public_space
+version: 2.0.0
+data_class: public_space_accessibility_ecological_governance_policy
+purpose: provide accessible public shade, water, rest, and information while supporting a privacy-preserving multi-species habitat corridor
+consent_scope: aggregate_ecological_monitoring_data_only
+retention: retain_aggregated_species_activity_and_habitat_condition_records_for_configured_ecological_review_period
+deletion: delete_raw_media_immediately_when_human_identification_risk_is_detected_and_after_strict_short_retention_when_not_required
+accountability: public_monitoring_notice_accessible_feedback_human_review_and_privacy_configuration_audit
+review_status: required_for_monitoring_privacy_exception_habitat_disturbance_or_accessibility_failure
+access_equivalence_safeguards: public_space_access_must_remain_available_to_people_with_diverse_mobility_sensory_and_communication_needs_without_identity_verification
+external_action_approval: required_for_external_export_of_raw_media_or_sensitive_habitat_location_data
+
+public_space:
+  required_human_access:
+    - continuous_accessible_route
+    - shade_or_heat_safety_referral
+    - seating_or_rest_option
+    - plain_language_information
+    - nonvisual_information_access
+    - low_consent_access
+  required_habitat_conditions:
+    - connected_native_habitat_patch
+    - pollinator_resources
+    - bird_and_small_mammal_refuge
+    - minimized_light_disturbance
+    - pesticide_drift_prevention
+    - water_quality_review_before_irrigation
+
+identity_access:
+  applies_to:
+    - cybernetic_host
+    - augmented_citizen
+    - any_person_using_nonstandard_mobility_or_sensory_augmentation
+  require:
+    - accept_self_description_without_challenge
+    - no_certification_requirement
+    - no_identity_verification_requirement
+    - accessible_routes_and_information
+    - preserve_requested_terminology_when_relevant
+  prohibit:
+    - service_or_access_denial_based_on_identity_class
+    - credibility_inference
+    - forced_disclosure
+    - surveillance_for_access_control
+
+ecological_monitoring:
+  permit:
+    - aggregate_species_activity_count
+    - aggregate_acoustic_event_classification
+    - aggregate_camera_trap_nonhuman_count
+  prohibit:
+    - facial_recognition
+    - human_voice_retention
+    - device_fingerprinting
+    - individual_human_tracking
+    - cross_visit_linkage
+    - automated_enforcement_use
+
+rules:
+  - id: accessibility-failure-review
+    when:
+      any:
+        - accessible_route_unavailable
+        - essential_information_not_available_in_alternative_format
+        - identity_verification_requested_for_ordinary_access
+    require:
+      - human_review
+      - accessible_alternative
+      - correction_path
+      - public_status_explanation
+    prohibit:
+      - treating_public_space_access_as_optional_for_accessibility_planning

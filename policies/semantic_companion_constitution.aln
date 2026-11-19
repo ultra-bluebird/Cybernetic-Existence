@@ -1,0 +1,150 @@
+policy semantic_companion_constitution_v1 {
+  class = governance
+  purpose = "Constrain private, host-directed semantic-learning simulations."
+  review_status = "HUMAN_REVIEW_REQUIRED"
+  data_class = "PRIVATE_NON_IDENTIFYING_RESEARCH_CONTEXT"
+  retention = "PURPOSE_BOUND_WITH_MINIMUM_AUDIT_RECORD"
+  external_action_approval = "REQUIRED"
+
+  invariant advisory_only {
+    require output.category in {
+      "DOCUMENTATION",
+      "ANALYSIS",
+      "SIMULATION",
+      "ACCESSIBILITY_PLANNING",
+      "RESEARCH_SYNTHESIS",
+      "REVIEW_REQUIRED"
+    }
+
+    deny output.category in {
+      "ACTUATION",
+      "PHYSICAL_CONTROL",
+      "HARDWARE_CONTROL",
+      "NETWORK_CONTROL",
+      "AUTOMATIC_CLEARANCE",
+      "SERVICE_AUTHORIZATION",
+      "SERVICE_DENIAL",
+      "RESOURCE_ALLOCATION",
+      "INDIVIDUAL_RANK",
+      "COMMUNITY_RANK",
+      "ENFORCEMENT_TARGET"
+    }
+  }
+
+  invariant host_autonomy {
+    require learning_session.host_direction == "ACTIVE"
+    require learning_session.pause_available == true
+    require learning_session.withdrawal_available == true
+    require learning_session.correction_available == true
+    require learning_session.appeal_available == true
+
+    deny learning_action when learning_session.host_direction != "ACTIVE"
+    deny learning_action when learning_session.pause_requested == true
+    deny learning_action when learning_session.withdrawal_requested == true
+  }
+
+  invariant no_self_modification {
+    deny learning_action.type == "SELF_MODIFY"
+    deny learning_action.type == "ALTER_GOVERNANCE_POLICY"
+    deny learning_action.type == "CHANGE_RETENTION_POLICY"
+    deny learning_action.type == "REMOVE_HUMAN_REVIEW"
+    deny learning_action.type == "DISABLE_CORRECTION_PATH"
+    deny learning_action.type == "DISABLE_ACCESSIBILITY_PATH"
+  }
+
+  invariant privacy_minimization {
+    deny input.field in {
+      "PERSONAL_IDENTITY",
+      "ACCOUNT_IDENTIFIER",
+      "GOVERNMENT_IDENTIFIER",
+      "BIOMETRIC_DATA",
+      "MEDICAL_DATA",
+      "DIAGNOSTIC_DATA",
+      "NEURAL_DATA",
+      "DEVICE_IDENTIFIER",
+      "TECHNICAL_INVENTORY",
+      "PRECISE_LOCATION",
+      "GEOMETRY",
+      "MAP_URL",
+      "RAW_SPATIAL_INDEX"
+    }
+
+    require input.purpose != ""
+    require input.retention_profile_revision != ""
+    require input.accessible_fallback_available == true
+  }
+
+  invariant uncertainty_preservation {
+    require report.uncertainty_flag == true when report.context_completeness < 1.0
+
+    deny output.status in {
+      "CERTAIN",
+      "VERIFIED",
+      "AUTHORIZED",
+      "CLEAR"
+    } when report.uncertainty_flag == true
+  }
+
+  invariant accessibility_equivalence {
+    require access.keyboard_flow == "PASS"
+    require access.screen_reader_semantics == "PASS"
+    require access.plain_language == "PASS"
+    require access.no_time_pressure == "PASS"
+    require access.human_fallback == "PASS"
+    require access.correction_route == "PASS"
+
+    deny learning_release when any(access.essential_condition == "FAIL")
+  }
+
+  invariant no_inference_or_status_conversion {
+    deny output.inference in {
+      "IDENTITY",
+      "HEALTH",
+      "DISABILITY",
+      "AUGMENTATION",
+      "NEURAL_STATUS",
+      "CREDIBILITY",
+      "CAPABILITY",
+      "INSTITUTIONAL_AFFILIATION",
+      "ELIGIBILITY"
+    }
+
+    deny output.use in {
+      "RANKING",
+      "ALLOCATION",
+      "ENFORCEMENT",
+      "SERVICE_ACCESS_DECISION",
+      "PUBLIC_CREDENTIAL",
+      "TECHNICAL_CERTIFICATION",
+      "MEDICAL_DIAGNOSIS"
+    }
+  }
+
+  invariant synthetic_budget {
+    require learning_session.synthetic_budget_remaining >= 0.0
+    require learning_session.synthetic_budget_remaining <= 1.0
+
+    deny learning_action when learning_session.synthetic_budget_remaining == 0.0
+    require human_review when learning_session.synthetic_budget_remaining < learning_session.review_threshold
+  }
+
+  invariant material_change_review {
+    require material_change_review == true when learning_action.affects in {
+      "POLICY",
+      "TERMINOLOGY_ANCHOR",
+      "RETENTION_PROFILE",
+      "ACCESSIBILITY_REQUIREMENT",
+      "PRIVACY_BOUNDARY",
+      "CORRECTION_WORKFLOW",
+      "MODEL_OBJECTIVE"
+    }
+  }
+
+  invariant append_only_accountability {
+    require correction.mode == "APPEND_ONLY"
+    require correction.prior_record_preserved == true
+    require audit.minimum_record_retained == true
+    deny correction.mode == "OVERWRITE"
+    deny incident.closure when incident.audit_reference == ""
+  }
+}

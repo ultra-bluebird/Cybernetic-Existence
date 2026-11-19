@@ -1,0 +1,44 @@
+policy PublicFallbackAndNavigation version "2026-09-16" {
+
+  invariant fallback_is_declared_before_deployment {
+    when public_control.deployed(object_ref)
+    require public_control.degradation_ladder_declared(object_ref) == true
+    require public_control.fallback_contract_present(object_ref) == true
+    require public_control.visual_fault_notice_available(object_ref) == true
+    require public_control.nonvisual_fault_notice_available(object_ref) == true
+  }
+
+  invariant fallback_does_not_silently_discard_user_input {
+    when public_control.fallback_class(object_ref) == LOCAL_DRAFT
+    require public_control.local_input_preserved(object_ref) == true
+  }
+
+  invariant unsafe_physical_action_fails_safe {
+    when public_control.local_sensor_uncertain(object_ref) == true
+    require public_control.degradation_state(object_ref) == SAFE_STOP
+    require public_control.hardware_default_active(object_ref) == true
+  }
+
+  invariant navigation_preserves_accessibility_context {
+    when navigation.transition_requested(navigation_ref)
+    require navigation.preserves_accessibility_mode(navigation_ref) == true
+    require navigation.preserves_language_mode(navigation_ref) == true
+    require navigation.safe_exit_route_present(navigation_ref) == true
+  }
+
+  invariant network_navigation_has_local_fallback {
+    when navigation.requires_network(navigation_ref) == true
+    require navigation.supports_offline_map(navigation_ref) == true
+    require navigation.fallback_declared(navigation_ref) == true
+  }
+
+  invariant navigation_does_not_require_identity_or_location {
+    require navigation.identity_collection_required == false
+    require navigation.precise_location_required == false
+    require navigation.behavioral_profiling_allowed == false
+  }
+
+  invariant public_navigation_is_non_actuating {
+    require navigation.external_action_authorized == false
+  }
+}

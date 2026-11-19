@@ -1,0 +1,58 @@
+policy MunicipalRightsKnowledge version "2026-09-17" {
+
+  purpose {
+    data_class = PUBLIC_RIGHTS_INFORMATION
+    permitted_use = SOURCE_GROUNDED_DISCOVERY
+    permitted_use = PLAIN_LANGUAGE_EXPLANATION
+    permitted_use = ACCESSIBLE_CIVIC_NAVIGATION
+    prohibited_use = LEGAL_OUTCOME_DETERMINATION
+    prohibited_use = IDENTITY_INFERENCE
+    prohibited_use = ELIGIBILITY_DECISION
+  }
+
+  invariant answer_scope_is_explicit {
+    require response.jurisdiction_scope_present == true
+    require response.service_context_present == true
+    require response.source_provenance_present == true
+    require response.source_effective_date_present == true
+    require response.review_state_present == true
+    require response.known_limitations_present == true
+  }
+
+  invariant explanation_is_not_a_legal_determination {
+    require response.individual_legal_outcome_claimed == false
+    require response.legal_representation_claimed == false
+    require response.eligibility_decision_claimed == false
+    require response.governance_vocabulary_presented_as_law_allowed == false
+  }
+
+  invariant public_information_is_low_disclosure {
+    require query.identity_declaration_required == false
+    require query.account_required_for_public_information == false
+    require query.location_inference_allowed == false
+    require query.identity_inference_allowed == false
+    require query.communication_mode_inference_allowed == false
+  }
+
+  invariant accessibility_is_a_core_service_duty {
+    require interface.keyboard_operation_available == true
+    require interface.screen_reader_compatible_output_available == true
+    require interface.plain_language_mode_available == true
+    require interface.language_selection_user_controlled == true
+    require interface.human_fallback_route_available == true
+    require interface.correction_route_available == true
+  }
+
+  invariant response_quality_audits_systems_not_requesters {
+    require metric.user_competence_score_created == false
+    require metric.user_civic_worth_score_created == false
+    require metric.user_identity_profile_created == false
+    require metric.response_source_presence_measured == true
+    require metric.response_accessibility_measured == true
+    require metric.response_uncertainty_disclosure_measured == true
+  }
+
+  invariant civic_knowledge_is_non_actuating {
+    require rights_knowledge.external_action_authorized == false
+  }
+}

@@ -1,0 +1,35 @@
+policy PrivateContributionRecognition version "2026-09-16" {
+
+  invariant contribution_is_not_person_scoring {
+    require contribution.person_score_created == false
+    require contribution.public_rank_created == false
+    require contribution.identity_disclosure_required == false
+    require contribution.health_disclosure_required == false
+    require contribution.neural_disclosure_required == false
+    require contribution.psych_continuity_assessment_required == false
+  }
+
+  invariant recognition_is_artifact_and_process_based {
+    when contribution.record_created(contribution_ref)
+    require contribution.artifact_reference_present(contribution_ref) == true
+    require contribution.review_state_present(contribution_ref) == true
+    require contribution.rights_impact_review_present(contribution_ref) == true
+    require contribution.reproducibility_evidence_present(contribution_ref) == true
+  }
+
+  invariant refusal_has_no_penalty {
+    require contribution.refusal_to_disclose_identity_penalty == false
+    require contribution.refusal_to_publish_penalty == false
+    require contribution.refusal_to_accept_external_model_assessment_penalty == false
+  }
+
+  invariant continuity_is_user_defined {
+    require continuity.platform_defined_psych_continuity_score_allowed == false
+    require continuity.user_selected_continuity_preference_allowed == true
+    require continuity.continuity_preference_used_for_ranking == false
+  }
+
+  invariant contribution_recognition_is_non_actuating {
+    require contribution.external_action_authorized == false
+  }
+}

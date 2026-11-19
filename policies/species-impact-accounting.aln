@@ -1,0 +1,75 @@
+policy: species_impact_accounting
+version: 2.0.0
+data_class: ecological_measurement_and_claim_governance_policy
+purpose: prevent eco-benefit claims from masking significant species or ecosystem harm caused during the same accounting period
+consent_scope: environmental_measurement_and_public_governance_data_only
+retention: retain_measurement_methods_thresholds_claim_status_and_remediation_records_for_configured_environmental_audit_period
+deletion: retain_only_minimal_provenance_after_raw_measurement_retention_expires
+accountability: transparent_measurement_method_threshold_provenance_human_review_and_remediation_record
+review_status: required_after_any_species_impact_threshold_exceedance
+access_equivalence_safeguards: ecological_protection_must_not_be_used_to_discriminate_against_people_or_restrict_essential_access
+external_action_approval: required_for_external_release_of_non_public_location_sensitive_ecological_data
+
+species_impact_thresholds:
+  - species_or_ecosystem: aquatic_macroinvertebrates
+    impact_type: thermal_pollution
+    measurement: temperature_change_downstream_c
+    comparison: greater_than
+    threshold: 2.0
+
+  - species_or_ecosystem: riparian_vegetation
+    impact_type: water_table_change
+    measurement: root_zone_moisture_percent_change
+    comparison: less_than
+    threshold: -10.0
+
+  - species_or_ecosystem: migratory_birds
+    impact_type: light_pollution
+    measurement: nighttime_illumination_lux_above_baseline
+    comparison: greater_than
+    threshold: 10.0
+
+  - species_or_ecosystem: pollinators
+    impact_type: pesticide_drift
+    measurement: nectar_concentration_ppb
+    comparison: greater_than
+    threshold: 1.0
+
+  - species_or_ecosystem: urban_wildlife
+    impact_type: habitat_fragmentation
+    measurement: connected_area_loss_percent
+    comparison: greater_than
+    threshold: 5.0
+
+rules:
+  - id: significance-threshold-exceedance
+    when: species_impact_threshold_exceeded
+    require:
+      - measurement_provenance
+      - threshold_exceedance_event
+      - human_review
+      - remediation_pathway
+      - follow_up_measurement
+    result:
+      species_impact_status: significant_adverse_impact
+
+  - id: eco-benefit-non-compensation
+    when: species_impact_threshold_exceeded_during_same_accounting_period
+    result:
+      eco_benefit_claim_status: void
+    prohibit:
+      - ecological_benefit_claim_publication
+      - offsetting_species_harm_with_energy_benefit
+      - offsetting_species_harm_with_water_benefit
+      - offsetting_species_harm_with_thermal_benefit
+      - offsetting_species_harm_with_financial_benefit
+
+  - id: claim-reinstatement
+    when: void_claim_is_reviewed_for_future_accounting_period
+    require:
+      - separate_future_accounting_period
+      - documented_remediation
+      - post_remediation_measurement
+      - human_review
+    prohibit:
+      - retroactive_reinstatement_of_void_claim

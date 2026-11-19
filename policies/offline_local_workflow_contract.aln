@@ -1,0 +1,130 @@
+@SHARD "OFFLINE-LOCAL-WORKFLOW-CONTRACT" {
+
+  @meta {
+    version: "1.0.0"
+    scope: "local_artifact_validation_quarantine_recovery_and_reporting_without_network_dependency"
+    audience: "local_validators_recovery_tools_session_agents_and_governance_reviewers"
+    consent_basis: "user_sovereign_default"
+    retention: "declared_audit_window_only"
+    accountability: "local_workflow_maintainer"
+    review_status: "draft_for_user_review"
+    operating_mode: "local_only_research_advisory"
+  }
+
+  @WORKFLOW_SCOPE {
+    workflow_subject: "declared_local_artifact_processing_operations"
+
+    does_not_establish: [
+      "real_world_cybernetic_system_functionality",
+      "real_world_companion_system_functionality",
+      "real_world_nanoswarm_functionality",
+      "medical_or_neural_system_functionality",
+      "hardware_availability_guarantee",
+      "platform_independence_guarantee",
+      "external_service_availability_claim",
+      "external_action_authorization"
+    ]
+  }
+
+  @CORE_OPERATIONS {
+    operations: [
+      "read_local_artifact",
+      "read_local_provenance_manifest",
+      "canonicalize_local_json",
+      "compute_sha256",
+      "validate_local_provenance",
+      "emit_plain_language_report",
+      "emit_machine_readable_report",
+      "quarantine_local_copy",
+      "emit_local_recovery_record",
+      "inspect_local_artifact"
+    ]
+
+    each_operation_requires: [
+      "local_implementation_available",
+      "local_input_available",
+      "local_output_destination_available",
+      "no_network_dependency",
+      "no_account_dependency",
+      "no_external_service_dependency",
+      "no_external_action_dependency"
+    ]
+  }
+
+  @OFFLINE_CAPABILITY {
+    offline_workflow_ready_when: "all_declared_core_operations_are_offline_ready"
+
+    network_required: false
+    account_required: false
+    login_required: false
+    signature_required: false
+    credential_required: false
+    connector_required: false
+    repository_remote_required: false
+    external_service_required: false
+    external_action_authorized: false
+
+    missing_local_dependency_result: "offline_workflow_not_ready"
+    missing_local_input_result: "offline_workflow_not_ready"
+    required_response_to_not_ready: "emit_plain_language_local_missing_dependency_report"
+  }
+
+  @LOCAL_DEPENDENCY_BOUNDARY {
+    permitted_runtime_dependencies: [
+      "local_python_interpreter",
+      "python_standard_library",
+      "local_utf8_text_files",
+      "local_json_files",
+      "local_filesystem"
+    ]
+
+    prohibited_runtime_dependencies: [
+      "package_installation",
+      "network_download",
+      "remote_api",
+      "connector_call",
+      "cloud_identity_provider",
+      "remote_repository_operation",
+      "external_database",
+      "hardware_control"
+    ]
+  }
+
+  @NON_INTERFERENCE {
+    never_auto_fetch: true
+    never_auto_install_dependency: true
+    never_auto_open_remote_url: true
+    never_auto_login: true
+    never_auto_push_or_pull_repository: true
+    never_modify_user_owned_files: true
+    never_modify_repository_files: true
+    never_trigger_external_action: true
+    never_trigger_external_notification: true
+    never_require_identity_disclosure: true
+    never_infer_user_intent_or_capability: true
+  }
+
+  @ACCESS_EQUIVALENCE {
+    offline_readable: true
+    plain_language_summary_required: true
+    machine_readable_result_required: true
+    no_account_required: true
+    no_identity_verification_required: true
+    no_private_disclosure_required: true
+    local_inspection_available: true
+  }
+
+  @PROHIBITED_USES {
+    list: [
+      "claim_of_real_world_system_operability",
+      "claim_of_platform_immunity",
+      "claim_of_network_independence_for_external_systems",
+      "automatic_external_action",
+      "automatic_external_notification",
+      "automatic_repository_modification",
+      "automatic_dependency_installation",
+      "identity_or_capability_inference",
+      "user_or_session_ranking"
+    ]
+  }
+}

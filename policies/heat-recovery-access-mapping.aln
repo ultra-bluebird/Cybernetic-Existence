@@ -1,0 +1,61 @@
+policy HeatRecoveryAccessMapping version "2026-09-17" {
+
+  purpose {
+    data_class = PLACE_BASED_CLIMATE_AND_ACCESS_PLANNING
+    permitted_use = HEAT_RECOVERY_SCENARIO_ANALYSIS
+    permitted_use = ACCESS_EQUIVALENCE_GAP_REVIEW
+    permitted_use = ECOLOGICAL_PROJECT_PRIORITIZATION
+    prohibited_use = PERSON_PROFILING
+    prohibited_use = HOUSEHOLD_RANKING
+    prohibited_use = NEIGHBORHOOD_REPUTATION_SCORING
+    prohibited_use = AUTOMATED_RESOURCE_ELIGIBILITY
+  }
+
+  invariant planning_unit_is_geographic_not_personal {
+    require mapping.planning_unit_geography_documented == true
+    require mapping.named_person_data_allowed == false
+    require mapping.household_profile_allowed == false
+    require mapping.device_identifier_data_allowed == false
+    require mapping.face_image_data_allowed == false
+    require mapping.identity_inference_allowed == false
+    require mapping.health_inference_allowed == false
+    require mapping.augmentation_inference_allowed == false
+  }
+
+  invariant heat_data_is_physically_and_temporally_explicit {
+    require heat.air_temperature_labeled_separately_from_surface_temperature == true
+    require heat.reference_baseline_documented == true
+    require heat.measurement_period_documented == true
+    require heat.spatial_resolution_documented == true
+    require heat.sensor_or_model_uncertainty_present == true
+    require heat.provenance_reference_present == true
+  }
+
+  invariant social_impact_is_service_condition_not_person_label {
+    require access.cooling_resource_availability_measured == true
+    require access.accessible_route_condition_measured == true
+    require access.heat_information_accessibility_measured == true
+    require access.human_fallback_availability_measured == true
+    require access.person_vulnerability_classifier_created == false
+    require access.person_resilience_score_created == false
+    require access.private_identity_data_used == false
+  }
+
+  invariant priority_model_includes_harm_prevention {
+    require prioritization.displacement_risk_review_completed == true
+    require prioritization.ecological_disturbance_risk_review_completed == true
+    require prioritization.accessible_participation_path_available == true
+    require prioritization.low_disclosure_feedback_path_available == true
+    require prioritization.weight_rationale_published == true
+    require prioritization.sensitivity_analysis_completed == true
+    require prioritization.uncertainty_penalty_included == true
+  }
+
+  invariant mapping_outputs_are_not_adverse_decisions {
+    require mapping.property_value_score_created == false
+    require mapping.insurance_eligibility_input_allowed == false
+    require mapping.law_enforcement_input_allowed == false
+    require mapping.service_denial_input_allowed == false
+    require mapping.external_action_authorized == false
+  }
+}

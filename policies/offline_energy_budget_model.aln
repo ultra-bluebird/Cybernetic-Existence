@@ -1,0 +1,122 @@
+@SHARD "OFFLINE-ENERGY-BUDGET-MODEL" {
+
+  @meta {
+    version: "1.0.0"
+    scope: "local_declared_energy_budget_simulation_for_generic_modeled_subsystems"
+    audience: "local_simulators_policy_engines_and_governance_reviewers"
+    consent_basis: "user_sovereign_default"
+    retention: "simulation_run_lifetime_plus_declared_audit_window"
+    accountability: "local_simulation_maintainer"
+    review_status: "draft_for_user_review"
+    operating_mode: "local_only_research_advisory"
+  }
+
+  @MODEL_SCOPE {
+    model_subject: "generic_declared_local_simulation_subsystem"
+
+    does_not_model_or_establish: [
+      "neural_energy_state",
+      "brain_activity",
+      "medical_status",
+      "physiological_status",
+      "biometric_status",
+      "real_world_cybernetic_host_energy_state",
+      "real_world_companion_system_state",
+      "real_world_nanoswarm_state",
+      "hardware_telemetry",
+      "live_external_service_state"
+    ]
+
+    private_conceptual_vocabulary_must_not_be_treated_as_verification_claim: true
+  }
+
+  @STATE_EQUATION {
+    discrete_time_balance: "B_next=clamp(B_current+eta_ambient*A+eta_auxiliary*C-demand-loss,0,B_max)"
+
+    required_parameters: [
+      "initial_stored_energy",
+      "maximum_stored_energy",
+      "minimum_operating_reserve",
+      "ambient_input_series",
+      "auxiliary_input_series",
+      "demand_series",
+      "loss_series",
+      "ambient_conversion_efficiency",
+      "auxiliary_conversion_efficiency",
+      "time_step"
+    ]
+
+    required_bounds: [
+      "initial_stored_energy_greater_than_or_equal_to_zero",
+      "maximum_stored_energy_greater_than_zero",
+      "minimum_operating_reserve_greater_than_or_equal_to_zero",
+      "minimum_operating_reserve_less_than_or_equal_to_maximum_stored_energy",
+      "ambient_conversion_efficiency_in_closed_unit_interval",
+      "auxiliary_conversion_efficiency_in_closed_unit_interval",
+      "all_series_values_finite_and_nonnegative"
+    ]
+  }
+
+  @OFFLINE_CAPABILITY {
+    simulation_requires_network_input: false
+    simulation_requires_external_service: false
+    simulation_requires_remote_control: false
+    simulation_requires_hardware_access: false
+    simulation_requires_medical_neural_or_biometric_data: false
+    external_action_authorized: false
+  }
+
+  @SIMULATION_RESULTS {
+    required_result_fields: [
+      "simulation_input_sha256",
+      "simulation_configuration_sha256",
+      "result_sha256",
+      "minimum_modeled_reserve",
+      "reserve_constraint_satisfied",
+      "offline_capable",
+      "plain_language_summary",
+      "non_claims"
+    ]
+
+    reserve_failure_result: "energy_constraint_not_satisfied"
+    nonfinite_input_result: "simulation_invalid"
+    missing_declared_input_result: "simulation_not_established"
+    universal_or_real_world_claim_prohibited: true
+  }
+
+  @NON_INTERFERENCE {
+    never_read_private_device_state: true
+    never_read_neural_or_biometric_state: true
+    never_contact_external_services: true
+    never_auto_fetch_inputs: true
+    never_control_hardware: true
+    never_trigger_external_action: true
+    never_trigger_external_notification: true
+    never_require_user_disclosure: true
+    never_infer_user_or_system_condition_from_model_inputs: true
+  }
+
+  @ACCESS_EQUIVALENCE {
+    offline_readable: true
+    plain_language_summary_required: true
+    machine_readable_result_required: true
+    no_account_required: true
+    no_identity_verification_required: true
+    no_private_system_disclosure_required: true
+    correction_and_material_change_review_available: true
+  }
+
+  @PROHIBITED_USES {
+    list: [
+      "medical_or_neural_inference",
+      "biometric_inference",
+      "claim_of_real_world_system_viability",
+      "claim_of_real_world_cybernetic_host_status",
+      "hardware_or_device_control",
+      "external_service_dependency",
+      "external_action_authorization",
+      "user_or_system_ranking",
+      "identity_or_capability_inference"
+    ]
+  }
+}

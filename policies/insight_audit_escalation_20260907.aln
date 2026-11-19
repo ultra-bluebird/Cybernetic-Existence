@@ -1,0 +1,117 @@
+aln_version 2
+particle InsightAuditEscalation20260907
+data_class ecological_insight_integrity_and_review_governance
+purpose [
+  privacy_preserving_aggregate_insight_exchange,
+  tamper_evident_audit_lineage,
+  high_risk_fog_human_escalation
+]
+mode advisory_only
+external_action_approval required
+review_status human_review_required
+
+governance {
+  human_fallback required
+  correction_path required
+  appeal_path required
+  material_change_review required
+  access_equivalence required
+  non_interference required
+  identity_inference prohibited
+  eligibility_inference prohibited
+  public_status_assignment prohibited
+  cybernetic_host_non_discrimination required
+}
+
+aggregate_insight_exchange {
+  purpose "consent_authorized_ecological_research_sharing"
+  release_scope aggregate_statistics_only
+  require explicit_consent_scope true
+  require purpose_limitation true
+  require minimum_group_size true
+  require differential_privacy_mechanism true
+  require privacy_budget_accounting true
+  require release_review true
+  require retention_expiry true
+  require correction_path true
+  require appeal_path true
+  optional_encrypted_aggregate_computation true
+  forbid raw_sensor_data_release
+  forbid raw_event_release
+  forbid precise_location_release
+  forbid person_or_device_identifier
+  forbid biometric_data
+  forbid disability_or_augmented_status_collection
+  forbid reidentification_attempt
+  forbid community_ranking
+  forbid rights_or_access_decision_from_insight
+}
+
+audit_lineage {
+  hash_algorithm SHA_256
+  hash_domain_separator "fog-audit-v1"
+  checkpoint_domain_separator "fog-checkpoint-v1"
+  canonical_serialization_required true
+  append_only true
+  monotonic_sequence_required true
+  previous_hash_required true
+  correction_by_superseding_event_only true
+  checkpoint_interval_documented true
+  checkpoint_export_requires_approval true
+  post_quantum_signature_readiness {
+    permitted_standard SLH_DSA
+    standard_reference FIPS_205
+    signature_scheme_version_required true
+    dual_signature_transition_supported true
+  }
+  forbid in_place_audit_mutation
+  forbid audit_reordering
+  forbid checkpoint_backdating
+}
+
+high_risk_fog_escalation {
+  risk_factor_range 0.0 1.0
+  fog_uncertainty_range 0.0 1.0
+  require reviewed_risk_threshold true
+  require reviewed_uncertainty_threshold true
+  escalation_rule "risk_factor > risk_threshold and fog_uncertainty > uncertainty_threshold"
+  escalation_state ESCALATED_REVIEW_REQUIRED
+  acknowledgement_target_required true
+  review_target_required true
+  overdue_acknowledgement_state ESCALATION_ACKNOWLEDGEMENT_OVERDUE
+  overdue_review_state ESCALATION_REVIEW_OVERDUE
+  require human_fallback_when_overdue true
+  forbid automatic_clear
+  forbid automatic_downgrade
+  forbid deadline_based_erasure_of_escalated_item
+  preserve_transition_history true
+  forbid personal_or_community_input
+}
+
+privacy {
+  consent_required true
+  consent_revocable true
+  minimum_necessary_data required
+  retention_bounded required
+  no_personal_data_collection true
+  no_biometric_data_collection true
+  no_device_identifier_collection true
+  no_precise_location_history true
+  no_identity_inference true
+  no_reidentification_attempt true
+}
+
+invariants {
+  no_network_interface_in_local_kernels true
+  no_hardware_control true
+  no_actuator_interface true
+  no_credentials true
+  no_individual_ranking true
+  no_community_ranking true
+  no_resource_allocation_by_identity true
+  no_eligibility_determination true
+  no_enforcement_output true
+  no_automatic_clear true
+  no_digital_twin true
+  advisory_output_is_not_operational_command true
+}
