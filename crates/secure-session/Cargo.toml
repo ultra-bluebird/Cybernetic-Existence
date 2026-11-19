@@ -1,0 +1,22 @@
+[package]
+name = "secure-session"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+tokio = { workspace = true }
+reqwest = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+http = { workspace = true }
+cookie = { workspace = true }
+ring = { workspace = true }
+aes-gcm = { workspace = true }
+anyhow = { workspace = true }
+thiserror = { workspace = true }
+tracing = { workspace = true }
+clap = { workspace = true }
+chrono = { workspace = true }
+regex = { workspace = true }
+base64 = { workspace = true }
+url = { workspace = true }

@@ -1,0 +1,32 @@
+{
+  "telemetry": {
+    "total_mass": 12.5,
+    "max_concentration": 0.9,
+    "max_duty_fraction": 0.4,
+    "density_risk_local": 0.6,
+    "thermo_duty_risk": 0.7,
+    "near_roh_fraction": 0.2
+  },
+  "evidence_bundle": {
+    "bundle_id": "EVID-SZ-INTEG-BURN-HAND-2026",
+    "zone_id": "SZ-0001",
+    "claims": [
+      {
+        "claim_id": "EVID-SZ-TOTAL-LOAD-2026",
+        "kind": "Empirical",
+        "description": "Total hazardous load ranges from microfluidic & field data.",
+        "tighten_only": true
+      },
+      {
+        "claim_id": "EVID-SZ-MATERIAL-RISK-2026",
+        "kind": "SyntheticConservative",
+        "description": "Fractional diffusion & graph permeability models for density risk.",
+        "tighten_only": true
+      }
+    ]
+  },
+  "references": {
+    "total_mass_ref": 20.0,
+    "conc_ref": 1.2
+  }
+}
