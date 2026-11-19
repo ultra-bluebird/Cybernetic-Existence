@@ -1,0 +1,227 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://javasphere.local/schemas/gathering-hub-thermal-comfort-policy.v1.schema.json",
+  "title": "Javasphere Gathering Hub Thermal Comfort Policy",
+  "description": "A privacy-preserving thermal comfort and ventilation policy for public gathering hubs. It does not collect health, implant, identity, visual, audio, or individual occupancy data.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "policyName",
+    "effectiveFrom",
+    "governance",
+    "comfortEnvelope",
+    "ventilation",
+    "privacy",
+    "heatResilience",
+    "equipmentSafety",
+    "humanOversight"
+  ],
+  "properties": {
+    "schema": {
+      "const": "javasphere.gathering-hub-thermal-comfort-policy/v1"
+    },
+    "policyName": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]{2,95}$"
+    },
+    "effectiveFrom": {
+      "type": "string",
+      "format": "date"
+    },
+    "governance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "accessibilityReviewCompleted",
+        "qualifiedHvacReviewRequired",
+        "authorityReviewRequired",
+        "permittedUse"
+      ],
+      "properties": {
+        "accessibilityReviewCompleted": {
+          "const": true
+        },
+        "qualifiedHvacReviewRequired": {
+          "const": true
+        },
+        "authorityReviewRequired": {
+          "const": true
+        },
+        "permittedUse": {
+          "const": "public-gathering-hub-comfort-and-iaq-management"
+        }
+      }
+    },
+    "comfortEnvelope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "minimumZoneTemperatureCelsius",
+        "maximumZoneTemperatureCelsius",
+        "maximumTemperatureChangeCelsiusPerMinute",
+        "minimumRelativeHumidityFraction",
+        "maximumRelativeHumidityFraction",
+        "adaptiveComfortEnabled"
+      ],
+      "properties": {
+        "minimumZoneTemperatureCelsius": {
+          "type": "number",
+          "minimum": 10,
+          "maximum": 30
+        },
+        "maximumZoneTemperatureCelsius": {
+          "type": "number",
+          "minimum": 15,
+          "maximum": 35
+        },
+        "maximumTemperatureChangeCelsiusPerMinute": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 0.5
+        },
+        "minimumRelativeHumidityFraction": {
+          "type": "number",
+          "minimum": 0.1,
+          "maximum": 0.6
+        },
+        "maximumRelativeHumidityFraction": {
+          "type": "number",
+          "minimum": 0.3,
+          "maximum": 0.8
+        },
+        "adaptiveComfortEnabled": {
+          "const": true
+        }
+      }
+    },
+    "ventilation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "minimumOutdoorAirSequenceRequired",
+        "co2UsedAsAggregateVentilationSignal",
+        "co2UsedForIndividualCounting",
+        "sensorFaultRevertsToMinimumOutdoorAir",
+        "equipmentDesignReviewRequired"
+      ],
+      "properties": {
+        "minimumOutdoorAirSequenceRequired": {
+          "const": true
+        },
+        "co2UsedAsAggregateVentilationSignal": {
+          "const": true
+        },
+        "co2UsedForIndividualCounting": {
+          "const": false
+        },
+        "sensorFaultRevertsToMinimumOutdoorAir": {
+          "const": true
+        },
+        "equipmentDesignReviewRequired": {
+          "const": true
+        }
+      }
+    },
+    "privacy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "cameraCountingEnabled",
+        "audioCaptureEnabled",
+        "healthOrImplantDataStored",
+        "individualOccupancyHistoryStored",
+        "rawSensorExportAllowed"
+      ],
+      "properties": {
+        "cameraCountingEnabled": {
+          "const": false
+        },
+        "audioCaptureEnabled": {
+          "const": false
+        },
+        "healthOrImplantDataStored": {
+          "const": false
+        },
+        "individualOccupancyHistoryStored": {
+          "const": false
+        },
+        "rawSensorExportAllowed": {
+          "const": false
+        }
+      }
+    },
+    "heatResilience": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "heatEventModeEnabled",
+        "outdoorAirQualityCheckedBeforeVentilationIncrease",
+        "humidityProtectionEnabled",
+        "accessibleStatusNoticeRequired"
+      ],
+      "properties": {
+        "heatEventModeEnabled": {
+          "const": true
+        },
+        "outdoorAirQualityCheckedBeforeVentilationIncrease": {
+          "const": true
+        },
+        "humidityProtectionEnabled": {
+          "const": true
+        },
+        "accessibleStatusNoticeRequired": {
+          "const": true
+        }
+      }
+    },
+    "equipmentSafety": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "certifiedSafetySequencesRemainAuthoritative",
+        "freezeProtectionEnabled",
+        "smokeFireSequenceRemainsAuthoritative",
+        "actuatorRateLimitEnabled"
+      ],
+      "properties": {
+        "certifiedSafetySequencesRemainAuthoritative": {
+          "const": true
+        },
+        "freezeProtectionEnabled": {
+          "const": true
+        },
+        "smokeFireSequenceRemainsAuthoritative": {
+          "const": true
+        },
+        "actuatorRateLimitEnabled": {
+          "const": true
+        }
+      }
+    },
+    "humanOversight": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "setpointChangesRequireReview",
+        "faultEscalationRequired",
+        "automaticMedicalInferenceAllowed",
+        "overrideReasonRecorded"
+      ],
+      "properties": {
+        "setpointChangesRequireReview": {
+          "const": true
+        },
+        "faultEscalationRequired": {
+          "const": true
+        },
+        "automaticMedicalInferenceAllowed": {
+          "const": false
+        },
+        "overrideReasonRecorded": {
+          "const": true
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,269 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://javasphere.local/schemas/maintenance-bot-ecosystem-power-policy.v1.schema.json",
+  "title": "Javasphere Maintenance Bot Ecosystem Power Policy",
+  "description": "A local-first policy for ecological maintenance-bot energy planning. It excludes resident tracking, public-space surveillance, unsafe battery control, and autonomous public dispatch.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "policyName",
+    "effectiveFrom",
+    "governance",
+    "batterySafety",
+    "ecologicalService",
+    "equity",
+    "privacy",
+    "coordination",
+    "federatedLearning",
+    "humanOversight"
+  ],
+  "properties": {
+    "schema": {
+      "const": "javasphere.maintenance-bot-ecosystem-power-policy/v1"
+    },
+    "policyName": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]{2,95}$"
+    },
+    "effectiveFrom": {
+      "type": "string",
+      "format": "date"
+    },
+    "governance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "communityReviewCompleted",
+        "manufacturerBatteryProfileVerified",
+        "qualifiedMaintenanceReviewRequired",
+        "permittedUse"
+      ],
+      "properties": {
+        "communityReviewCompleted": {
+          "const": true
+        },
+        "manufacturerBatteryProfileVerified": {
+          "const": true
+        },
+        "qualifiedMaintenanceReviewRequired": {
+          "const": true
+        },
+        "permittedUse": {
+          "const": "public-ecological-maintenance-energy-planning"
+        }
+      }
+    },
+    "batterySafety": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "minimumOperationalSocFraction",
+        "maximumOperationalSocFraction",
+        "returnReserveSocFraction",
+        "bmsRemainsAuthoritative",
+        "thermalFaultStopsPlanningDispatch"
+      ],
+      "properties": {
+        "minimumOperationalSocFraction": {
+          "type": "number",
+          "minimum": 0.05,
+          "maximum": 0.8
+        },
+        "maximumOperationalSocFraction": {
+          "type": "number",
+          "minimum": 0.2,
+          "maximum": 0.98
+        },
+        "returnReserveSocFraction": {
+          "type": "number",
+          "minimum": 0.05,
+          "maximum": 0.8
+        },
+        "bmsRemainsAuthoritative": {
+          "const": true
+        },
+        "thermalFaultStopsPlanningDispatch": {
+          "const": true
+        }
+      }
+    },
+    "ecologicalService": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "criticalDrainageContinuityRequired",
+        "ecologicalWorkMetricClass",
+        "hazardClearanceRequired",
+        "solarUsedAsPreferenceNotRequirement"
+      ],
+      "properties": {
+        "criticalDrainageContinuityRequired": {
+          "const": true
+        },
+        "ecologicalWorkMetricClass": {
+          "type": "string",
+          "enum": [
+            "debris-mass-removed",
+            "drainage-capacity-restored",
+            "bioswale-function-supported",
+            "accessibility-obstruction-removed",
+            "multi-metric-validated"
+          ]
+        },
+        "hazardClearanceRequired": {
+          "const": true
+        },
+        "solarUsedAsPreferenceNotRequirement": {
+          "const": true
+        }
+      }
+    },
+    "equity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "minimumZoneServiceFloorRequired",
+        "serviceDisparityBound",
+        "chargingPlacementReviewedForCoverage",
+        "complaintFrequencyUsedAsSolePriority"
+      ],
+      "properties": {
+        "minimumZoneServiceFloorRequired": {
+          "const": true
+        },
+        "serviceDisparityBound": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "chargingPlacementReviewedForCoverage": {
+          "const": true
+        },
+        "complaintFrequencyUsedAsSolePriority": {
+          "const": false
+        }
+      }
+    },
+    "privacy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "rawLocationHistoryStored",
+        "residentDataStored",
+        "cameraOrAudioRequired",
+        "individualProfilingAllowed",
+        "cloudExportAllowed"
+      ],
+      "properties": {
+        "rawLocationHistoryStored": {
+          "const": false
+        },
+        "residentDataStored": {
+          "const": false
+        },
+        "cameraOrAudioRequired": {
+          "const": false
+        },
+        "individualProfilingAllowed": {
+          "const": false
+        },
+        "cloudExportAllowed": {
+          "const": false
+        }
+      }
+    },
+    "coordination": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "localTaskLeaseEnabled",
+        "leaseExpirySeconds",
+        "signedMessagesRequired",
+        "returnReserveRequiredBeforeTaskAcceptance",
+        "networkLossFallbackEnabled"
+      ],
+      "properties": {
+        "localTaskLeaseEnabled": {
+          "const": true
+        },
+        "leaseExpirySeconds": {
+          "type": "integer",
+          "minimum": 30,
+          "maximum": 86400
+        },
+        "signedMessagesRequired": {
+          "const": true
+        },
+        "returnReserveRequiredBeforeTaskAcceptance": {
+          "const": true
+        },
+        "networkLossFallbackEnabled": {
+          "const": true
+        }
+      }
+    },
+    "federatedLearning": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "enabled",
+        "rawTelemetryShared",
+        "updateClippingRequired",
+        "secureAggregationRequired",
+        "minimumAggregationCohort",
+        "differentialPrivacyRequired",
+        "loraCarriesFullModelWeights"
+      ],
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "rawTelemetryShared": {
+          "const": false
+        },
+        "updateClippingRequired": {
+          "const": true
+        },
+        "secureAggregationRequired": {
+          "const": true
+        },
+        "minimumAggregationCohort": {
+          "type": "integer",
+          "minimum": 5,
+          "maximum": 100000
+        },
+        "differentialPrivacyRequired": {
+          "const": true
+        },
+        "loraCarriesFullModelWeights": {
+          "const": false
+        }
+      }
+    },
+    "humanOversight": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "dispatchRequiresHumanApproval",
+        "modelPromotionRequiresReview",
+        "automaticPublicSpaceEnforcementAllowed",
+        "overrideReasonRecorded"
+      ],
+      "properties": {
+        "dispatchRequiresHumanApproval": {
+          "const": true
+        },
+        "modelPromotionRequiresReview": {
+          "const": true
+        },
+        "automaticPublicSpaceEnforcementAllowed": {
+          "const": false
+        },
+        "overrideReasonRecorded": {
+          "const": true
+        }
+      }
+    }
+  }
+}
