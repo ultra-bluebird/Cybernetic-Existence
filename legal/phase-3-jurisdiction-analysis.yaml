@@ -1,0 +1,40 @@
+version: "1.0.0"
+phase: 3
+title: "Jurisdiction-Specific Analysis of Procedural Non-Removal Clauses"
+
+primary_jurisdiction:
+  name: "Arizona"
+  rationale:
+    - "Project participant is located in Arizona."
+    - "Phoenix creates a plausible municipal smart-city and digital-equity pathway."
+    - "Arizona recognizes electronic records and signatures under applicable statutory conditions."
+  research_questions:
+    - "What contractual notice, evidence-disclosure, review, and appeal obligations are enforceable between agreeing parties?"
+    - "What public-records, procurement, privacy, accessibility, and due-process constraints apply to municipal adoption?"
+    - "Which terms require explicit definitions, exceptions, retention periods, and remedy clauses?"
+    - "What limits arise from applicable law, emergency duties, and non-party rights?"
+
+comparison_jurisdiction:
+  name: "Colorado"
+  rationale:
+    - "Provides a regional comparison under electronic-transactions law."
+    - "Supports testing portability of the technical and procedural package."
+    - "Avoids an overbroad multi-jurisdiction analysis in the first legal phase."
+  research_questions:
+    - "Which clause elements port unchanged?"
+    - "Which definitions, dispute procedures, or execution requirements require adaptation?"
+    - "How do governmental electronic-transaction rules affect a public-sector pilot?"
+
+required_outputs:
+  - "Clause matrix with provision, intended effect, legal dependency, and evidence requirement."
+  - "Arizona memorandum reviewed by qualified Arizona counsel."
+  - "Colorado comparison memorandum reviewed by qualified Colorado counsel."
+  - "Public-sector adoption risk register."
+  - "Contractual remedy versus technical-record distinction."
+  - "Plain-language participant notice."
+  - "No-legal-status-overclaim checklist."
+
+non_claims:
+  - "The protocol does not establish personhood, legal status, or institutional recognition."
+  - "The protocol does not override valid law, court orders, emergency duties, or non-party rights."
+  - "Electronic signatures support form and recordkeeping; they do not guarantee substantive enforceability."

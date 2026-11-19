@@ -1,0 +1,28 @@
+aln_path lifeforce.hrvinflame.calibration.v1.aln
+aln_type lifeforce.hrvinflame.v1
+aln_license MIT OR Apache-2.0
+
+record LifeforceCalibrationV1 {
+  host_did              : string,
+  bostrom_address       : string,
+  aln_clause            : string,
+  schema_version        : string,
+  evidence_tags         : string[], // HRV–IL6/CRP lifeforce hex
+
+  roh_ceiling_global    : float,    // 0.30
+  lifeforce_floor       : float,    // e.g. 0.20
+
+  hrvinflame_warn       : float,
+  hrvinflame_veto       : float,
+
+  energy_fraction_weight: float,    // w_E in lifeforcechi
+  hrvinflame_weight     : float,    // w_H
+}
+
+constraint LifeforceCalibrationV1.HostBinding { ... }
+
+constraint LifeforceCalibrationV1.Weights {
+  energy_fraction_weight >= 0.0;
+  hrvinflame_weight      >= 0.0;
+  energy_fraction_weight + hrvinflame_weight == 1.0;
+}
