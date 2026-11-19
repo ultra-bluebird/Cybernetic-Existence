@@ -1,0 +1,4 @@
+scenario,individual_pool_comparisons,worst_case_allocation_feasible,best_case_allocation_feasible,joint_resource_result
+shared_pool_double_counting,not_a_joint_allocation_check,False,False,F
+independent_pools,not_a_joint_allocation_check,True,True,P
+shared_pool_uncertain,not_a_joint_allocation_check,False,True,U

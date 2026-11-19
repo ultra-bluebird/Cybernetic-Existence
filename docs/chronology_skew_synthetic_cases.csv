@@ -1,0 +1,5 @@
+scenario,expected,observed
+ordered_intervals,P,P
+overlap_not_decisive,U,U
+globally_inconsistent,F,F
+unknown_clock,U,U

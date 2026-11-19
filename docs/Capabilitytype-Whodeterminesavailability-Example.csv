@@ -1,0 +1,6 @@
+"Capability type","Who determines availability","Example"
+"User-controlled preference","User only","Manual-only candidate review"
+"Mutual connection capability","Both participants independently","Optional meeting-planning checklist"
+"Technical security capability","Deterministic technical rule with user review","Export requires fresh user verification"
+"External integration capability","User consent plus documented provider requirements","OAuth authorization-code connection"
+"Health, recovery, or dating readiness","Nobody in Hearthline","Explicitly out of scope"

@@ -1,0 +1,53 @@
+capability          = "{",
+                        capability-id, ",",
+                        session-generation, ",",
+                        subject, ",",
+                        purpose, ",",
+                        operations, ",",
+                        data-categories, ",",
+                        audience, ",",
+                        issued-at, ",",
+                        expires-at, ",",
+                        revocation-handle, ",",
+                        policy-version, ",",
+                        issuer-binding,
+                      "}";
+
+capability-id        = identifier;
+session-generation   = positive-integer;
+subject              = identifier;
+purpose              = purpose-token;
+operations           = operation-set;
+data-categories      = data-category-set;
+audience             = audience-token;
+issued-at            = timestamp;
+expires-at           = timestamp;
+revocation-handle    = identifier;
+policy-version       = version-token;
+issuer-binding       = signature-reference;
+
+operation-set        = "{", [ operation, { ",", operation } ], "}";
+data-category-set    = "{", [ data-category, { ",", data-category } ], "}";
+
+operation             = "session.status.read"
+                      | "identity.proof.verify"
+                      | "telemetry.summary.read"
+                      | "audit.receipt.read"
+                      | "maintenance.selftest.run";
+
+data-category         = "accessibility_preference"
+                      | "communication_preference"
+                      | "privacy_preference"
+                      | "session_receipt";
+
+purpose-token         = identifier;
+audience-token        = identifier;
+version-token         = digit, { digit | "." };
+identifier            = letter, { letter | digit | "-" | "_" };
+positive-integer      = nonzero-digit, { digit };
+timestamp             = digit, digit, digit, digit, "-",
+                        digit, digit, "-",
+                        digit, digit, "T",
+                        digit, digit, ":",
+                        digit, digit, ":",
+                        digit, digit, "Z";

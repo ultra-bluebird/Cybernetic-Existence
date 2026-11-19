@@ -1,0 +1,5 @@
+step,retention_seconds,original_envelope,adjacent_change_limit,local_pass_original_fail
+0,3000,P,not_assessed_initial,False
+1,3300,P,P,False
+2,3600,P,P,False
+3,3900,F,P,True

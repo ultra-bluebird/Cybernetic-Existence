@@ -1,0 +1,4 @@
+scenario,chronology,bounds
+established_order,P,"((0, 1), (2, 3), (4, 5))"
+overlapping_uncertainty,U,"((0, 3), (2, 5), (4, 7))"
+global_conflict_despite_pairwise_possibility,F,"((9, 10), (0, 10), (0, 1))"

@@ -1,0 +1,6 @@
+"Component","Meaning","Example bounded computation"
+"Source strength SSS","Directness and quality of evidence for the stated hypothesis","Direct local event observation scores higher than an untested literature prior"
+"Replication RRR","Independent support across coupons, event windows, or strata","Saturating function of independently prepared/observed units"
+"Uncertainty UUU","Adequacy of the estimate’s uncertainty for the declared design purpose","Higher value only when confidence/credible interval is sufficiently narrow and calibrated"
+"Independent review III","Evidence that review was independent, documented, and unresolved conflicts were handled","Binary or graded completion state with reviewer separation"
+"Contradiction status","Not a score component that can be outweighed","Mandatory gate: unresolved material contradiction blocks promotion"

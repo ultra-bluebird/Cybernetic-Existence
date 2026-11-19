@@ -1,0 +1,7 @@
+"Condition","Minimum reference-check cadence","Triggered extra check"
+"Before every mobile route","Pre-route co-location or valid reference check","Any failed pre-route check blocks transfer use"
+"After every mobile route","Post-route co-location or field verification","Difference beyond limit qualifies the route"
+"High-fouling / warm / high-turbidity season","At least every 1–2 weeks for stationary optical/proxy sensors, subject to local evidence","After monsoon, surcharge, major turbidity spike, sensor cleaning, or physical impact"
+"Lower-fouling / stable season","At least monthly until local drift evidence supports a longer interval","After unexpected step change or cross-sensor disagreement"
+"Traceable temperature reference","Follow parameter-specific verification schedule; at minimum maintain annual traceable verification, with more frequent deployed checks as required by use","Any temperature mismatch beyond the declared acceptance limit"
+"Any sensor used for a material event trigger","Check interval shorter than the time over which unacceptable drift could create a false trigger or missed trigger","Immediately after trigger anomaly or quality flag"

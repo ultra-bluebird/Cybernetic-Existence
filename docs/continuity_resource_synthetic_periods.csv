@@ -1,0 +1,5 @@
+period,storage_state,review_capacity_state,aggregate
+1,P,P,P
+2,P,P,P
+3,P,U,U
+4,P,F,F

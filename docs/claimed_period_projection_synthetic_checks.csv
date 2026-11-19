@@ -1,0 +1,11 @@
+scenario,resource_result,containment,basis_state,prefix_overlap_seconds,seconds_not_substantiated
+equal_boundaries,P,contained,P,60.0,0.0
+extends_into_unknown,U,not_contained,P,60.0,20.0
+extends_into_known_failure,F,not_contained,P,60.0,40.0
+failure_outside_claim,P,contained,P,60.0,0.0
+claim_begins_before_plan,U,not_contained,P,60.0,10.0
+unresolved_end,U,unknown,P,,
+no_passing_prefix,U,not_contained,P,0.0,60.0
+unresolved_start,U,unknown,P,,
+claimed_prefix_but_conflicting_failure,F,unknown,F,,
+no_current_commitment,U,unknown,,,

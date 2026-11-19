@@ -1,0 +1,6 @@
+"Capability","Possible status"
+"Inspect the historical acceptance statement","Available if the minimal record remains"
+"Inspect why evidence was deleted","Available if disposition metadata remains"
+"Reinspect the original private evidence","Unavailable after verified deletion"
+"Confirm the original scientific or clinical conclusion","Not established by the remaining digest alone"
+"Request correction or explanation","Must remain accessible"

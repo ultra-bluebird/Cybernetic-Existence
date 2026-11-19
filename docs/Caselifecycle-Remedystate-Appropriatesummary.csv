@@ -1,0 +1,6 @@
+"Case lifecycle","Remedy state","Appropriate summary"
+"Administratively closed","Unverified","“The case was administratively closed. Correction has not been verified.”"
+"Open or acknowledged","Mitigated","“Mitigation was recorded. Verification remains pending.”"
+"Any","Verified","“Correction verification is recorded in the supplied history. Follow-up durability is assessed separately.”"
+"Open","Recurred","“Recurrence was recorded. The earlier verification remains historical.”"
+"Open","Verification disputed","“The prior verification is disputed and is not currently relied upon.”"

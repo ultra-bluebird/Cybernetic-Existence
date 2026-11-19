@@ -1,0 +1,8 @@
+"Current state","Permit autonomous action","Required response","Margin contribution"
+"clear_verified","Only within other passed gates","Continue bounded operation","Declared positive value"
+"clear_unverified","No","Acquire permissible verification or reduce automation","Conservative partial value"
+"possible_obstruction","No hazardous motion","Pause or slow, issue accessible status","Reduced value"
+"obstruction_detected","No hazardous motion","Enter protective hold or reverse where safe","Zero"
+"human_in_protective_zone","No hazardous motion","Protective pause and accessible explanation","Zero"
+"sensor_unavailable","No hazardous motion dependent on sensor","Fail safe or human-controlled fallback","Zero"
+"emergency_stop_active","No autonomous action","Maintain safe state until authorized reset","Zero"

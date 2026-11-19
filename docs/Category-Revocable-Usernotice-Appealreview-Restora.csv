@@ -1,0 +1,6 @@
+"Category","Revocable?","User notice","Appeal/review","Restoration"
+"User preference","User can change anytime","Immediate state confirmation","Not needed","User re-enables"
+"Mutual connection tool","Either participant can narrow or withdraw","Contextual, non-shaming notice","Not needed","Requires fresh dual confirmation"
+"Technical prerequisite not met","Temporarily unavailable","Plain-language next step","Review if system state is wrong","Satisfy direct prerequisite"
+"Security action hold","Temporary and action-specific","Clear expiry and saved-work assurance","Always available","Expires or review resolves"
+"Universal safety control","Never revoked by capability logic","Not applicable","Not applicable","Always available"
