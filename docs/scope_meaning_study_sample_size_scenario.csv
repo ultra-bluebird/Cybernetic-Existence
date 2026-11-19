@@ -1,0 +1,2 @@
+baseline_error_assumption,alternative_error_assumption,per_outcome_alpha,power_per_outcome,completed_per_arm_approximation,enrollment_per_arm_10pct_unscorable
+0.2,0.1,0.025,0.8,242,269

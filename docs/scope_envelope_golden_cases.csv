@@ -1,0 +1,7 @@
+scenario,expected,observed
+within,P,P
+upper_boundary_exceeded,F,F
+lower_boundary_exceeded,F,F
+failure_over_unknown,F,F
+cross_field_prohibition,F,F
+unknown_interface,U,U

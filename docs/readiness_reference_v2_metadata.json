@@ -1,0 +1,44 @@
+{
+  "schema_version": "2.0.0",
+  "policy_revision": "readiness-reference-2",
+  "generated_at_utc": "2026-11-08T16:12:00Z",
+  "time_semantics": "declared build metadata, not evidence time or independent clock attestation",
+  "row_count": 729,
+  "column_count": 19,
+  "byte_count": 125685,
+  "state_enumeration_order": [
+    "pass",
+    "fail",
+    "unknown"
+  ],
+  "check_order": [
+    "schema_compatibility",
+    "replay_consistency",
+    "processing_scope",
+    "requirement_support",
+    "access_claim_fidelity",
+    "explanation_fidelity"
+  ],
+  "base3": "leftmost check most significant; pass=0, fail=1, unknown=2; enumeration coordinate only, not assurance order",
+  "mask": "bit i corresponds to check i in declared zero-based check order",
+  "csv": {
+    "encoding": "UTF-8 without BOM",
+    "delimiter": ",",
+    "quotechar": "\"",
+    "doublequote": true,
+    "line_ending": "CRLF",
+    "booleans": "0 or 1"
+  },
+  "meaning": "syntactic decision-reference domain; no independence, probability, empirical frequency, or reachability asserted",
+  "excluded": [
+    "applicability decisions",
+    "retirement",
+    "history",
+    "conflict adjudication",
+    "freshness evaluation",
+    "publication authorization",
+    "journey composition"
+  ],
+  "commitment_status": "not_created",
+  "regeneration_byte_equality_checked": true
+}

@@ -1,0 +1,6 @@
+"Prior type","Meaning","Permitted source","Appropriate status"
+"UNINFORMATIVE_OR_WEAKLY_INFORMATIVE","Broad prior used when local evidence is absent","Predeclared statistical convention","EXPLORATORY"
+"LITERATURE_INFORMED","Uses external studies to bound plausible relationship strength","Cited synthesis and applicability review","LITERATURE_PRIOR"
+"LOCAL_BASELINE_INFORMED","Uses prior qualified Phoenix-corridor observations from the same defined scope","Versioned local registry query","LOCAL_PRIOR"
+"EXPERT_ELICITED","Structured judgment with uncertainty documented","Named reviewer role and elicitation record","ELICITED_PRIOR"
+"SENSITIVITY_SET","Multiple plausible priors evaluated in parallel","Predeclared scenario set","ROBUSTNESS_ANALYSIS"

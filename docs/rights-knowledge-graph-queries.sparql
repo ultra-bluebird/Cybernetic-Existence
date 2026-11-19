@@ -1,0 +1,17 @@
+PREFIX ah: <https://augmented-hub.example/ns/>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+
+SELECT ?duty ?plainLanguage ?source ?reviewState
+WHERE {
+  ?duty a ah:Duty ;
+        ah:appliesInJurisdiction ?jurisdiction ;
+        ah:hasPlainLanguageExplanation ?plainLanguage ;
+        ah:hasReviewState ?reviewState ;
+        prov:wasDerivedFrom ?source .
+
+  ?serviceContext a ah:ServiceContext .
+
+  ?duty ah:appliesToServiceContext ?serviceContext .
+}
+ORDER BY ?jurisdiction ?duty

@@ -1,0 +1,5 @@
+"Release class","Permitted content","Minimum control","Default result"
+"never_release","Raw identity, health, neural, biometric, augmentation, consent, detailed location trace, assistive-technology telemetry","Encrypted local storage, retention constraints, access logging, deletion/export path","No export"
+"local_only","Sensitive evidence, protected reports, detailed inspection content, unresolved conflicts","Device-local processing and purpose-limited access","No remote transfer or public publication"
+"aggregate_with_differential_privacy","Approved population-level summary with bounded sensitivity","Documented privacy mechanism, ε\varepsilonε, δ\deltaδ, composition accounting, release review, disclosure-risk testing","Aggregate release only after review"
+"public","Authoritatively public information or cleared public research output","Provenance, license/authority, accessibility, update date","Public sharing under stated purpose"

@@ -1,0 +1,8 @@
+"Relationship","Meaning","Original record","Active-use consequence","Mandatory review"
+"observes","Adds an observation without claiming replacement","Preserved","Both may remain active if compatible","Required if protected records conflict"
+"corrects","Fixes a documented factual error while retaining the original","Preserved, marked corrected","New record is preferred for the corrected fact","Required for protected or consequential records"
+"supersedes","Replaces an older policy, parameter, or record for active use","Preserved for audit","Old record becomes inactive for the declared scope","Required if rights, privacy, accessibility, or threshold impact exists"
+"retracts","Declares a record unsuitable for active use and states why","Preserved, marked retracted","Blocked from active use","Mandatory"
+"contradicts","States a material incompatibility without selecting a winner","Preserved","Active use blocked or restricted","Mandatory"
+"preserve_both_require_review","Retains competing records pending accessible human resolution","Both preserved","Active use blocked for the affected decision","Mandatory"
+"resolves","Records a reasoned review outcome that links all relevant records","All preserved","Defined outcome may become active under scope limits","Mandatory"

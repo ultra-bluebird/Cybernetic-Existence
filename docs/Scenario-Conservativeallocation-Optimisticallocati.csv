@@ -1,0 +1,4 @@
+"Scenario","Conservative allocation","Optimistic allocation","Result"
+"One 40-hour pool; two 30-hour obligations","Infeasible","Infeasible","F"
+"Two separate 40-hour pools, each assigned to one 30-hour obligation","Feasible","Feasible","P"
+"One pool with 50–70 hours; two 30-hour obligations","Infeasible","Feasible","U"

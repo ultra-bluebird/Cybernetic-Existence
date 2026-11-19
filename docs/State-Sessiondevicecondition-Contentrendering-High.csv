@@ -1,0 +1,8 @@
+"State","Session/device condition","Content rendering","High-impact actions"
+"FULL_ACCESS","Fresh verified session on a controlled device","Allowed by current consent","Allowed when separately authorized"
+"LIMITED_ACCESS","Attributable session exists but requires step-up for sensitive actions","Previously authorized content may render","Blocked pending fresh verification"
+"READ_ONLY_CONTROLLED","Locally controlled device with stale high assurance","Minimal account and authorized content may render","Blocked"
+"PROTECTIVE_ACCESS","Device loss, compromise suspicion, coercion concern, or uncertain device control","Sensitive content does not render","Blocked; only protective actions and generic continuity entry points"
+"CONTINUITY_AVAILABLE","Normal authenticator unavailable; no active continuity ceremony","No sensitive content by default","Blocked; generic continuity initiation available"
+"CONTINUITY_ACTIVE","User is in an authenticated, bounded continuity ceremony","Only ceremony-specific and safety data render","Blocked except approved continuity steps"
+"RESTORED","New authenticator bound and verified; post-rebinding controls active","Allowed by current consent","Restricted only by explicit cooldown policy"

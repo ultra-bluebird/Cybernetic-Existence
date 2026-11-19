@@ -1,0 +1,7 @@
+"State","Trigger","What it means"
+"FULL_ACCESS","Valid current WebAuthn session with required user verification","Normal account access and user-initiated actions are available"
+"LIMITED_ACCESS","Session is still attributable but must be stepped up for sensitive or outbound actions","User may view allowed data and use safety controls; sensitive outward activity requires fresh verification"
+"READ_ONLY","Identity assurance is stale, device integrity is uncertain, or a session cannot authorize outward actions","User may inspect their own account and use withdrawal/protective controls; cannot send, disclose, export, link, or expand"
+"CONTINUITY_AVAILABLE","Valid account relationship exists, but no current normal authenticator is available","User can start or resume a credential-continuity ceremony and use limited protective controls"
+"CONTINUITY_ACTIVE","A credential-continuity ceremony is in progress","User can complete allowed continuity steps, pause, revoke, block, and view status; high-impact changes remain constrained"
+"RESTORED","New credential is properly bound and required notifications/cooldown conditions are complete","Account returns to FULL_ACCESS after current authentication and policy checks"

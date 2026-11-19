@@ -1,0 +1,7 @@
+"Scenario","Required conclusion"
+"Successor accepts records but not correction duties","Handover incomplete"
+"Successor signs duties but correction route fails","Capability not established"
+"Records unavailable during transition","Ordinary access and recovery route remain available"
+"New owner proposes advertising use","Separate purpose/transfer review required"
+"Optional raw-data transfer declined","Do not infer loss of standing or blanket service ineligibility"
+"Both organizations disappear","Contingency limits must be disclosed; no unsupported continuity guarantee"

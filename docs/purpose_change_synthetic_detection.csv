@@ -1,0 +1,10 @@
+changed_component,metadata_diff_detected,field_only_diff_detected
+purpose,True,False
+operation,True,False
+inputs,True,True
+outputs,True,False
+recipients,True,False
+context,True,False
+retention_policy,True,False
+inference_rules,True,False
+authority_scope,True,False

@@ -1,0 +1,7 @@
+"Purpose","Default spatial treatment"
+"Sensitive-species conservation review","Exact local-only record where necessary, with restricted review access"
+"Public green-infrastructure planning","Planning-zone or grid-level aggregate, never a raw point by default"
+"Public education","Coarse ecological region, watershed, or reviewed non-sensitive resolution"
+"Community report of harmed or trapped wildlife","Generalized local-only location with priority review"
+"Habitat-corridor design","Resolution sufficient for barrier and habitat analysis, with output generalized according to species sensitivity"
+"Public dashboard","Aggregated cells, seasonal summaries, and uncertainty statements, never raw sensitive locations"

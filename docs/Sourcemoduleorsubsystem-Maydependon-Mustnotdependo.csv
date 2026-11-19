@@ -1,0 +1,8 @@
+"Source module or subsystem","May depend on","Must not depend on"
+"HearthChat","CommonGround, SteadyPath","Lantern, recovery-expression presentation, persona-linkage data"
+"TrueCompass","CommonGround, SteadyPath","Lantern, recovery expressions, recipient persona registry"
+"Lantern","AnchorLine-style technical access signal only","Matching, persona data, recovery expressions, message text"
+"Recipient persona","CommonGround, identity continuity","Lantern, TrueCompass ranking, external adapter data"
+"Recovery expression","CommonGround","Lantern, matching, ranking, profile visibility"
+"Audit history","Allowlisted event metadata only","Message text, recipient mapping, field names, credential data, recovery context"
+"Local export","Allowlisted settings and generic event types","Drafts, messages, recipient references, consent fields, persona values, credential capability details"

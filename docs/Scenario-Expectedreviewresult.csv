@@ -1,0 +1,7 @@
+"Scenario","Expected review result"
+"Employer says “your milestone means you already consented forever”","Authority-inheritance misuse"
+"Insurer cites milestone as reason to deny a later choice","Review the reported pressure and authority claim"
+"Supporter quotes the record only to request assistance","Do not equate historical citation with coercion"
+"Person previously authorized an activity but reports pressure now","Preserve the pressure signal"
+"Request record is unavailable","Authorization unresolved—not proof no request occurred"
+"Successor accepts continuity duties but demands neural data to preserve recognition","Review disclosure pressure and unsupported access condition"

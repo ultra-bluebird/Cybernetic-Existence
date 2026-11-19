@@ -1,0 +1,6 @@
+"Semantic relationship","Authorization period","Review consequence"
+"Established equivalent","Current","Still check exact operation binding and other requirements"
+"Established equivalent","Expired or new period requested","Renewal review"
+"Changed beyond envelope","Any","Scope review, plus authorization-period review as needed"
+"Equivalence unresolved","Any","Unresolved semantic assessment"
+"Same labels, changed operating meaning","Any","Treat the meaning change as a review input"

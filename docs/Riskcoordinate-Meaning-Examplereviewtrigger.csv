@@ -1,0 +1,7 @@
+"Risk coordinate","Meaning","Example review trigger"
+"rharmr_{\text{harm}}rharm​","Potential harm to people, communities, ecosystems, or species","Expected harm-risk increase"
+"recologyr_{\text{ecology}}recology​","Ecological burden or restoration underperformance","Reduced retention, shade, habitat, or water-quality benefit"
+"raccessibilityr_{\text{accessibility}}raccessibility​","Barrier to physical, sensory, cognitive, language, or assistive access","Route, interface, or public-service accessibility decline"
+"rprivacyr_{\text{privacy}}rprivacy​","Privacy burden and sensitive-data exposure","New telemetry, unnecessary collection, or excess retention"
+"runcertaintyr_{\text{uncertainty}}runcertainty​","Lack of sufficient evidence, validation, freshness, or coverage","Stale data, uncalibrated sensors, weak provenance"
+"rmaintenancer_{\text{maintenance}}rmaintenance​","Repairability, service continuity, or infrastructure condition concern","Deferred maintenance, clogging, inaccessible repair path"

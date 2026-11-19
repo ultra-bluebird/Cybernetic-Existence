@@ -1,0 +1,7 @@
+"Recovery path","When available","What it can do","Required controls"
+"Existing primary or secondary passkey","One registered authenticator remains available","Bind a new passkey","Existing UV assertion, new-device notification, cooling period for sensitive changes"
+"Hardware security key","User retained a registered key","Bind a new passkey","UV assertion, device-binding event, audit trail"
+"Saved recovery code","User has an offline code","Start recovery ceremony","One-time use, rate-limited, secondary confirmation where possible"
+"Trusted recovery contacts","User pre-designated contacts","Provide time-limited recovery assistance","No single contact can act alone; contact sees no profile content"
+"Re-proofing","All prior authenticators unavailable","Restore account continuity","Human-reviewed, privacy-minimized procedure, delayed high-risk changes"
+"Account continuity review","Signals conflict or impersonation risk is high","Preserve account but block new bindings pending review","Human escalation; no automatic authority expansion"

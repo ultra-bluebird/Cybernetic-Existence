@@ -1,0 +1,8 @@
+"Term","Meaning","Units"
+"kmicrok_{\mathrm{micro}}kmicro​","Modeled biological rate component","yr−1^{-1}−1"
+"WiW_iWi​","Wood-species contrast, with reference species declared","dimensionless"
+"EaE_aEa​","Apparent activation energy","J mol−1^{-1}−1"
+"RRR","Gas constant","J mol−1^{-1}−1 K−1^{-1}−1"
+"TTT","Absolute temperature","K"
+"PPP","Hydrostatic pressure","Pa"
+"ΔV‡\Delta V^\ddaggerΔV‡","Apparent activation volume","m³ mol−1^{-1}−1"

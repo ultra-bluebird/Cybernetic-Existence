@@ -1,0 +1,9 @@
+stateDiagram-v2
+    [*] --> Generated
+    Generated --> RenderEligible: scopes recorded at generation
+    RenderEligible --> Rendered: current scopes permit
+    RenderEligible --> Invalidated: revocation, expiry, or scope mismatch
+    Rendered --> Invalidated: render-time re-evaluation denies
+    Invalidated --> RedactedExplanation: protected content removed
+    RedactedExplanation --> Regenerated: user requests a new suggestion
+    Regenerated --> RenderEligible

@@ -1,0 +1,6 @@
+"Proposed stage","Decision","Principle violated","Safe replacement"
+"NEW","Do not expose as a trust stage","Newness becomes a stigma or low-status signal","Treat as a non-visible account lifecycle fact, if operationally needed"
+"VERIFIED_DEVICE","Keep only as a private credential capability","A credential proves a technical event, not character","“A secure sign-in method is configured on this account”"
+"MUTUAL_MATCH_HISTORY","Prohibit","Turns romantic or social outcomes into a profile","Optional, local-only user reflection summary, never a capability input"
+"CONSENT_HONORING_STREAK","Prohibit","Gamifies a baseline legal and ethical duty","Enforce consent violations case-by-case; never reward “compliance”"
+"LONG_TERM_PARTICIPANT","Prohibit as an account signal","Converts tenure into implied reliability","Treat tenure as a non-product operational fact only where retention law requires"

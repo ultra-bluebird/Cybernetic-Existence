@@ -1,0 +1,4 @@
+"Sub-model cluster","Native state","Time semantics","Adapter output"
+"Continuity","Append-only records, corrections, export/recovery states","Monotonic logical time","Observation and review-required proposal"
+"Ecology","Spatial fields, stochastic processes, seasonal dynamics, uncertainty intervals","Continuous or discrete simulation time","Aggregated observation and advisory proposal"
+"Civic/governance","Policy rules, review queues, service conditions, appeal state","Deliberative and event-driven time","Governance observation and non-authorizing proposal"

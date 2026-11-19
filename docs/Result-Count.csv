@@ -1,0 +1,4 @@
+"Result","Count"
+"Constructed histories accepted by the grammar","998"
+"Patterns rejected by event preconditions","1,803"
+"Administrative-closure comparisons during pattern walks","1,036"

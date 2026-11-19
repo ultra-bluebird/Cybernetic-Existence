@@ -1,0 +1,8 @@
+"State","Meaning","Permitted use"
+"PROVISIONAL","A bounded observation or pilot result supports a testable resuspension hypothesis, but replication, uncertainty, or independent review is incomplete","Method refinement, sampling prioritization, exploratory modeling"
+"EVIDENCE_QUALIFIED","Core measurement quality, provenance, uncertainty, and hypothesis alignment are complete","Internal comparison and independent replication planning"
+"REPLICATION_SUPPORTED","Results are reproduced across the declared independent units or event windows","Local model fitting and sensitivity analysis"
+"ACCEPTED_FOR_DESIGN","Evidence package is complete, independently reviewed, conservatively scoped, and approved for design decision support","Non-actuating scenario design and monitoring design inputs"
+"RETIRED_OR_SUPERSEDED","A newer method, contradictory evidence, invalidated calibration, or scope change prevents continued use","Historical/audit use only"
+"INCONCLUSIVE","Data are valid but do not discriminate between competing explanations","Retain and refine protocol; do not treat as low risk"
+"CONTRADICTORY","Valid evidence conflicts materially with the current finding or model","Route to synthesis/method review; do not average away conflict"

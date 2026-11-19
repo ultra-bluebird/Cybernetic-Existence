@@ -1,0 +1,7 @@
+"Review role","Responsibility","Cannot do"
+"METHOD_QUALITY_REVIEWER","Confirms calibration, time alignment, uncertainty, blanks/QC, and protocol conformance","Cannot approve external action"
+"HYDRAULIC_EVIDENCE_REVIEWER","Evaluates wall-shear model assumptions, exposure bounds, and hydraulic transfer limits","Cannot relabel a non-event as a detachment event without evidence"
+"BIOFILM_EVIDENCE_REVIEWER","Reviews response metrics, mode label, structural interpretation, and competing explanations","Cannot infer community/function without corresponding measurements"
+"INDEPENDENT_REPLICATION_REVIEWER","Assesses independence, repeatability, holdout performance, and contradiction handling","Cannot alter raw records"
+"GOVERNANCE_REVIEWER","Confirms scope, authority boundaries, retention, accessibility, and the non-actuation rule","Cannot convert acceptance into operations authorization"
+"DESIGN_REVIEWER","Determines whether accepted evidence is suitable for a declared non-actuating design scenario","Cannot approve a physical intervention through this gate"
