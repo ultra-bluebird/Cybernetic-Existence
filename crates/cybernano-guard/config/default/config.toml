@@ -1,0 +1,43 @@
+# cybernano-guard layered configuration
+# Layer 1: Population defaults (shipped with crate).
+# Layer 2: Environment overrides (CYBERNANO_*).
+# Layer 3: Host-specific shards from host_shard_dir.
+
+[aln]
+# Path to ALN files describing population corridors (RoH, organ envelopes, etc.).
+population_corridors_dir = "/opt/cybernano/corridors/population"
+
+[host]
+# Directory scanned at startup for host-specific ALN shards:
+#   - *.neurorights.json
+#   - *.rohmodel.aln
+#   - *.tsafe.aln
+#   - *.host-adaptive-threshold.v1.aln.json
+host_shard_dir = "/var/lib/cybernano/hosts"
+
+[telemetry]
+# Max age in hours for cytokine telemetry before degraded mode.
+max_cytokine_age_hours = 6
+
+# Default RoH ceiling (can be tightened by host shards).
+roh_ceiling = 0.30
+
+[organs]
+# Population-wide renal corridor defaults; host shards may override per host.
+[organs.renal]
+creatinine_absolute_ceiling_mg_dl = 1.5
+creatinine_delta_48h_ceiling_mg_dl = 0.3
+
+[organs.hepatic]
+alt_ast_ceiling_u_l = 80.0
+
+[organs.cns]
+brain_delta_t_ceiling_c = 0.10
+
+[nanorobotics]
+# Allowed material families and default biocompatibility profiles.
+material_profiles_dir = "/opt/cybernano/nanorobotics/material-profiles"
+
+[logging]
+level = "info"
+audit_log_path = "/var/log/cybernano/guard_audit.log"

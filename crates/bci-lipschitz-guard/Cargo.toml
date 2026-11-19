@@ -1,0 +1,19 @@
+[package]
+name         = "bci-lipschitz-guard"
+version      = "0.1.0"
+edition      = "2024"
+rust-version = "1.85"
+publish      = false
+license      = "MIT OR Apache-2.0"
+
+[lib]
+name = "bcilipschitzguard"
+path = "src/lib.rs"
+
+[dependencies]
+serde = { version = "1.0.203", features = ["derive"] }
+serde_json = { version = "1.0.120" }
+kani-verifier = "0.67"
+alncore = { path = "../alncore" }
+rohkerneltypes = { path = "../rohkerneltypes" }
+neurorights-firewall = { path = "../neurorights-firewall" }

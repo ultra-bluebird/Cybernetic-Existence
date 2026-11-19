@@ -1,0 +1,56 @@
+[package]
+name = "biospatial-ccf-core"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.85"
+license = "MIT OR Apache-2.0"
+description = "Host-local biospatial Common Coordinate Framework (CCF) core types for organ atlases, registrations, shape models, and topology summaries, bound to Cybercore authority."
+repository = "https://github.com/mk-bluebird/nanorobotics"
+homepage = "https://github.com/mk-bluebird/nanorobotics"
+documentation = "https://github.com/mk-bluebird/nanorobotics"
+keywords = [
+    "nanorobotics",
+    "biospatial",
+    "ccf",
+    "organ-atlas",
+    "cybercore",
+]
+categories = [
+    "science",
+    "simulation",
+    "no-std",
+]
+readme = false
+authors = ["mk-bluebird <host@cybercore.bostrom>"]
+
+[lib]
+name = "biospatial_ccf_core"
+path = "src/lib.rs"
+crate-type = ["rlib"]
+
+[features]
+# No optional behavior; std is always available in this workspace.
+default = ["std"]
+std = []
+
+[dependencies]
+serde = { version = "1.0.203", features = ["derive"] }
+thiserror = "1.0.63"
+
+[dev-dependencies]
+serde_json = "1.0.117"
+kani = "0.50.0"
+
+[package.metadata.aln]
+hostdid = "did.aln.bostrom-organic-host"
+bostromaddress = "bostrom18sd2ujv24ual9c9pshtxys6j8knh6xaead9ye7"
+migrationclause = "ALN.MIGRATION.CYBERCORE_AUTHORITY.v1"
+authorityrepo = "github.com/mk-bluebird/Cybercore"
+rohceiling = "0.30"
+nonreversal = "true"
+monotonetighteningonly = "true"
+
+[package.metadata.cargo-verify]
+kanirequired = true
+forbidunsafe = true
+rohceiling = "0.30"

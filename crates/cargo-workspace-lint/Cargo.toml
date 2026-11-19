@@ -1,0 +1,41 @@
+[package]
+name         = "cargo-workspace-lint"
+version      = "0.1.0"
+edition      = "2024"
+rust-version = "1.85"
+license      = "MIT OR Apache-2.0"
+publish      = false
+authors      = [
+    "Augmented Citizen <bostrom18sd2ujv24ual9c9pshtxys6j8knh6xaead9ye7>",
+    "Data_Lake contributors <neuro@organiccpu.ai>",
+]
+description  = "Workspace-level manifest and policy lints for the mk-bluebird/nanorobotics nanoswarm stack (edition/rust-version/license invariants)."
+repository   = "https://github.com/mk-bluebird/nanorobotics"
+
+[package.metadata.cybercore]
+host_did        = "did:vital:bostrom"
+bostrom_address = "bostrom18sd2ujv24ual9c9pshtxys6j8knh6xaead9ye7"
+aln_clause      = "ALN.MIGRATION.CYBERCORE_AUTHORITY.v1"
+no_rollback     = true
+
+[dependencies]
+# Prefer workspace-wide versions where available to keep the stack consistent.
+anyhow        = { workspace = true }
+serde         = { workspace = true }
+serde_json    = { workspace = true }
+toml          = { version = "0.8", default-features = true }
+walkdir       = { version = "2.5" }
+camino        = { version = "1.1" }
+
+# Kani must never be optional: include as a normal dependency so the crate
+# can always build and link the harnesses / checks when invoked.
+kani-verifier = { version = "0.45" }
+
+[dev-dependencies]
+# If you want test modules that specifically use kani’s test harness,
+# you can also list it here for clarity; version must match the main dep.
+kani-verifier = { version = "0.45" }
+
+[features]
+# No optional features; all safety tooling is on by default.
+default = []

@@ -1,0 +1,20 @@
+[package]
+name = "anchor-registry"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.85"
+description = "Opaque local state commitment anchoring registry."
+license = "MIT OR Apache-2.0"
+publish = false
+
+[lib]
+name = "anchor_registry"
+path = "src/lib.rs"
+
+[lints.rust]
+unsafe_code = "forbid"
+missing_docs = "warn"
+
+[lints.clippy]
+all = "warn"
+pedantic = "warn"
