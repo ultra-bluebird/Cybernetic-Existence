@@ -1,0 +1,25 @@
+aln.schema RightsFloorGovernance2026v1
+meta.role GovernanceSpine
+meta.engine Prometheus-Praxis
+meta.authority ALN.MIGRATION.CYBERCOREAUTHORITY.v1
+binding.bostromaddress bostrom18sd2ujv24ual9c9pshtxys6j8knh6xaead9ye7
+
+invariant.baseline_access_unconditional
+  WHEN service.class = BASELINE
+  THEN decision = ALLOW
+  UNLESS service.operational_state = UNAVAILABLE
+  WITH fallback.required = TRUE
+  AND identity_predicate.forbidden = TRUE
+
+invariant.public_scope_only
+  WHEN action.target_class IN {PERSON, PRIVATE_DEVICE, MEDICAL_SUPPORT}
+  THEN decision = BLOCK_PUBLIC_ACTION
+  AND reason = "NON_INTERFERENCE_VIOLATION"
+
+invariant.adverse_decision_due_process
+  WHEN decision IN {DENY, RESTRICT, DEFER}
+  THEN authority.published = TRUE
+  AND reason.specific = TRUE
+  AND review.accessible = TRUE
+  AND appeal.non_digital = TRUE
+  AND remedy.timeline <= 72h
