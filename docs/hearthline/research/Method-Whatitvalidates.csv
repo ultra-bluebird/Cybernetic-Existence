@@ -1,0 +1,8 @@
+"Method","What it validates"
+"automated_test","Semantic regressions, basic contrast rules, API contract parity, document schema conformance."
+"manual_keyboard_test","Keyboard operation, focus order, visible focus, no keyboard trap, escape paths."
+"screen_reader_test","Labels, roles, states, announcements, headings, error messages, consent revocation, reports, and appeals."
+"low_bandwidth_test","HTML-first operation, payload resilience, draft preservation, no mandatory media/autoplay, retry behavior."
+"assistive_technology_participant_test","Real-world usability with people using assistive technologies and varied communication methods."
+"security_review","Safe alternative path for credential/account recovery and sensitive data handling."
+"human_fallback_review","Ability to access correction, appeal, and recovery without the primary digital route."
