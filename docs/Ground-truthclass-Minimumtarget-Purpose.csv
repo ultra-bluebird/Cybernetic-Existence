@@ -1,0 +1,8 @@
+"Ground-truth class","Minimum target","Purpose"
+"Clean/minimally biofilmed concrete","10 or more spatially independent patches","Separates wall substrate from biomass signal"
+"Low visible biofilm coverage","10 or more patches","Defines early/patchy coverage"
+"Moderate coverage","10 or more patches","Captures mixed pixels and partial coverage"
+"High/near-continuous coverage","10 or more patches","Defines biofilm-dominant endmember range"
+"Mineral/sediment-embedded surface","10 or more patches if present","Prevents mineral stain/fines from being labeled biofilm"
+"Shadow/glint/water-affected observations","10 or more patches per major condition","Quantifies invalid or correction-required imaging conditions"
+"Repeat imaging / independent validation","At least 20–30% of all labeled patches held out","Tests transfer rather than only fitting training data"

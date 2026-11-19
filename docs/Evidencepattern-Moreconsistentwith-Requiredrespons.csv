@@ -1,0 +1,8 @@
+"Evidence pattern","More consistent with","Required response"
+"Stationary and mobile/reference sensors change together during co-location","Genuine environmental change","Retain event observation; continue quality monitoring"
+"One sensor deviates while nearby independent sensor and grab sample remain stable","Drift, fouling, damage, or configuration change","Qualify or reject affected period; inspect and recheck"
+"Difference between co-located sensors grows smoothly with deployment age","Drift candidate","Trigger inspection and reference comparison"
+"Difference is strongly linked to temperature, conductivity, flow, or particle-size regime","Cross-sensitivity or transfer-model limitation","Revise model or restrict valid range"
+"Abrupt step follows cleaning, replacement, firmware update, battery event, or maintenance","Instrument/configuration discontinuity","Break time series; require overlap or adjustment study"
+"Multiple independent signals show a coherent transition in the same event window","Genuine environmental shift candidate","Retain with event context and uncertainty"
+"Only raw optical signal changes, while TSS grabs, redundant optics, and hydraulics do not","Fouling or optical artifact candidate","Route to instrument-quality review"

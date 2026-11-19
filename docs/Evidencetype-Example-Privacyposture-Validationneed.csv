@@ -1,0 +1,6 @@
+"Evidence type","Example","Privacy posture","Validation need"
+"Public environmental data","Temperature, land cover, tree canopy, storm events","Generally low sensitivity","Provenance, date, resolution"
+"Environmental sensor data","Water temperature, dissolved oxygen, conductivity","Sensitive when linked to private property or operations","Calibration and drift checks"
+"Community observation","“No shade at this crossing,” “drain blocked”","Consent and location precision controls","Review workflow and duplicate detection"
+"Laboratory result","PFAS/CEC screening, BOD, TSS","Sensitive site or facility context","Chain of custody and method metadata"
+"Model output","Heat-risk or runoff estimate","Must not be treated as fact","Explainability and uncertainty bounds"

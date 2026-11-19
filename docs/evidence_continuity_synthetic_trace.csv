@@ -1,0 +1,13 @@
+scenario,revision,demonstration,open,applicability,status
+demonstration,1,1,True,yes,nonconforming
+reassuring_support_does_not_close,2,1,True,yes,nonconforming
+expiry_does_not_close,3,1,True,yes,nonconforming
+rename_invalidates_support,4,1,True,unknown,unknown
+finding_still_applies,5,1,True,yes,nonconforming
+supported_resolution_is_not_pass,6,1,False,yes,unknown
+conflict_adjudication_is_not_pass,7,1,False,yes,unknown
+fresh_support,8,1,False,yes,conforming
+recurrence,9,2,True,yes,nonconforming
+retirement_preserves_finding,10,2,True,yes,retired
+reactivation_requires_review,11,2,True,unknown,unknown
+reactivated_finding_applicable,12,2,True,yes,nonconforming

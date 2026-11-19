@@ -1,0 +1,8 @@
+"Dimension","Required comparison"
+"Species","Relevant anatomy, physiology, immune function, metabolism, and clearance mechanisms"
+"Route","Dose form, administration route, exposure duration, local versus systemic exposure"
+"Matrix","Protein composition, ionic strength, viscosity, shear, pH, cellular composition, and relevant barriers"
+"Particle or construct state","Size distribution, aggregation, surface chemistry, enzyme activity, coating integrity, and degradation"
+"Distribution and clearance","Tissue exposure, persistence, elimination route, byproduct fate, and repeat-exposure accumulation"
+"Immune context","Protein corona, complement activation, cytokine response, coagulation, endothelial interaction, and inflammation status"
+"Outcome alignment","Whether the in-vitro endpoint predicts the declared in-vivo or human-relevant endpoint"

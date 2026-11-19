@@ -1,0 +1,8 @@
+"Existing or proposed material","Integration"
+"Heroic Deed Taxonomy","work_reference.work_type can point to a deed classification without turning that classification into individual ranking"
+"Heroic Threshold Gradient","Attribution and intent/outcome records can become review inputs; neither can produce a final status automatically"
+"Hero Recognition Privacy Modes","Every contributor and work record carries an independent private, pseudonymous, public, or delayed publication mode"
+"Hero at Rest Service Continuity","Continuity, maintenance, preservation, and stewardship are first-class contribution dimensions; rest or inactivity does not erase prior records"
+"Hero Title Appeal and Due Process","A contested contribution record transitions to review-paused states with notice, response, neutral review, correction, and appeal preserved"
+"Causal Fairness Audit","Reviewers can test whether visibility, institutional rank, identity disclosure, access needs, or resource level improperly distort attribution patterns"
+"Zero-Knowledge Hero Status","A later portability layer can prove that an attribution or review record exists without disclosing real names, private evidence, or contributor vectors"

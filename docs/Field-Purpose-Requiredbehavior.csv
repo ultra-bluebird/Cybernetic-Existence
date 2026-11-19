@@ -1,0 +1,6 @@
+"Field","Purpose","Required behavior"
+"metric_kind","Distinguishes a field measurement, estimate, planning index, governance assessment, or gate input","A planning index cannot be represented as a verified physical measurement"
+"intended_decision_contexts","Limits permissible use","Must list allowed planning or research contexts"
+"non_permitted_decision_contexts","Blocks rights-incompatible use","Must explicitly prohibit individual scoring and eligibility decisions"
+"evidence_compatibility_rules","Prevents incompatible source mixing","Must name source types, spatial/temporal alignment rules, and calibration expectations"
+"gate_relationship","Prevents compensatory misuse","Must declare whether the metric informs, constrains, or is independent of the K/E/R gate"

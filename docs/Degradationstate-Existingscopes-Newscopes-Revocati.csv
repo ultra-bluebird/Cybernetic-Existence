@@ -1,0 +1,8 @@
+"Degradation state","Existing scopes","New scopes","Revocation"
+"Full access","Render under current consent","Allowed with current authorization","Allowed"
+"Limited access","Render under current consent","Fresh verification required","Allowed"
+"Read-only controlled","Render only previously authorized content","Not allowed","Allowed"
+"Protective access","Sensitive rendering hidden","Not allowed","Stop-future-sharing only"
+"Continuity available","Sensitive rendering hidden","Not allowed","Stop-future-sharing only"
+"Continuity active","Ceremony-scoped only","Not allowed","Stop-future-sharing only"
+"Restored","Render under current consent","Fresh verification required for sensitive scope expansion","Allowed"
