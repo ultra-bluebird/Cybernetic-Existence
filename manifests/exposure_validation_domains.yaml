@@ -1,0 +1,214 @@
+schema_version: "1.0.0"
+kind: ten-domain-exposure-validation
+status: proposed-research-contract
+
+attribution:
+  anchor: "bostrom18sd2ujv24ual9c9pshtxys6j8knh6xaead9ye7"
+  purpose: document-credit-and-workstream-metadata-only
+  grants_authority: false
+
+execution:
+  local_only: true
+  automatic_fetch: forbidden
+  automatic_export: forbidden
+  hardware_control: forbidden
+  external_action_approval: exact-action-required
+
+shared_contract:
+  evidence_classes:
+    - observed
+    - fitted
+    - literature-derived
+    - synthetic
+  finding_states:
+    - pass
+    - fail
+    - unresolved
+  required_metadata:
+    - quantity
+    - units
+    - temporal_support
+    - spatial_support
+    - measurement_or_calculation_method
+    - method_version
+    - provenance_revision
+    - uncertainty_description
+    - permitted_purpose
+  missing_data:
+    silent_imputation: forbidden
+    missing_is_zero: false
+    exclusions_and_coverage: report
+  privacy:
+    identity_verification: not-required
+    private_physiological_data: not-required
+    precise_sensitive_habitat_locations: excluded-by-default
+  correction:
+    accessible_explanation: required
+    resubmission: available
+    human_review: available
+    ordinary_assistance: remains-available
+
+domains:
+  exposure_definition:
+    finding: unresolved
+    question: When does basis substitution reverse a declared response contrast?
+    estimands:
+      - signed-opportunity-error
+      - absolute-opportunity-error
+      - directional-disagreement-frequency
+    required_evidence:
+      - paired-exposure-records
+      - curve-calibration-context
+      - explicit-counterfactual-label
+    next_step: Validate measurement and calibration context records.
+    release_boundary: No biological conversion or harm claim from substitution alone.
+
+  temporal_alignment:
+    finding: unresolved
+    question: How much disagreement is attributable to observation timing and support?
+    estimands:
+      - alignment-sensitive-opportunity-error
+      - lag-sensitive-directional-disagreement
+    required_evidence:
+      - timestamp-convention
+      - averaging-interval
+      - sensor-response-description
+      - pairing-tolerance
+    next_step: Compare prespecified lag and averaging-support scenarios.
+    release_boundary: Reconstructed signals remain modeled estimates.
+
+  psychrometric_method:
+    finding: unresolved
+    question: How do reference pressure and wet-bulb definition affect disagreement?
+    estimands:
+      - reference-pressure-disagreement
+      - pressure-contribution
+      - threshold-disagreement
+    required_evidence:
+      - pressure-records
+      - humidity-convention
+      - wet-bulb-definition
+      - method-versions
+      - station-uncertainty
+    next_step: Compare methods using identical declared inputs.
+    release_boundary: Method agreement is not measurement truth.
+
+  nonlinear_propagation:
+    finding: unresolved
+    question: When does performance at mean exposure misrepresent mean performance?
+    estimands:
+      - duration-weighted-averaging-bias
+      - integrated-opportunity-hour-error
+    required_evidence:
+      - exposure-distribution
+      - duration-support
+      - curve-family
+      - curve-uncertainty
+    next_step: Compare equal-mean constant and fluctuating synthetic exposures.
+    release_boundary: Taylor approximations require explicit smoothness assumptions.
+
+  activity_identification:
+    finding: unresolved
+    question: What evidence separates activity intensity from detection probability?
+    estimands:
+      - effort-adjusted-detection-response
+      - activity-response-if-identifiable
+    required_evidence:
+      - sampling-effort
+      - equipment-state
+      - observation-protocol
+      - detection-calibration-or-identifiability-analysis
+    next_step: Specify an independently informed detection subset where feasible.
+    release_boundary: Unidentified activity remains a detection-response claim.
+
+  thermal_response_structure:
+    finding: unresolved
+    question: Which response family predicts held-out observations adequately?
+    estimands:
+      - held-out-log-predictive-density
+      - predictive-calibration
+      - family-sensitive-opportunity-contrast
+    candidate_families:
+      - monotonic
+      - two-sided-window
+      - flexible-smooth
+    required_evidence:
+      - common-observation-model
+      - common-evaluation-records
+      - prespecified-covariates
+      - extrapolation-limits
+    next_step: Freeze comparison rules before fitting.
+    release_boundary: Activity-response shape does not establish mortality.
+
+  exposure_memory:
+    finding: unresolved
+    question: Can recovery data distinguish exposure persistence from resource depletion?
+    estimands:
+      - memory-decay-time
+      - resource-adjusted-recovery-response
+    required_evidence:
+      - exposure-onset
+      - sustained-exposure
+      - recovery-observations
+      - concurrent-resource-measurements
+    next_step: Evaluate a resource-only baseline before adding memory.
+    release_boundary: Demographic loss parameters require demographic evidence.
+
+  spatial_transfer:
+    finding: unresolved
+    question: Which habitat differences degrade prediction in the intended target domain?
+    estimands:
+      - target-minus-development-prediction-loss
+      - target-domain-calibration
+    required_evidence:
+      - declared-transfer-task
+      - held-out-sites
+      - held-out-time-blocks
+      - environmental-support-comparison
+    next_step: Freeze task-specific development and evaluation partitions.
+    release_boundary: Interpolation evidence does not establish extrapolation validity.
+
+  sampling_efficiency:
+    finding: unresolved
+    question: Which permissible observations reduce target uncertainty per unit cost?
+    estimands:
+      - expected-information-gain-per-cost
+      - target-functional-uncertainty-reduction
+    required_evidence:
+      - monitoring-cost-definition
+      - uncertainty-model
+      - habitat-and-season-coverage
+      - disturbance-constraints
+    next_step: Compare candidate designs with minimum-coverage constraints.
+    release_boundary: Proposed information gain is not a demonstrated optimum.
+
+  claim_governance:
+    finding: unresolved
+    question: What evidence supports each claim and intended use?
+    claim_classes:
+      - synthetic-demonstration
+      - sampled-condition-association
+      - site-specific-prediction
+      - intervention-effect
+    required_checks:
+      - data
+      - model
+      - provenance
+      - rights
+      - accessibility
+    next_step: Evaluate one explicit claim-use pair against its evidence package.
+    release_boundary: Scientific admissibility never substitutes for external approval.
+
+validation:
+  synthetic_tests_establish:
+    - mathematical-reference-behavior
+    - input-contract-behavior
+  synthetic_tests_do_not_establish:
+    - phoenix-local-validity
+    - activity-identifiability
+    - demographic-effects
+    - intervention-benefits
+    - production-enforcement
+  changed_method_or_provenance: revalidation-required
+  uncertainty_not_estimated: report-explicitly
+  external_approval_in_this_manifest: none

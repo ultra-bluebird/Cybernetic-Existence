@@ -1,0 +1,144 @@
+schema_version: "1.0.0"
+kind: domain-separated-experimental-spatial-evidence-bridge
+status: proposed-integration-contract
+
+attribution:
+  anchor: "bostrom18sd2ujv24ual9c9pshtxys6j8knh6xaead9ye7"
+  purpose: document-credit-and-workstream-metadata-only
+  establishes_identity: false
+  grants_consent: false
+  grants_authority: false
+  proves_execution: false
+
+source_contract:
+  declared_lua_version: "2.0.0"
+  source_execution: not-performed
+  embedded_sql_execution: not-performed
+  enclosing_presentation_brackets: not-part-of-standalone-lua-module
+
+domain_separation:
+  tracks:
+    - temperature-records
+    - material-experiments
+    - kinetic-fits
+    - spatial-observations
+    - canopy-planning-candidates
+  shared_validation_implies_scientific_equivalence: false
+  cross_track_mapping: explicit-reviewed-contract-required
+
+temperature:
+  preserve:
+    - quantity
+    - exposure-basis
+    - units
+    - spatial-support
+    - temporal-support
+    - evidence-class
+  celsius_to_kelvin:
+    operation: add-273.15
+    changes_measurement_basis: false
+  record_acceptance_proves_measurement_truth: false
+
+experiments:
+  declared_requirements:
+    minimum_sensor_quality: 0.90
+    maximum_sensor_quality: 1.0
+    minimum_integer_replicates: 3
+    abiotic_control: required
+    inoculum_control: required
+  requirement_values_are_universal_sufficiency_rules: false
+  additional_evidence:
+    - sensor-quality-definition
+    - measurement-uncertainty
+    - control-results
+    - replicate-design
+    - rate-estimation-method
+    - method-review-evidence
+
+kinetic_fits:
+  parameter_units: explicit-per-parameter
+  parameter_covariance_or_uncertainty: required-for-predictive-claims
+  fitting_data_ancestry: required
+  independent_validation_evidence: required
+  approval_string_is_validation_proof: false
+  declared_temperature_range: inclusive
+  in_range_means_prediction_accurate: false
+  prediction_equation: must-be-specified-separately
+  cold_correction:
+    equation_and_application_domain: required
+    disabled_factor_behavior: must-be-explicit
+    enabled_factor_evidence: required
+    stored_factor_is_automatically_applied: false
+
+spatial_models:
+  thermal_variable_compatibility: required
+  observation_support_compatibility: required
+  weather_and_time_support: required
+  covariance_family_parameters: complete-and-versioned
+  practical_range_definition: required
+  cross_validation_metric:
+    definition: required
+    units: required
+    spatial_partition: required
+  stored_model_exists_means_validated: false
+
+canopy_planning:
+  candidate_reviews:
+    - accessibility
+    - public-access
+    - ecology
+  referenced_model_review: required-before-planning-claim
+  spacing_derivation: documented-and-tested
+  correlation_range_equals_canopy_spacing: false
+  planning_status_is_construction_authorization: false
+  water_energy_maintenance_tradeoffs: report-separately
+
+review_and_provenance:
+  evidence_classes_remain_visible: true
+  method_version: required
+  provenance_revision: required
+  uncertainty_status: explicit
+  changed_evidence_requires_revalidation: true
+  approval_labels_require_supporting_review_records: true
+
+acceptance_tests:
+  required:
+    - unknown-and-missing-fields
+    - booleans-rejected-as-numbers
+    - nonfinite-values
+    - experiment-quality-boundaries
+    - integer-replicate-boundaries
+    - absent-and-false-controls
+    - unreviewed-method
+    - enabled-and-disabled-cold-correction
+    - inclusive-fit-temperature-endpoints
+    - outside-fit-range
+    - draft-or-rejected-referenced-model
+    - thermal-variable-mismatch
+    - spatial-and-temporal-support-mismatch
+    - changed-method-and-provenance
+    - planning-status-without-required-reviews
+
+rights:
+  evaluates: artifacts-experiments-and-planning-proposals
+  personal-ranking: forbidden
+  private-physiological-inventory: not-required
+  companion-system-inventory: not-required
+  sensitive-location-release: separate-review-required
+  accessible-explanation: required
+  correction-and-human-review: available
+  rejected-artifact-blocks-ordinary-assistance: false
+
+authority:
+  analysis-authorizes-experiment: false
+  fit-acceptance-authorizes-environmental-release: false
+  planning-status-authorizes-site-modification: false
+  external-action: exact-separate-approval-required
+
+current_claim_ceiling:
+  supported: source-based-design-synthesis
+  executable-conformance: not-established
+  empirical-kinetic-validity: not-established
+  spatial-prediction-validity: not-established
+  canopy-benefit: not-established
+  measured-ecological-benefit: not-established

@@ -1,0 +1,97 @@
+schema_version: "1.0.0"
+kind: counterexample-preserving-numerical-extension
+status: locally-reproduced-arithmetic-counterexample
+
+attribution:
+  anchor: "bostrom18sd2ujv24ual9c9pshtxys6j8knh6xaead9ye7"
+  purpose: document-credit-and-workstream-metadata-only
+  establishes_identity: false
+  grants_consent: false
+  grants_authority: false
+  proves_execution_by_itself: false
+
+historical_context:
+  original_reference_checks:
+    reported_tests: 12
+    reported_result: passed
+  revised_memory_checks:
+    reported_tests: 7
+    reported_result: passed
+  historical_results_erased: false
+  historical_results_imply_full_domain_correctness: false
+
+candidate:
+  description: earlier-revised-constant-forcing-memory-update
+  execution_form: in-memory-arithmetic-reconstruction
+  repository_module_imported: false
+  vulnerable_intermediate:
+    description: duration-times-accumulation-factor-before-large-forcing
+  candidate_accepted_for_all_finite_inputs: false
+
+fixture:
+  evidence_class: synthetic
+  ecological_plausibility_claim: none
+  initial_memory: 0.0
+  forcing: 1.0e308
+  duration_definition: runtime-smallest-positive-float
+  recovery_definition: same-as-duration
+  duration_hex: "0x0.0000000000001p-1022"
+  recovery_hex: "0x0.0000000000001p-1022"
+  duration_over_recovery: 1.0
+
+reference:
+  input_conversion: Decimal.from_float
+  precisions:
+    - 100
+    - 160
+  equation: constant-forcing-analytical-memory-update
+  reference_domain_for_this_run: declared-synthetic-fixtures
+  float_converted_results_agree: true
+  universal_reference_certification: false
+
+observed_result:
+  candidate_value: 4.9406564584124655e-16
+  reference_after_float_conversion: 3.12309052147161e-16
+  relative_error_against_100_digit_reference: 0.5819767068693265
+  interpretation: reproduced-intermediate-rounding-weakness
+
+execution:
+  characterization_checks_run: 4
+  failures: 0
+  errors: 0
+  skipped: 0
+  passing_checks_mean_candidate_accepted: false
+  new_report_written: true
+  code_fix_implemented_in_this_run: false
+
+claim_boundary:
+  supported:
+    - selected-subnormal-counterexample-reproduced
+    - ordinary-case-comparison-performed
+    - zero-duration-identity-rechecked
+    - two-reference-precisions-compared
+  not_established:
+    - exhaustive-floating-point-stability
+    - production-numerical-readiness
+    - repository-conformance
+    - ecological-validity
+    - human-safety-guidance
+    - approval-lifecycle-safety
+    - external-action-authority
+
+required_followup:
+  - preserve-counterexample-in-versioned-regression-corpus
+  - evaluate-scaled-product-strategies
+  - inspect-decay-term-underflow-separately
+  - test-subnormal-and-normal-transition-boundaries
+  - compare-absolute-relative-and-ulp-error
+  - document-accepted-numerical-domain
+  - bind-future-fix-to-new-execution-evidence
+
+rights:
+  evaluates: numerical-software-and-evidence
+  personal_ranking: forbidden
+  private_physiological_inventory: not-required
+  companion_system_inventory: not-required
+  explanation_and_correction: preserved
+  failed_numerical_check_blocks_ordinary_assistance: false

@@ -1,0 +1,145 @@
+schema_version: "1.0.0"
+kind: coupled-framework-technical-revision
+status: proposed-review-contract
+
+attribution:
+  anchor: "bostrom18sd2ujv24ual9c9pshtxys6j8knh6xaead9ye7"
+  purpose: document-credit-and-workstream-metadata-only
+  establishes_identity: false
+  grants_consent: false
+  grants_authority: false
+  proves_execution: false
+
+current_claim:
+  supported:
+    - coupled-research-architecture
+    - mathematical-model-proposals
+    - selected-source-verified-background
+  not_established:
+    - phoenix-food-web-forecast
+    - species-specific-wet-bulb-thresholds
+    - demographic-collapse-timing
+    - deployed-governance-enforcement
+    - accessibility-conformance
+    - measured-ecological-benefit
+
+state_contract:
+  forcing_and_dynamic_state: separate
+  wet_bulb_and_organism_exposure: separate
+  urban_and_ecological_recovery_times: separate
+  biomass_and_accessible_resources: separate
+  plant_demographic_stages: explicit
+  initial_memory: required-or-explicitly-zero
+  calendar_state_resets: forbidden
+
+psychrometrics:
+  universal_exact_method_claim: unsupported
+  wet_bulb_definition: required
+  pressure_treatment: required
+  saturation_formulation: required
+  numerical_solver: recorded-separately
+  stull:
+    pressure_context: standard-sea-level
+    published_cold_low_humidity_exception: preserve
+    local_error_distribution: requires-reproducible-benchmark
+    universal_hyperarid_error_magnitude: not-established
+  threshold_disagreement:
+    threshold: must-be-declared
+    dataset: must-be-declared
+    reported_fraction: requires-computation-and-provenance
+
+energy_balance:
+  absolute_temperature_for_moist_static_energy: true
+  moist_static_energy_is_cooling_explanation_by_itself: false
+  anthropogenic_heat: separate-from-storage
+  advection: modeled-or-justifiably-neglected
+  control_volume_and_sign_convention: required
+  ground_and_storage_double_counting: forbidden
+
+thermal_response:
+  basis_matching: required
+  closure_score_is_probability: only-if-calibrated
+  dimensional_performance_factors: normalize-before-coefficient-scaling
+  overlapping_thermal_effects: assess-for-double-counting
+  reference_rate_normalization: explicit
+  lethal_limit_from_curve_alone: unsupported
+  gaussian_curvature_claims: local-unless-domain-justified
+
+recovery_mapping:
+  air_and_surface_anomalies: separate
+  reference_construction: documented
+  residual_forcing: assessed
+  log_linear_error_assumption: reviewed
+  rejected_fits: retained-with-reasons
+  fixed_eight_hour_rule_proves_no_recovery: false
+  resilience_index:
+    status: unvalidated-screening-hypothesis
+    units: inverse-hour
+    negative_ndvi_behavior: explicit
+
+dynamics:
+  coefficient_matrix_and_jacobian: distinct
+  state_dependent_coefficients: additional-derivatives-required
+  instantaneous_eigenvalue_is_global_stability: false
+  eigenvalue_crossing_proves_bifurcation: false
+  bifurcation_proves_irreversibility: false
+  trajectory_and_threshold_analysis: required
+  functional_extinction_threshold: prespecified
+
+scenario_tables:
+  classification: supplied-synthetic-narratives
+  complete_forcing: required
+  parameters_and_units: required
+  solver_and_tolerances: required
+  initial_conditions: required
+  resource_biomass_labels: reconcile
+  collapse_and_plateau_interpretation: review
+  empirical_case_label: not-permitted-without-empirical-evidence
+
+historical_execution:
+  standalone_eight_test_rehearsal: recorded-earlier-in-conversation
+  validates_food_web_tables: false
+  validates_variable_forcing_model: false
+  validates_repository_modules: false
+  rerun_in_this_response: false
+
+regional_claims:
+  nocturnal_uhi_distribution: requires-paired-records
+  overnight_wet_bulb_distribution: requires-local-inputs
+  taxon_specific_lighting_effects: requires-relevant-evidence
+  program_dates: verify-before-release
+  solar_owl_report:
+    reported_breeding_year: 2025
+    hatched: 36
+    fledged: 29
+    source_class: conservation-journalism
+    causal_effect_of_solar_colocation: not-established
+
+governance:
+  manifest_declares_requirements: true
+  manifest_alone_enforces_runtime_isolation: false
+  wcag_target: WCAG-2.2-AA
+  wcag_conformance: not-established
+  scientific_review: claim-and-use-specific
+  publication_review: separate
+  exact_action_approval: separate
+  reservation_is_remote_exactly_once_execution: false
+  uncertain_execution: reconcile-without-reusing-original-approval
+
+rights:
+  ordinary_assistance_requires_private_inventory: false
+  self_description: respected-without-technical-proof
+  personal_ranking: forbidden
+  correction_and_explanation: preserved
+  ecological_threshold_is_human_safety_guidance: false
+  precise_sensitive_locations: separately-reviewed
+
+release_requirements:
+  - reconcile-equations-and-units
+  - separate-background-from-hypotheses-and-scenarios
+  - reproduce-synthetic-trajectories
+  - validate-observation-model
+  - evaluate-held-out-prediction
+  - verify-regional-claims
+  - test-governance-behavior
+  - review-accessibility-workflows

@@ -1,0 +1,141 @@
+schema_version: "1.0.0"
+kind: effort-classification-bounded-nocturnal-testbed
+status: proposed-integration-contract
+
+attribution:
+  anchor: "bostrom18sd2ujv24ual9c9pshtxys6j8knh6xaead9ye7"
+  purpose: document-credit-and-workstream-metadata-only
+  establishes_identity: false
+  grants_consent: false
+  grants_authority: false
+  proves_execution: false
+
+inference_domains:
+  - sampling-footprint
+  - sampling-disturbance
+  - usable-effort
+  - environmental-detectability
+  - classification-uncertainty
+  - interaction-success
+  - occupancy
+  - redistribution
+  - demography
+  - decision-relevance
+
+operational_ledger:
+  status: proposed-not-tested-by-supplied-run
+  support: one-declared-deployment
+  intervals:
+    ordered: required
+    overlap: reject
+    unexplained_gap: reject-or-represent-as-unresolved
+  states:
+    - usable
+    - excluded
+    - unresolved
+  conservation:
+    nominal_equals_usable_plus_excluded_plus_unresolved: true
+  count_and_effort_support_match: required
+  nominal_duration_equals_usable_effort: false
+
+classification:
+  status: proposed-not-tested-by-supplied-run
+  population: candidate-events-entering-classifier
+  true_classes:
+    - taxon-A
+    - taxon-B
+    - background-noise
+  reported_classes:
+    - taxon-A
+    - taxon-B
+    - unclassified
+  matrix_orientation:
+    rows: true-class
+    columns: reported-class
+  requirements:
+    nonnegative_entries: true
+    row_sums: one
+    validation_support: declared
+    matrix_uncertainty: explicit
+    classifier_version: required
+    validation_provenance: required
+  physical_detection: separate
+  detection_correction_applied_twice: forbidden
+
+unit_contract:
+  selected_formulation: spatial-temporal-integral
+  latent_intensity_units: events-per-square-meter-per-second
+  response_kernel_units: dimensionless
+  usable_indicator_units: dimensionless
+  expected_output_units: events
+  additional_duration_multiplier_after_time_integral: forbidden
+
+reference_model:
+  source_scope: standalone-synthetic-boundary-rehearsal
+  residual_forcing: zero
+  target: strictly-positive
+  recovery_time: strictly-positive
+  horizon: strictly-positive
+  required_window: strictly-positive
+  initial_memory: nonnegative
+  source_ancestry:
+    - synthetic
+  ecological_benefit_claim: unresolved
+  approval: explicitly-simulated
+  dispatcher: absent
+
+supplied_execution_evidence:
+  source: execution-report-in-user-submission
+  python_version: "3.12.8"
+  tests_run: 8
+  failures: 0
+  errors: 0
+  skipped: 0
+  successful: true
+  current_response_rerun: false
+  report_authenticated_by_this_manifest: false
+
+execution_limits:
+  repository_modules_tested: false
+  lua_python_parity_tested: false
+  browser_accessibility_tested: false
+  variable_forcing_tested: false
+  persistent_approval_store_tested: false
+  field_observations_validated: false
+  external_dispatch_performed: false
+
+next_acceptance_cases:
+  - effort-partition-conservation
+  - zero-usable-effort
+  - unresolved-quality-interval
+  - event-at-interval-boundary
+  - events-outside-usable-support
+  - noise-classification-row
+  - unclassified-events-preserved
+  - classifier-version-change
+  - detection-not-applied-twice
+  - source-ancestry-preserved
+
+rights_and_authority:
+  evaluates: records-models-and-workflows
+  personal_ranking: forbidden
+  private_physiological_inventory: not-required
+  companion_system_inventory: not-required
+  sensitive_locations: restricted-by-default
+  accessible_explanation: required
+  correction_route: available
+  unresolved_claim_blocks_ordinary_assistance: false
+  simulated_approval_is_consent: false
+  evidence_summary_authorizes_field_action: false
+
+claim_ceiling:
+  current:
+    - proposed-observation-contract
+    - standalone-synthetic-reference-test-result
+  not_established:
+    - calibrated-detectability
+    - population-abundance
+    - demographic-recovery
+    - ecological-intervention-benefit
+    - accessibility-conformance
+    - deployed-approval-safety

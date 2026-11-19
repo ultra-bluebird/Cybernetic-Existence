@@ -1,0 +1,30 @@
+{
+  "device_id": "nswarm-v2-micro-actuator",
+  "jurisdiction": "PHX-AZ-US",
+  "roh_ceiling": 0.30,
+  "session_max_minutes": 45,
+  "electrical_limits": {
+    "max_current_ma": 2.5,
+    "max_voltage_v": 3.3,
+    "peak_power_mw": 15.0
+  },
+  "mt6883_binding": {
+    "requires_apu": true,
+    "requires_gpu": false,
+    "npu_top_s": 4.5
+  },
+  "safety_envelopes": {
+    "thermal": {
+      "max_brain_delta_c": 0.30,
+      "max_core_delta_c": 0.20
+    },
+    "actuation": {
+      "max_force": 0.65,
+      "max_duty_fraction": 0.40,
+      "max_frequency_hz": 120.0
+    }
+  },
+  "evidence_bundle_ref": "bundle-neuro-safe-v1-2026",
+  "firmware_hash": "sha256:8f14e45fceea167a5a36dedd4bea2543",
+  "last_calibration_utc": "2026-04-28T14:30:00Z"
+}

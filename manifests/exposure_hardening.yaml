@@ -1,0 +1,137 @@
+schema_version: "1.0.0"
+kind: exposure-validation-hardening
+status: design-and-local-contract-implementation
+
+attribution:
+  anchor: "bostrom18sd2ujv24ual9c9pshtxys6j8knh6xaead9ye7"
+  purpose: document-credit-and-workstream-metadata-only
+  grants_authority: false
+
+execution:
+  local_only: true
+  automatic_network_access: forbidden
+  hardware_control: forbidden
+  automatic_publication: forbidden
+
+development_boundary:
+  allowed_directories:
+    - schemas
+    - manifests
+    - tests
+  implemented_slice:
+    - typed-counterfactual-contrast-records
+    - explicit-tie-semantics
+    - duration-weighted-disagreement
+    - nonoverlapping-interval-validation
+    - revision-aware-summary-separation
+
+scientific_compatibility:
+  equality_of_basis_names_is_sufficient: false
+  required_records:
+    - measurement-context
+    - curve-calibration
+    - model-input
+    - inference-claim
+  context_fields:
+    - quantity
+    - units
+    - measurement-support
+    - radiation-and-humidity-context
+    - calibration-protocol
+    - applicable-population
+    - microhabitat
+    - uncertainty
+    - provenance
+  unrelated_private_data_required: false
+
+curve_comparison:
+  candidate_families:
+    - gaussian
+    - sharpe-schoolfield
+    - constrained-spline
+    - monotone-threshold
+  family_sensitivity_required: true
+  common_endpoint_definition_required: true
+  mortality_inference_from_activity: forbidden
+
+psychrometrics:
+  reference_method_is_measurement_truth: false
+  required_metadata:
+    - method-name
+    - method-version
+    - input-units
+    - pressure-treatment
+    - humidity-convention
+    - domain-warnings
+    - station-uncertainty
+  required_comparisons:
+    - reference-pressure-comparison
+    - local-pressure-comparison
+    - threshold-sensitivity
+
+uncertainty:
+  status: not-yet-implemented
+  resampling_unit: prespecified-site-and-time-blocks
+  paired_records_remain_paired: true
+  block_length_sensitivity: required
+  seed_and_generator_version: required
+  insufficient_blocks: unresolved-not-zero-uncertainty
+  interval_method_and_estimand: required
+
+activity_validation:
+  effort_records: required
+  detection_assumptions: required
+  resource_and_phenology_definitions: required
+  held_out_site_evaluation: required
+  held_out_time_evaluation: required
+  leakage_checks: required
+  negative_control_plan: required
+  permitted_claim:
+    activity-associated-thermal-transition-under-sampled-conditions
+
+error_taxonomy:
+  errors:
+    - invalid-input
+    - basis-mismatch
+    - unsupported-claim
+    - numerical-failure
+  nonpassing_review_states:
+    - unresolved-provenance
+    - unresolved-compatibility
+  warnings:
+    - outside-method-domain
+    - valid-extreme-needs-review
+  accessible_correction_path: required
+
+testing:
+  implemented:
+    - synthetic-arithmetic
+    - tie-boundary
+    - interval-overlap
+    - invalid-numeric-input
+    - revision-separation
+    - deterministic-ordering
+    - strict-json-serialization
+  outstanding:
+    - property-based-generation
+    - independently-sourced-golden-fixtures
+    - lua-python-contract-parity
+    - deterministic-block-bootstrap
+    - claim-release-integration
+    - atomic-approval-consumption
+    - accessibility-workflow-evaluation
+
+release:
+  synthetic_results_keep_synthetic_ancestry: true
+  changed_methods_require_revalidation: true
+  changed_provenance_requires_revalidation: true
+  external_actions_require_exact_separate_approval: true
+  production_enforcement_established: false
+  phoenix_specific_validation_established: false
+  demographic_validation_established: false
+
+privacy:
+  precise_sensitive_habitat_locations: excluded-unless-separately-reviewed
+  private_physiological_data: not-required
+  identity_verification: not-required
+  correction_and_assistance_remain_available: true

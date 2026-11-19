@@ -1,0 +1,88 @@
+schema_version: "1.0.0"
+kind: recovery-identifiability-study
+status: proposed-local-research
+
+attribution:
+  anchor: "bostrom18sd2ujv24ual9c9pshtxys6j8knh6xaead9ye7"
+  purpose: document-credit-and-workstream-metadata-only
+  grants_authority: false
+
+execution:
+  local_only: true
+  automatic_fetch: forbidden
+  automatic_export: forbidden
+  hardware_control: forbidden
+
+memory_model:
+  forcing_quantity: excess-organism-relevant-temperature
+  forcing_units: degC
+  state_units: degC-hour
+  time_units: hour
+  recovery_time_constraint: strictly-positive
+  response_gain_constraint: nonnegative
+  response_endpoint: must-be-declared
+  mortality_interpretation: requires-demographic-evidence
+  initial_state: estimate-or-justify
+  baseline: estimate-or-justify
+
+identifiability:
+  equilibrium_only:
+    primary_estimand: gain-times-recovery-time
+    separate_gain_and_recovery_claim: unsupported-without-additional-information
+  transition_evidence:
+    - onset
+    - repeated-exposure
+    - forcing-reduction
+    - post-event-recovery
+  required_checks:
+    - forcing-measurement-uncertainty
+    - baseline-sensitivity
+    - initial-state-sensitivity
+    - resource-confounding
+    - detection-confounding
+    - parameter-tradeoffs
+    - practical-identifiability
+  uncertainty_status: not-estimated
+
+physical_recovery:
+  air_and_surface_anomalies: separate
+  reference_construction: documented
+  unresolved_forcing: explicitly-modeled-or-fit-rejected
+  rejected_intervals: retained-with-reasons
+  ecological_timescale_from_temperature_alone: forbidden
+
+two_timescale_comparison:
+  physical_and_ecological_parameters: distinct
+  shared_weather_uncertainty: propagate
+  fit_correlation_proves_equality: false
+  habitat_divergence: hypothesis-not-required-outcome
+  validation_units:
+    - site
+    - event
+    - season
+  resampling_design: prespecified-site-event-blocks
+
+refuge_classification:
+  positive_anomaly_is_benefit: false
+  thermal_endpoint: integrated-opportunity-contrast
+  comparison_support: matched-or-explicitly-standardized
+  uncertainty_spans_zero: unresolved
+  allowed_labels:
+    - positive-urban-anomaly
+    - modeled-thermal-benefit
+    - activity-associated-refuge
+    - demographic-refuge
+  demographic_label_requires_demographic_evidence: true
+
+release:
+  current_evidence_class: design-and-synthetic-reference
+  local_species_claims: not-established
+  phoenix_validation: not-established
+  external_action: exact-separate-approval-required
+
+privacy_and_access:
+  private_physiological_data: not-required
+  identity_verification: not-required
+  precise_sensitive_habitat_locations: excluded-by-default
+  accessible_correction: required
+  human_review: available

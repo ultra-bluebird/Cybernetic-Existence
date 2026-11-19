@@ -1,0 +1,299 @@
+{
+  "format": "augmented-hub.normative-statement-evidence-registry",
+  "schema_version": "1.0.0",
+  "artifact_type": "normative_statement_evidence_registry",
+  "repo_targets": [
+    "mk-bluebird/Augmented-Hub",
+    "mk-bluebird/Skynet"
+  ],
+  "review_status": "draft",
+  "record_status": "active",
+  "purpose": "Record the evidence class, current governance status, bounded source context, and promotion path for embedded normative statements used in withdrawal, correction, audience, notice, and provenance governance drafts.",
+  "non_authorization": {
+    "statement": "This registry classifies internal normative statements and their promotion requirements only. It does not establish legal obligations, institutional policy, rights-holder representation, consent, publication eligibility, external authority, repository mutation authority, field permission, environmental intervention authority, or operational control.",
+    "external_action_requires_separate_approval": true,
+    "does_not_verify_identity_or_status": true,
+    "does_not_verify_repository_state": true
+  },
+  "evidence_class_vocabulary": {
+    "research_hypothesis": "A testable or investigable proposition. It must not be represented as a governance requirement.",
+    "policy_proposal": "A proposed internal rule pending the required review and promotion evidence.",
+    "governance_requirement": "A rule adopted through a documented internal governance process with the required review bundle.",
+    "implementation_detail": "A bounded technical design choice. It does not independently create a rights, policy, or external-action obligation.",
+    "unknown": "The statement has not yet been reliably classified and must not be promoted or treated as adopted."
+  },
+  "promotion_path": {
+    "source_evidence_class": "policy_proposal",
+    "target_evidence_class": "governance_requirement",
+    "required_review_roles": [
+      "governance_reviewer",
+      "rights_and_accessibility_reviewer",
+      "privacy_and_security_reviewer",
+      "implementation_reviewer"
+    ],
+    "required_evidence": [
+      "statement_scope_reference",
+      "rights_impact_assessment_reference",
+      "privacy_and_security_assessment_reference",
+      "implementation_impact_reference",
+      "accessibility_impact_reference",
+      "review_bundle_reference",
+      "evidence_class_transition_reference"
+    ],
+    "required_module_reference": "src/governance/evidence_class_transition.py",
+    "promotion_rule": "A statement remains a policy_proposal unless every required review role has qualifying review evidence, every required evidence reference is non-empty, the evidence-class transition result is promoted, and no unresolved structural block remains.",
+    "prohibited_shortcuts": [
+      "Do not promote a statement because it appears in a schema, code comment, test, draft policy, or chat response.",
+      "Do not treat a deadline, silence, missing feedback, or unavailable reviewer as approval.",
+      "Do not use a technical implementation as evidence that a governance proposal was adopted.",
+      "Do not use an external-action authorization for one purpose as adoption evidence for a general governance rule."
+    ]
+  },
+  "statements": [
+    {
+      "statement_id": "withdrawal-closure-reconsideration",
+      "statement_text": "When a withdrawal affects a downstream output, the output must be reconsidered before further governed reliance or dissemination.",
+      "source_context": {
+        "artifact_references": [
+          "src/governance/withdrawal_propagation.py",
+          "src/governance/withdrawal_impact_binding.py",
+          "docs/audience-corrective-response-rules.md"
+        ],
+        "governance_domain": "withdrawal_and_downstream_impact"
+      },
+      "evidence_class": "policy_proposal",
+      "current_status": "draft",
+      "rationale": "This statement is rights-centered governance guidance for handling affected derivatives. It requires adoption evidence before being represented as a project-wide governance requirement.",
+      "rights_impact": {
+        "privacy": "May limit further processing of outputs connected to withdrawn or restricted source material.",
+        "accessibility": "Requires accessible reconsideration and correction pathways without demanding additional private disclosure.",
+        "non_interference": "Prevents automatic continued reliance on potentially affected outputs.",
+        "external_action_boundary": "Does not itself authorize a notice, takedown, publication change, or external communication."
+      },
+      "promotion_requirements": {
+        "statement_scope_reference": "docs/audience-corrective-response-rules.md",
+        "rights_impact_assessment_reference": null,
+        "privacy_and_security_assessment_reference": null,
+        "implementation_impact_reference": "src/governance/withdrawal_impact_binding.py",
+        "accessibility_impact_reference": null,
+        "review_bundle_reference": null,
+        "evidence_class_transition_reference": null
+      },
+      "structural_block_if_unpromoted": false,
+      "dependent_artifacts": [
+        "schemas/research-output-record.schema.json",
+        "schemas/correction-appeal.schema.json",
+        "src/governance/withdrawal_propagation.py",
+        "src/governance/withdrawal_impact_binding.py"
+      ]
+    },
+    {
+      "statement_id": "unknown-audience-no-default",
+      "statement_text": "When audience context cannot be established, the audience track must remain unknown and must not silently default to internal_research or another track.",
+      "source_context": {
+        "artifact_references": [
+          "enums/audience_track.json",
+          "docs/audience-corrective-response-rules.md",
+          "schemas/session-carrier.schema.json"
+        ],
+        "governance_domain": "audience_classification_and_access"
+      },
+      "evidence_class": "policy_proposal",
+      "current_status": "draft",
+      "rationale": "This statement prevents inaccurate audience inference and protects against accidental expansion of access or dissemination assumptions.",
+      "rights_impact": {
+        "privacy": "Avoids inferring audience membership, recipients, identity, or access conditions.",
+        "accessibility": "Keeps uncertainty explicit rather than treating communication context as a basis for classification.",
+        "non_interference": "Prevents automated routing based on unsupported assumptions.",
+        "external_action_boundary": "Unknown audience blocks external-facing response selection until an explicit governed determination exists."
+      },
+      "promotion_requirements": {
+        "statement_scope_reference": "docs/audience-corrective-response-rules.md",
+        "rights_impact_assessment_reference": null,
+        "privacy_and_security_assessment_reference": null,
+        "implementation_impact_reference": "enums/audience_track.json",
+        "accessibility_impact_reference": null,
+        "review_bundle_reference": null,
+        "evidence_class_transition_reference": null
+      },
+      "structural_block_if_unpromoted": false,
+      "dependent_artifacts": [
+        "src/governance/withdrawal_propagation.py",
+        "src/governance/withdrawal_impact_binding.py",
+        "src/governance/pre_release_deadline_escalation.py",
+        "schemas/research-output-record.schema.json"
+      ]
+    },
+    {
+      "statement_id": "deadline-not-decision",
+      "statement_text": "A passed review deadline may produce overdue or escalated status, but it must never itself produce approval, denial, issuance, publication, or external action.",
+      "source_context": {
+        "artifact_references": [
+          "docs/external-notice-process.md",
+          "src/governance/pre_release_deadline_escalation.py",
+          "schemas/correction-appeal.schema.json"
+        ],
+        "governance_domain": "deadline_escalation_and_correction"
+      },
+      "evidence_class": "policy_proposal",
+      "current_status": "draft",
+      "rationale": "This statement prevents silence, delay, queue behavior, or unavailable review capacity from being converted into a substantive decision.",
+      "rights_impact": {
+        "privacy": "Does not require additional disclosure to preserve a pending status.",
+        "accessibility": "Protects people affected by delayed or inaccessible review processes from automatic adverse outcomes.",
+        "non_interference": "Blocks automated issuance or closure based solely on time passage.",
+        "external_action_boundary": "Escalation is internal only and cannot send, publish, or alter external content."
+      },
+      "promotion_requirements": {
+        "statement_scope_reference": "docs/external-notice-process.md",
+        "rights_impact_assessment_reference": null,
+        "privacy_and_security_assessment_reference": null,
+        "implementation_impact_reference": "src/governance/pre_release_deadline_escalation.py",
+        "accessibility_impact_reference": null,
+        "review_bundle_reference": null,
+        "evidence_class_transition_reference": null
+      },
+      "structural_block_if_unpromoted": false,
+      "dependent_artifacts": [
+        "schemas/correction-appeal.schema.json",
+        "tests/test_correction_appeal.py",
+        "src/governance/pre_release_deadline_escalation.py"
+      ]
+    },
+    {
+      "statement_id": "cycle-no-auto-delete",
+      "statement_text": "A detected provenance cycle must be documented and contained; the closing node must not be auto-deleted or silently rewritten.",
+      "source_context": {
+        "artifact_references": [
+          "docs/cycle-remediation-policy.md",
+          "src/governance/withdrawal_propagation.py",
+          "src/governance/checkpoint_chain_resolution.py"
+        ],
+        "governance_domain": "provenance_cycle_remediation"
+      },
+      "evidence_class": "policy_proposal",
+      "current_status": "draft",
+      "rationale": "This statement preserves provenance, correction, and appeal history while preventing automated repair from destroying evidence.",
+      "rights_impact": {
+        "privacy": "Requires only bounded provenance metadata for the remediation process.",
+        "accessibility": "Keeps correction and appeal pathways available for affected records.",
+        "non_interference": "Prevents automatic alteration of records based only on graph topology.",
+        "external_action_boundary": "Cycle detection does not authorize deletion, repository mutation, notice issuance, or external communication."
+      },
+      "promotion_requirements": {
+        "statement_scope_reference": "docs/cycle-remediation-policy.md",
+        "rights_impact_assessment_reference": null,
+        "privacy_and_security_assessment_reference": null,
+        "implementation_impact_reference": "src/governance/checkpoint_chain_resolution.py",
+        "accessibility_impact_reference": null,
+        "review_bundle_reference": null,
+        "evidence_class_transition_reference": null
+      },
+      "structural_block_if_unpromoted": false,
+      "dependent_artifacts": [
+        "src/governance/withdrawal_propagation.py",
+        "src/governance/checkpoint_chain_resolution.py",
+        "schemas/research-output-record.schema.json",
+        "tests/test_withdrawal_propagation_integration.py"
+      ]
+    },
+    {
+      "statement_id": "checkpoint-binding-immediate-parent-root",
+      "statement_text": "For an output derived from a checkpoint chain, the binding unit is the immediate parent checkpoint and chain root; a later terminal checkpoint is context only unless it directly generated a new output.",
+      "source_context": {
+        "artifact_references": [
+          "docs/canonical-checkpoint-chain-rule.md",
+          "src/governance/checkpoint_chain_resolution.py",
+          "src/shared/posterior_checkpoint.py"
+        ],
+        "governance_domain": "checkpoint_provenance_and_supersession"
+      },
+      "evidence_class": "policy_proposal",
+      "current_status": "draft",
+      "rationale": "This statement prevents later runs from retroactively replacing the direct provenance binding of earlier outputs.",
+      "rights_impact": {
+        "privacy": "Uses checkpoint metadata references rather than raw state or data payloads.",
+        "accessibility": "Provides reviewable lineage explanations for output provenance.",
+        "non_interference": "Prevents silent historical rebinding of outputs.",
+        "external_action_boundary": "A checkpoint binding does not certify scientific validity or authorize publication, decision support, or operational use."
+      },
+      "promotion_requirements": {
+        "statement_scope_reference": "docs/canonical-checkpoint-chain-rule.md",
+        "rights_impact_assessment_reference": null,
+        "privacy_and_security_assessment_reference": null,
+        "implementation_impact_reference": "src/governance/checkpoint_chain_resolution.py",
+        "accessibility_impact_reference": null,
+        "review_bundle_reference": null,
+        "evidence_class_transition_reference": null
+      },
+      "structural_block_if_unpromoted": false,
+      "dependent_artifacts": [
+        "schemas/research-output-record.schema.json",
+        "schemas/ttf-bri-comparison-output.schema.json",
+        "docs/checkpoint-supersession-cli.md",
+        "src/shared/posterior_checkpoint.py"
+      ]
+    },
+    {
+      "statement_id": "weighted-composition-no-normative-relaxation",
+      "statement_text": "Weaker-link inheritance applies by default in multi-model composition; any weighted relaxation requires documented weighting and sensitivity evidence and cannot relax rights, consent, privacy, access, withdrawal, correction, accessibility, non-authorization, or structural-block constraints.",
+      "source_context": {
+        "artifact_references": [
+          "docs/multi-model-composition-policy.md",
+          "schemas/ttf-bri-comparison-output.schema.json",
+          "tests/test_multi_model_output_composition.py"
+        ],
+        "governance_domain": "multi_model_composition"
+      },
+      "evidence_class": "policy_proposal",
+      "current_status": "draft",
+      "rationale": "This statement prevents numerical aggregation from obscuring a weaker component's rights, privacy, provenance, uncertainty, calibration, or withdrawal limitation.",
+      "rights_impact": {
+        "privacy": "Prohibits using protected or private data as a proxy for model weight or credibility.",
+        "accessibility": "Preserves component-level uncertainty and abstention rather than forcing a simplified claim.",
+        "non_interference": "Prevents aggregation from bypassing a component's restrictive governance status.",
+        "external_action_boundary": "Weighted composition remains internal research unless separately authorized."
+      },
+      "promotion_requirements": {
+        "statement_scope_reference": "docs/multi-model-composition-policy.md",
+        "rights_impact_assessment_reference": null,
+        "privacy_and_security_assessment_reference": null,
+        "implementation_impact_reference": "schemas/ttf-bri-comparison-output.schema.json",
+        "accessibility_impact_reference": null,
+        "review_bundle_reference": null,
+        "evidence_class_transition_reference": null
+      },
+      "structural_block_if_unpromoted": false,
+      "dependent_artifacts": [
+        "schemas/ttf-bri-comparison-output.schema.json",
+        "schemas/research-output-record.schema.json",
+        "tests/test_multi_model_output_composition.py"
+      ]
+    }
+  ],
+  "registry_invariants": [
+    "Every statement entry must have one statement_id, statement_text, source context, evidence class, current status, rights-impact summary, promotion requirements, and dependent-artifact list.",
+    "A policy_proposal must not be represented as a governance_requirement without a promoted result from src/governance/evidence_class_transition.py.",
+    "Missing review evidence must remain explicit and must not be treated as approval.",
+    "A promotion path must preserve non-authorization and must not be interpreted as external authority.",
+    "A statement may be superseded through a governed transition record but must not be silently removed from the registry history."
+  ],
+  "revision_triggers": [
+    "A listed statement is adopted, rejected, materially amended, corrected, withdrawn, or superseded.",
+    "A statement's source artifact, dependent artifact, rights impact, or promotion evidence changes.",
+    "The evidence-class vocabulary or promotion review bundle changes.",
+    "A new embedded normative statement is discovered in a governed policy, schema, module, or test.",
+    "A structural block or governance drift finding identifies an unsupported promotion claim."
+  ],
+  "privacy": {
+    "data_class": "governance_metadata",
+    "contains_personal_data": false,
+    "minimum_disclosure_rule": "Record statement-level governance metadata only. Do not include identities, health data, neural data, biometric data, credential data, telemetry, protected audit content, or operational-system details."
+  },
+  "integrity": {
+    "content_digest": null,
+    "digest_algorithm": null,
+    "verification_status": "not_requested",
+    "last_verification_reference": null
+  }
+}

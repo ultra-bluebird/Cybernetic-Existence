@@ -1,0 +1,289 @@
+shard.id, nanoswarm-physio-tsafe.v1
+shard.type, nanoswarm.physio.tsafe.polytope.v1
+version, 1.0.0
+
+governed.by, ALN.MIGRATION.CYBERCOREAUTHORITY.v1
+host.did, did:aln:organic-host
+bostrom.address.primary, bostrom18sd2ujv24ual9c9pshtxys6j8knh6xaead9ye7
+
+roh.ceiling.global, 0.30
+veco.ceiling.global, 0.30
+lyapunov.max.global, 0.85
+
+# 1. Coordinate system for Tsafe 7-D vector x ∈ R^7
+#
+#   x1 = Neuromorphic load index (EEG / neuromorph duty)
+#   x2 = Inflammatory load index (IL-6, CRP, cytokine composite)
+#   x3 = Renal clearance / nephrotoxic burden
+#   x4 = Microvascular shear / glycocalyx risk
+#   x5 = Cardiac strain / autonomic stress
+#   x6 = Thermal tissue delta (core/organ-local)
+#   x7 = Nanoswarm density / bioimpact index
+#
+axis.1.id, neuromorphic.load
+axis.1.label, x1
+axis.1.description, Neuromorphic load index combining EEG cognitive load and neuromorphic BCI duty.
+axis.1.units, dimensionless
+axis.1.domain, [0.0, 1.0]
+
+axis.2.id, inflammatory.load
+axis.2.label, x2
+axis.2.description, Inflammatory burden index from IL-6, CRP, and cytokine panel.
+axis.2.units, dimensionless
+axis.2.domain, [0.0, 1.0]
+
+axis.3.id, renal.burden
+axis.3.label, x3
+axis.3.description, Renal clearance and nephrotoxic burden index.
+axis.3.units, dimensionless
+axis.3.domain, [0.0, 1.0]
+
+axis.4.id, microvascular.shear
+axis.4.label, x4
+axis.4.description, Microvascular shear stress and glycocalyx damage risk index.
+axis.4.units, dimensionless
+axis.4.domain, [0.0, 1.0]
+
+axis.5.id, cardiac.strain
+axis.5.label, x5
+axis.5.description, Cardiac load index from BNP, hsTnI, HRV autonomic index.
+axis.5.units, dimensionless
+axis.5.domain, [0.0, 1.0]
+
+axis.6.id, thermal.delta
+axis.6.label, x6
+axis.6.description, Perfusion-corrected thermal tissue delta relative to baseline.
+axis.6.units, degC
+axis.6.domain, [0.0, 0.8]
+
+axis.7.id, nanoswarm.density
+axis.7.label, x7
+axis.7.description, Normalized nanoswarm density and corridor bioimpact index Sbio,C.
+axis.7.units, dimensionless
+axis.7.domain, [0.0, 0.7]
+
+# 2. Tsafe polytope A x ≤ b′
+#
+# Each row encodes a linear inequality over x1..x7. This shard defines
+# the canonical structure; concrete A, b′ are provided by organ-specific
+# corridor shards (e.g., CNS, cardiac, renal) and referenced via corridor.id.
+#
+# Row schema:
+#   tsafe.row.N.id       = string
+#   tsafe.row.N.comment  = free text
+#   tsafe.row.N.A        = a1, a2, a3, a4, a5, a6, a7
+#   tsafe.row.N.b        = scalar
+#
+# Example generic corridor constraints for normalized axes:
+#
+tsafe.row.1.id, bound.neuromorphic
+tsafe.row.1.comment, Neuromorphic load must stay within normalized corridor.
+tsafe.row.1.A, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0
+tsafe.row.1.b, 1.0
+
+tsafe.row.2.id, bound.inflammatory
+tsafe.row.2.comment, Inflammatory load corridor cap.
+tsafe.row.2.A, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0
+tsafe.row.2.b, 1.0
+
+tsafe.row.3.id, bound.renal
+tsafe.row.3.comment, Renal burden corridor cap.
+tsafe.row.3.A, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0
+tsafe.row.3.b, 1.0
+
+tsafe.row.4.id, bound.microvascular
+tsafe.row.4.comment, Microvascular shear corridor cap.
+tsafe.row.4.A, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0
+tsafe.row.4.b, 1.0
+
+tsafe.row.5.id, bound.cardiac
+tsafe.row.5.comment, Cardiac strain corridor cap.
+tsafe.row.5.A, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0
+tsafe.row.5.b, 1.0
+
+tsafe.row.6.id, bound.thermal
+tsafe.row.6.comment, Thermal delta corridor cap 0.8C.
+tsafe.row.6.A, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0
+tsafe.row.6.b, 0.8
+
+tsafe.row.7.id, bound.nanoswarm.density
+tsafe.row.7.comment, Nanoswarm density and bioimpact corridor cap 0.7.
+tsafe.row.7.A, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0
+tsafe.row.7.b, 0.7
+
+# Coupled constraint example: if microvascular shear high, thermal delta must be low.
+tsafe.row.8.id, coupled.microvascular.thermal
+tsafe.row.8.comment, High shear requires stricter thermal envelope.
+tsafe.row.8.A, 0.0, 0.0, 0.0, 0.5, 0.0, 1.0, 0.0
+tsafe.row.8.b, 1.0
+
+# 3. Governance mapping g : R^7 → R^6
+#
+# Intermediate slice-scalars:
+#   r_neu   = w_neu   * x1
+#   r_infl  = w_infl  * x2
+#   r_renal = w_renal * x3
+#   r_micro = w_micro * x4 + w_nano * x7
+#   r_card  = w_card  * x5
+#   r_therm = w_therm * x6
+#
+# RoH_twin = max{ r_neu, r_infl, r_renal, r_micro, r_card, r_therm }.
+# Constraint: RoH_twin ≤ 0.30.
+#
+roh.mapping.function, max-of-slices
+roh.mapping.comment, Conservative max-of-slices RoH over neuromorphic, inflammatory, renal, microvascular+nano, cardiac, and thermal axes.
+
+# Weights drawn from evidence-backed calibration; all weights ∈ [0,1].
+# Normalization constraints:
+#   w_neu + w_infl + w_renal + w_micro + w_nano + w_card + w_therm ≤ 1.0
+#   Each weight ≥ 0.0
+#
+roh.weight.neu.id, w_neu
+roh.weight.neu.value, 0.25
+roh.weight.neu.description, Neuromorphic load contribution from EEG cognitive load and neuromorph duty.
+
+roh.weight.infl.id, w_infl
+roh.weight.infl.value, 0.20
+roh.weight.infl.description, Inflammatory slice weight from IL-6, CRP, cytokine panel.
+
+roh.weight.renal.id, w_renal
+roh.weight.renal.value, 0.15
+roh.weight.renal.description, Renal burden slice weight for nephrotoxic and clearance stress.
+
+roh.weight.micro.id, w_micro
+roh.weight.micro.value, 0.15
+roh.weight.micro.description, Microvascular shear slice weight linked to glycocalyx risk.
+
+roh.weight.nano.id, w_nano
+roh.weight.nano.value, 0.10
+roh.weight.nano.description, Nanoswarm density slice weight folded into microvascular risk.
+
+roh.weight.cardiac.id, w_cardiac
+roh.weight.cardiac.value, 0.10
+roh.weight.cardiac.description, Cardiac strain slice weight from BNP, hsTnI, HRV autonomic index.
+
+roh.weight.thermal.id, w_therm
+roh.weight.thermal.value, 0.05
+roh.weight.thermal.description, Thermal delta slice weight from perfusion-corrected tissue temperature.
+
+# Derived slices (semantic description; Rust mirrors actual math):
+roh.slice.neu.definition, r_neu = w_neu * x1
+roh.slice.infl.definition, r_infl = w_infl * x2
+roh.slice.renal.definition, r_renal = w_renal * x3
+roh.slice.micro.definition, r_micro = w_micro * x4 + w_nano * x7
+roh.slice.cardiac.definition, r_cardiac = w_cardiac * x5
+roh.slice.thermal.definition, r_therm = w_therm * x6
+
+roh.twin.definition, RoH_twin = max( r_neu, r_infl, r_renal, r_micro, r_cardiac, r_therm )
+roh.twin.constraint, RoH_twin <= 0.30
+
+# 4. Governance vector components from Tsafe
+#
+#   g(x) = (RoH_twin, Veco, Lyap, Kerk, Kere, Kerr)
+#
+gov.vector.dimension, 6
+gov.vector.order, RoH, Veco, Lyapunov, Kerk, Kere, Kerr
+
+gov.roh.source, RoH_twin
+gov.roh.comment, Risk-of-Harm scalar from max-of-slices mapping, capped at 0.30.
+
+gov.veco.definition, Veco = f_eco(x3, x4, x6, x7)
+gov.veco.comment, Eco invariant including renal, microvascular, thermal, and nanoswarm axes with monotone non-decreasing mapping.
+gov.veco.range, [0.0, 0.30]
+
+gov.lyap.definition, Lyapunov = V(z(x)), with Tsafe ⊂ { z : V(z) <= V_max }
+gov.lyap.comment, Global Lyapunov function over host–swarm state; Tsafe embedded as sublevel set.
+gov.lyap.range, [0.0, 0.85]
+
+gov.kerk.definition, Kerk = f_kerk(x1, x2, x5, x7)
+gov.kerk.comment, Knowledge axis; higher physiological burden cannot decrease Kerk (monotone in relevant axes).
+gov.kerk.range, [0.0, 0.90]
+
+gov.kere.definition, Kere = f_kere(x3, x4, x6, x7)
+gov.kere.comment, Eco-responsibility axis; monotone in renal, microvascular, thermal and nanoswarm load.
+gov.kere.range, [0.0, 0.90]
+
+gov.kerr.definition, Kerr = f_kerr(x1, x2, x3, x4, x5, x6, x7)
+gov.kerr.comment, Responsibility/fairness axis; physiological burden can only increase or leave Kerr unchanged.
+gov.kerr.range, [0.0, 0.13]
+
+# 5. Temporal aliasing and Lipschitz bounds
+#
+# For each physiological mode m, define a Lipschitz constant L_m over the
+# discrete update interval Δt, and a corridor margin m_ts between Tsafe and
+# hard constraints. Require:
+#
+#   m_ts > L_m * Δt + ε
+#
+# to guarantee that continuous trajectories cannot cross the hard boundary
+# between guard evaluations.
+#
+temporal.lipschitz.mode.rest.id, L_rest
+temporal.lipschitz.mode.rest.comment, Lipschitz bound for resting physiology.
+temporal.lipschitz.mode.rest.value.max, 0.20
+
+temporal.lipschitz.mode.exercise.id, L_exercise
+temporal.lipschitz.mode.exercise.comment, Lipschitz bound for moderate exercise.
+temporal.lipschitz.mode.exercise.value.max, 0.35
+
+temporal.lipschitz.mode.fever.id, L_fever
+temporal.lipschitz.mode.fever.comment, Lipschitz bound for febrile / high variability states.
+temporal.lipschitz.mode.fever.value.max, 0.50
+
+temporal.aliasing.margin.symbol, m_ts
+temporal.aliasing.epsilon, 1.0e-4
+
+temporal.aliasing.condition, m_ts > L_mode * Δt + epsilon
+temporal.aliasing.comment, Condition enforced by Kani surrogate crate temporal-aliasing-surrogate and scheduling layer Δt selection.
+
+# 6. Evidence anchoring for weights, corridors, and Lipschitz bounds
+#
+# All calibration values for w_*, corridor A,b, and L_mode are derived from
+# DEFAULTBIOPHYSEVIDENCE and related biospatial corridor bundles.
+#
+evidence.bundle.id, DEFAULTBIOPHYSEVIDENCE.v1
+evidence.tag.1, 0x01a3c9b2   # ATP turnover / metabolic corridor
+evidence.tag.2, 0x4be79d01   # Oxidative phosphorylation efficiency
+evidence.tag.3, 0x9cd4a7e8   # Protein synthesis and turnover cost
+evidence.tag.4, 0x2f8c6b44   # Thermoregulatory limits and tissue ΔT
+evidence.tag.5, 0x7e1da2ff   # Peripheral circulation and HRV corridors
+evidence.tag.6, 0x5b93e0c3   # Neurovascular coupling constraints
+evidence.tag.7, 0xd0174aac   # Safe EEG duty cycles / cognitive load
+evidence.tag.8, 0x6ac2f9d9   # Neuromorphic workload energy & duty
+evidence.tag.9, 0xc4e61b20   # Protein turnover kinetics for renal / hepatic
+evidence.tag.10, 0x8f09d5ee  # Inflammation / microvascular shear envelopes
+
+evidence.bundle.roh.mapping.comment, RoH_twin weights w_* calibrated from CNS, cardiac, renal, microvascular corridor evidence in biospatial.region.index.v1 and nanoswarm.endpoint.registry.v1 shards.
+evidence.bundle.lipschitz.comment, L_mode bounds anchored to temporal response data for HRV, IL-6, thermal, and nanoswarm density evolution.
+
+# 7. CI / verification constraints
+#
+# CI MUST check:
+#   1. All roh.weight.* ∈ [0,1] and sum ≤ 1.0
+#   2. For all corridor shards referencing this Tsafe, Tsafe rows (A,b) keep
+#      the induced RoH_twin ≤ 0.30 when all x components respect their domains.
+#   3. temporal-aliasing-surrogate Kani harness passes under the recorded
+#      L_mode and Δt schedules.
+#
+ci.constraint.roh.weights.sum, sum(w_neu, w_infl, w_renal, w_micro, w_nano, w_cardiac, w_therm) <= 1.0
+ci.constraint.roh.weights.nonnegative, all(w_i >= 0.0)
+ci.constraint.roh.ceiling, RoH_twin <= 0.30
+ci.constraint.aliasing, m_ts > L_mode * Δt + epsilon
+
+ci.kani.harness.roh.mapping, roh-kernel-surrogate::roh_respects_ceiling
+ci.kani.harness.aliasing, temporal-aliasing-surrogate::temporal_aliasing_closure
+ci.kani.harness.lyap, lyapunov-guard::forward_invariant_Vkplus1_leq_Vk
+
+# 8. Rust mirror
+#
+# The Rust function
+#   project_tsafe_to_governance(x: TsafeVec) -> GovernanceVector
+# in crates/nanoswarm-twin-bridge/src/lib.rs MUST implement the same
+# RoH_twin and governance mapping defined above, with ALN clause
+# ALN.MIGRATION.CYBERCOREAUTHORITY.v1 and host DID binding.
+#
+rust.mirror.crate, nanoswarm-twin-bridge
+rust.mirror.function, project_tsafe_to_governance
+rust.mirror.alnclause, ALN.MIGRATION.CYBERCOREAUTHORITY.v1
+rust.mirror.hostdid, did:aln:organic-host
+rust.mirror.bostrom, bostrom18sd2ujv24ual9c9pshtxys6j8knh6xaead9ye7

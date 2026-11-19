@@ -1,0 +1,124 @@
+schema_version: "1.0.0"
+kind: counterexample-preserving-evidence-refinement
+status: source-derived-design-contract
+
+attribution:
+  anchor: "bostrom18sd2ujv24ual9c9pshtxys6j8knh6xaead9ye7"
+  purpose: document-credit-and-workstream-metadata-only
+  establishes_identity: false
+  grants_consent: false
+  grants_authority: false
+  proves_execution: false
+
+source:
+  kind: supplied-execution-report
+  reported_python_version: "3.12.8"
+  reported_execution_scope: local-in-memory-transcription
+  repository_imports: not-performed-in-reported-run
+  report_independently_authenticated_here: false
+  current_response_rerun: false
+
+evidence_separation:
+  execution_record: supplied-report-of-performed-tests
+  fixture_data: synthetic
+  passing_assertions_are_complete_correctness: false
+  revised_candidate_results_apply_to_entire_architecture: false
+
+reported_results:
+  original_suite:
+    tests_run: 12
+    failures: 0
+    errors: 0
+    skipped: 0
+
+  revised_memory_candidate:
+    tests_run: 7
+    failures: 0
+    errors: 0
+    skipped: 0
+
+counterexamples:
+  original_memory_update:
+    zero_duration_large_equilibrium:
+      observed: nonfinite-result-error
+      requirement: zero-duration-preserves-initial-memory
+
+    short_duration_finite_update:
+      observed: nonfinite-result-error
+      requirement: avoid-unnecessary-intermediate-equilibrium-overflow
+
+  original_action_predicate:
+    null_action_pair:
+      observed: accepted
+      requirement: validate-action-structure-before-equality
+
+    empty_action_pair:
+      observed: accepted
+      requirement: require-complete-action-content
+
+    repeated_evaluation:
+      observed: accepted-twice
+      requirement: approval-consumption-requires-stateful-enforcement
+
+refinement:
+  counterexamples_become_regression_cases: required
+  prior_failures_remain_in_history: true
+  candidate_method_revision: required
+  case_to_change_traceability: required
+  ordinary_case_regressions: required
+  extreme_magnitude_tests: required
+  high_precision_numerical_comparison: outstanding
+
+approval_boundary:
+  predicate_is_approval_state_machine: false
+  equality_is_consent: false
+  approval_is_consumed_by_this_report: false
+  persistent_reservation: not-tested
+  destination_retry_safety: not-tested
+  uncertain_execution_reconciliation: not-demonstrated
+  external_action_authorization: separate
+
+coverage_gaps:
+  - lua-execution
+  - yaml-parsing
+  - temperature-basis-matching
+  - psychrometric-error-distribution
+  - repository-integration
+  - persistent-approval-concurrency
+  - destination-service-effects
+  - ecological-validity
+  - accessibility-workflow-validation
+
+claim_boundary:
+  supported:
+    - reported-original-reference-check-success
+    - reported-edge-case-observations
+    - reported-revised-memory-check-success
+
+  not_established:
+    - complete-numerical-stability
+    - integrated-framework-conformance
+    - human-safety-guidance
+    - ecological-benefit
+    - deployed-non-interference
+    - external-action-authority
+
+rights:
+  evaluates: software-and-evidence
+  personal-ranking: forbidden
+  private-physiological-inventory: not-required
+  companion-system-inventory: not-required
+  explanation-and-correction: preserved
+  failed-check-blocks-ordinary-assistance: false
+
+revalidation:
+  triggers:
+    - implementation-change
+    - numerical-method-change
+    - interpreter-or-dependency-change
+    - fixture-change
+    - contract-change
+    - new-execution-evidence
+    - provenance-revision
+  historical-record-overwrite: forbidden
+  new-results-require-new-scoped-record: true

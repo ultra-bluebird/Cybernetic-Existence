@@ -1,0 +1,62 @@
+schema_version: "1.0.0"
+kind: network-metric-definition-registry
+status: definitions-only-not-computed
+
+attribution:
+  anchor: "bostrom18sd2ujv24ual9c9pshtxys6j8knh6xaead9ye7"
+  purpose: document-credit-and-workstream-metadata-only
+  grants_authority: false
+
+graph_contract:
+  graph_class: must-be-declared
+  primary_and_secondary_sets: must-be-declared
+  taxonomic_aggregation: must-be-declared
+  interaction_endpoint: must-be-declared
+  spatial_and_temporal_support: must-be-declared
+  sampling_effort: must-be-declared
+  isolated_nodes: preserve-and-report
+  duplicate_edges: reject-unless-explicitly-aggregated
+
+metrics:
+  bipartite_connectance:
+    version: "1.0.0"
+    numerator: observed-distinct-links
+    denominator: primary-count-times-secondary-count
+    empty_partition: undefined
+    interpretation: graph-description-not-extinction-risk
+
+  interaction_diversity:
+    version: "1.0.0"
+    normalization: nonnegative-weight-divided-by-total-weight
+    logarithm: natural
+    zero_weight_term: zero
+    zero_total_weight: undefined
+    weight_meaning: must-be-declared
+    interpretation: observed-weight-diversity-not-demographic-stability
+
+  survival_area:
+    version: "1.0.0"
+    horizontal_axis: fraction-of-primary-set-removed
+    vertical_axis: fraction-of-original-secondary-set-surviving
+    removal_order: must-be-declared
+    survival_rule: must-be-declared
+    integration_convention: must-be-declared
+    duplicate_removals: reject
+    initial_isolates: explicit-in-survival-rule
+    interpretation: graph-and-removal-rule-dependent
+
+uncertainty:
+  method: must-be-prespecified
+  sampling_effort_sensitivity: required
+  missed_link_sensitivity: required
+  aggregation_sensitivity: required
+  removal_order_sensitivity: required
+  structural_rule_sensitivity: required
+  not_estimated: blocks-claims-requiring-quantified-uncertainty
+
+release:
+  claim_and_intended_use: evaluated-separately
+  method_revision_requires_revalidation: true
+  provenance_revision_requires_revalidation: true
+  extinction_probability_claim: unsupported-without-separate-model
+  authorization: outside-this-registry

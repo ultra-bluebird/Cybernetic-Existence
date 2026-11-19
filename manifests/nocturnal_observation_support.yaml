@@ -1,0 +1,176 @@
+schema_version: "1.0.0"
+kind: nocturnal-observation-support
+status: proposed-local-research-contract
+
+attribution:
+  anchor: "bostrom18sd2ujv24ual9c9pshtxys6j8knh6xaead9ye7"
+  purpose: document-credit-and-workstream-metadata-only
+  grants_authority: false
+
+execution:
+  local_only: true
+  automatic_fetch: forbidden
+  automatic_export: forbidden
+  hardware_control: forbidden
+  external_action_approval: exact-separate-approval-required
+
+evidence:
+  allowed_classes:
+    - observed
+    - fitted
+    - literature-derived
+    - synthetic
+  method_version_required: true
+  provenance_revision_required: true
+  uncertainty_description_required: true
+  synthetic_ancestry_remains_visible: true
+  changed_method_requires_revalidation: true
+  changed_provenance_requires_revalidation: true
+
+landsat:
+  required_scene_metadata:
+    - platform
+    - sensor
+    - collection
+    - processing_level
+    - acquisition_timestamp
+    - product_quantity
+    - units
+    - scale_and_offset
+    - quality_flags
+    - cloud_and_shadow_mask
+    - native_thermal_sampling
+    - delivered_grid_spacing
+    - resampling_method_or_unknown_status
+
+  support_rules:
+    delivered_grid_is_native_sampling: false
+    resampling_creates_independent_observations: false
+    surface_temperature_is_air_temperature: false
+    orbital_crossing_time_is_scene_timestamp: false
+    hourly_nocturnal_output_class: modeled-estimate
+
+  downscaling:
+    predictor_provenance: required
+    training_station_membership: required
+    independent_nighttime_validation: required
+    prediction_grid_spacing: declared
+    effective_support: assessed-or-unresolved
+    extrapolation_flags: required
+
+  release_boundary:
+    independently_observed_hourly_nocturnal_map: unsupported
+    independent_30m_thermal_detail_from_resampling: unsupported
+
+phoenix_uhi:
+  supplied_claim:
+    contrast_range_degC: [5.0, 8.0]
+    local_clock_time: "03:00:00"
+    status: requires-distributional-verification
+    interpretation: comparison-target-not-assumed-observation
+
+  quantities:
+    air_anomaly: separate
+    surface_anomaly: separate
+    wet_bulb_anomaly: calculate-from-each-sites-inputs
+
+  station_metadata:
+    - measurement_quantity
+    - sensor_height
+    - shielding
+    - ventilation
+    - calibration
+    - surrounding_land_cover
+    - reference_site_class
+    - siting_changes
+    - timestamp_convention
+    - averaging_interval
+    - response_time
+    - uncertainty
+
+  pairing:
+    timezone_aware: true
+    original_timestamps_preserved: true
+    local_time_window: must-be-prespecified
+    pairing_tolerance: must-be-prespecified
+    silent_interpolation: forbidden
+    missing_pairs: report-and-exclude-from-paired-estimand
+
+  reference:
+    individual_pairwise_results: required
+    weighted_reference_allowed: true
+    weights_prespecified: true
+    weights_nonnegative: true
+    weights_sum_to_one: required
+    reference_sensitivity: required
+
+  summaries:
+    - paired_coverage
+    - mean
+    - median
+    - quantiles
+    - supplied_range_membership_fractions
+    - night_to_night_variability
+    - site_pair_variability
+    - weather_stratification
+    - reference_sensitivity
+    - dependence_aware_uncertainty
+
+  hypothesis:
+    smaller_mean_than_supplied_range: test-not-assume
+
+lighting:
+  exposure_metadata:
+    - spectrum_or_declared_band_measurements
+    - irradiance_units
+    - illuminance_lux_if_measured
+    - exposure_plane
+    - sensor_orientation
+    - exposure_duration
+    - source_direction
+    - shielding
+    - background_illumination
+    - instrument_uncertainty
+
+  response_components:
+    usable_opportunity_fraction:
+      bounds: [0.0, 1.0]
+      endpoint_definition: required
+    relative_encounter_factor:
+      lower_bound: 0.0
+      upper_bound: not-fixed
+      reference_condition: required
+    detection_probability:
+      bounds: [0.0, 1.0]
+      independent_information_or_limitations: required
+
+  spectral_weighting:
+    taxon_specific_evidence: required-if-used
+    normalization_and_units: required-if-used
+    invented_universal_weighting: forbidden
+
+  prohibited_inferences:
+    - lux-converted-directly-to-temperature
+    - amber-means-invisible-to-all-taxa
+    - increased-detections-prove-habitat-benefit
+    - attraction-proves-demographic-benefit
+    - nonsignificance-proves-no-effect
+
+validation:
+  held_out_sites: required-for-new-site-claims
+  held_out_nights: required-for-new-night-claims
+  validation_sensors_used_for_tuning: forbidden
+  temperature_and_recovery_metrics: required
+  failed_fits_and_exclusions: retained-with-reasons
+  uncertainty_not_estimated: report-explicitly
+  local_validity_established: false
+  production_enforcement_established: false
+
+rights_and_access:
+  private_identity_data: not-required
+  private_physiological_data: not-required
+  sensitive_habitat_coordinates: excluded-by-default
+  accessible_error_explanations: required
+  correction_and_resubmission: available
+  human_review: available
+  ordinary_assistance: remains-available

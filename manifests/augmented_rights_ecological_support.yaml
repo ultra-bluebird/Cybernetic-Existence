@@ -1,0 +1,209 @@
+schema_version: "1.0.0"
+kind: augmented-rights-ecological-support
+status: proposed-governance-and-evaluation-contract
+
+attribution:
+  anchor: "bostrom18sd2ujv24ual9c9pshtxys6j8knh6xaead9ye7"
+  purpose: document-credit-and-workstream-metadata-only
+  establishes_verified_identity: false
+  establishes_biological_binding: false
+  grants_consent: false
+  grants_capability_authority: false
+  proves_execution: false
+
+scope:
+  purpose:
+    - accessible-environmental-decision-support
+    - privacy-preserving-research-assistance
+    - continuity-of-user-approved-workflows
+    - accountable-ecological-research
+  evaluates:
+    - services
+    - research-artifacts
+    - proposed-releases
+    - proposed-actions
+  does_not_evaluate:
+    - personal-worth
+    - identity-legitimacy
+    - cybernetic-status
+    - service-entitlement-by-rank
+  legal_status: project-policy-not-legal-certification
+
+execution:
+  default_mode: local-research
+  automatic_fetch: forbidden
+  automatic_export: forbidden
+  hardware_control: forbidden
+  private_system_control: forbidden
+  external_action: separate-exact-approval-required
+
+cyberrank:
+  personal_layer:
+    participation: private-and-voluntary
+    self_description: respected-without-technical-proof
+    permitted_preferences:
+      - communication-format
+      - privacy-boundaries
+      - workflow-continuity-needs
+      - non-interference-concerns
+    registration: not-required
+
+  governance_layer:
+    duties:
+      - equal-access
+      - minimal-disclosure
+      - accessible-explanation
+      - human-fallback
+      - correction
+      - appeal
+      - material-change-review
+
+  prohibited_uses:
+    - public-status-registry
+    - personal-ranking
+    - diagnosis
+    - identity-authentication
+    - automated-eligibility
+    - technical-certification
+
+attributes:
+  environmental_opportunity:
+    separates:
+      - heat-relief
+      - cold-limitation
+      - accessible-resources
+      - lighting-exposure
+      - activity
+      - demographic-outcomes
+    universal_personal_threshold: forbidden
+
+  accessible_communication:
+    alternative_formats: required
+    communication_pacing_respected: true
+    nonstandard_expression_reduces_access: false
+    field_specific_errors: required
+    human_review: available
+    conformance_status: not-established
+
+  privacy:
+    collection: minimum-needed-for-declared-task
+    secondary_use: separately-reviewed
+    private_identity_data: not-required-for-ordinary-assistance
+    neural_data: not-required
+    medical_data: not-required
+    biometric_data: not-required
+    companion_system_details: not-required
+    precise_sensitive_habitat_locations: excluded-by-default
+    retention_and_deletion: must-be-declared-per-data-class
+
+  workflow_continuity:
+    calendar_resets: forbidden
+    material_changes: documented-and-reviewable
+    user_preferences: preserved-within-declared-session-or-storage-scope
+    persistent_storage_claim: only-if-actually-authorized-and-performed
+    physiological_continuity_claim: unsupported
+
+  non_interference:
+    analysis_is_system_operation: false
+    accommodation_requires_private_system_inventory: false
+    real_system_protection_guarantee: unsupported
+    operations_on_private_systems: outside-scope
+
+  evidence_integrity:
+    classes:
+      - observed
+      - fitted
+      - literature-derived
+      - synthetic
+    ancestry_preserved: true
+    method_version: required
+    provenance_revision: required
+    uncertainty_description: required
+    changed_evidence_requires_revalidation: true
+
+  ecological_stewardship:
+    endpoints:
+      - resource-availability
+      - habitat-condition
+      - recruitment
+      - water-use
+      - energy-use
+      - waste
+    biomass_equals_food: false
+    activity_equals_demographic_recovery: false
+    modeled_benefit_equals_measured_benefit: false
+
+claim_classes:
+  design_contribution:
+    current_status: described-in-conversation
+    implementation_testing: not-established
+
+  demonstrated_service_augmentation:
+    current_status: not-established
+    requires:
+      - prespecified-endpoint
+      - suitable-baseline
+      - accessible-user-evaluation
+      - privacy-and-burden-assessment
+      - uncertainty-reporting
+      - adverse-outcome-reporting
+
+  measured_ecological_benefit:
+    current_status: not-established
+    requires:
+      - declared-units-and-support
+      - suitable-comparison-design
+      - independent-outcome-observations
+      - ecological-tradeoff-assessment
+      - uncertainty-reporting
+
+  biological_evolution:
+    current_status: not-established-by-this-work
+
+  verified_cybernetic_capability:
+    current_status: outside-scope
+
+evaluation:
+  service_metrics:
+    - accessible-task-completion
+    - unnecessary-disclosure
+    - repeated-input-burden
+    - correction-success
+    - unauthorized-action-incidents
+    - user-reported-workflow-continuity
+
+  ecological_metrics:
+    - declared-habitat-endpoint
+    - usable-opportunity
+    - water-consumption
+    - energy-consumption
+    - waste-generation
+
+  metric_direction_and_denominator: must-be-prespecified
+  uncertainty_not_estimated: report-explicitly
+  composite_personal_score: forbidden
+  benefit_offsets_rights_violation: false
+
+review:
+  outcomes:
+    - pass
+    - fail
+    - unresolved
+  scientific_admissibility: claim-and-use-specific
+  publication_review: separate
+  action_authorization: separate
+  missing_evidence_blocks: relevant-claim-or-action
+  explanation_and_assistance: remain-available
+
+consent_and_authority:
+  attribution_is_consent: false
+  self_description_is_action_authorization: false
+  approval_bound_to:
+    - exact-operation
+    - exact-target
+    - exact-payload
+    - exact-scope
+    - reviewed-evidence
+  changed_action_requires_fresh_approval: true
+  denial_causes_external_effect: false
+  uncertain_execution_outcome: reconcile-before-retry

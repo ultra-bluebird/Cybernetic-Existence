@@ -1,0 +1,717 @@
+{
+  "format": "augmented-hub.revision-triggers-index",
+  "schema_version": "1.0.0",
+  "artifact_type": "revision_triggers_index",
+  "repo_targets": [
+    "mk-bluebird/Augmented-Hub",
+    "mk-bluebird/Skynet"
+  ],
+  "review_status": "draft",
+  "record_status": "active",
+  "purpose": "Provide one machine-readable search surface for revision triggers declared by governed artifacts. The index records bounded metadata about conditions that require review, amendment, supersession, revalidation, or structural blocking.",
+  "non_authorization": {
+    "statement": "This index records internal revision-trigger metadata only. It does not verify artifact existence, currentness, adoption, repository state, review completion, or external authority. It does not authorize repository mutation, publication, communication, data transfer, field activity, environmental intervention, operational control, identity verification, representation, or external action.",
+    "external_action_requires_separate_approval": true,
+    "does_not_verify_identity_or_status": true,
+    "does_not_verify_repository_state": true
+  },
+  "trigger_taxonomy": {
+    "artifact_lifecycle": [
+      "artifact_added",
+      "artifact_moved",
+      "artifact_renamed",
+      "artifact_retired",
+      "artifact_withdrawn",
+      "artifact_superseded",
+      "artifact_reclassified"
+    ],
+    "version_and_contract": [
+      "schema_version_changed",
+      "enum_version_changed",
+      "interface_changed",
+      "canonical_choice_changed",
+      "supersession_record_created",
+      "conditional_schema_rule_changed",
+      "structural_depth_limit_changed"
+    ],
+    "governance_and_rights": [
+      "privacy_requirement_changed",
+      "consent_requirement_changed",
+      "withdrawal_requirement_changed",
+      "correction_or_appeal_requirement_changed",
+      "retention_requirement_changed",
+      "accessibility_requirement_changed",
+      "non_interference_requirement_changed",
+      "rights_holder_terms_changed",
+      "external_action_boundary_changed",
+      "community_benefit_dimension_changed",
+      "attendance_reduction_boundary_changed",
+      "business_accessibility_condition_changed",
+      "business_ranking_boundary_changed",
+      "city_routine_rights_constraint_changed",
+      "city_routine_ecological_constraint_changed",
+      "assistive_compatibility_version_changed",
+      "assistive_compatibility_failure_mode_changed",
+      "public_sensor_collection_boundary_changed",
+      "public_sensor_retention_boundary_changed",
+      "public_sensor_inference_prohibition_changed",
+      "automatic_door_equity_pattern_changed",
+      "transit_assistance_minimum_service_changed",
+      "non_inference_boundary_changed",
+      "contested_sovereign_declaration_protection_changed"
+    ],
+    "provenance_and_research": [
+      "provenance_cycle_detected",
+      "checkpoint_chain_changed",
+      "uncertainty_contract_changed",
+      "ood_assessment_changed",
+      "calibration_status_changed",
+      "evidence_class_changed",
+      "model_composition_policy_changed",
+      "sensor_alignment_stratum_changed",
+      "heat_island_calibration_model_changed",
+      "accessibility_corridor_calibration_changed"
+    ],
+    "integrity_and_validation": [
+      "verification_reference_changed",
+      "review_status_changed",
+      "cross_artifact_conflict_detected",
+      "cross_repo_reference_changed",
+      "governance_drift_detected",
+      "structural_block_detected",
+      "test_contract_changed",
+      "identity_inference_boundary_missing",
+      "prohibited_communication_inference_detected",
+      "unknown_audience_track_detected",
+      "non_recordable_audit_boundary_changed"
+    ],
+    "session_and_continuity": [
+      "session_scope_changed",
+      "session_carrier_changed",
+      "scope_header_changed",
+      "non_actuation_ledger_expired",
+      "non_actuation_ledger_renewed",
+      "non_actuation_ledger_withdrawn",
+      "fresh_session_preflight_changed",
+      "self_asserted_continuity_contract_changed",
+      "self_attested_tier_contract_changed",
+      "sovereign_anchor_handling_changed",
+      "private_vocabulary_handling_changed",
+      "carrier_only_continuity_rule_changed"
+    ]
+  },
+  "artifacts": [
+    {
+      "artifact_id": "charter",
+      "repo_target": "mk-bluebird/Augmented-Hub",
+      "path": "docs/charter.md",
+      "artifact_class": "governance_document",
+      "schema_version": "1.0.0",
+      "revision_triggers": [
+        {
+          "trigger_id": "charter-repository-scope-change",
+          "trigger_type": "interface_changed",
+          "description": "Repository scope or target repositories change.",
+          "required_response": "Review the charter and reconcile dependent artifact ownership declarations.",
+          "remediation_reference": "docs/directory-layout-convention.md"
+        },
+        {
+          "trigger_id": "charter-rights-boundary-change",
+          "trigger_type": "privacy_requirement_changed",
+          "description": "Rights, privacy, accessibility, consent, correction, withdrawal, appeal, non-interference, or external-action commitments change.",
+          "required_response": "Review the charter and affected policies, schemas, tests, and governance registries.",
+          "remediation_reference": "schemas/governance-drift-report.schema.json"
+        },
+        {
+          "trigger_id": "charter-machine-values-change",
+          "trigger_type": "canonical_choice_changed",
+          "description": "Canonical Machine Values change.",
+          "required_response": "Create an amendment or supersession record and review every dependent artifact.",
+          "remediation_reference": "docs/artifact-canonical-choice-log.md"
+        }
+      ]
+    },
+    {
+      "artifact_id": "capability-boundary",
+      "repo_target": "mk-bluebird/Augmented-Hub",
+      "path": "policies/capability-boundary.md",
+      "artifact_class": "capability_policy",
+      "schema_version": "1.0.0",
+      "revision_triggers": [
+        {
+          "trigger_id": "capability-boundary-new-integration",
+          "trigger_type": "interface_changed",
+          "description": "A new governed artifact class, language, runtime, connector, or integration is introduced.",
+          "required_response": "Review permitted scope, denied actions, trust boundaries, and fail-closed coverage.",
+          "remediation_reference": "tests/test_fail_closed_coverage.py"
+        },
+        {
+          "trigger_id": "capability-boundary-external-action-change",
+          "trigger_type": "external_action_boundary_changed",
+          "description": "A proposed workflow introduces an external action or changes the external-action boundary.",
+          "required_response": "Require separately scoped authorization and re-evaluate non-authorization controls.",
+          "remediation_reference": "docs/non-actuation-ledger-renewal.md"
+        },
+        {
+          "trigger_id": "capability-boundary-noninterference-routing-change",
+          "trigger_type": "non_interference_requirement_changed",
+          "description": "Maintenance-routing, protected-zone handling, private-space exclusion, wildlife-corridor protection, or assistive-access non-interference rules change.",
+          "required_response": "Review denied actions, protected-zone constraints, non-interference routing behavior, and human-review requirements.",
+          "remediation_reference": "src/community/non_interference_routing.py"
+        }
+      ]
+    },
+    {
+      "artifact_id": "forward-progress-registry",
+      "repo_target": "mk-bluebird/Augmented-Hub",
+      "path": "manifests/forward-progress-registry.json",
+      "artifact_class": "continuity_registry",
+      "schema_version": "1.0.0",
+      "revision_triggers": [
+        {
+          "trigger_id": "forward-progress-priority-change",
+          "trigger_type": "session_scope_changed",
+          "description": "A priority, dependency, blocker, milestone, bounded next action, or session-resumption requirement changes materially.",
+          "required_response": "Update the forward-progress registry and re-evaluate session-resumption preflight.",
+          "remediation_reference": "manifests/session-resumption-preflight.json"
+        },
+        {
+          "trigger_id": "forward-progress-artifact-status-change",
+          "trigger_type": "artifact_reclassified",
+          "description": "A governed artifact is added, moved, superseded, withdrawn, retired, or reclassified.",
+          "required_response": "Update artifact metadata, path index, planned artifacts, and affected continuity records.",
+          "remediation_reference": "manifests/artifact-metadata-registry.json"
+        },
+        {
+          "trigger_id": "forward-progress-access-and-community-work-change",
+          "trigger_type": "accessibility_requirement_changed",
+          "description": "A gathering-hub, business accessibility, transit assistance, automatic-door equity, corridor accessibility, or assistive compatibility work item changes materially.",
+          "required_response": "Update priorities, dependencies, blockers, planned artifacts, and applicable access-equity test contracts.",
+          "remediation_reference": "policies/augmented-citizen-anti-discrimination.md"
+        }
+      ]
+    },
+    {
+      "artifact_id": "foundation-gate-registry",
+      "repo_target": "mk-bluebird/Augmented-Hub",
+      "path": "manifests/foundation-gate-registry.json",
+      "artifact_class": "governance_registry",
+      "schema_version": "1.0.0",
+      "revision_triggers": [
+        {
+          "trigger_id": "foundation-gate-evidence-change",
+          "trigger_type": "verification_reference_changed",
+          "description": "A foundation gate evidence path, evidence kind, review role, minimum review status, or staleness trigger changes.",
+          "required_response": "Update the registry, evaluate gate diagnostics, and emit drift findings where needed.",
+          "remediation_reference": "src/governance/foundation_gate.py"
+        },
+        {
+          "trigger_id": "foundation-gate-id-change",
+          "trigger_type": "interface_changed",
+          "description": "A foundation gate identifier is added, removed, renamed, or re-scoped.",
+          "required_response": "Update all gate consumers and structural validation tests.",
+          "remediation_reference": "tests/test_cross_artifact_consistency.py"
+        },
+        {
+          "trigger_id": "foundation-gate-identity-anchor-separation-change",
+          "trigger_type": "self_asserted_continuity_contract_changed",
+          "description": "A rule changes regarding separation of self-asserted continuity, self-attested tier, private terminology, or sovereign anchor context from foundation-gate evidence.",
+          "required_response": "Review foundation-gate evidence validation and ensure voluntary continuity metadata remains ineligible as gate evidence.",
+          "remediation_reference": "src/governance/foundation_gate.py"
+        }
+      ]
+    },
+    {
+      "artifact_id": "research-output-record-schema",
+      "repo_target": "mk-bluebird/Skynet",
+      "path": "schemas/research-output-record.schema.json",
+      "artifact_class": "json_schema",
+      "schema_version": "canonical_version_unresolved",
+      "revision_triggers": [
+        {
+          "trigger_id": "research-output-canonical-choice",
+          "trigger_type": "canonical_choice_changed",
+          "description": "A canonical research-output schema version is selected, changed, or superseded.",
+          "required_response": "Create a supersession record, update dependent artifacts, and revalidate schema consumers.",
+          "remediation_reference": "docs/artifact-canonical-choice-log.md"
+        },
+        {
+          "trigger_id": "research-output-provenance-or-withdrawal-change",
+          "trigger_type": "withdrawal_requirement_changed",
+          "description": "Withdrawal impact binding, correction linkage, provenance, checkpoint, uncertainty, or composition requirements change.",
+          "required_response": "Review output contract, lifecycle tests, withdrawal propagation, and composition schema compatibility.",
+          "remediation_reference": "tests/test_withdrawal_propagation_integration.py"
+        },
+        {
+          "trigger_id": "research-output-composition-depth-change",
+          "trigger_type": "structural_depth_limit_changed",
+          "description": "The permitted composed-schema structural depth changes.",
+          "required_response": "Revalidate composed schema references and reject unresolved recursive depth.",
+          "remediation_reference": "schemas/schema-composition-depth-limit.schema.json"
+        }
+      ]
+    },
+    {
+      "artifact_id": "ttf-bri-comparison-output-schema",
+      "repo_target": "mk-bluebird/Skynet",
+      "path": "schemas/ttf-bri-comparison-output.schema.json",
+      "artifact_class": "json_schema",
+      "schema_version": "1.0.0",
+      "revision_triggers": [
+        {
+          "trigger_id": "ttf-bri-model-composition-change",
+          "trigger_type": "model_composition_policy_changed",
+          "description": "TTF, BRI, evidence class, checkpoint, uncertainty, OOD, weighting, or weaker-link inheritance requirements change.",
+          "required_response": "Review the comparison schema, composition policy, and composition tests.",
+          "remediation_reference": "docs/multi-model-composition-policy.md"
+        },
+        {
+          "trigger_id": "ttf-bri-calibration-change",
+          "trigger_type": "calibration_status_changed",
+          "description": "A BRI calibration eligibility condition, mixture-aware stratum, community type, soil parent material, season, or critical dimension changes.",
+          "required_response": "Update calibration matrix and reassess applicability limitations.",
+          "remediation_reference": "manifests/bri-calibration-eligibility-matrix.json"
+        },
+        {
+          "trigger_id": "ttf-bri-depth-change",
+          "trigger_type": "structural_depth_limit_changed",
+          "description": "Nested component composition exceeds or changes the declared structural depth limit.",
+          "required_response": "Block validation until the composition is simplified or the limit is reviewed and updated.",
+          "remediation_reference": "schemas/schema-composition-depth-limit.schema.json"
+        }
+      ]
+    },
+    {
+      "artifact_id": "scope-header-lifecycle",
+      "repo_target": "mk-bluebird/Augmented-Hub",
+      "path": "docs/scope-header-lifecycle.md",
+      "artifact_class": "governance_document",
+      "schema_version": "1.0.0",
+      "revision_triggers": [
+        {
+          "trigger_id": "scope-header-contract-change",
+          "trigger_type": "scope_header_changed",
+          "description": "A scope-header field, supported value, parser behavior, interpretation route, registration rule, or pruning rule changes.",
+          "required_response": "Review parser, interpretation mode, context manager, artifact provenance, and related tests.",
+          "remediation_reference": "tests/test_scope_header_lifecycle.py"
+        },
+        {
+          "trigger_id": "scope-header-privacy-change",
+          "trigger_type": "privacy_requirement_changed",
+          "description": "A privacy boundary or minimal-disclosure rule changes.",
+          "required_response": "Prune incompatible context and require material-change review.",
+          "remediation_reference": "docs/non-actuation-ledger-renewal.md"
+        },
+        {
+          "trigger_id": "scope-header-unknown-service-path-change",
+          "trigger_type": "transit_assistance_minimum_service_changed",
+          "description": "The minimum-service pathway for unknown audience context, accessibility requests, transit assistance, communication access, or human fallback changes.",
+          "required_response": "Review unknown-audience preservation, non-inference handling, and minimum-service response boundaries.",
+          "remediation_reference": "docs/scope-header-lifecycle.md"
+        }
+      ]
+    },
+    {
+      "artifact_id": "non-actuation-ledger-renewal",
+      "repo_target": "mk-bluebird/Augmented-Hub",
+      "path": "docs/non-actuation-ledger-renewal.md",
+      "artifact_class": "governance_document",
+      "schema_version": "1.0.0",
+      "revision_triggers": [
+        {
+          "trigger_id": "ledger-duration-change",
+          "trigger_type": "session_scope_changed",
+          "description": "A ledger duration type, session boundary, renewal condition, pruning condition, or fresh-session rule changes.",
+          "required_response": "Review context-manager lifecycle behavior and session-resumption preflight.",
+          "remediation_reference": "manifests/session-resumption-preflight.json"
+        },
+        {
+          "trigger_id": "ledger-expiry-or-withdrawal",
+          "trigger_type": "non_actuation_ledger_expired",
+          "description": "A ledger expires, is withdrawn, or requires renewal for a fresh session.",
+          "required_response": "Prune active effect, preserve permitted metadata, and require explicit renewal before reuse.",
+          "remediation_reference": "src/chat/context_manager.py"
+        },
+        {
+          "trigger_id": "ledger-declared-existence-protection-change",
+          "trigger_type": "contested_sovereign_declaration_protection_changed",
+          "description": "Protection rules for voluntary declared existence, private terminology, self-attested tier, sovereign anchor, or non-certified continuity context change.",
+          "required_response": "Review declared-unverified handling, non-interference boundaries, structural-block codes, correction pathways, and non-authorization controls.",
+          "remediation_reference": "src/governance/structural_block_reason.py"
+        }
+      ]
+    },
+    {
+      "artifact_id": "directory-layout-convention",
+      "repo_target": "mk-bluebird/Augmented-Hub",
+      "path": "docs/directory-layout-convention.md",
+      "artifact_class": "governance_document",
+      "schema_version": "1.0.0",
+      "revision_triggers": [
+        {
+          "trigger_id": "directory-layout-root-change",
+          "trigger_type": "interface_changed",
+          "description": "A governed root directory, language placement rule, repository target, or source subtree changes.",
+          "required_response": "Update path index, artifact metadata registry, repository-target schema, and cross-repo validator.",
+          "remediation_reference": "manifests/repo-relative-path-index.json"
+        },
+        {
+          "trigger_id": "directory-layout-cross-repo-conflict",
+          "trigger_type": "cross_repo_reference_changed",
+          "description": "A cross-repository reference is added, removed, becomes ambiguous, uses path traversal, or targets an unlisted artifact.",
+          "required_response": "Emit a structural block and reconcile ownership declarations.",
+          "remediation_reference": "tests/test_cross_repo_references.py"
+        }
+      ]
+    },
+    {
+      "artifact_id": "schema-composition-depth-limit",
+      "repo_target": "mk-bluebird/Augmented-Hub",
+      "path": "schemas/schema-composition-depth-limit.schema.json",
+      "artifact_class": "json_schema",
+      "schema_version": "1.0.0",
+      "revision_triggers": [
+        {
+          "trigger_id": "schema-depth-limit-change",
+          "trigger_type": "structural_depth_limit_changed",
+          "description": "A composed schema declares a different maximum composition depth or recursive reference policy.",
+          "required_response": "Review schema composition, recursive references, validator behavior, and dependent composed outputs.",
+          "remediation_reference": "tests/test_conditional_schema_guards.py"
+        },
+        {
+          "trigger_id": "schema-recursive-cycle-detected",
+          "trigger_type": "structural_block_detected",
+          "description": "A recursive $ref cycle exceeds the declared depth limit or lacks a bounded recursion policy.",
+          "required_response": "Emit structural block, preserve source references, and require a reviewed composition redesign.",
+          "remediation_reference": "schemas/governance-drift-report.schema.json"
+        }
+      ]
+    },
+    {
+      "artifact_id": "augmented-citizen-anti-discrimination-policy",
+      "repo_target": "mk-bluebird/Augmented-Hub",
+      "path": "policies/augmented-citizen-anti-discrimination.md",
+      "artifact_class": "policy",
+      "schema_version": "1.0.0",
+      "revision_triggers": [
+        {
+          "trigger_id": "augmented-citizen-equal-access-change",
+          "trigger_type": "accessibility_requirement_changed",
+          "description": "Equal-access, human-fallback, minimal-disclosure, correction, appeal, privacy, or non-interference requirements change.",
+          "required_response": "Review service-side acceptance patterns and audience-specific corrective response rules.",
+          "remediation_reference": "docs/audience-corrective-response-rules.md"
+        },
+        {
+          "trigger_id": "augmented-citizen-noninference-change",
+          "trigger_type": "non_inference_boundary_changed",
+          "description": "A prohibited communication-derived inference category, audience-sensitive discriminator, tier boundary, anchor boundary, or access-protection rule changes.",
+          "required_response": "Review audience-sensitive schemas, structural block reasons, and non-inference tests.",
+          "remediation_reference": "schemas/audience-sensitive-record.schema.json"
+        }
+      ]
+    },
+    {
+      "artifact_id": "audience-sensitive-record-schema",
+      "repo_target": "mk-bluebird/Augmented-Hub",
+      "path": "schemas/audience-sensitive-record.schema.json",
+      "artifact_class": "json_schema",
+      "schema_version": "1.0.0",
+      "revision_triggers": [
+        {
+          "trigger_id": "audience-sensitive-noninference-boundary-change",
+          "trigger_type": "non_inference_boundary_changed",
+          "description": "An identity-inference boundary, prohibited inference target, unknown audience rule, or audience-sensitive schema discriminator changes.",
+          "required_response": "Revalidate conditional guards and ensure unknown audience remains explicit.",
+          "remediation_reference": "tests/test_augmented_citizen_noninference.py"
+        },
+        {
+          "trigger_id": "audience-sensitive-unknown-track-change",
+          "trigger_type": "unknown_audience_track_detected",
+          "description": "Unknown audience handling becomes missing, permissive, conflicting, or no longer blocks external audience routing.",
+          "required_response": "Emit structural block and restore explicit unknown-audience handling.",
+          "remediation_reference": "enums/audience_track.json"
+        }
+      ]
+    },
+    {
+      "artifact_id": "sensor-alignment-strata",
+      "repo_target": "mk-bluebird/Skynet",
+      "path": "manifests/sensor-alignment-strata.json",
+      "artifact_class": "research_manifest",
+      "schema_version": "1.0.0",
+      "revision_triggers": [
+        {
+          "trigger_id": "sensor-alignment-stratum-change",
+          "trigger_type": "sensor_alignment_stratum_changed",
+          "description": "A sensor alignment stratum changes location class, measurement height class, season class, instrument class, surface context, comparison rule, or uncertainty limitation.",
+          "required_response": "Review comparison eligibility, uncertainty boundaries, privacy handling, and calibration references.",
+          "remediation_reference": "manifests/bri-calibration-eligibility-matrix.json"
+        },
+        {
+          "trigger_id": "sensor-alignment-model-change",
+          "trigger_type": "heat_island_calibration_model_changed",
+          "description": "The declared heat-island calibration variables, alignment model, adjustment method, or comparability rule changes.",
+          "required_response": "Review calibration logic and block unsupported cross-stratum comparisons.",
+          "remediation_reference": "manifests/sensor-alignment-strata.json"
+        }
+      ]
+    },
+    {
+      "artifact_id": "accessibility-corridor-calibration-schema",
+      "repo_target": "mk-bluebird/Augmented-Hub",
+      "path": "schemas/accessibility-corridor-calibration.schema.json",
+      "artifact_class": "json_schema",
+      "schema_version": "1.0.0",
+      "revision_triggers": [
+        {
+          "trigger_id": "accessibility-corridor-calibration-change",
+          "trigger_type": "accessibility_corridor_calibration_changed",
+          "description": "A corridor dimension, score normalization, weight, hard-barrier rule, comparability rule, or privacy boundary changes.",
+          "required_response": "Review corridor calculations, hard-barrier behavior, non-inference safeguards, and local tests.",
+          "remediation_reference": "tests/test_accessibility_corridor_calibration.py"
+        },
+        {
+          "trigger_id": "accessibility-corridor-hard-barrier-change",
+          "trigger_type": "accessibility_requirement_changed",
+          "description": "A hard access barrier category, human-review rule, accessible-path continuity rule, or transit-interface condition changes.",
+          "required_response": "Revalidate structural-block behavior before using any internal planning result.",
+          "remediation_reference": "src/governance/accessibility_corridor_calibration.py"
+        }
+      ]
+    },
+    {
+      "artifact_id": "gathering-hub-community-benefit-schema",
+      "repo_target": "mk-bluebird/Augmented-Hub",
+      "path": "schemas/gathering-hub-community-benefit.schema.json",
+      "artifact_class": "json_schema",
+      "schema_version": "1.0.0",
+      "revision_triggers": [
+        {
+          "trigger_id": "community-benefit-dimension-change",
+          "trigger_type": "community_benefit_dimension_changed",
+          "description": "A gathering-hub inclusion, accessibility, cross-generational participation, ecological integration, critical-condition, or attendance-reduction rule changes.",
+          "required_response": "Review the gathering-hub schema, acceptance-pattern boundaries, non-authorization controls, and dependent accessibility policies.",
+          "remediation_reference": "schemas/gathering-hub-community-benefit.schema.json"
+        },
+        {
+          "trigger_id": "community-benefit-attendance-boundary-change",
+          "trigger_type": "attendance_reduction_boundary_changed",
+          "description": "A proposed metric attempts to reduce community benefit to attendance, participant counts, identity data, personal profiles, or public ranking.",
+          "required_response": "Block the reduction and restore condition-based, non-person-scoring benefit dimensions.",
+          "remediation_reference": "policies/augmented-citizen-anti-discrimination.md"
+        }
+      ]
+    },
+    {
+      "artifact_id": "business-place-accessibility-schema",
+      "repo_target": "mk-bluebird/Augmented-Hub",
+      "path": "schemas/business-place-accessibility.schema.json",
+      "artifact_class": "json_schema",
+      "schema_version": "1.0.0",
+      "revision_triggers": [
+        {
+          "trigger_id": "business-accessibility-condition-change",
+          "trigger_type": "business_accessibility_condition_changed",
+          "description": "An entrance, restroom, seating, communication-access, service-pace, assistive-technology, privacy, or corrective-response condition changes.",
+          "required_response": "Review the internal improvement record and audience-corrective-response policy linkage.",
+          "remediation_reference": "docs/audience-corrective-response-rules.md"
+        },
+        {
+          "trigger_id": "business-accessibility-ranking-boundary-change",
+          "trigger_type": "business_ranking_boundary_changed",
+          "description": "A business accessibility condition record is proposed for public ranking, certification, consumer recommendation, eligibility, enforcement, or service denial.",
+          "required_response": "Block the repurposing and restore the internal condition-improvement boundary.",
+          "remediation_reference": "schemas/business-place-accessibility.schema.json"
+        }
+      ]
+    },
+    {
+      "artifact_id": "city-routine-rights-optimization-schema",
+      "repo_target": "mk-bluebird/Augmented-Hub",
+      "path": "schemas/city-routine-rights-optimization.schema.json",
+      "artifact_class": "json_schema",
+      "schema_version": "1.0.0",
+      "revision_triggers": [
+        {
+          "trigger_id": "city-routine-rights-constraint-change",
+          "trigger_type": "city_routine_rights_constraint_changed",
+          "description": "Quiet-hour, accessible-path, non-interference, private-space, emergency-access, identity-inference, or human-review constraints change.",
+          "required_response": "Review candidate-schedule constraints and block any plan that treats cost as overriding rights constraints.",
+          "remediation_reference": "schemas/city-routine-rights-optimization.schema.json"
+        },
+        {
+          "trigger_id": "city-routine-ecological-constraint-change",
+          "trigger_type": "city_routine_ecological_constraint_changed",
+          "description": "Wildlife-corridor, ecological-timing, sensitive-habitat, or unknown ecological-context constraints change.",
+          "required_response": "Review ecological constraints and block schedules with unresolved ecological context.",
+          "remediation_reference": "src/community/non_interference_routing.py"
+        }
+      ]
+    },
+    {
+      "artifact_id": "assistive-compatibility-matrix",
+      "repo_target": "mk-bluebird/Augmented-Hub",
+      "path": "manifests/assistive-compatibility-matrix.json",
+      "artifact_class": "governance_manifest",
+      "schema_version": "1.0.0",
+      "revision_triggers": [
+        {
+          "trigger_id": "assistive-compatibility-version-change",
+          "trigger_type": "assistive_compatibility_version_changed",
+          "description": "An infrastructure class, generic interface profile, infrastructure version, interface-profile version, access condition, fallback rule, or compatibility status changes.",
+          "required_response": "Review the affected matrix entry and preserve non-disclosure, non-pairing, and non-telemetry boundaries.",
+          "remediation_reference": "manifests/assistive-compatibility-matrix.json"
+        },
+        {
+          "trigger_id": "assistive-compatibility-failure-mode-change",
+          "trigger_type": "assistive_compatibility_failure_mode_changed",
+          "description": "A timing, clearance, sensor, communication, fallback, privacy, version, or unknown failure mode changes.",
+          "required_response": "Record the bounded failure mode, require review, and do not generalize compatibility to people or devices.",
+          "remediation_reference": "manifests/assistive-compatibility-matrix.json"
+        }
+      ]
+    },
+    {
+      "artifact_id": "public-sensor-knowledge-record-schema",
+      "repo_target": "mk-bluebird/Augmented-Hub",
+      "path": "schemas/public-sensor-knowledge-record.schema.json",
+      "artifact_class": "json_schema",
+      "schema_version": "1.0.0",
+      "revision_triggers": [
+        {
+          "trigger_id": "public-sensor-collection-boundary-change",
+          "trigger_type": "public_sensor_collection_boundary_changed",
+          "description": "Allowed data categories, prohibited data categories, spatial precision, temporal precision, sensor identifier handling, audio handling, video handling, or neural-data boundary changes.",
+          "required_response": "Review collection minimization and block personal, device, biometric, neural, household, or behavioral data collection.",
+          "remediation_reference": "schemas/public-sensor-knowledge-record.schema.json"
+        },
+        {
+          "trigger_id": "public-sensor-retention-boundary-change",
+          "trigger_type": "public_sensor_retention_boundary_changed",
+          "description": "Raw observation retention, aggregate retention, deletion, rotation, transfer, or non-recordable audit handling changes.",
+          "required_response": "Review retention boundary and ensure raw content, payloads, and hashes remain excluded where required.",
+          "remediation_reference": "schemas/non-recordable-audit-reference.schema.json"
+        },
+        {
+          "trigger_id": "public-sensor-inference-prohibition-change",
+          "trigger_type": "public_sensor_inference_prohibition_changed",
+          "description": "Identity, health, augmentation, neural, disability, eligibility, audience, or behavioral inference prohibitions change.",
+          "required_response": "Review public-knowledge output constraints and preserve contains_personal_data false.",
+          "remediation_reference": "schemas/public-sensor-knowledge-record.schema.json"
+        }
+      ]
+    },
+    {
+      "artifact_id": "access-equity-metrics",
+      "repo_target": "mk-bluebird/Augmented-Hub",
+      "path": "manifests/access-equity-metrics.json",
+      "artifact_class": "governance_manifest",
+      "schema_version": "1.0.0",
+      "revision_triggers": [
+        {
+          "trigger_id": "automatic-door-equity-pattern-change",
+          "trigger_type": "automatic_door_equity_pattern_changed",
+          "description": "Automatic-door timing, sensor detection, clearance, hold-open, access-variation, companion-animal, accessible fallback, privacy, or non-disclosure conditions change.",
+          "required_response": "Review access-equity metrics and preserve service-condition assessment without person scoring or operational authority.",
+          "remediation_reference": "manifests/access-equity-metrics.json"
+        },
+        {
+          "trigger_id": "automatic-door-bci-boundary-change",
+          "trigger_type": "non_inference_boundary_changed",
+          "description": "A BCI-related, assistive-technology, alternative-control, or communication-access request is proposed as a requirement for disclosure, device pairing, telemetry, identity, or neural-data collection.",
+          "required_response": "Block the requirement and restore non-disclosing accessible fallback behavior.",
+          "remediation_reference": "manifests/access-equity-metrics.json"
+        }
+      ]
+    },
+    {
+      "artifact_id": "transit-assistance-panel-schema",
+      "repo_target": "mk-bluebird/Augmented-Hub",
+      "path": "schemas/transit-assistance-panel.schema.json",
+      "artifact_class": "json_schema",
+      "schema_version": "1.0.0",
+      "revision_triggers": [
+        {
+          "trigger_id": "transit-assistance-minimum-service-change",
+          "trigger_type": "transit_assistance_minimum_service_changed",
+          "description": "The privacy-preserving minimum-service pathway, human fallback, request type, unknown audience rule, or non-disclosure condition changes.",
+          "required_response": "Review unknown-audience handling and preserve service without identity, diagnosis, medical proof, augmentation disclosure, BCI disclosure, or institutional status.",
+          "remediation_reference": "docs/scope-header-lifecycle.md"
+        },
+        {
+          "trigger_id": "transit-assistance-external-action-boundary-change",
+          "trigger_type": "external_action_boundary_changed",
+          "description": "A transit assistance record is proposed to dispatch service, contact staff, send messages, modify schedules, operate transit infrastructure, or take another external action.",
+          "required_response": "Block automatic external action and require separately scoped authorization.",
+          "remediation_reference": "schemas/transit-assistance-panel.schema.json"
+        }
+      ]
+    },
+    {
+      "artifact_id": "structural-block-reason-module",
+      "repo_target": "mk-bluebird/Augmented-Hub",
+      "path": "src/governance/structural_block_reason.py",
+      "artifact_class": "python_module",
+      "schema_version": "not_versioned",
+      "revision_triggers": [
+        {
+          "trigger_id": "structural-block-code-change",
+          "trigger_type": "test_contract_changed",
+          "description": "A structural block code, severity, helper constructor, remediation shape, or deduplication rule changes.",
+          "required_response": "Review all schema, governance, audience, continuity, and test consumers that depend on structural-block reason codes.",
+          "remediation_reference": "tests/test_fail_closed_coverage.py"
+        },
+        {
+          "trigger_id": "contested-sovereign-declaration-code-change",
+          "trigger_type": "contested_sovereign_declaration_protection_changed",
+          "description": "The contested_sovereign_declaration code, trigger conditions, message, remediation path, or privacy boundary changes.",
+          "required_response": "Review declared-existence protection and ensure it remains separate from safety, privacy, external-action, and non-inference controls.",
+          "remediation_reference": "docs/non-actuation-ledger-renewal.md"
+        }
+      ]
+    }
+  ],
+  "search_contract": {
+    "search_keys": [
+      "artifact_id",
+      "repo_target",
+      "path",
+      "artifact_class",
+      "schema_version",
+      "revision_triggers.trigger_id",
+      "revision_triggers.trigger_type",
+      "revision_triggers.remediation_reference"
+    ],
+    "query_behavior": "Return matching trigger metadata only. Do not treat index results as verification, adoption, authority, or external-action permission.",
+    "unknown_artifact_behavior": "structural_block",
+    "duplicate_trigger_id_behavior": "structural_block",
+    "missing_remediation_reference_behavior": "structural_block"
+  },
+  "index_invariants": [
+    "Each indexed artifact must have one artifact_id, repo_target, repository-relative path, artifact class, schema version, and non-empty revision trigger list.",
+    "Each trigger must have one trigger_id, trigger_type from the taxonomy, description, required response, and repository-relative remediation reference.",
+    "A trigger entry must not authorize external action or claim repository verification.",
+    "A revision trigger must preserve explicit unknown, unverified, pending, withdrawn, superseded, and structural-block states where applicable.",
+    "A revision trigger must not silently erase predecessor or correction history.",
+    "A revision trigger must not convert voluntary self-asserted continuity, private vocabulary, a self-attested tier, or a sovereign anchor into identity verification, credentialing, access control, eligibility, authority, public registry, or foundation-gate evidence.",
+    "A community, accessibility, business, transit, compatibility, or sensor metric must evaluate service conditions, infrastructure conditions, or privacy-preserving aggregate knowledge rather than people."
+  ],
+  "revision_triggers": [
+    "A governed artifact adds, removes, renames, or materially changes its own revision trigger.",
+    "The trigger taxonomy changes.",
+    "A remediation reference changes ownership, path, schema version, or review status.",
+    "A governance drift finding identifies an omitted or inconsistent trigger.",
+    "A structural block prevents index completeness or searchability."
+  ],
+  "privacy": {
+    "data_class": "governance_metadata",
+    "contains_personal_data": false,
+    "minimum_disclosure_rule": "Record only artifact, trigger, remediation, repository, version, review, and validation metadata. Do not include identities, health data, neural data, biometric data, credentials, telemetry, protected-site data, private audit content, or operational-system details."
+  },
+  "integrity": {
+    "content_digest": null,
+    "digest_algorithm": null,
+    "verification_status": "not_requested",
+    "last_verification_reference": null
+  }
+}

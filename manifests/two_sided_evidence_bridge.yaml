@@ -1,0 +1,123 @@
+schema_version: "1.0.0"
+kind: two-sided-evidence-action-boundary-bridge
+status: proposed-design-contract
+
+attribution:
+  anchor: "bostrom18sd2ujv24ual9c9pshtxys6j8knh6xaead9ye7"
+  purpose: document-credit-and-workstream-metadata-only
+  establishes_identity: false
+  establishes_biological_binding: false
+  grants_consent: false
+  grants_authority: false
+  proves_execution: false
+
+scope:
+  subject_description: required-per-record
+  temporal_boundary: required-per-record
+  activity_boundary: required-per-record
+  out_of_scope_properties: required-per-record
+  exhaustive_platform_audit: not-implied
+
+consultation:
+  required_fields:
+    - source_name
+    - source_relationship
+    - document_revision_or_unknown_status
+    - concepts_extracted
+    - evidence_use
+    - claim_ceiling
+  documentary_support_is_execution_evidence: false
+  unknown_revision: report-explicitly
+
+activity_accounting:
+  states:
+    - performed
+    - not-performed
+    - unresolved
+    - conflict
+  required_fields:
+    - activity_description
+    - scope
+    - state
+    - evidence_basis
+    - limitations
+  unlisted_activity: unresolved
+  uncertain_outcome: unresolved
+  contradictory_same_scope_statements: conflict
+  conflict_resolution: accountable-review-required
+  nonexecution_proves_technical_inability: false
+
+computation:
+  distinguish:
+    - analytical-reasoning
+    - code-authorship
+    - computational-experiment
+    - test-execution
+    - deployment-observation
+  reasoning_is_not_zero_work: true
+  code_authorship_proves_test_success: false
+
+claim_review:
+  exact_claim_text: required
+  intended_use: required
+  outcomes:
+    - supported
+    - contradicted
+    - unresolved
+    - conflict
+  missing_support_is_contradiction: false
+  same_scope_counterevidence: evaluate-explicitly
+  out_of_scope_claim: unresolved
+  external_action_authorization: separate
+
+history:
+  historical_record_rewritten_by_later_execution: forbidden
+  new_activity_requires_new_record: true
+  supersession_relationship: explicit
+  supersession_erases_historical_record: false
+  retention_and_deletion: governed-by-declared-policy
+
+revalidation:
+  triggers:
+    - source-revision-changes-materially
+    - method-version-changes
+    - implementation-changes
+    - new-test-results
+    - new-storage-activity
+    - external-operation-attempt
+    - uncertain-execution-outcome
+    - reconciliation-evidence-changes
+    - provenance-revision-changes
+  changed_evidence_requires_claim_reevaluation: true
+
+rights:
+  self_description: respected-without-technical-proof
+  private_system_inventory: not-required-for-ordinary-assistance
+  physiological_disclosure: not-required
+  self_description_is_authentication: false
+  attribution_is_authorization: false
+  explanation_and_correction: available
+  unresolved_claim_blocks_ordinary_assistance: false
+  continuity_subject: permission-bounded-application-context-only
+
+acceptance_tests:
+  required:
+    - consultation-does-not-satisfy-execution-claim
+    - nonexecution-does-not-establish-sandboxing
+    - unlisted-activity-remains-unresolved
+    - same-scope-positive-negative-conflict-is-detected
+    - unknown-document-revision-remains-visible
+    - later-execution-preserves-historical-disclosure
+    - claim-change-requires-reevaluation
+    - attribution-does-not-grant-authority
+    - unresolved-review-preserves-assistance
+
+artifact_status:
+  external_consultation_for_this_mutation: not-performed
+  code_execution_for_this_mutation: not-performed
+  yaml_parsing_test: not-performed
+  schema_validation: not-performed
+  repository_inspection: not-performed
+  repository_modification: not-performed
+  persistent_storage: not-performed
+  runtime_enforcement: not-established

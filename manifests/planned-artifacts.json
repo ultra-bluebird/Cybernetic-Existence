@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "manifest_type": "planned-artifacts",
+  "manifest_version": "1.1.0",
+  "description": "Bounded-incompleteness registry. Planned artifacts are not completed controls, do not authorize external action, and must not be represented as deployed capability.",
+  "artifacts": [
+    {
+      "path": "docs/site-specific-ttf-calibration-protocol.md",
+      "status": "planned",
+      "owner_role": "governance-reviewer",
+      "purpose": "Define a rights-centered, uncertainty-aware protocol for any future site-specific TTF calibration.",
+      "target_date": "2027-06-30",
+      "blocking": true,
+      "non_authorization": true,
+      "required_before": [
+        "Any claim of site-specific TTF calibration.",
+        "Any use of primary site measurements for TTF calibration.",
+        "Any rights-holder-directed monitoring extension involving site-specific TTF values."
+      ],
+      "dependencies": [
+        "schemas/fpic-lifecycle-state.schema.json",
+        "src/governance/consent_supersession.py",
+        "src/governance/withdrawal_propagation.py",
+        "schemas/uncertainty-propagation-contract.schema.json",
+        "templates/non-authorization-declaration.txt"
+      ]
+    },
+    {
+      "path": "docs/region-specific-bri-calibration-protocol.md",
+      "status": "planned",
+      "owner_role": "domain_scientist",
+      "purpose": "Define local baseline-panel requirements, community-type classification, robust normalization, constrained weight estimation, threshold calibration, and independent ecological review for BRI use outside the original calibration region.",
+      "target_date": "2027-06-30",
+      "blocking": true,
+      "non_authorization": true,
+      "required_before": [
+        "Any claim that BRI is calibrated or applicable in a new region.",
+        "Any publication comparing BRI health categories across separately calibrated regions.",
+        "Any use of region-specific BRI values for decision support."
+      ],
+      "dependencies": [
+        "schemas/uncertainty-propagation-contract.schema.json",
+        "src/shared/ood_propagation.py",
+        "src/shared/calibration_drift.py",
+        "src/shared/threshold_governance.py",
+        "schemas/supersession-record.schema.json",
+        "templates/non-authorization-declaration.txt"
+      ]
+    }
+  ]
+}

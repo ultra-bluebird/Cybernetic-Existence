@@ -1,0 +1,130 @@
+schema_version: "1.0.0"
+kind: seasonal-research-policy
+
+execution:
+  mode: local-only
+  network_access: forbidden
+  hardware_control: forbidden
+  automatic_publication: forbidden
+  input_selection: explicit-local-selection
+  external_action_approval: required-per-exact-action
+
+input_policy:
+  required_evidence_fields:
+    - quantity
+    - evidence_class
+    - units
+    - source_description
+    - uncertainty
+    - transformations
+    - input_evidence_classes
+    - purpose
+    - permission_scope
+    - sensitivity
+    - retention
+    - review_status
+
+  allowed_evidence_classes:
+    - observed
+    - fitted
+    - literature-derived
+    - synthetic
+
+  timestamps:
+    timezone_required: true
+    preserve_original: true
+    duplicate_policy: reject
+    gap_policy: report-without-interpolation
+
+  numeric_values:
+    reject_nonfinite: true
+    missing_is_zero: false
+    preserve_valid_extremes: true
+
+  spatial_support:
+    preserve_native_resolution: true
+    preserve_measurement_height: true
+    preserve_footprint: true
+
+model_policy:
+  time_unit: hour
+  temperature_unit: degC
+
+  required_components:
+    - urban-anomaly-recovery
+    - ecological-exposure-memory
+    - thermal-opportunity
+    - resource-consumer-fluxes
+
+  optional_components:
+    - lighting-opportunity
+    - spatial-overlap
+    - acclimation
+    - dispersal
+
+  seasonal_state:
+    preserve_continuity: true
+    calendar_resets_population: false
+    calendar_resets_memory: false
+
+  parameters:
+    numerical_values_must_be_supplied: true
+    provenance_required: true
+    uncertainty_description_required: true
+    temperature_basis_required: true
+    separate_urban_and_ecological_recovery: true
+
+  numerical_release:
+    convergence_check_required: true
+    nonnegative_state_check_required: true
+    silent_state_clipping: forbidden
+    flux_consistency_check_required: true
+
+review_policy:
+  outcomes:
+    - pass
+    - fail
+    - unresolved
+
+  masking:
+    remove_irrelevant_attribution: true
+    preserve_scientific_context: true
+    preserve_accessibility_supports: true
+    record_limitations: true
+
+  correction:
+    field_specific_explanation: required
+    accessible_resubmission: required
+    human_review_route: required
+    assistance_remains_available: true
+
+release_policy:
+  evaluate_per_claim_and_use: true
+  required_checks:
+    - data
+    - model
+    - provenance
+    - rights
+    - accessibility
+
+  unresolved_behavior: block-relevant-release
+  synthetic_ancestry_must_remain_visible: true
+  approval_in_this_manifest: none
+  uncertain_external_outcome: reconcile-before-retry
+
+privacy:
+  private_identity_data: not-required
+  neural_data: not-required
+  medical_data: not-required
+  biometric_data: not-required
+  companion_system_data: not-required
+  precise_sensitive_habitat_export: separate-review-required
+
+accessibility:
+  target: WCAG-2.2-AA
+  conformance_claim: not-established
+  keyboard_workflows: required
+  text_error_descriptions: required
+  programmatic_status_messages: required
+  color_independent_interpretation: required
+  complete_workflow_testing: required

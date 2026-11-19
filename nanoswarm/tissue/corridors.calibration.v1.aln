@@ -1,0 +1,24 @@
+aln_path nanoswarm.tissue.corridors.calibration.v1.aln
+aln_type nanoswarm.tissue.corridors.v1
+aln_license MIT OR Apache-2.0
+
+record NanoswarmTissueCorridorV1 {
+  host_did                 : string,
+  bostrom_address          : string,
+  aln_clause               : string,
+  schema_version           : string,
+  evidence_tags            : string[],
+
+  tissue_class             : string, // "brain_cortex","renal_microvasc",...
+  material_class           : string, // "magnetic","biohybrid","stimuli","catalytic"
+
+  density_safe_max_per_mm3 : float,
+  density_brake_max_per_mm3: float,
+  thermo_duty_risk_max     : float,  // <= 1.0
+  vascular_shear_max_dyn_cm2: float,
+  immune_activation_index_max: float,// tied to IL6/CRP trajectories
+
+  roh_slice_max            : float,
+}
+
+constraint NanoswarmTissueCorridorV1.HostBinding { ... }

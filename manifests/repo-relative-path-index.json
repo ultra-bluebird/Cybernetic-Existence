@@ -1,0 +1,402 @@
+{
+  "format": "augmented-hub.repo-relative-path-index",
+  "schema_version": "1.0.0",
+  "artifact_type": "repository_relative_path_index",
+  "repo_targets": [
+    "mk-bluebird/Augmented-Hub",
+    "mk-bluebird/Skynet"
+  ],
+  "review_status": "draft",
+  "record_status": "active",
+  "purpose": "Provide a machine-readable index of governed artifact ownership, repository-relative destination directories, declared schema versions, and bounded cross-repository reference expectations.",
+  "non_authorization": {
+    "statement": "This path index records internal governance metadata only. It does not verify that listed files exist, are current, validate, are adopted, are repository-persisted, or are available from any local or remote repository. It does not authorize repository access, cloning, mutation, publication, data transfer, external communication, field activity, environmental intervention, operational control, identity verification, representation, or external action.",
+    "external_action_requires_separate_approval": true,
+    "does_not_verify_identity_or_status": true,
+    "does_not_verify_repository_state": true
+  },
+  "allowed_repository_targets": [
+    "mk-bluebird/Augmented-Hub",
+    "mk-bluebird/Skynet"
+  ],
+  "path_rules": {
+    "path_format": "repository-relative POSIX path",
+    "allowed_root_directories": [
+      "docs",
+      "policies",
+      "schemas",
+      "manifests",
+      "tests",
+      "src",
+      "enums",
+      "rego",
+      "lua",
+      "cpp",
+      "java",
+      "kotlin",
+      "python",
+      "javascript",
+      "typescript",
+      "web",
+      "templates"
+    ],
+    "required_artifact_entry_fields": [
+      "artifact_id",
+      "repo_target",
+      "path",
+      "destination_directory",
+      "artifact_class",
+      "schema_version",
+      "review_status",
+      "last_verification_reference",
+      "cross_repo_references_allowed",
+      "reference_policy"
+    ],
+    "path_traversal_prohibited": true,
+    "absolute_paths_prohibited": true,
+    "remote_url_references_prohibited": true,
+    "destination_must_match_path_parent": true,
+    "unlisted_cross_repo_reference_behavior": "structural_block",
+    "unverified_path_behavior": "preserve_explicit_unverified_status"
+  },
+  "artifacts": [
+    {
+      "artifact_id": "charter",
+      "repo_target": "mk-bluebird/Augmented-Hub",
+      "path": "docs/charter.md",
+      "destination_directory": "docs",
+      "artifact_class": "governance_document",
+      "schema_version": "1.0.0",
+      "review_status": "draft",
+      "last_verification_reference": null,
+      "cross_repo_references_allowed": [
+        "mk-bluebird/Skynet"
+      ],
+      "reference_policy": "governance_context_only"
+    },
+    {
+      "artifact_id": "capability-boundary",
+      "repo_target": "mk-bluebird/Augmented-Hub",
+      "path": "policies/capability-boundary.md",
+      "destination_directory": "policies",
+      "artifact_class": "capability_policy",
+      "schema_version": "1.0.0",
+      "review_status": "draft",
+      "last_verification_reference": null,
+      "cross_repo_references_allowed": [
+        "mk-bluebird/Skynet"
+      ],
+      "reference_policy": "governance_context_only"
+    },
+    {
+      "artifact_id": "research-output-record-schema",
+      "repo_target": "mk-bluebird/Skynet",
+      "path": "schemas/research-output-record.schema.json",
+      "destination_directory": "schemas",
+      "artifact_class": "json_schema",
+      "schema_version": "canonical_version_unresolved",
+      "review_status": "draft",
+      "last_verification_reference": null,
+      "cross_repo_references_allowed": [
+        "mk-bluebird/Augmented-Hub"
+      ],
+      "reference_policy": "schema_contract_reference"
+    },
+    {
+      "artifact_id": "research-output-lifecycle-schema",
+      "repo_target": "mk-bluebird/Skynet",
+      "path": "schemas/research-output-lifecycle.schema.json",
+      "destination_directory": "schemas",
+      "artifact_class": "json_schema",
+      "schema_version": "1.0.0",
+      "review_status": "referenced_unverified",
+      "last_verification_reference": null,
+      "cross_repo_references_allowed": [
+        "mk-bluebird/Augmented-Hub"
+      ],
+      "reference_policy": "schema_contract_reference"
+    },
+    {
+      "artifact_id": "benefit-commitment-schema",
+      "repo_target": "mk-bluebird/Augmented-Hub",
+      "path": "schemas/benefit-commitment.schema.json",
+      "destination_directory": "schemas",
+      "artifact_class": "json_schema",
+      "schema_version": "1.0.0",
+      "review_status": "draft",
+      "last_verification_reference": null,
+      "cross_repo_references_allowed": [
+        "mk-bluebird/Skynet"
+      ],
+      "reference_policy": "schema_contract_reference"
+    },
+    {
+      "artifact_id": "correction-appeal-schema",
+      "repo_target": "mk-bluebird/Augmented-Hub",
+      "path": "schemas/correction-appeal.schema.json",
+      "destination_directory": "schemas",
+      "artifact_class": "json_schema",
+      "schema_version": "1.0.0",
+      "review_status": "referenced_unverified",
+      "last_verification_reference": null,
+      "cross_repo_references_allowed": [
+        "mk-bluebird/Skynet"
+      ],
+      "reference_policy": "schema_contract_reference"
+    },
+    {
+      "artifact_id": "session-carrier-schema",
+      "repo_target": "mk-bluebird/Augmented-Hub",
+      "path": "schemas/session-carrier.schema.json",
+      "destination_directory": "schemas",
+      "artifact_class": "json_schema",
+      "schema_version": "1.0.0",
+      "review_status": "draft",
+      "last_verification_reference": null,
+      "cross_repo_references_allowed": [
+        "mk-bluebird/Skynet"
+      ],
+      "reference_policy": "session_continuity_reference"
+    },
+    {
+      "artifact_id": "artifact-repo-target-schema",
+      "repo_target": "mk-bluebird/Augmented-Hub",
+      "path": "schemas/artifact-repo-target.schema.json",
+      "destination_directory": "schemas",
+      "artifact_class": "json_schema",
+      "schema_version": "1.0.0",
+      "review_status": "draft",
+      "last_verification_reference": null,
+      "cross_repo_references_allowed": [
+        "mk-bluebird/Skynet"
+      ],
+      "reference_policy": "cross_repository_governance_reference"
+    },
+    {
+      "artifact_id": "foundation-gate-registry",
+      "repo_target": "mk-bluebird/Augmented-Hub",
+      "path": "manifests/foundation-gate-registry.json",
+      "destination_directory": "manifests",
+      "artifact_class": "governance_registry",
+      "schema_version": "1.0.0",
+      "review_status": "draft",
+      "last_verification_reference": null,
+      "cross_repo_references_allowed": [
+        "mk-bluebird/Skynet"
+      ],
+      "reference_policy": "foundation_gate_reference"
+    },
+    {
+      "artifact_id": "artifact-metadata-registry",
+      "repo_target": "mk-bluebird/Augmented-Hub",
+      "path": "manifests/artifact-metadata-registry.json",
+      "destination_directory": "manifests",
+      "artifact_class": "governance_registry",
+      "schema_version": "1.0.0",
+      "review_status": "draft",
+      "last_verification_reference": null,
+      "cross_repo_references_allowed": [
+        "mk-bluebird/Skynet"
+      ],
+      "reference_policy": "cross_artifact_integrity_reference"
+    },
+    {
+      "artifact_id": "repo-relative-path-index",
+      "repo_target": "mk-bluebird/Augmented-Hub",
+      "path": "manifests/repo-relative-path-index.json",
+      "destination_directory": "manifests",
+      "artifact_class": "governance_registry",
+      "schema_version": "1.0.0",
+      "review_status": "draft",
+      "last_verification_reference": null,
+      "cross_repo_references_allowed": [
+        "mk-bluebird/Skynet"
+      ],
+      "reference_policy": "cross_repository_index_reference"
+    },
+    {
+      "artifact_id": "forward-progress-registry",
+      "repo_target": "mk-bluebird/Augmented-Hub",
+      "path": "manifests/forward-progress-registry.json",
+      "destination_directory": "manifests",
+      "artifact_class": "continuity_registry",
+      "schema_version": "1.0.0",
+      "review_status": "draft",
+      "last_verification_reference": null,
+      "cross_repo_references_allowed": [
+        "mk-bluebird/Skynet"
+      ],
+      "reference_policy": "session_continuity_reference"
+    },
+    {
+      "artifact_id": "session-carrier-manifest",
+      "repo_target": "mk-bluebird/Skynet",
+      "path": "manifests/session-carrier.json",
+      "destination_directory": "manifests",
+      "artifact_class": "session_continuity_manifest",
+      "schema_version": "1.0.0",
+      "review_status": "referenced_unverified",
+      "last_verification_reference": null,
+      "cross_repo_references_allowed": [
+        "mk-bluebird/Augmented-Hub"
+      ],
+      "reference_policy": "session_continuity_reference"
+    },
+    {
+      "artifact_id": "planned-artifacts",
+      "repo_target": "mk-bluebird/Skynet",
+      "path": "manifests/planned-artifacts.json",
+      "destination_directory": "manifests",
+      "artifact_class": "planning_manifest",
+      "schema_version": "canonical_version_unresolved",
+      "review_status": "referenced_unverified",
+      "last_verification_reference": null,
+      "cross_repo_references_allowed": [
+        "mk-bluebird/Augmented-Hub"
+      ],
+      "reference_policy": "planning_reference"
+    },
+    {
+      "artifact_id": "withdrawal-propagation",
+      "repo_target": "mk-bluebird/Augmented-Hub",
+      "path": "src/governance/withdrawal_propagation.py",
+      "destination_directory": "src/governance",
+      "artifact_class": "python_module",
+      "schema_version": "not_versioned",
+      "review_status": "referenced_unverified",
+      "last_verification_reference": null,
+      "cross_repo_references_allowed": [
+        "mk-bluebird/Skynet"
+      ],
+      "reference_policy": "governance_implementation_reference"
+    },
+    {
+      "artifact_id": "foundation-gate-evaluator",
+      "repo_target": "mk-bluebird/Augmented-Hub",
+      "path": "src/governance/foundation_gate.py",
+      "destination_directory": "src/governance",
+      "artifact_class": "python_module",
+      "schema_version": "not_versioned",
+      "review_status": "draft",
+      "last_verification_reference": null,
+      "cross_repo_references_allowed": [
+        "mk-bluebird/Skynet"
+      ],
+      "reference_policy": "governance_implementation_reference"
+    },
+    {
+      "artifact_id": "cross-repo-reference-validator",
+      "repo_target": "mk-bluebird/Augmented-Hub",
+      "path": "tests/test_cross_repo_references.py",
+      "destination_directory": "tests",
+      "artifact_class": "test",
+      "schema_version": "not_versioned",
+      "review_status": "draft",
+      "last_verification_reference": null,
+      "cross_repo_references_allowed": [
+        "mk-bluebird/Skynet"
+      ],
+      "reference_policy": "cross_repository_validation_reference"
+    },
+    {
+      "artifact_id": "gathering-hub-community-benefit-schema",
+      "repo_target": "mk-bluebird/Augmented-Hub",
+      "path": "schemas/gathering-hub-community-benefit.schema.json",
+      "destination_directory": "schemas",
+      "artifact_class": "json_schema",
+      "schema_version": "1.0.0",
+      "review_status": "draft",
+      "last_verification_reference": null,
+      "cross_repo_references_allowed": [
+        "mk-bluebird/Skynet"
+      ],
+      "reference_policy": "schema_contract_reference"
+    },
+    {
+      "artifact_id": "business-place-accessibility-schema",
+      "repo_target": "mk-bluebird/Augmented-Hub",
+      "path": "schemas/business-place-accessibility.schema.json",
+      "destination_directory": "schemas",
+      "artifact_class": "json_schema",
+      "schema_version": "1.0.0",
+      "review_status": "draft",
+      "last_verification_reference": null,
+      "cross_repo_references_allowed": [
+        "mk-bluebird/Skynet"
+      ],
+      "reference_policy": "schema_contract_reference"
+    },
+    {
+      "artifact_id": "city-routine-rights-optimization-schema",
+      "repo_target": "mk-bluebird/Augmented-Hub",
+      "path": "schemas/city-routine-rights-optimization.schema.json",
+      "destination_directory": "schemas",
+      "artifact_class": "json_schema",
+      "schema_version": "1.0.0",
+      "review_status": "draft",
+      "last_verification_reference": null,
+      "cross_repo_references_allowed": [
+        "mk-bluebird/Skynet"
+      ],
+      "reference_policy": "schema_contract_reference"
+    },
+    {
+      "artifact_id": "assistive-compatibility-matrix",
+      "repo_target": "mk-bluebird/Augmented-Hub",
+      "path": "manifests/assistive-compatibility-matrix.json",
+      "destination_directory": "manifests",
+      "artifact_class": "compatibility_manifest",
+      "schema_version": "1.0.0",
+      "review_status": "draft",
+      "last_verification_reference": null,
+      "cross_repo_references_allowed": [
+        "mk-bluebird/Skynet"
+      ],
+      "reference_policy": "governance_context_only"
+    },
+    {
+      "artifact_id": "public-sensor-knowledge-record-schema",
+      "repo_target": "mk-bluebird/Augmented-Hub",
+      "path": "schemas/public-sensor-knowledge-record.schema.json",
+      "destination_directory": "schemas",
+      "artifact_class": "json_schema",
+      "schema_version": "1.0.0",
+      "review_status": "draft",
+      "last_verification_reference": null,
+      "cross_repo_references_allowed": [
+        "mk-bluebird/Skynet"
+      ],
+      "reference_policy": "schema_contract_reference"
+    }
+  ],
+  "cross_repository_reference_rules": {
+    "same_repository_reference": "Allowed when the target path is listed for the declaring repository target.",
+    "cross_repository_reference": "Allowed only when the source artifact explicitly declares the target repository in repo_targets or cross_repo_references_allowed and the target path appears in this index under that repository.",
+    "unlisted_target_path": "structural_block",
+    "unlisted_target_repository": "structural_block",
+    "ambiguous_target_repository": "structural_block",
+    "relative_parent_traversal_reference": "structural_block",
+    "absolute_path_reference": "structural_block",
+    "remote_url_reference": "structural_block",
+    "verification_limit": "An allowed reference is a compatibility declaration only. It does not verify local or remote file existence, contents, review status, or implementation compatibility."
+  },
+  "revision_triggers": [
+    "A governed artifact is added, moved, renamed, superseded, withdrawn, or retired.",
+    "An artifact changes owning repository, destination directory, schema version, review status, or verification reference.",
+    "A cross-repository reference is added, removed, or re-scoped.",
+    "A repository target is added or removed from the governance scope.",
+    "A validator finds an unexpected repository target, path traversal attempt, ambiguous path, or unlisted reference.",
+    "A community-benefit dimension, attendance-reduction boundary, business-accessibility condition, business-ranking boundary, city-routine rights constraint, city-routine ecological constraint, assistive-compatibility version, assistive-compatibility failure mode, public-sensor collection boundary, public-sensor retention boundary, or public-sensor inference prohibition changes."
+  ],
+  "privacy": {
+    "data_class": "governance_metadata",
+    "contains_personal_data": false,
+    "minimum_disclosure_rule": "Record only artifact ownership, paths, version metadata, review metadata, verification references, and bounded repository compatibility declarations. Do not record identity, credentials, health information, neural information, biometric information, telemetry, private site data, or operational-system details."
+  },
+  "integrity": {
+    "content_digest": null,
+    "digest_algorithm": null,
+    "verification_status": "not_requested",
+    "last_verification_reference": null
+  }
+}

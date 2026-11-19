@@ -1,0 +1,120 @@
+{
+  "format": "augmented-hub.air-quality-sensor-mesh-calibration",
+  "schema_version": "1.0.0",
+  "artifact_type": "air_quality_sensor_mesh_calibration",
+  "repo_targets": [
+    "mk-bluebird/Augmented-Hub",
+    "mk-bluebird/Skynet"
+  ],
+  "review_status": "draft",
+  "record_status": "active",
+  "purpose": "Define metadata-only calibration and alignment conditions for comparing air-quality observations across a sensor mesh. This manifest does not deploy sensors, collect live telemetry, access sites, issue public alerts, determine health risk, control infrastructure, or authorize external action.",
+  "non_authorization": {
+    "statement": "This manifest supports internal air-quality research calibration and comparison planning only. It does not authorize sensor deployment, site access, telemetry ingestion, public-health determination, public alerting, municipal action, infrastructure control, data transfer, or external action.",
+    "external_action_requires_separate_approval": true,
+    "does_not_verify_identity_or_status": true,
+    "does_not_verify_repository_state": true
+  },
+  "calibration_formula": {
+    "sensor_formula": "AQCI_j = clip((observed_value - lower_calibration_reference) / (upper_reference_method_bound - lower_calibration_reference), 0, 1)",
+    "mesh_formula": "AQCI_mesh = weighted_mean(AQCI_j, sensor_weight_j)",
+    "comparison_rule": "Mesh comparison requires declared pollutant class, reference method, co-location status, drift status, season, source proximity, uncertainty assessment, and aggregation method.",
+    "unknown_context_behavior": "structural_block_for_comparable_mesh_claim",
+    "interpretation_limit": "The index is an internal calibration comparison value. It does not establish air quality truth, health status, regulatory compliance, exposure, municipal authority, public alert eligibility, or operational permission."
+  },
+  "bri_calibration_matrix_reference": {
+    "path": "manifests/bri-calibration-eligibility-matrix.json",
+    "relationship": "provides_shared_calibration_status_and_uncertainty_governance_patterns",
+    "status": "referenced_unverified",
+    "external_action_authorized": false
+  },
+  "pollutant_classes": [
+    "particulate_matter_fine",
+    "particulate_matter_coarse",
+    "ozone",
+    "nitrogen_dioxide",
+    "sulfur_dioxide",
+    "carbon_monoxide",
+    "other_governed_pollutant_class"
+  ],
+  "mesh_strata": [
+    {
+      "stratum_id": "urban-air-quality-reference-stratum",
+      "stratum_status": "not_locally_calibrated",
+      "pollutant_class": "particulate_matter_fine",
+      "reference_method": {
+        "method_status": "not_locally_calibrated",
+        "reference_method_name": null,
+        "reference_method_evidence_reference": null
+      },
+      "co_location_context": {
+        "co_location_status": "not_assessed",
+        "co_location_evidence_reference": null
+      },
+      "drift_context": {
+        "drift_status": "unknown",
+        "drift_assessment_reference": null,
+        "drift_correction_method_reference": null
+      },
+      "season_context": {
+        "season": "hot_dry",
+        "season_calibration_status": "not_locally_calibrated"
+      },
+      "source_proximity_context": {
+        "source_proximity_status": "unknown",
+        "source_classification_reference": null,
+        "source_proximity_adjustment_reference": null
+      },
+      "aggregation_context": {
+        "aggregation_method_status": "unknown",
+        "aggregation_method_reference": null,
+        "correlation_assumptions_reference": null,
+        "uncertainty_assessment_reference": null
+      },
+      "comparison_eligibility": "not_eligible_without_local_calibration",
+      "applicability_limitations": [
+        "No reference method, co-location evidence, drift assessment, source-proximity adjustment, or aggregation method is recorded.",
+        "This placeholder stratum does not support a comparable mesh-level air-quality claim.",
+        "This record does not authorize sensor deployment, live data ingestion, public alerting, municipal action, or health determination."
+      ],
+      "external_action_authorized": false
+    }
+  ],
+  "calibration_statuses": [
+    "locally_calibrated",
+    "partially_calibrated",
+    "not_locally_calibrated",
+    "unknown",
+    "structural_block"
+  ],
+  "required_evidence_for_comparable_mesh_claim": [
+    "reference_method_evidence_reference",
+    "co_location_evidence_reference",
+    "drift_assessment_reference",
+    "seasonal_calibration_reference",
+    "source_proximity_adjustment_reference",
+    "aggregation_method_reference",
+    "correlation_assumptions_reference",
+    "uncertainty_assessment_reference",
+    "review_reference"
+  ],
+  "privacy": {
+    "data_class": "air_quality_calibration_governance_metadata",
+    "contains_personal_data": false,
+    "contains_sensitive_location_data": false,
+    "contains_device_identifiers": false,
+    "minimum_disclosure_rule": "Record only coarse or user-controlled calibration strata and reference metadata. Do not record personal identities, household exposure, health information, neural information, biometric information, device identifiers, private telemetry, precise private locations, credentials, or operational-system details."
+  },
+  "integrity": {
+    "content_digest": null,
+    "digest_algorithm": null,
+    "verification_status": "not_requested",
+    "last_verification_reference": null
+  },
+  "revision_triggers": [
+    "A pollutant class, reference method, co-location condition, drift assessment, season, source-proximity context, aggregation method, correlation assumption, or uncertainty contract changes.",
+    "A BRI calibration matrix condition or shared calibration-governance rule changes.",
+    "A mesh stratum is added, corrected, superseded, withdrawn, or structurally blocked.",
+    "A privacy, sensitive-location, public-alert, health, municipal-action, or non-authorization boundary changes."
+  ]
+}

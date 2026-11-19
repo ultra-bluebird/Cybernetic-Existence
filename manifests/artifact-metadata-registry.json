@@ -1,0 +1,129 @@
+{
+  "artifacts": [
+    {
+      "artifact_id": "gathering-hub-community-benefit-schema",
+      "repo_target": "mk-bluebird/Augmented-Hub",
+      "path": "schemas/gathering-hub-community-benefit.schema.json",
+      "artifact_class": "json_schema",
+      "schema_version": "1.0.0",
+      "review_status": "draft",
+      "last_verification_reference": null,
+      "owner_role": "rights_and_accessibility_reviewer",
+      "governed_by": [
+        "rights_holder_governance",
+        "community_reporting",
+        "cross_artifact_integrity"
+      ],
+      "dependencies": [
+        "schemas/audience-sensitive-record.schema.json",
+        "enums/audience_track.json"
+      ],
+      "non_authorization_injection_required": true,
+      "supersedes": null,
+      "revision_triggers": [
+        "community_benefit_dimension_changed",
+        "attendance_reduction_boundary_changed"
+      ]
+    },
+    {
+      "artifact_id": "business-place-accessibility-schema",
+      "repo_target": "mk-bluebird/Augmented-Hub",
+      "path": "schemas/business-place-accessibility.schema.json",
+      "artifact_class": "json_schema",
+      "schema_version": "1.0.0",
+      "review_status": "draft",
+      "last_verification_reference": null,
+      "owner_role": "rights_and_accessibility_reviewer",
+      "governed_by": [
+        "rights_holder_governance",
+        "community_reporting",
+        "cross_artifact_integrity"
+      ],
+      "dependencies": [
+        "schemas/audience-sensitive-record.schema.json",
+        "docs/audience-corrective-response-rules.md"
+      ],
+      "non_authorization_injection_required": true,
+      "supersedes": null,
+      "revision_triggers": [
+        "business_accessibility_condition_changed",
+        "business_ranking_boundary_changed"
+      ]
+    },
+    {
+      "artifact_id": "city-routine-rights-optimization-schema",
+      "repo_target": "mk-bluebird/Augmented-Hub",
+      "path": "schemas/city-routine-rights-optimization.schema.json",
+      "artifact_class": "json_schema",
+      "schema_version": "1.0.0",
+      "review_status": "draft",
+      "last_verification_reference": null,
+      "owner_role": "governance_reviewer",
+      "governed_by": [
+        "capability_boundary",
+        "rights_holder_governance",
+        "cross_artifact_integrity"
+      ],
+      "dependencies": [
+        "policies/capability-boundary.md",
+        "src/community/non_interference_routing.py"
+      ],
+      "non_authorization_injection_required": true,
+      "supersedes": null,
+      "revision_triggers": [
+        "city_routine_rights_constraint_changed",
+        "city_routine_ecological_constraint_changed"
+      ]
+    },
+    {
+      "artifact_id": "assistive-compatibility-matrix",
+      "repo_target": "mk-bluebird/Augmented-Hub",
+      "path": "manifests/assistive-compatibility-matrix.json",
+      "artifact_class": "compatibility_manifest",
+      "schema_version": "1.0.0",
+      "review_status": "draft",
+      "last_verification_reference": null,
+      "owner_role": "rights_and_accessibility_reviewer",
+      "governed_by": [
+        "rights_holder_governance",
+        "cross_artifact_integrity",
+        "reference_integrity"
+      ],
+      "dependencies": [
+        "schemas/transit-assistance-panel.schema.json",
+        "manifests/access-equity-metrics.json"
+      ],
+      "non_authorization_injection_required": true,
+      "supersedes": null,
+      "revision_triggers": [
+        "assistive_compatibility_version_changed",
+        "assistive_compatibility_failure_mode_changed"
+      ]
+    },
+    {
+      "artifact_id": "public-sensor-knowledge-record-schema",
+      "repo_target": "mk-bluebird/Augmented-Hub",
+      "path": "schemas/public-sensor-knowledge-record.schema.json",
+      "artifact_class": "json_schema",
+      "schema_version": "1.0.0",
+      "review_status": "draft",
+      "last_verification_reference": null,
+      "owner_role": "privacy_and_security_reviewer",
+      "governed_by": [
+        "non_authorization",
+        "rights_holder_governance",
+        "cross_artifact_integrity"
+      ],
+      "dependencies": [
+        "schemas/non-recordable-audit-reference.schema.json"
+      ],
+      "non_authorization_injection_required": true,
+      "supersedes": null,
+      "revision_triggers": [
+        "public_sensor_collection_boundary_changed",
+        "public_sensor_retention_boundary_changed",
+        "public_sensor_inference_prohibition_changed"
+      ]
+    }
+  ]
+}

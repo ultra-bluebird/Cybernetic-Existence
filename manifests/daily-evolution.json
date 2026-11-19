@@ -1,0 +1,18 @@
+{
+  "date": "2026-08-03",
+  "hostdid": "didalnorganic-host",
+  "episodes": [
+    {
+      "episodeid": "0x...",
+      "cyberfs_path": "cyberfs://nanoswarm/episodes/0x.../consistency",
+      "consistency_shard": "cyberfs-consistency-checks-nanoswarm-tfus.v1",
+      "checks": {
+        "fp_mass_consistency": true,
+        "fp_density_below_threshold": true,
+        "tfus_within_safety_envelope": true,
+        "tfus_approvals_match_tx_log": true,
+        "no_dual_violation_nanoswarm_tfus": true
+      }
+    }
+  ]
+}

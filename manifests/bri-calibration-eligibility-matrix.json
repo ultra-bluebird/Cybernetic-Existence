@@ -1,0 +1,149 @@
+{
+  "format": "augmented-hub.bri-calibration-eligibility-matrix",
+  "schema_version": "1.0.0",
+  "artifact_type": "bri_calibration_eligibility_matrix",
+  "repo_targets": [
+    "mk-bluebird/Augmented-Hub",
+    "mk-bluebird/Skynet"
+  ],
+  "review_status": "draft",
+  "record_status": "active",
+  "purpose": "Record the regional calibration eligibility conditions required before a BRI applicability claim can be considered for internal research review.",
+  "non_authorization": {
+    "statement": "This matrix records calibration eligibility metadata only. It does not establish scientific validity, local applicability, community authorization, representation, consent, publication eligibility, field permission, environmental intervention authority, operational control, or external action authorization.",
+    "external_action_requires_separate_approval": true,
+    "does_not_verify_identity_or_status": true,
+    "does_not_verify_repository_state": true
+  },
+  "eligibility_rule": {
+    "statement": "A BRI component may claim locally calibrated applicability for a region only when every required community type, soil parent material, season, and critical dimension listed for that region has a locally calibrated record with a non-empty calibration evidence reference.",
+    "missing_or_unknown_rule": "Missing, unknown, partially calibrated, out-of-scope, or structurally blocked conditions must not be treated as locally calibrated.",
+    "mixture_rule": "A materially heterogeneous mixture must use a mixture-aware stratum. It must not silently fall back to a homogeneous stratum or inherit local calibration through averaging.",
+    "default_applicability_when_incomplete": "not_locally_calibrated",
+    "external_action_authorized": false
+  },
+  "regions": [
+    {
+      "region_id": "region-example-arid-basin",
+      "region_label": "Example arid-basin calibration stratum",
+      "region_status": "not_locally_calibrated",
+      "community_types": [
+        {
+          "community_type": "urban_arid_basin",
+          "calibration_status": "not_locally_calibrated",
+          "calibration_evidence_reference": null
+        },
+        {
+          "community_type": "peri_urban_recharge_corridor",
+          "calibration_status": "not_locally_calibrated",
+          "calibration_evidence_reference": null
+        }
+      ],
+      "soil_parent_materials": [
+        {
+          "soil_parent_material": "alluvial_fluvial_deposits",
+          "calibration_status": "not_locally_calibrated",
+          "calibration_evidence_reference": null
+        },
+        {
+          "soil_parent_material": "mixed_alluvial_stratum",
+          "calibration_status": "mixture_aware_required",
+          "calibration_evidence_reference": null
+        }
+      ],
+      "seasons": [
+        {
+          "season": "hot_dry",
+          "calibration_status": "not_locally_calibrated",
+          "calibration_evidence_reference": null
+        },
+        {
+          "season": "monsoon_transition",
+          "calibration_status": "not_locally_calibrated",
+          "calibration_evidence_reference": null
+        },
+        {
+          "season": "cool_dry",
+          "calibration_status": "not_locally_calibrated",
+          "calibration_evidence_reference": null
+        }
+      ],
+      "critical_dimensions": [
+        {
+          "dimension_id": "hydraulic_conductivity",
+          "unit": "m_per_s",
+          "calibration_status": "not_locally_calibrated",
+          "calibration_evidence_reference": null
+        },
+        {
+          "dimension_id": "soil_moisture_regime",
+          "unit": "dimensionless_index",
+          "calibration_status": "not_locally_calibrated",
+          "calibration_evidence_reference": null
+        },
+        {
+          "dimension_id": "soil_texture_fraction",
+          "unit": "fraction",
+          "calibration_status": "not_locally_calibrated",
+          "calibration_evidence_reference": null
+        },
+        {
+          "dimension_id": "organic_carbon_content",
+          "unit": "mass_fraction",
+          "calibration_status": "not_locally_calibrated",
+          "calibration_evidence_reference": null
+        },
+        {
+          "dimension_id": "seasonal_temperature_profile",
+          "unit": "degrees_celsius",
+          "calibration_status": "not_locally_calibrated",
+          "calibration_evidence_reference": null
+        },
+        {
+          "dimension_id": "mixture_heterogeneity_index",
+          "unit": "dimensionless_index",
+          "calibration_status": "not_locally_calibrated",
+          "calibration_evidence_reference": null
+        }
+      ],
+      "applicability_limitations": [
+        "This is a metadata-only placeholder stratum and does not support a regional BRI applicability claim.",
+        "No local calibration evidence reference is recorded for any listed condition.",
+        "Mixed parent-material conditions require a separately calibrated mixture-aware stratum."
+      ],
+      "review_reference": null
+    }
+  ],
+  "calibration_statuses": [
+    "locally_calibrated",
+    "partially_calibrated",
+    "not_locally_calibrated",
+    "mixture_aware_required",
+    "unknown",
+    "structural_block"
+  ],
+  "required_evidence_fields_for_locally_calibrated": [
+    "calibration_evidence_reference",
+    "calibration_method_reference",
+    "uncertainty_assessment_reference",
+    "review_reference"
+  ],
+  "revision_triggers": [
+    "A regional calibration evidence record is added, corrected, withdrawn, or superseded.",
+    "A community type, soil parent material, season, or critical dimension changes.",
+    "A mixture-aware stratum is introduced or materially revised.",
+    "A BRI model version or uncertainty contract changes.",
+    "A new applicability limitation, OOD condition, consent boundary, privacy boundary, or provenance constraint is identified."
+  ],
+  "privacy": {
+    "data_class": "research_governance_metadata",
+    "contains_personal_data": false,
+    "minimum_disclosure_rule": "Record calibration conditions and governed evidence references only. Do not record individual identities, private locations, credentials, health information, neural information, biometric information, telemetry, or operational-system data."
+  },
+  "integrity": {
+    "content_digest": null,
+    "digest_algorithm": null,
+    "verification_status": "not_requested",
+    "last_verification_reference": null
+  }
+}

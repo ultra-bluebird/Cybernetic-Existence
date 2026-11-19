@@ -1,0 +1,114 @@
+{
+  "format": "augmented-hub.schema-composition-depth-declarations",
+  "schema_version": "1.0.0",
+  "artifact_type": "schema_composition_depth_declarations",
+  "repo_targets": [
+    "mk-bluebird/Augmented-Hub",
+    "mk-bluebird/Skynet"
+  ],
+  "review_status": "draft",
+  "purpose": "Declare bounded composition depth for governed composed schemas.",
+  "declarations": [
+    {
+      "declaration_type": "schema_composition_depth_limit",
+      "schema_version": "1.0.0",
+      "declared_for_artifact": {
+        "repo_target": "mk-bluebird/Skynet",
+        "path": "schemas/research-output-record.schema.json",
+        "artifact_id": "research-output-record-schema"
+      },
+      "composition_mode": "nested_children",
+      "maximum_structural_depth": 6,
+      "root_depth": 0,
+      "reference_traversal_policy": "bounded_cross_repository_indexed_references",
+      "recursive_reference_policy": "forbidden",
+      "explicit_base_case_reference": null,
+      "depth_exceeded_behavior": "structural_block",
+      "cycle_detected_behavior": "structural_block",
+      "structural_block_reference": "src/governance/structural_block_reason.py",
+      "allowed_reference_kinds": [
+        "$defs",
+        "$ref",
+        "allOf",
+        "anyOf",
+        "oneOf",
+        "items",
+        "properties",
+        "if",
+        "then",
+        "else"
+      ],
+      "validation_notes": [
+        "Nested research outputs must retain component-level provenance, uncertainty, OOD, evidence class, and withdrawal-impact metadata.",
+        "A recursive reference or composition path deeper than six structural levels is blocked pending explicit redesign or reviewed limit change."
+      ],
+      "non_authorization": {
+        "statement": "This declaration sets internal schema validation limits only. It does not authorize schema mutation, repository access, publication, or external action.",
+        "external_action_requires_separate_approval": true,
+        "does_not_verify_identity_or_status": true,
+        "does_not_verify_repository_state": true
+      },
+      "privacy": {
+        "data_class": "governance_metadata",
+        "contains_personal_data": false,
+        "minimum_disclosure_rule": "Record schema structure and validation-boundary metadata only."
+      }
+    },
+    {
+      "declaration_type": "schema_composition_depth_limit",
+      "schema_version": "1.0.0",
+      "declared_for_artifact": {
+        "repo_target": "mk-bluebird/Skynet",
+        "path": "schemas/ttf-bri-comparison-output.schema.json",
+        "artifact_id": "ttf-bri-comparison-output-schema"
+      },
+      "composition_mode": "nested_children",
+      "maximum_structural_depth": 7,
+      "root_depth": 0,
+      "reference_traversal_policy": "bounded_cross_repository_indexed_references",
+      "recursive_reference_policy": "forbidden",
+      "explicit_base_case_reference": null,
+      "depth_exceeded_behavior": "structural_block",
+      "cycle_detected_behavior": "structural_block",
+      "structural_block_reference": "src/governance/structural_block_reason.py",
+      "allowed_reference_kinds": [
+        "$defs",
+        "$ref",
+        "allOf",
+        "anyOf",
+        "oneOf",
+        "items",
+        "properties",
+        "if",
+        "then",
+        "else"
+      ],
+      "validation_notes": [
+        "TTF and BRI model children retain checkpoint, uncertainty, OOD, evidence-class, calibration, provenance, and non-authorization records.",
+        "A recursive or depth-excessive component composition is structurally blocked rather than flattened or silently truncated."
+      ],
+      "non_authorization": {
+        "statement": "This declaration sets internal schema validation limits only. It does not authorize schema mutation, repository access, publication, or external action.",
+        "external_action_requires_separate_approval": true,
+        "does_not_verify_identity_or_status": true,
+        "does_not_verify_repository_state": true
+      },
+      "privacy": {
+        "data_class": "governance_metadata",
+        "contains_personal_data": false,
+        "minimum_disclosure_rule": "Record schema structure and validation-boundary metadata only."
+      }
+    }
+  ],
+  "non_authorization": {
+    "statement": "This manifest records internal schema composition declarations only. It does not validate live repository files, authorize mutation, or authorize external action.",
+    "external_action_requires_separate_approval": true,
+    "does_not_verify_identity_or_status": true,
+    "does_not_verify_repository_state": true
+  },
+  "privacy": {
+    "data_class": "governance_metadata",
+    "contains_personal_data": false,
+    "minimum_disclosure_rule": "Record bounded composition metadata only."
+  }
+}

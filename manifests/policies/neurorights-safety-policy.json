@@ -1,0 +1,35 @@
+{
+  "policy_id": "mt6883-neurorights-v1",
+  "version": "1.0.0",
+  "effective_utc": "2026-05-01T00:00:00Z",
+  "mental_privacy": {
+    "allow_raw_eeg_export": false,
+    "allow_raw_lfp_export": false,
+    "requires_pseudonymization": true
+  },
+  "cognitive_liberty": {
+    "allow_coercive_modulation": false,
+    "requires_explicit_session_consent": true,
+    "kill_switch_mandatory": true
+  },
+  "psychological_continuity": {
+    "allow_identity_disruption": false,
+    "max_cognitive_load_shift_per_hour": 0.15
+  },
+  "risk_ceiling": {
+    "roh_max": 0.30,
+    "pain_score_vas_max": 4.0,
+    "fear_index_max": 0.60,
+    "residual_risk_max": 0.25
+  },
+  "audit_trail": {
+    "log_guard_decisions": true,
+    "log_nociceptive_clamps": true,
+    "export_to_hyperledger": true,
+    "retention_days": 365
+  },
+  "authorized_signers": [
+    "did:bostrom:8f3a...9b1c",
+    "did:clinical:4e7d...2a5f"
+  ]
+}

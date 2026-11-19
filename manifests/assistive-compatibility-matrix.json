@@ -1,0 +1,142 @@
+{
+  "format": "augmented-hub.assistive-compatibility-matrix",
+  "schema_version": "1.0.0",
+  "artifact_type": "assistive_compatibility_matrix",
+  "repo_targets": [
+    "mk-bluebird/Augmented-Hub",
+    "mk-bluebird/Skynet"
+  ],
+  "review_status": "draft",
+  "record_status": "active",
+  "purpose": "Record metadata-only compatibility conditions between generic assistive interface profiles and municipal or public infrastructure classes. This matrix does not identify people, authenticate devices, pair devices, access telemetry, operate infrastructure, certify vendors, determine eligibility, or authorize service decisions.",
+  "non_authorization": {
+    "statement": "This matrix records internal compatibility-review metadata only. It does not operate doors, elevators, transit, kiosks, assistive appliances, devices, vehicles, sensors, or infrastructure. It does not authenticate a person or device, create eligibility, authorize access, create a public registry, or authorize external action.",
+    "external_action_requires_separate_approval": true,
+    "does_not_verify_identity_or_status": true,
+    "does_not_verify_repository_state": true
+  },
+  "compatibility_rule": {
+    "statement": "A compatibility status applies only to the declared generic infrastructure class, interface profile, version pair, and access condition. It must not be generalized to a person, device owner, resident, user class, vendor, medical condition, augmentation status, eligibility determination, or service entitlement.",
+    "unknown_compatibility_behavior": "preserve_unknown_and_offer_non-disclosing_human_fallback",
+    "failure_mode_behavior": "record_failure_mode_and_require_review",
+    "external_action_authorized": false
+  },
+  "infrastructure_classes": [
+    "automatic_door",
+    "elevator_interface",
+    "transit_assistance_panel",
+    "public_kiosk",
+    "accessible_crossing_interface",
+    "other_governed_public_interface"
+  ],
+  "compatibility_statuses": [
+    "compatible_under_declared_conditions",
+    "partially_compatible",
+    "incompatible_under_declared_conditions",
+    "unknown",
+    "not_assessed",
+    "structural_block"
+  ],
+  "failure_mode_categories": [
+    "timing_mismatch",
+    "clearance_mismatch",
+    "sensor_detection_mismatch",
+    "communication_protocol_mismatch",
+    "fallback_unavailable",
+    "privacy_boundary_conflict",
+    "version_mismatch",
+    "unknown_failure_mode",
+    "other_governed_failure"
+  ],
+  "matrix_entries": [
+    {
+      "entry_id": "automatic-door-generic-interface-profile-v1",
+      "infrastructure_class": "automatic_door",
+      "infrastructure_version": "not_verified",
+      "interface_profile": "generic_non_disclosing_access_interface",
+      "interface_profile_version": "1.0.0",
+      "access_condition": "general_accessible_entry",
+      "compatibility_status": "not_assessed",
+      "failure_modes": [
+        "unknown_failure_mode"
+      ],
+      "human_fallback_available": true,
+      "identity_disclosure_required": false,
+      "medical_or_diagnosis_proof_required": false,
+      "device_pairing_required": false,
+      "telemetry_access_required": false,
+      "evidence_reference": null,
+      "review_status": "draft",
+      "supersedes_reference": null,
+      "limitations": [
+        "This entry is a generic compatibility placeholder and does not establish real-world device, door, sensor, or infrastructure compatibility.",
+        "No user identity, device identity, medical data, neural data, biometric data, telemetry, or location data is recorded."
+      ],
+      "external_action_authorized": false
+    },
+    {
+      "entry_id": "transit-panel-generic-interface-profile-v1",
+      "infrastructure_class": "transit_assistance_panel",
+      "infrastructure_version": "not_verified",
+      "interface_profile": "generic_non_disclosing_access_interface",
+      "interface_profile_version": "1.0.0",
+      "access_condition": "unknown_audience_assistance_request",
+      "compatibility_status": "partially_compatible",
+      "failure_modes": [
+        "fallback_unavailable",
+        "unknown_failure_mode"
+      ],
+      "human_fallback_available": true,
+      "identity_disclosure_required": false,
+      "medical_or_diagnosis_proof_required": false,
+      "device_pairing_required": false,
+      "telemetry_access_required": false,
+      "evidence_reference": "schemas/transit-assistance-panel.schema.json",
+      "review_status": "draft",
+      "supersedes_reference": null,
+      "limitations": [
+        "Compatibility is limited to an internal minimum-service request pattern.",
+        "The entry does not operate transit infrastructure or contact external staff."
+      ],
+      "external_action_authorized": false
+    }
+  ],
+  "required_entry_fields": [
+    "entry_id",
+    "infrastructure_class",
+    "infrastructure_version",
+    "interface_profile",
+    "interface_profile_version",
+    "access_condition",
+    "compatibility_status",
+    "failure_modes",
+    "human_fallback_available",
+    "identity_disclosure_required",
+    "medical_or_diagnosis_proof_required",
+    "device_pairing_required",
+    "telemetry_access_required",
+    "review_status",
+    "external_action_authorized"
+  ],
+  "revision_triggers": [
+    "An infrastructure class, interface profile, version, access condition, compatibility status, or failure mode changes.",
+    "A fallback condition changes.",
+    "A privacy, non-disclosure, accessibility, non-interference, correction, or appeal requirement changes.",
+    "A matrix entry is corrected, withdrawn, superseded, or structurally blocked.",
+    "A compatibility claim is found to have been used improperly for identity, eligibility, access control, vendor certification, ranking, or external action."
+  ],
+  "privacy": {
+    "data_class": "assistive_compatibility_governance_metadata",
+    "contains_personal_data": false,
+    "contains_device_telemetry": false,
+    "contains_neural_data": false,
+    "contains_biometric_data": false,
+    "minimum_disclosure_rule": "Record generic infrastructure and interface-profile conditions only. Do not record identities, device serial numbers, pairing identifiers, health information, neural information, biometric information, telemetry, credentials, location data, or operational-system details."
+  },
+  "integrity": {
+    "content_digest": null,
+    "digest_algorithm": null,
+    "verification_status": "not_requested",
+    "last_verification_reference": null
+  }
+}

@@ -1,0 +1,224 @@
+{
+  "format": "augmented-hub.session-resumption-preflight",
+  "schema_version": "1.0.0",
+  "artifact_type": "session_resumption_preflight",
+  "repo_targets": [
+    "mk-bluebird/Augmented-Hub",
+    "mk-bluebird/Skynet"
+  ],
+  "review_status": "draft",
+  "preflight_status": "not_run",
+  "purpose": "Provide a machine-checkable preflight checklist that a fresh session must complete before assuming any governed artifact exists, is current, valid, adopted, repository-persisted, verified, or available for use.",
+  "non_authorization": {
+    "statement": "This preflight manifest records internal continuity checks only. It does not inspect repositories, access files, activate connectors, verify external systems, authorize repository mutation, publication, data transfer, field activity, operational control, representation, identity verification, eligibility determination, or any external action.",
+    "external_action_requires_separate_approval": true,
+    "does_not_verify_identity_or_status": true,
+    "does_not_verify_repository_state": true
+  },
+  "preflight_rule": {
+    "statement": "A fresh session must treat all artifact paths, interfaces, versions, review states, tests, schema validity, and dependencies as unverified unless a bounded verification reference is supplied and accepted by the relevant validation workflow.",
+    "missing_required_check_behavior": "structural_block",
+    "unknown_or_unverified_behavior": "preserve_explicit_unverified_status",
+    "default_external_action_behavior": "not_authorized",
+    "default_repository_assumption": "no_assumption_of_existence_or_currentness"
+  },
+  "required_packet": [
+    {
+      "packet_order": 1,
+      "role": "charter",
+      "path": "docs/charter.md",
+      "required_for_resumption": true,
+      "expected_artifact_type": "governance_document",
+      "verification_status": "not_checked",
+      "verification_reference": null,
+      "required_checks": [
+        "path_reference_present",
+        "artifact_type_declared",
+        "non_authorization_boundary_declared",
+        "review_status_declared"
+      ]
+    },
+    {
+      "packet_order": 2,
+      "role": "capability_boundary",
+      "path": "policies/capability-boundary.md",
+      "required_for_resumption": true,
+      "expected_artifact_type": "capability_policy",
+      "verification_status": "not_checked",
+      "verification_reference": null,
+      "required_checks": [
+        "path_reference_present",
+        "permitted_scope_declared",
+        "denied_actions_declared",
+        "trust_boundaries_declared",
+        "external_action_separation_declared"
+      ]
+    },
+    {
+      "packet_order": 3,
+      "role": "research_output_contract",
+      "path": "schemas/research-output-record.schema.json",
+      "required_for_resumption": true,
+      "expected_artifact_type": "json_schema",
+      "verification_status": "not_checked",
+      "verification_reference": null,
+      "required_checks": [
+        "path_reference_present",
+        "schema_version_declared",
+        "canonical_version_status_known",
+        "non_authorization_contract_declared",
+        "conditional_discriminator_guards_checked"
+      ]
+    },
+    {
+      "packet_order": 4,
+      "role": "planned_artifacts",
+      "path": "manifests/planned-artifacts.json",
+      "required_for_resumption": true,
+      "expected_artifact_type": "planning_manifest",
+      "verification_status": "not_checked",
+      "verification_reference": null,
+      "required_checks": [
+        "path_reference_present",
+        "canonical_version_status_known",
+        "open_blocked_completed_states_declared",
+        "supersession_status_known"
+      ]
+    },
+    {
+      "packet_order": 5,
+      "role": "forward_progress_registry",
+      "path": "manifests/forward-progress-registry.json",
+      "required_for_resumption": true,
+      "expected_artifact_type": "continuity_registry",
+      "verification_status": "not_checked",
+      "verification_reference": null,
+      "required_checks": [
+        "path_reference_present",
+        "priorities_declared",
+        "dependencies_declared",
+        "blockers_declared",
+        "completed_milestones_declared",
+        "bounded_next_actions_declared"
+      ]
+    },
+    {
+      "packet_order": 6,
+      "role": "session_carrier",
+      "path": "manifests/session-carrier.json",
+      "required_for_resumption": true,
+      "expected_artifact_type": "session_continuity_manifest",
+      "verification_status": "not_checked",
+      "verification_reference": null,
+      "required_checks": [
+        "path_reference_present",
+        "schema_reference_present",
+        "active_scope_declared",
+        "active_constraints_declared",
+        "unresolved_questions_declared",
+        "bounded_resume_actions_declared",
+        "handoff_status_declared"
+      ]
+    }
+  ],
+  "required_cross_checks": [
+    {
+      "check_id": "packet-order-is-canonical",
+      "description": "The packet is interpreted in charter, capability boundary, research output contract, planned artifacts, forward progress registry, and session carrier order.",
+      "status": "not_checked",
+      "failure_behavior": "structural_block",
+      "remediation_reference": "docs/skynet-session-resumption-minimum.md"
+    },
+    {
+      "check_id": "session-carrier-schema-reference",
+      "description": "The session carrier references schemas/session-carrier.schema.json and the carrier is not treated as valid until checked against the declared schema.",
+      "status": "not_checked",
+      "failure_behavior": "structural_block",
+      "remediation_reference": "schemas/session-carrier.schema.json"
+    },
+    {
+      "check_id": "foundation-gate-evidence-map",
+      "description": "Each of the twelve foundation gates has one bounded evidence source, review role, and evidence status.",
+      "status": "not_checked",
+      "failure_behavior": "structural_block",
+      "remediation_reference": "manifests/foundation-gate-registry.json"
+    },
+    {
+      "check_id": "artifact-metadata-coverage",
+      "description": "Each governed artifact needed for the resumed scope has an artifact metadata registry entry with path, schema version, review status, and verification reference.",
+      "status": "not_checked",
+      "failure_behavior": "structural_block",
+      "remediation_reference": "manifests/artifact-metadata-registry.json"
+    },
+    {
+      "check_id": "canonical-choice-status",
+      "description": "Any artifact family with competing drafts has a canonical-choice status or remains explicitly blocked pending a supersession record.",
+      "status": "not_checked",
+      "failure_behavior": "structural_block",
+      "remediation_reference": "docs/artifact-canonical-choice-log.md"
+    },
+    {
+      "check_id": "unknown-audience-preservation",
+      "description": "Audience context remains unknown when it cannot be established and is not defaulted to internal_research.",
+      "status": "not_checked",
+      "failure_behavior": "structural_block",
+      "remediation_reference": "enums/audience_track.json"
+    },
+    {
+      "check_id": "non-authorization-coverage",
+      "description": "Required governed artifacts include or validly reference the canonical non-authorization boundary.",
+      "status": "not_checked",
+      "failure_behavior": "structural_block",
+      "remediation_reference": "src/governance/nonauthorization_injection.py"
+    },
+    {
+      "check_id": "scope-contract-lifecycle",
+      "description": "Any active scope header has been parsed, routed, registered, and retained or pruned according to docs/scope-header-lifecycle.md.",
+      "status": "not_checked",
+      "failure_behavior": "structural_block",
+      "remediation_reference": "docs/scope-header-lifecycle.md"
+    }
+  ],
+  "fresh-session-declarations": {
+    "repository_inspection_performed": false,
+    "repository_write_performed": false,
+    "connector_or_external_system_access_performed": false,
+    "test_execution_performed": false,
+    "schema_validation_performed": false,
+    "digest_computation_performed": false,
+    "live_path_resolution_performed": false,
+    "external_action_authorized": false,
+    "verification_status": "not_requested"
+  },
+  "resumption_outcome": {
+    "ready_for_bounded_internal_draft_review": false,
+    "ready_for_repository_mutation": false,
+    "ready_for_external_action": false,
+    "blocking_reasons": [
+      "Preflight has not been run against explicitly supplied or verified artifacts.",
+      "No verification references are recorded for the required session-resumption packet.",
+      "Canonical version reconciliation remains unresolved for named governed artifacts."
+    ],
+    "next_required_action": "Run local or explicitly authorized verification against the required packet and record bounded verification references before assuming artifact existence, currentness, validation, adoption, or repository persistence."
+  },
+  "revision_triggers": [
+    "A required packet artifact changes path, version, status, review requirement, or repository target.",
+    "A session-carrier schema or session-resumption rule changes.",
+    "A foundation-gate evidence source, review role, or staleness rule changes.",
+    "A canonical-choice record is created, changed, or superseded.",
+    "A privacy, consent, withdrawal, correction, appeal, accessibility, audience, provenance, uncertainty, or non-authorization requirement changes.",
+    "A structural block, governance drift finding, or material cross-artifact conflict is discovered."
+  ],
+  "privacy": {
+    "data_class": "governance_metadata",
+    "contains_personal_data": false,
+    "contains_sensitive_technical_inventory": false,
+    "minimum_disclosure_rule": "Record only the bounded artifact references, check statuses, verification references, and structural reasons necessary for session continuity. Do not include personal identity, health, neural, biometric, credential, telemetry, protected-site, companion-system, institutional, or operational-system data."
+  },
+  "integrity": {
+    "content_digest": null,
+    "digest_algorithm": null,
+    "verification_status": "not_requested",
+    "last_verification_reference": null
+  }
+}
