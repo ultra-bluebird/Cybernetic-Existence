@@ -1,0 +1,29 @@
+{
+  "TLA_model_checker_executed": false,
+  "allowed_rehearsal_transitions": 15,
+  "boundary_cases": {
+    "changed_revision": true,
+    "deadline_boundary": true,
+    "monitoring_gap": true,
+    "paused": true,
+    "single_use_approval": true
+  },
+  "classification": "executed_bounded_python_state_exploration",
+  "engine_version": "1.0.0",
+  "event_vocabulary": [
+    "review",
+    "material_change",
+    "monitoring_gap",
+    "pause",
+    "resume",
+    "approve",
+    "submit_rehearsal",
+    "untrusted_edit"
+  ],
+  "hashes_created": false,
+  "live_services_contacted": false,
+  "logical_ticks_explored": 7,
+  "penetration_test_performed": false,
+  "scope": "Finite, sequential local transition model with abstract authenticated events and simulated approvals; no concurrency, actual authorization, content screening, or external execution.",
+  "state_event_transitions_checked": 3808
+}

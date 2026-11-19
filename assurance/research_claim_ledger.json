@@ -1,0 +1,102 @@
+{
+  "schema_version": "1.0.0",
+  "record_kind": "research_claim_classification_ledger",
+  "provenance": {
+    "sovereign_attribution": "bostrom18sd2ujv24ual9c9pshtxys6j8knh6xaead9ye7",
+    "attribution_use": "document_credit_only"
+  },
+  "classification_authenticates_evidence": false,
+  "integration_with_existing_claim_modules": "not_implemented",
+  "claims": [
+    {
+      "claim_text": "The proposed continuity arrangement separates public interoperability materials from confidential proprietary maintenance deposits.",
+      "classification": "design_proposal",
+      "classification_basis": "This response authors model terms; no executed escrow arrangement is asserted.",
+      "sources": [
+        {
+          "reference": "Continuity Escrow and Interoperability Model Terms in this response",
+          "role": "framework_artifact"
+        }
+      ],
+      "scope": "Proposed continuity architecture only.",
+      "evidence": [],
+      "limitations": [
+        "No jurisdiction-specific legal review completed.",
+        "No deposit, successor appointment, or clinical deployment performed."
+      ],
+      "invalidation_conditions": [
+        "The referenced model terms do not make the stated separation."
+      ],
+      "review_triggers": [
+        "The deposited materials, license rights, or release conditions change."
+      ],
+      "review_state": "scope_reviewed_not_authenticated",
+      "revision": 0
+    },
+    {
+      "claim_text": "An earlier response reported 1152 selected preference-codec round trips.",
+      "classification": "supplied_claim",
+      "classification_basis": "Preserved as a prior reported exercise, not a new execution in this build.",
+      "sources": [
+        {
+          "reference": "Earlier preference-codec response in this conversation",
+          "role": "reported_execution_summary"
+        }
+      ],
+      "scope": "Selected synthetic configurations of two fictional codecs.",
+      "evidence": [
+        {
+          "kind": "reported_test_summary",
+          "origin": "prior_conversation_report",
+          "reference": "Earlier reported local codec exercise"
+        }
+      ],
+      "limitations": [
+        "Not participant observations.",
+        "Not exhaustive coverage of all valid preference records.",
+        "Not rerun in this build."
+      ],
+      "invalidation_conditions": [
+        "The original execution record establishes a different case count or an unsuccessful reported assertion."
+      ],
+      "review_triggers": [
+        "The codec mapping or fixture inventory changes.",
+        "A claim is proposed about a different implementation or real-world usability."
+      ],
+      "review_state": "scope_reviewed_not_authenticated",
+      "revision": 0
+    },
+    {
+      "claim_text": "The minimum-acceptance status classifier matched its reference ordering for all 59049 supported ten-requirement tri-state assignments.",
+      "classification": "tested_implementation",
+      "classification_basis": "The exhaustive synthetic status-space exercise was executed during this response.",
+      "sources": [
+        {
+          "reference": "Minimum-acceptance classifier and local execution in this response",
+          "role": "executed_evaluation"
+        }
+      ],
+      "scope": "Status classification only; supplied evidence labels are not authenticated.",
+      "evidence": [
+        {
+          "kind": "executed_test_record",
+          "origin": "current_local_execution",
+          "reference": "Attached minimum-acceptance gate pilot report"
+        }
+      ],
+      "limitations": [
+        "Actual product requirements remain unevaluated.",
+        "No live accessibility pilot or clinical validation occurred.",
+        "No release or external action was authorized."
+      ],
+      "invalidation_conditions": [
+        "The same classifier and supported input domain produce a classification inconsistent with the stated ordering."
+      ],
+      "review_triggers": [
+        "The requirement inventory, allowed states, precedence, or classifier changes."
+      ],
+      "review_state": "scope_reviewed_not_authenticated",
+      "revision": 0
+    }
+  ]
+}

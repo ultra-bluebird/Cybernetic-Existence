@@ -1,0 +1,76 @@
+{
+  "declaration_version": "1.0.0",
+  "adapter_kind": "identity_companion_transport",
+  "implementation_status": "proposed_not_executed",
+  "source": {
+    "record_kind": "task_comprehension_counts",
+    "schema_version": "1.0.0"
+  },
+  "target": {
+    "record_kind": "task_comprehension_counts",
+    "schema_version": "1.0.0"
+  },
+  "world_save_relationship": {
+    "manifest_version": "1.0.0",
+    "relationship": "external_evidence_companion_not_manifest_root_extension",
+    "manifest_mutation": "prohibited"
+  },
+  "mappings": [
+    {
+      "source_field": "schema_version",
+      "target_field": "schema_version",
+      "operation": "exact_copy"
+    },
+    {
+      "source_field": "record_kind",
+      "target_field": "record_kind",
+      "operation": "exact_copy"
+    },
+    {
+      "source_field": "provenance",
+      "target_field": "provenance",
+      "operation": "exact_subtree_copy"
+    },
+    {
+      "source_field": "scope",
+      "target_field": "scope",
+      "operation": "exact_subtree_copy"
+    },
+    {
+      "source_field": "tasks",
+      "target_field": "tasks",
+      "operation": "exact_subtree_copy"
+    }
+  ],
+  "unsupported_concepts": [
+    "participant_level_responses",
+    "operational_authorization",
+    "milestone_acceptance",
+    "composite_comprehension_score",
+    "person_level_eligibility"
+  ],
+  "lossy_transformations": "prohibited",
+  "unit_handling": "preserve_assigned_task_response_counts",
+  "privacy_exclusions": [
+    "raw_neural_data",
+    "medical_records",
+    "credentials",
+    "private_companion_system_information"
+  ],
+  "unknown_fields": "report_paths_without_values_and_reject_conversion",
+  "optional_fields": "preserve_if_supported_otherwise_report_and_reject",
+  "validation": {
+    "source": "trusted_local_schema_and_semantic_count_checks",
+    "target": "trusted_local_schema_and_semantic_count_checks",
+    "input_mutation": "prohibited",
+    "network_schema_resolution": "prohibited"
+  },
+  "compatibility_tests": {
+    "same_version_round_trip": "not_executed",
+    "unsupported_field_rejection": "not_executed",
+    "cross_version_conversion": "not_supported",
+    "world_save_manifest_integration": "not_tested"
+  },
+  "authority": "none_granted",
+  "license": "MIT OR Apache-2.0"
+}

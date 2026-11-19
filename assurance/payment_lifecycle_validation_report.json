@@ -1,0 +1,25 @@
+{
+  "TLA_or_Alloy_executed": false,
+  "ambiguous_retry_rejected": true,
+  "cancellation_request_not_confirmation": true,
+  "classification": "executed_bounded_sequential_payment_model",
+  "completion_after_cancel_request_preserved": true,
+  "concurrency_or_durable_recovery_verified": false,
+  "engine_version": "1.0.0",
+  "external_provider_called": false,
+  "frontier_exhausted": true,
+  "permitted_transitions": 45,
+  "reachable_states": 17,
+  "refund_request_not_refund_completion": true,
+  "rejected_transitions": 125,
+  "scope": "One synthetic local workflow and trusted abstract provider events; not actual authentication, settlement, duplicate charge prevention, or provider reconciliation.",
+  "state_event_checks": 170,
+  "term_change_approval_invalidation": {
+    "amount_minor": true,
+    "currency": true,
+    "fees_minor": true,
+    "recipient": true,
+    "schedule": true,
+    "source": true
+  }
+}

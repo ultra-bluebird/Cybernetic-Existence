@@ -1,0 +1,17 @@
+{
+  "CyberRank_status_verified": false,
+  "classification": "executed_synthetic_equal_access_boundary_checks",
+  "engine_version": "1.0.0",
+  "financial_contribution_collection": false,
+  "fixture_combinations": 432,
+  "human_triage_bias_measured": false,
+  "negative_controls_detected": {
+    "contribution_gate": true,
+    "grammar_penalty": true,
+    "self_description_proof_gate": true
+  },
+  "private_context_used_by_baseline": "not_passed_to_intake_function",
+  "route_delivery_or_accessibility_validated": false,
+  "scope": "Local routing policy with abstract topic/route and synthetic descriptions. Not free-text understanding, diagnosis, real queue fairness, access authorization, or deployed-service behavior.",
+  "standing_effect_study_conducted": false
+}

@@ -1,0 +1,37 @@
+{
+  "IEEE_outward_rounding_verified": false,
+  "MATLAB_function_executed": false,
+  "MATLAB_test_suite_executed": false,
+  "actual_energy_measured": false,
+  "bounds_gCO2e_or_gCO2e_per_unit": {
+    "allocated_per_unit": [
+      "65/16",
+      "205/16"
+    ],
+    "allocated_total": [
+      "195/4",
+      "205/2"
+    ],
+    "baseline_operational": [
+      "133/10",
+      "189/10"
+    ],
+    "embodied_allocated": [
+      "15/4",
+      "35/2"
+    ],
+    "operational_difference": [
+      "261/10",
+      "717/10"
+    ],
+    "workload_operational": [
+      "45",
+      "85"
+    ]
+  },
+  "classification": "executed_exact_rational_formula_check",
+  "component_checks": 3072,
+  "input_rectangular_model_validated_empirically": false,
+  "rectangular_corner_cases": 512,
+  "scope": "One synthetic independent rectangular scenario; exact endpoint formulas and all corners, not a full LCA or general proof of floating-point enclosure."
+}

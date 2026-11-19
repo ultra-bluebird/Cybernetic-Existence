@@ -1,0 +1,55 @@
+{
+  "claim_ledger_audit_executed": false,
+  "classification": "independent_executed_synthetic_verification",
+  "classification_counts": {
+    "all_required_evidence_passes": 1,
+    "failed_requirements_present": 58025,
+    "unresolved_requirements_present": 1023
+  },
+  "engine_version": "1.0.0",
+  "independent_rank_reference_matches": true,
+  "malformed_cases_rejected": 6,
+  "negative_control_counterexamples": {
+    "majority_pass": [
+      "pass",
+      "pass",
+      "pass",
+      "pass",
+      "pass",
+      "pass",
+      "pass",
+      "pass",
+      "pass",
+      "fail"
+    ],
+    "unknown_as_pass": [
+      "pass",
+      "pass",
+      "pass",
+      "pass",
+      "pass",
+      "pass",
+      "pass",
+      "pass",
+      "pass",
+      "unknown"
+    ],
+    "unknown_first": [
+      "pass",
+      "pass",
+      "pass",
+      "pass",
+      "pass",
+      "pass",
+      "pass",
+      "pass",
+      "fail",
+      "unknown"
+    ]
+  },
+  "operational_authority_granted": false,
+  "original_gate_implementation_executed": false,
+  "original_gate_implementation_inspected": false,
+  "real_requirement_satisfaction_evaluated": false,
+  "state_vectors_checked": 59049
+}

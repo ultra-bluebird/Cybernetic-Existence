@@ -1,0 +1,16 @@
+{
+  "bounded_review_trigger_combinations": 81,
+  "classification": "executed_synthetic_review_binding_checks",
+  "engine_version": "2.0.0",
+  "full_consent_or_publication_workflow_tested": false,
+  "missing_historical_time_unresolved": true,
+  "review_authenticity_verified": false,
+  "scope": "Exact supplied Scope equality, declared review disposition, and temporal sanity only; not source code identity, legal validity, or real review adequacy.",
+  "stale_binding_cases_rejected": {
+    "correction_revision": true,
+    "material_revision": true,
+    "proposed_use": true,
+    "proposed_version": true,
+    "trigger": true
+  }
+}

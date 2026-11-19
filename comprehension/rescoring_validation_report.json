@@ -1,0 +1,15 @@
+{
+  "adapter_cross_version_tests_executed": false,
+  "count_compositions": 126,
+  "engine_version": "1.0.0",
+  "existing_repository_tests_executed": false,
+  "negative_controls_detected": {
+    "cross_task": true,
+    "wrong_denominator": true,
+    "zero_for_undefined": true
+  },
+  "one_response_recoding_checks": 840,
+  "participant_study_conducted": false,
+  "scope": "executed standalone arithmetic companion; not repository kernel/schema rerun",
+  "task_cell_checks": 630
+}

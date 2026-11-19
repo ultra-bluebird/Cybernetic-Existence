@@ -1,0 +1,34 @@
+{
+  "mapping_version": "1.0.0",
+  "kind": "WorldSaveComprehensionCompanionMapping",
+  "sovereign_attribution": "bostrom18sd2ujv24ual9c9pshtxys6j8knh6xaead9ye7",
+  "attribution_use": "document_credit_only",
+  "relationship": "external_evidence_companion_not_manifest_root_extension",
+  "manifest_version": "1.0.0",
+  "automatic_adapter_compatibility": "not_established",
+  "mappings": [
+    {
+      "manifest_path": "spec.wording.comprehension_evidence_required_for_effectiveness_claim",
+      "use": "require actual scoped study evidence before effectiveness claims"
+    },
+    {
+      "manifest_path": "spec.validation.required_before_operational_adoption",
+      "use": "attach count and differential test evidence, not participant-study success"
+    },
+    {
+      "manifest_path": "instance.milestone.reference_requirements",
+      "use": "a reviewed comprehension obligation may reference the companion; no result auto-passes"
+    },
+    {
+      "manifest_path": "spec.privacy_and_retention",
+      "use": "disclose aggregate counts only after scoped disclosure review"
+    },
+    {
+      "manifest_path": "spec.authority_boundary",
+      "use": "no metric supplies milestone acceptance or execution authority"
+    }
+  ],
+  "unknown_manifest_fields": "reject_do_not_insert_new_root_keys",
+  "integration_implementation": "not_provided_by_this_mapping",
+  "license": "MIT OR Apache-2.0"
+}

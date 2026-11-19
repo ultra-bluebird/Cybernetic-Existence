@@ -1,0 +1,15 @@
+{
+  "classification": "executed_synthetic_local_summary_boundary",
+  "cross_cultural_validity_tested": false,
+  "engine_version": "1.0.0",
+  "no_share_choice_suppresses_signal": true,
+  "nonempty_category_subsets_checked": 255,
+  "privacy_unit_enforced_across_repeated_submissions": false,
+  "private_wording_not_emitted_in_checked_cases": true,
+  "public_release_disabled": true,
+  "refusal_and_no_category_distinguished": true,
+  "reidentification_tests_performed": false,
+  "scope": "No real histories, participants, local storage, transmission, or public release.",
+  "secure_aggregation_or_DP_tested": false,
+  "signal_L1_norm": 1
+}

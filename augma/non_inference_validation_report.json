@@ -1,0 +1,13 @@
+{
+  "classification": "executed_synthetic_kernel_check",
+  "state_vectors": 2187,
+  "pairwise_perturbation_checks": 30618,
+  "simultaneous_other_dimension_checks": 15309,
+  "input_immutability_checked": true,
+  "external_authority_false_for_all_vectors": true,
+  "full_artifact_executed": false,
+  "json_schema_validation_executed": false,
+  "base_manifest_adapter_tested": false,
+  "participant_study_conducted": false,
+  "scope": "Declared finite state projection only; not authenticity, legal consent, lifecycle reachability, or deployment validation."
+}

@@ -1,0 +1,32 @@
+{
+  "actual_energy_measured": false,
+  "classification": "executed_hypothetical_arithmetic_not_metered_pilot",
+  "energy_fixture": {
+    "allocated_embodied_gCO2e": 8.561643835616438,
+    "allocated_total_gCO2e": 72.56164383561644,
+    "allocated_total_is_not_incremental_total": true,
+    "baseline_Wh": 40,
+    "embodied_assumptions": {
+      "hardware_total_gCO2e": 300000,
+      "job_hours": 2,
+      "lifetime_hours": 35040,
+      "resource_share": 0.5
+    },
+    "incremental_operational_gCO2e_under_baseline": 48.0,
+    "intensity_gCO2e_per_kWh": 400,
+    "workload_Wh": 160,
+    "workload_operational_gCO2e": 64.0
+  },
+  "hardware_controlled": false,
+  "participants_recruited": false,
+  "precision_fixture": {
+    "confidence": 0.95,
+    "interval": "Wilson score",
+    "minimum_n_for_half_width_at_most_0_15": 39,
+    "proposed_evaluable_count": 40,
+    "treatment_effect_power_computed": false,
+    "worst_case_half_width": 0.14800473066534614,
+    "worst_case_proportion": 0.5
+  },
+  "preregistration_created": false
+}

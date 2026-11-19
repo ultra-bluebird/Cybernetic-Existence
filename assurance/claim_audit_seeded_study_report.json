@@ -1,0 +1,42 @@
+{
+  "chain_retains_earlier_flags": true,
+  "classification": "executed_synthetic_structural_audit_study",
+  "completed_at": "2026-11-09T15:01:53.980247+00:00",
+  "engine_version": "2.0.0",
+  "hashes_or_signatures_verified": false,
+  "per_fault_class": {
+    "bump_only": {
+      "controls_flagged": 0,
+      "detected": 10,
+      "legitimate_controls": 10,
+      "seeded_faults": 10
+    },
+    "execution_version_mismatch": {
+      "controls_flagged": 0,
+      "detected": 10,
+      "legitimate_controls": 10,
+      "seeded_faults": 10
+    },
+    "revision_jump": {
+      "controls_flagged": 0,
+      "detected": 10,
+      "legitimate_controls": 10,
+      "seeded_faults": 10
+    },
+    "unbound_review": {
+      "controls_flagged": 0,
+      "detected": 10,
+      "legitimate_controls": 10,
+      "seeded_faults": 10
+    },
+    "unchanged_promotion_basis": {
+      "controls_flagged": 0,
+      "detected": 10,
+      "legitimate_controls": 10,
+      "seeded_faults": 10
+    }
+  },
+  "scope": "Five selected syntactic fault classes, ten fixture variants and ten reviewed editorial controls per class; not a representative error distribution, authentication, source support validation, or real longitudinal audit.",
+  "source_role_registry_implemented": false,
+  "stable_claim_identity_verified": false
+}
