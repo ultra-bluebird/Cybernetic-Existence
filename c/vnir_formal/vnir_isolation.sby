@@ -1,0 +1,21 @@
+[tasks]
+bmc
+prove
+cover
+
+[options]
+bmc: mode bmc
+bmc: depth 32
+prove: mode prove
+cover: mode cover
+cover: depth 32
+
+[engines]
+smtbmc
+
+[script]
+read -formal vnir_isolation.sv
+prep -top vnir_isolation
+
+[files]
+vnir_isolation.sv
