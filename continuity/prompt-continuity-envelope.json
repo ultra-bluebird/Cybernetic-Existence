@@ -1,0 +1,29 @@
+{
+  "version": "1.0.0",
+  "envelope_kind": "prompt_continuity_envelope",
+  "description": "Metadata envelope describing how prompt-continuity context is bounded locally across sessions. It records digests and policy references only; it never embeds prompt text, outputs, or personal data.",
+  "fields": {
+    "envelope_id": "urn:continuity:prompt-envelope:example:001",
+    "created_at": "2026-09-24T00:00:00Z",
+    "session_reference": "urn:session:opaque:000000",
+    "prior_envelope_digest": null,
+    "policy_refs": [
+      "continuity/merge-policy.json",
+      "schemas/neural-data-governance/data-classification.json"
+    ],
+    "context_class": "non_sensitive_policy_metadata",
+    "storage": "local_only",
+    "external_disclosure": "prohibited",
+    "digest_algorithm": "sha256",
+    "content_digest": "0000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "invariants": [
+    "An envelope references at most one prior envelope by digest.",
+    "Envelope content class may never be upgraded to a sensitive class by this mechanism.",
+    "Revocation of a prior consent epoch invalidates forward use of envelopes bound to that epoch."
+  ],
+  "limitations": [
+    "The envelope bounds continuity metadata; it does not prove continuity of experience, memory, or identity.",
+    "Local envelopes do not prevent disclosure by parties already holding exported copies."
+  ]
+}

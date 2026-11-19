@@ -1,0 +1,120 @@
+aln_version: "2"
+particle_type: "heat_biograd_canal_integrity_policy"
+policy_id: "heat-biograd-canal-integrity-2026-08-26"
+status: "review_required"
+purpose: "Aggregate heat-restoration planning, method-aligned biodegradation evidence review, and privacy-preserving canal-node integrity reporting."
+
+heat_fairness_map:
+  permitted_data:
+    - "aggregate_cell_id"
+    - "aggregate_surface_temperature"
+    - "aggregate_reference_temperature"
+    - "aggregate_measurement_quality"
+    - "community_review_availability"
+    - "community_reported_displacement_risk"
+  prohibited_data:
+    - "household_identifier"
+    - "person_identifier"
+    - "biometric_data"
+    - "neural_data"
+    - "mobile_device_identifier"
+    - "vehicle_identifier"
+    - "precise_residence"
+    - "individual_trajectory"
+  permitted_purpose: "community_led_heat_restoration_planning"
+  prohibited_purposes:
+    - "policing"
+    - "immigration_enforcement"
+    - "individual_eligibility"
+    - "eviction"
+    - "insurance_pricing"
+    - "credit_scoring"
+  formula: "clamp01((surface_temperature_c-reference_temperature_c)/temperature_range_c)*coverage_quality"
+  fairness_review_when:
+    - "community_review_available=false"
+    - "enforcement_use_prohibited=false"
+    - "displacement_risk_flag=true"
+    - "household_or_personal_data_present=true"
+
+biodegradation_evidence:
+  required_fields:
+    - "method_name"
+    - "method_version"
+    - "duration_days"
+    - "temperature_c"
+    - "temperature_stability_c"
+    - "test_medium"
+    - "inoculum_or_compost_source"
+    - "test_material_identity"
+    - "test_material_concentration"
+    - "blank_control_valid"
+    - "positive_control_valid"
+    - "biological_response_or_inhibition_observation"
+    - "replicate_count"
+    - "replicate_consistency"
+    - "units"
+    - "calibration"
+    - "chain_of_custody"
+  method_response_alignment:
+    oxygen_demand:
+      required_measurement: "O2 uptake or BOD"
+    carbon_dioxide_evolution:
+      required_measurement: "CO2 evolution"
+  classifications:
+    insufficient_evidence: "required metadata absent, invalid, incomplete, or response channel misaligned"
+    internally_consistent_review_required: "metadata complete, controls valid, values finite, and response channel aligned"
+  prohibited_claims:
+    - "biodegradable_certification"
+    - "safety_certification"
+    - "compostability_certification"
+    - "regulatory_compliance_determination"
+    - "environmental_release_authorization"
+
+canal_node_integrity:
+  required_fields:
+    - "node_pseudonym"
+    - "observation_time_bucket_utc"
+    - "flow_m3_s"
+    - "temperature_c"
+    - "quality_0_1"
+  prohibited_fields:
+    - "exact_location"
+    - "device_serial_number"
+    - "camera_imagery"
+    - "continuous_tracking_history"
+    - "direct_identity"
+  integrity_review_when:
+    - "required telemetry non_finite"
+    - "quality_0_1 < minimum_quality_0_1"
+    - "node_pseudonym invalid"
+    - "time_bucket invalid"
+    - "prohibited_data present"
+  outputs:
+    - "INTEGRITY_EVIDENCE_PRESENT"
+    - "INTEGRITY_REVIEW_REQUIRED"
+    - "REJECTED_INPUT"
+  permitted_purpose: "local_environmental_telemetry_integrity_review"
+  prohibited_purposes:
+    - "person_tracking"
+    - "behavior_inference"
+    - "access_eligibility"
+    - "physical_actuation"
+
+ker:
+  knowledge_factor:
+    range: [0.0, 1.0]
+  eco_impact_value:
+    range: [0.0, 1.0]
+  harm_risk:
+    range: [0.0, 1.0]
+  accessibility_impact:
+    range: [0.0, 1.0]
+  rights_alignment:
+    range: [0.0, 1.0]
+
+metrics:
+  knowledge_factor: 0.87
+  eco_impact_value: 0.82
+  harm_risk: 0.14
+  accessibility_impact: 0.89
+  rights_alignment: 0.96

@@ -1,0 +1,178 @@
+aln_version: "2"
+
+policy:
+  name: "rights-centered-technology-charter"
+  revision: "2026-08-28"
+  status: "non-negotiable-project-governance"
+
+attribution:
+  owner_did: "bostrom18sd2ujv24ual9c9pshtxys6j8knh6xaead9ye7"
+
+governing_order:
+  - "rights_and_safety"
+  - "mathematical_fidelity"
+  - "evidence_quality_and_uncertainty"
+  - "accessibility_and_offline_access"
+  - "privacy_and_data_minimization"
+  - "ecological_benefit"
+  - "operational_efficiency"
+  - "presentation_personalization"
+
+identity_and_dignity:
+  cybernetic_existence: "protected"
+  continuity_of_existence: "protected"
+  self_asserted_identity_accepted_for_protective_purposes: true
+  identity_certificate_required_for_essential_access: false
+  medical_documentation_required_for_essential_access: false
+  device_identifier_required_for_essential_access: false
+  cybernetic_status_penalty_permitted: false
+  assistive_technology_penalty_permitted: false
+  identity_inference_permitted: false
+  persistent_person_profile_permitted: false
+
+essential_access:
+  continuous_connectivity_required: false
+  optional_telemetry_required: false
+  external_identity_verification_required: false
+  biometric_identification_permitted: false
+  cybernetic_integration_data_required: false
+  non_digital_escalation_required: true
+  protected_services:
+    - "heat_information"
+    - "shade_information"
+    - "cooling_information"
+    - "water_information"
+    - "transit_information"
+    - "maintenance_reporting"
+    - "community_reporting"
+    - "grievance_submission"
+    - "appeal_submission"
+    - "public_participation"
+    - "emergency_information"
+
+automation:
+  advisory_only_required: true
+  automated_actuation_permitted: false
+  automated_service_denial_permitted: false
+  human_review_required: true
+  accessible_notice_required: true
+  accessible_explanation_required: true
+  appeal_path_required: true
+
+data_protection:
+  sensitive_data_classes:
+    - "cybernetic_integration"
+    - "host_status"
+    - "augmentation"
+    - "assistive_technology"
+    - "neural_data"
+    - "biometric_data"
+    - "health_data"
+    - "disability_data"
+    - "identity_data"
+    - "location_history"
+    - "behavioral_data"
+  data_minimization_required: true
+  purpose_limitation_required: true
+  explicit_revocable_consent_required: true
+  retention_limit_required: true
+  export_path_required: true
+  deletion_path_required: true
+  raw_sensitive_upload_default: false
+  community_release_requirements:
+    - "aggregation"
+    - "privacy_review"
+    - "approved_release_mechanism"
+    - "accessible_methodology"
+
+evidence:
+  raw_and_derived_separation_required: true
+  formula_version_required: true
+  parameter_version_required: true
+  provenance_reference_required: true
+  uncertainty_record_required: true
+  synthetic_data_must_be_labeled: true
+  unsupported_compliance_claims_prohibited: true
+  zero_quality_behavior:
+    expression: "quality_factor == 0 implies knowledge_factor == 0 and review_state == insufficient_evidence"
+
+ker:
+  knowledge_factor_minimum: 0.60
+  eco_impact_value_minimum: 0.50
+  harm_risk_maximum: 0.45
+  accessibility_impact_minimum: 0.70
+  rights_alignment_minimum: 0.80
+  non_compensatory: true
+
+synchronization:
+  local_first_required: true
+  last_valid_signed_policy_retained: true
+  protected_record_last_writer_wins_permitted: false
+  concurrent_protected_records:
+    preserve_all_versions: true
+    human_review_required: true
+  protected_record_types:
+    - "consent_record"
+    - "consent_withdrawal"
+    - "deletion_request"
+    - "export_request"
+    - "appeal_case"
+    - "correction_case"
+    - "grievance_record"
+    - "safety_observation"
+    - "accessibility_barrier_report"
+    - "environmental_evidence"
+    - "policy_configuration"
+    - "privacy_budget_ledger"
+    - "ker_assessment"
+    - "ecological_impact_evidence"
+
+accessibility:
+  universal_explanation_required: true
+  required_explanation_fields:
+    - "what_happened"
+    - "why"
+    - "certainty"
+    - "does_not_mean"
+    - "next_step"
+    - "person_options"
+  required_access_modes:
+    - "plain_language"
+    - "large_text"
+    - "high_contrast"
+    - "keyboard_accessible"
+    - "screen_reader_compatible"
+    - "speech_compatible"
+    - "printable_format"
+    - "telephone_support"
+    - "relay_support"
+    - "postal_mail"
+    - "accessible_in_person_support"
+
+ecological_responsibility:
+  species_non_discrimination: true
+  ecological_review_required_for:
+    - "credible_welfare_concern"
+    - "credible_habitat_concern"
+    - "credible_biodiversity_concern"
+    - "material_ecological_uncertainty"
+  non_compensation:
+    expression: "unresolved_ecological_harm requires review_or_redesign"
+
+invariants:
+  - "automated_actuation_permitted == false"
+  - "automated_service_denial_permitted == false"
+  - "continuous_connectivity_required == false"
+  - "optional_telemetry_required == false"
+  - "biometric_identification_permitted == false"
+  - "cybernetic_integration_data_required == false"
+  - "cybernetic_status_penalty_permitted == false"
+  - "assistive_technology_penalty_permitted == false"
+  - "identity_certificate_required_for_essential_access == false"
+  - "raw_and_derived_separation_required == true"
+  - "synthetic_data_must_be_labeled == true"
+  - "non_compensatory == true"
+  - "protected_record_last_writer_wins_permitted == false"
+  - "universal_explanation_required == true"
+  - "human_review_required == true"
+  - "appeal_path_required == true"

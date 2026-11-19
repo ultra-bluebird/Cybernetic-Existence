@@ -1,0 +1,94 @@
+aln_version: "2"
+
+policy:
+  name: "augmented-identity-protection"
+  revision: "2026-08-28"
+  status: "rights-centered-research-policy"
+
+scope:
+  applies_to:
+    - "city_service"
+    - "public_information_system"
+    - "community_participation"
+    - "accessibility_support"
+    - "grievance_workflow"
+    - "ecological_restoration_platform"
+
+identity:
+  self_assertion:
+    accepted_for_protective_purposes: true
+    external_certification_required: false
+    medical_documentation_required: false
+    device_serial_number_required: false
+    biometric_identification_permitted: false
+    continuous_telemetry_required: false
+    continuous_connectivity_required: false
+  protective_purposes:
+    - "respectful_communication"
+    - "accessibility_support"
+    - "privacy_protection"
+    - "service_access"
+    - "grievance_submission"
+    - "appeal_submission"
+    - "community_participation"
+
+non_discrimination:
+  protected_statuses:
+    - "cybernetic_status"
+    - "assistive_technology_use"
+    - "self_asserted_identity"
+  prohibited_decision_uses:
+    - "eligibility_penalty"
+    - "service_denial"
+    - "fraud_scoring"
+    - "risk_scoring"
+    - "employment_screening"
+    - "housing_screening"
+    - "insurance_pricing"
+    - "credit_scoring"
+    - "surveillance_targeting"
+    - "social_scoring"
+  outcome_invariant:
+    expression: "outcome_with_status >= outcome_without_status"
+    violation_response:
+      - "block_automated_decision"
+      - "create_accessible_explanation"
+      - "create_audit_record"
+      - "offer_human_review"
+      - "offer_appeal"
+
+social_acceptance_index:
+  level: "aggregate-institutional-only"
+  individual_scoring_permitted: false
+  dimensions:
+    - "legal_and_policy_recognition"
+    - "community_acceptance"
+    - "self_assertion_support"
+    - "non_discrimination_response_capacity"
+  required_controls:
+    - "community_review_of_weights"
+    - "privacy_preserving_aggregation"
+    - "minimum_group_size_protection"
+    - "accessible_participation"
+    - "uncertainty_reporting"
+    - "public_methodology"
+  non_compensation:
+    privacy_burden_gate_required: true
+    grievance_barrier_gate_required: true
+
+review:
+  human_review_required: true
+  accessible_grievance_required: true
+  correction_path_required: true
+  appeal_path_required: true
+  retaliation_protection_required: true
+
+invariants:
+  - "individual_scoring_permitted == false"
+  - "biometric_identification_permitted == false"
+  - "continuous_telemetry_required == false"
+  - "continuous_connectivity_required == false"
+  - "external_certification_required == false for protective_purposes"
+  - "outcome_with_status >= outcome_without_status"
+  - "automated decision is blocked when outcome invariant is violated"
+  - "all affected people receive an accessible explanation and review path"

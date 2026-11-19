@@ -1,0 +1,72 @@
+schema_version: "research-policy-v1"
+policy_version: "synthetic-local-policy"
+attribution: "bostrom18sd2ujv24ual9c9pshtxys6j8knh6xaead9ye7"
+status: "research_only"
+
+clock:
+  domain: "synthetic_seconds"
+  unit: "seconds"
+
+actions:
+  disclosure:
+    max_status_age: "3"
+    notification_within: "2"
+    review_within: "5"
+    maximum_measure_duration: "10"
+    maximum_cumulative_duration: "20"
+    maximum_renewals: "1"
+
+  communication_assistance:
+    max_status_age: "5"
+    notification_within: "3"
+    review_within: "8"
+    maximum_measure_duration: "12"
+    maximum_cumulative_duration: "24"
+    maximum_renewals: "1"
+
+finding_routes:
+  status_stale:
+    result: "incomplete"
+    duties:
+      - "refresh_status"
+
+  grant_expired:
+    result: "blocked"
+    duties:
+      - "obtain_current_basis"
+
+  applicable_hold:
+    result: "blocked"
+    duties:
+      - "provide_hold_review"
+
+  hold_unresolved:
+    result: "review_required"
+    duties:
+      - "provide_hold_review"
+
+  unknown_action:
+    result: "incomplete"
+    duties:
+      - "clarify_policy_route"
+
+  renewal_limit_exceeded:
+    result: "blocked"
+    duties:
+      - "seek_independent_determination"
+
+  cumulative_limit_exceeded:
+    result: "blocked"
+    duties:
+      - "seek_independent_determination"
+
+duty_text:
+  refresh_status: "Obtain a fresh, authenticated status assessment."
+  obtain_current_basis: "Assess a current basis; do not revive an expired grant."
+  provide_hold_review: "Provide an accessible route to challenge the hold."
+  clarify_policy_route: "Resolve the action route without closing initial intake."
+  seek_independent_determination: "Stop automatic renewal and seek independent review."
+
+notice:
+  locale: "en"
+  text: "Research routing only. No legal authority, credential, or execution permission is created."

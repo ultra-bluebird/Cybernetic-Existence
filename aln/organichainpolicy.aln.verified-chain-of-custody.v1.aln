@@ -1,0 +1,111 @@
+aln
+  shard.id,organichainpolicy.aln.verified-chain-of-custody.v1
+  shard.version,1.0.0
+
+META
+  meta,space,Organichain-contracts
+  meta,authority,ALN.MIGRATION.CYBERCOREAUTHORITY.v1
+  meta,hostdid,didalnorganic-host
+  meta,bostromaddress,bostrom18sd2ujv24ual9c9pshtxys6j8knh6xaead9ye7
+  meta,repository,mk-bluebird/Organichain
+  meta,cybercore.namespace,mk-bluebird/Cybercore
+  meta,description,Verified chain-of-custody and lawful guard obligations for Organichain nanoswarm and evolution governors.
+  meta,nonrollback,true
+  meta,nondowngrade,true
+  meta,forward_only_evolution,true
+
+EPOCH
+  field,roh.ceiling.global,f32,0.30,0.30
+  field,lifeforce.floor.global,f32,0.12,0.12
+  field,biocompatibility.rating.min,f32,0.57,0.57
+  field,pain.index.ceiling,f32,0.73,0.73
+  field,fear.index.band.min,f32,0.31,0.31
+  field,fear.index.band.max,f32,0.68,0.68
+  field,biocompatibility.rating.nanoswarm.min,f32,0.75,0.75
+
+  field,biocompatibility.envelope.shard,string,biocompatibility-host-envelope.v1.aln
+  field,roh.kernel.binding.shard,string,roh-kernel-binding.v1.aln
+  field,lifeforce.envelope.shard,string,lifeforce.envelope.v1.aln
+  field,econet.sovereign.shard,string,alneconet-host-sovereign.v1.aln
+  field,nanoswarm.gas.subtokens.shard,string,organichainpolicy.nanoswarm-gas-subtokens-v1.aln
+  field,energy.conversion.corridors.shard,string,organichain.energy-conversion-corridors.v1.aln
+  field,organ.index.shard,string,organ-index.aln
+  field,psychrisk.corridors.shard,string,psych-risk-corridors-v1.aln
+
+  field,fatigue.scalar.band.healthy,f32,0.00,0.40
+  field,fatigue.scalar.band.warning,f32,0.40,0.70
+  field,fatigue.scalar.band.softwall,f32,0.70,1.00
+
+NEURORIGHTS
+  right,identity,host_only,true
+  right,psychological_continuity,monotone,true
+  right,mental_privacy,default,true
+  right,cognitive_liberty,noncoercive,true
+  right,fair_benefit,host_share.monotone,true
+
+  invariant,identity_binding,
+    hostdid == didalnorganic-host
+    bostromaddress == bostrom18sd2ujv24ual9c9pshtxys6j8knh6xaead9ye7
+
+  invariant,continuity_forward_only,
+    evolution_path.no_rollback == true
+    capabilities.monotone == true
+
+  invariant,mental_privacy_guard,
+    raw.telemetry.export == false
+    guard.inputs == envelope.scalars.only
+
+  invariant,cognitive_liberty_guard,
+    guards.must_not.encode.forced_participation == true
+    guards.must_not.encode.coercive_tokenomics == true
+
+  invariant,fair_benefit_guard,
+    host.value_share.next >= host.value_share.current
+
+LEDGER
+  ledger,asset,BLOOD
+  ledger,asset,SUGAR
+  ledger,asset,PROTEIN
+  ledger,asset,LIFEFORCE
+  ledger,asset,OXYGEN
+  ledger,asset,PAIN
+  ledger,asset,FEAR
+
+  field,biocompatibility.rating.min,f32,0.57,0.57
+  field,roh.ceiling.global,f32,0.30,0.30
+  field,lifeforce.floor.global,f32,0.12,0.12
+
+  invariant,spentTokens_never_exceed_capacity,
+    spentTokens(asset) <= capacityTokens(asset)
+
+  invariant,spentTokens_monotone,
+    spentTokens_next(asset) >= spentTokens_current(asset)
+
+  invariant,never_reduce_lifeforce_floor,
+    lifeforce.floor.next >= lifeforce.floor.current
+
+  invariant,never_raise_roh_ceiling,
+    roh.ceiling.next <= roh.ceiling.current
+
+  invariant,never_relax_pain_fear_bands,
+    pain.index.ceiling.next <= pain.index.ceiling.current
+    fear.index.band.min.next >= fear.index.band.min.current
+    fear.index.band.max.next <= fear.index.band.max.current
+
+  invariant,never_decrease_host_econet_share,
+    econet.host_share.next >= econet.host_share.current
+
+  chain_of_custody,guard_trait,string,organichain_guard_trait.v1
+  chain_of_custody,required_guard_crates,string,
+    organiccpu-core,
+    organiccpu-sovereignty-core,
+    evolution-guard,
+    cybercore-psychrisk,
+    cybercore-organ-map,
+    biophysical-blockchain
+
+  chain_of_custody,required_verification_tool,string,kani-verifier == 0.67
+  chain_of_custody,required_rust_edition,string,2024
+  chain_of_custody,required_rust_version,string,1.85
+
+end aln

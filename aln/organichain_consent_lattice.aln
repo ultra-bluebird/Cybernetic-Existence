@@ -1,0 +1,187 @@
+SECTION META
+  SHARD_ID        = "organichain_consent_lattice_v1"
+  AUTHORITY       = "ALN.MIGRATION.CYBERCORE_AUTHORITY.v1"
+  NAMESPACE       = "Organichain-contracts"
+  REPO            = "mk-bluebird/Cybercore"
+  HOST_DID        = "OrganicCPU"
+  BOSTROM_ADDRESS = "bostrom18sd2ujv24ual9c9pshtxys6j8knh6xaead9ye7"
+
+  DESCRIPTION = """
+    Organichain consent lattice shard encoding DID-bound consent states
+    (Observe, Diagnostic, ActuateExplicit, SupermindOverride) and their
+    partial order, binding each state to cryptographic commitments and
+    neurorights-preserving transitions. This shard is canonical for
+    nanoswarm and nanorobotics control in Organichain, and must be
+    referenced by host-loop and governance VCs.
+  """
+
+SECTION EPOCH
+  VERSION        = "1.0.0"
+  EVOLUTION_MODE = "forward_only"
+  CREATED_AT     = "2026-07-11T23:22:00Z"
+  AUTHOR         = "mk-bluebird"
+  SCOPE          = "nanoswarm_consent_governance"
+
+  RULES = """
+    1. ConsentState is a four-element lattice with total order:
+         Observe < Diagnostic < ActuateExplicit < SupermindOverride.
+
+    2. Transitions between states MUST be represented as DID-bound
+       ConsentCommitment objects, each being a cryptographic commitment
+       over (host_did, consent_state, policy_id, randomness).
+
+    3. Upward transitions (e.g., Observe -> Diagnostic, Diagnostic ->
+       ActuateExplicit, ActuateExplicit -> SupermindOverride) MUST
+       include a freshly issued ConsentCommitment signed by the host DID.
+
+    4. Downward transitions (e.g., SupermindOverride -> ActuateExplicit)
+       MUST NOT increase privacy exposure or introduce any new actuation
+       capability; they may only maintain or reduce capability sets.
+
+    5. No rollback, downgrade, or reversal of neurorights protection
+       is permitted; evolution is forward-only in terms of protections,
+       and any change MUST be monotone with respect to host sovereignty.
+  """
+
+SECTION NEURORIGHTS
+  IDENTIFIERS = """
+    NEURORIGHTS_IDENTITY_CONTINUITY
+    NEURORIGHTS_MENTAL_PRIVACY
+    NEURORIGHTS_COGNITIVE_LIBERTY
+    NEURORIGHTS_FAIR_BENEFIT
+  """
+
+  CONSENT_STATE_DEF = """
+    enum ConsentState {
+      Observe,
+      Diagnostic,
+      ActuateExplicit,
+      SupermindOverride
+    }
+  """
+
+  PARTIAL_ORDER = """
+    // Lattice order:
+    //   Observe < Diagnostic < ActuateExplicit < SupermindOverride
+    // Observe is the bottom element, SupermindOverride the top.
+
+    po(Observe, Diagnostic).
+    po(Diagnostic, ActuateExplicit).
+    po(ActuateExplicit, SupermindOverride).
+
+    // Reflexive closure:
+    po(c, c) for all c in ConsentState.
+
+    // Transitive closure:
+    po(Observe, ActuateExplicit).
+    po(Observe, SupermindOverride).
+    po(Diagnostic, SupermindOverride).
+  """
+
+  PRIVACY_EXPOSURE = """
+    // Privacy levels:
+    //   Minimal        : Observe
+    //   InternalOnly   : Diagnostic
+    //   ActuationScope : ActuateExplicit
+    //   ExtendedScope  : SupermindOverride
+
+    privacy_level(Observe)           = Minimal.
+    privacy_level(Diagnostic)        = InternalOnly.
+    privacy_level(ActuateExplicit)   = ActuationScope.
+    privacy_level(SupermindOverride) = ExtendedScope.
+
+    // Downward transitions MUST NOT increase privacy_level.
+    // For any states c_from, c_to with po(c_to, c_from) (c_to <= c_from),
+    // we require privacy_level(c_to) <= privacy_level(c_from).
+  """
+
+  ACTUATION_CAPABILITY = """
+    // Capability sets A(c) per state:
+    //   A(Observe)         = {}           (no actuation)
+    //   A(Diagnostic)      = {}           (no actuation)
+    //   A(ActuateExplicit) = { explicit_actuation }
+    //   A(SupermindOverride)
+    //        = { explicit_actuation, extended_supermind_actions }
+
+    actuation_allowed(Observe)         = false.
+    actuation_allowed(Diagnostic)      = false.
+    actuation_allowed(ActuateExplicit) = true.
+    actuation_allowed(SupermindOverride) = true.
+
+    diagnostic_allowed(Observe)         = false.
+    diagnostic_allowed(Diagnostic)      = true.
+    diagnostic_allowed(ActuateExplicit) = true.
+    diagnostic_allowed(SupermindOverride) = true.
+
+    supermind_override_allowed(SupermindOverride) = true.
+  """
+
+  GUARANTEES = """
+    1. NO_COVERT_ACTUATION:
+       For any ConsentState c with actuation_allowed(c) = false,
+       no hardware actuation primitive MAY be executed; every actuation
+       MUST carry a proof-of-authorization referencing a ConsentCommitment
+       whose consent_state satisfies actuation_allowed(c) = true.
+
+    2. PRIVACY_MONOTONICITY:
+       For any transition c_from -> c_to with po(c_to, c_from),
+       privacy_level(c_to) <= privacy_level(c_from). Downward transitions
+       cannot introduce new data-sharing channels or override scopes.
+
+    3. COGNITIVE_LIBERTY:
+       SupermindOverride MUST be an explicit delegation from the host DID,
+       expressed via a cryptographic ConsentCommitment, and MUST be
+       revocable; revocation MUST return to a lower state, preserving all
+       prior integrations and capabilities without identity reset.
+  """
+
+SECTION LEDGER
+  CONSENT_COMMITMENT_SCHEMA = """
+    // DID-bound consent commitment structure for Organichain:
+
+    message ConsentCommitment {
+      string host_did       = 1;  // e.g., "OrganicCPU"
+      string bostrom_addr   = 2;  // e.g., "bostrom18sd2ujv24ual9c9pshtxys6j8knh6xaead9ye7"
+      string policy_id      = 3;  // Organichain policy identifier
+      ConsentState state    = 4;  // Observe, Diagnostic, ActuateExplicit, SupermindOverride
+      bytes  commitment     = 5;  // opaque cryptographic commitment bytes
+      string version        = 6;  // eg. "organichain_consent_lattice_v1"
+    }
+  """
+
+  VC_BINDING = """
+    // Governance VC binding for ConsentCommitment:
+
+    vc OrganichainConsentVC {
+      subject_did    : host_did;
+      consent_state  : state;
+      policy_id      : policy_id;
+      commitment_ref : commitment;
+      lattice_shard  : "organichain_consent_lattice_v1";
+      authority      : "ALN.MIGRATION.CYBERCORE_AUTHORITY.v1";
+      repo           : "mk-bluebird/Cybercore";
+
+      constraints {
+        // The VC MUST reference an existing ConsentCommitment on-chain.
+        exists ledger_entry in ConsentCommitment
+          where ledger_entry.commitment == commitment_ref
+                and ledger_entry.version == lattice_shard;
+
+        // Actuation VC MUST only be issued if actuation_allowed(state) = true
+        // and RoH/capability metrics satisfy Organichain corridors.
+      }
+    }
+  """
+
+  ORGANICHAIN_BINDINGS = """
+    // Organichain-specific bindings:
+
+    organichain_host_did        = "OrganicCPU".
+    organichain_bostrom_primary = "bostrom18sd2ujv24ual9c9pshtxys6j8knh6xaead9ye7".
+
+    // Any Organichain contract that exposes nanoswarm actuation MUST:
+    //   1. Reference OrganichainConsentVC.
+    //   2. Enforce actuation_allowed(state) == true before executing actions.
+    //   3. Log VC references and ConsentCommitment hashes on-chain,
+    //      attributing primary benefit and value flows to organichain_host_did.
+  """

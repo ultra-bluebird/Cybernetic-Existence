@@ -1,0 +1,110 @@
+aln_version: "2"
+particle_type: "consent_approval_pfas_review_policy"
+policy_id: "consent-approval-pfas-2026-08-26"
+status: "advisory_only"
+purpose: "Revocable environmental-observation consent, human-only external-action approval packets, and conservative PFAS residual review."
+
+consent:
+  data_classes:
+    sensitive_by_default:
+      - "neural_data"
+      - "biometric_data"
+      - "augmentation_data"
+      - "health_data"
+      - "identity_data"
+      - "environmental_observation_linked_to_subject"
+  requirements:
+    explicit: true
+    informed: true
+    specific: true
+    purpose_limited: true
+    revocable: true
+  revocation_sequence:
+    - "validate_scope_without_unrelated_data_collection"
+    - "set_consent_state_REVOKED"
+    - "stop_processing_for_revoked_scope"
+    - "freeze_queued_work_and_purpose_scoped_caches"
+    - "inventory_active_derived_cached_and_downstream_records"
+    - "perform_retention_review"
+    - "provide_scoped_export_when_requested"
+    - "delete_when_no_documented_retention_basis_remains"
+    - "send_minimized_downstream_revocation_notice"
+    - "write_minimized_audit_event"
+    - "provide_accessible_review_and_appeal"
+  prohibited_consequences:
+    - "essential_service_denial"
+    - "mobility_service_denial"
+    - "water_or_sanitation_service_denial"
+    - "health_service_denial"
+    - "accessibility_service_denial"
+  audit:
+    raw_sensitive_data_permitted: false
+    required_fields:
+      - "event_type"
+      - "consent_scope_reference"
+      - "timestamp"
+      - "completion_state"
+
+external_action:
+  mode: "non_actuating_decision_support"
+  automated_authorization_permitted: false
+  physical_valve_change_requires:
+    - "qualified_human_approver"
+    - "current_asset_and_action_qualification"
+    - "separate_exact_target_approval"
+    - "purpose"
+    - "risk_review"
+    - "approved_at_and_expires_at"
+    - "safety_interlock_verification"
+    - "site_procedure_verification"
+    - "accessible_explanation"
+    - "audit_record"
+  allowed_system_outputs:
+    - "HUMAN_APPROVAL_REQUIRED"
+    - "APPROVAL_PACKET_COMPLETE"
+    - "REJECTED_INPUT"
+  prohibited_system_outputs:
+    - "ACTUATE_VALVE"
+    - "TRANSMIT_VALVE_COMMAND"
+    - "AUTONOMOUS_APPROVAL"
+
+pfas_residual_corridor:
+  formula: "abs(observed_concentration-modeled_concentration)/uncertainty"
+  units_requirement: "observed_concentration, modeled_concentration, and uncertainty use identical concentration units"
+  review_when:
+    - "residual > 1.0"
+    - "R > 0.30"
+    - "uncertainty <= 0"
+    - "required_numeric_value_non_finite"
+    - "chain_of_custody_incomplete"
+    - "analytical_method_not_declared"
+    - "calibration_missing_or_stale"
+  non_reviewable_when:
+    - "missing_pfas_analyte"
+    - "missing_concentration_unit"
+  screening_only: true
+  prohibited_interpretations:
+    - "safety_determination"
+    - "regulatory_compliance_determination"
+    - "remediation_authorization"
+    - "contaminant_fate_certainty"
+
+ker:
+  knowledge_factor:
+    range: [0.0, 1.0]
+  eco_impact_value:
+    range: [0.0, 1.0]
+  harm_risk:
+    range: [0.0, 1.0]
+    review_threshold: 0.30
+  accessibility_impact:
+    range: [0.0, 1.0]
+  rights_alignment:
+    range: [0.0, 1.0]
+
+metrics:
+  knowledge_factor: 0.89
+  eco_impact_value: 0.82
+  harm_risk: 0.12
+  accessibility_impact: 0.91
+  rights_alignment: 0.97

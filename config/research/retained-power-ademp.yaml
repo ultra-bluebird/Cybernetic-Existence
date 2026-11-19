@@ -1,0 +1,118 @@
+schema_version: "1.0.0"
+document_version: "0.1.0"
+kind: simulation-study-plan
+status: proposed_not_executed
+date_created: "2026-10-31"
+date_modified: "2026-10-31"
+
+responsible_roles:
+  statistical_reviewer:
+    deliverable: approve_estimands_assumptions_and_acceptance_rules
+  numerical_maintainer:
+    deliverable: execute_tests_and_archive_actual_results
+  privacy_reviewer:
+    deliverable: confirm_synthetic_only_inputs_and_export_scope
+
+provenance:
+  attribution_anchor: "bostrom18sd2ujv24ual9c9pshtxys6j8knh6xaead9ye7"
+  scope: [credit_metadata, workstream_metadata]
+  derivative_propagation: preserve_anchor_and_scope_statement
+  attestation_claim: none
+  execution_evidence: absent
+  external_registration: none
+
+aims:
+  - compare_retained_only_HT_and_Hajek_target_mean_error
+  - measure_sensitivity_to_propensity_misspecification
+  - distinguish_selection_error_from_measurement_distortion
+  - demonstrate_that_weight_dispersion_is_not_dependence_adjusted_ESS
+
+data_generating_mechanisms:
+  target_windows_per_replication: [200, 1000, 5000]
+  replications_per_scenario: 2000
+  random_seed: 1729
+  synthetic_outcome:
+    covariate: standard_normal
+    conditional_mean: "exp(0.5 * X)"
+    multiplicative_noise: lognormal_mean_one
+  retention_scenarios:
+    - name: complete_data
+      probability: 1.0
+    - name: MAR_known_propensity
+      probability: "0.1 + 0.8 / (1 + exp(-X))"
+    - name: MAR_misspecified_propensity
+      true_probability: "0.1 + 0.8 / (1 + exp(-X))"
+      supplied_probability: 0.5
+    - name: MNAR_outcome_dependent
+      probability: "0.1 + 0.8 / (1 + exp(-log(Y)))"
+      supplied_probability: 0.5
+    - name: positivity_failure
+      probability: "0 if X > 1 else 0.8"
+  dependence_scenarios:
+    - independent_windows
+    - explicitly_constructed_overlapping_windows
+  benchmark_truth:
+    retain_complete_synthetic_Y_for_evaluation_only: true
+    estimator_receives_unretained_Y: false
+
+estimands:
+  primary: finite_target_window_mean
+  secondary:
+    - retained_subset_mean
+    - mean_squared_error_against_complete_target_mean
+    - estimator_failure_frequency
+  not_estimated:
+    - artifact_free_physiological_source
+    - per_window_reconstruction_accuracy
+
+methods:
+  - retained_only_mean
+  - HT_with_declared_propensities
+  - Hajek_with_declared_propensities
+  propensity_clipping: none
+  primary_variance_claim: none
+
+performance_measures:
+  - signed_error
+  - absolute_error
+  - root_mean_squared_error
+  - numerical_failure_count
+  - positivity_failure_count
+  - weight_dispersion_diagnostic
+  - Monte_Carlo_standard_error
+
+falsifiable_predictions:
+  - complete_data_estimates_match_target_mean_within_numeric_tolerance
+  - known_MAR_HT_error_is_centered_at_zero_across_retention_replicates
+  - retained_only_mean_is_biased_upward_in_the_declared_MAR_scenario
+  - no_universal_improvement_is_claimed_for_misspecified_or_MNAR_scenarios
+  - positivity_failure_returns_no_full_target_estimate
+
+acceptance:
+  algebraic_tests: all_pass
+  complete_data_absolute_tolerance: 1.0e-12
+  Monte_Carlo_bias_review:
+    rule: "compare observed bias with three Monte Carlo standard errors"
+    interpretation: diagnostic_not_an_automatic_theorem
+  failures:
+    retain_all_numerical_and_support_failures: true
+    exclude_failed_replications_from_error_summary_without_disclosure: prohibited
+
+milestones:
+  - gate: contract_review
+    depends_on: []
+    output: reviewed_plan_and_configuration_digest
+  - gate: implementation_verification
+    depends_on: [contract_review]
+    output: actual_MATLAB_test_results_and_environment_record
+  - gate: simulation_execution
+    depends_on: [implementation_verification]
+    output: complete_scenario_results_including_failures
+  - gate: interpretation_review
+    depends_on: [simulation_execution]
+    output: assumptions_specific_claims_and_limitations
+
+changelog:
+  - version: "0.1.0"
+    date: "2026-10-31"
+    change: initial_local_plan_no_execution_or_registration

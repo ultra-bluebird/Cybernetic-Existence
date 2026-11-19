@@ -1,0 +1,94 @@
+aln_version: "2"
+
+policy:
+  name: "cybernetic-host-rights"
+  revision: "2026-08-28"
+  status: "non-negotiable-project-governance"
+
+attribution:
+  owner_did: "bostrom18sd2ujv24ual9c9pshtxys6j8knh6xaead9ye7"
+
+scope:
+  applies_to:
+    - "augmented-hub-services"
+    - "ecological-restoration-tools"
+    - "public-information-systems"
+    - "accessibility-support"
+    - "community-reporting"
+    - "grievance-and-appeal-workflows"
+
+cybernetic_host_rights:
+  cybernetic_existence: "protected"
+  continuity_of_existence: "protected"
+  self_asserted_identity_accepted_for_protective_purposes: true
+  external_identity_certification_required_for_dignity: false
+  medical_documentation_required_for_dignity: false
+  device_identifier_required_for_dignity: false
+
+essential_access:
+  continuous_connectivity_required: false
+  optional_telemetry_required: false
+  external_identity_verification_required: false
+  biometric_identification_permitted: false
+  cybernetic_integration_data_required: false
+  services:
+    - "public-transit-information"
+    - "shade-information"
+    - "cooling-information"
+    - "water-information"
+    - "maintenance-reporting"
+    - "accessibility-support"
+    - "grievance-submission"
+    - "appeal-submission"
+    - "community-participation"
+    - "emergency-information"
+
+non_discrimination:
+  cybernetic_status_penalty_permitted: false
+  assistive_technology_penalty_permitted: false
+  identity_penalty_permitted: false
+  outcome_invariant: "outcome_with_status >= outcome_without_status"
+  prohibited_uses:
+    - "service-denial"
+    - "eligibility-penalty"
+    - "employment-screening"
+    - "housing-screening"
+    - "insurance-pricing"
+    - "credit-scoring"
+    - "fraud-scoring"
+    - "social-scoring"
+    - "surveillance-targeting"
+
+automation:
+  automated_actuation_permitted: false
+  automated_service_denial_permitted: false
+  advisory_only_required: true
+  human_review_required: true
+  accessible_notice_required: true
+  accessible_explanation_required: true
+  appeal_path_required: true
+
+data_protection:
+  integration_data_classification: "sensitive"
+  data_minimization_required: true
+  purpose_limitation_required: true
+  explicit_revocable_consent_required: true
+  retention_limit_required: true
+  export_path_required: true
+  deletion_path_required: true
+
+invariants:
+  - "owner_did is required for project attribution"
+  - "cybernetic_existence == protected"
+  - "continuity_of_existence == protected"
+  - "continuous_connectivity_required == false"
+  - "optional_telemetry_required == false"
+  - "biometric_identification_permitted == false"
+  - "cybernetic_integration_data_required == false"
+  - "cybernetic_status_penalty_permitted == false"
+  - "automated_actuation_permitted == false"
+  - "automated_service_denial_permitted == false"
+  - "human_review_required == true"
+  - "accessible_notice_required == true"
+  - "accessible_explanation_required == true"
+  - "appeal_path_required == true"

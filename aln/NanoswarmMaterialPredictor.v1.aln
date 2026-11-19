@@ -1,0 +1,66 @@
+aln
+File,aln/NanoswarmMaterialPredictor.v1.aln
+Type,QPU.Datashard
+Purpose,Bind the nanoswarm-material-ml crate to MD data sources and the Organichain rohvalue ledger so that biocompatible nanoswarm materials can be predicted and indexed in CyberFS under RoH and immune activation corridors. Designed for https://github.com/mk-bluebird/Nano-Tree and mk-bluebird/Organichain.
+
+SECTION,META
+ROW,meta,shardid,scalar,shardid,NanoswarmMaterialPredictor.v1,string,primarykey
+ROW,meta,version,scalar,version,1.0.0,string,immutable
+ROW,meta,createdutc,scalar,createdutc,2026-08-03T01:10:00Z,timestamp,nonnull
+ROW,meta,authoritynamespace,scalar,authoritynamespace,ALN.MIGRATION.CYBERCORE_AUTHORITY.v1,string,nonnull
+ROW,meta,hostdid,scalar,hostdid,didalnorganic-host,string,nonnull
+ROW,meta,bostromaddressprimary,scalar,bostromaddressprimary,bostrom18sd2ujv24ual9c9pshtxys6j8knh6xaead9ye7,string,nonnull
+ROW,meta,designedforrepo,scalar,designedforrepo,https://github.com/mk-bluebird/Nano-Tree,string,nonnull
+
+SECTION,CRATE-BINDING
+ROW,crate,name,scalar,name,nanoswarm-material-ml,string,nonnull
+ROW,crate,path,scalar,path,crates/nanoswarm_material_ml/src/lib.rs,string,nonnull
+ROW,crate,version,scalar,version,0.1.0,string,immutable
+ROW,crate,rust_edition,scalar,rust_edition,2024,string,nonnull
+ROW,crate,rust_version,scalar,rust_version,1.85,string,nonnull
+ROW,crate,kani_version,scalar,kani_version,0.67,string,nonnull
+ROW,crate,ml_model_struct,scalar,ml_model_struct,string,nonnull,"MaterialPredictor"
+ROW,crate,feature_struct,scalar,feature_struct,string,nonnull,"MaterialFeatures"
+ROW,crate,target_struct,scalar,target_struct,string,nonnull,"MaterialTargets"
+ROW,crate,sample_struct,scalar,sample_struct,string,nonnull,"MaterialSample"
+ROW,crate,train_fn,scalar,train_fn,string,nonnull,"train_material_predictor"
+
+SECTION,MD-DATA-SOURCES
+ROW,mddata,md_feature_file,scalar,md_feature_file,data/md/nanoswarm_material_features.csv,string,nonnull
+ROW,mddata,md_feature_schema,scalar,md_feature_schema,string,nonnull,"CSV columns: sigma_surf, hydrophobicity, elastic_modulus, roughness, zeta_potential, ligand_density, rohvalue_norm, immune_activation_norm"
+ROW,mddata,md_source_descriptor,scalar,md_source_descriptor,string,nonnull,"MD simulations of nanoswarm surface coatings, with post-processed features and matched Organichain rohvalue + immune activation labels"
+ROW,mddata,md_loader_module,scalar,md_loader_module,string,nonnull,"crates/nanoswarm_material_ml/src/lib.rs: MaterialSample loader using csv crate"
+
+SECTION,ORGANICHAIN-ROH-LEDGER-BINDING
+ROW,roh,roh_contractfile,scalar,roh_contractfile,contracts/solidity/OrganichainRoHLedger.sol,string,nonnull
+ROW,roh,roh_struct,scalar,roh_struct,string,nonnull,"OrganichainRohEntry"
+ROW,roh,roh_field,scalar,roh_field,string,nonnull,"rohvalue"
+ROW,roh,roh_normalization,scalar,roh_normalization,string,nonnull,"rohvalue_norm ∈ [0,1] derived from raw rohvalue via Organichain corridor mapping; RoH ≤ 0.30 enforced by ledger"
+ROW,roh,immune_label_source,scalar,immune_label_source,string,nonnull,"Immune activation norm from organ-chip assays and Organichain immune ledger entries"
+
+SECTION,TRAINING-PIPELINE
+ROW,train,training_cli_script,scalar,training_cli_script,scripts/train_nanoswarm_material_ml.py,string,nonnull
+ROW,train,weights_output_file,scalar,weights_output_file,models/nanoswarm_material_ml_weights.json,string,nonnull
+ROW,train,candle_backend,scalar,candle_backend,string,nonnull,"candle-core + candle-nn on CPU"
+ROW,train,training_config,scalar,training_config,string,nonnull,"ModelConfig: input_dim=6, hidden_dim=64, hidden_layers=2, roh_head_dim=1, immune_head_dim=1"
+ROW,train,training_objective,rule,training_objective,string,nonnull,"Minimize λ_R * MSE(rohvalue_norm) + λ_I * MSE(immune_activation_norm) over MD-derived samples, with λ_R, λ_I > 0 and corridors enforced at data preparation time."
+
+SECTION,CYBERFS-INDEXING
+ROW,index,index_path,scalar,index_path,cyberfs-core/models/nanoswarm_material_ml_weights.json,string,nonnull
+ROW,index,index_schema,scalar,index_schema,string,nonnull,"JSON mapping layer weights and biases for MaterialPredictor, plus metadata (hostdid, bostrom_address, shardid)"
+ROW,index,index_binding_module,scalar,index_binding_module,string,nonnull,"cyberfs-core/src/model_index.rs: register NanoswarmMaterialPredictor.v1 and expose readonly AI surface"
+ROW,index,ai_surface_fn,scalar,ai_surface_fn,string,nonnull,"ai_nanoswarm_material_predict"
+
+SECTION,NEURORIGHTS-AND-CORRIDORS
+ROW,rights,roh_corridor,scalar,roh_corridor,string,nonnull,"RoH ≤ 0.30 globally; rohvalue_norm encoded so that values above 0.30 corridor are treated as high risk and not selected"
+ROW,rights,immune_corridor,scalar,immune_corridor,string,nonnull,"Immune activation norm must remain below a threshold consistent with biocompatibility_rating ≥ 0.57; model selection must respect this bound"
+ROW,rights,non_actuating_clause,rule,non_actuating_clause,string,nonnull,"NanoswarmMaterialPredictor.v1 and nanoswarm-material-ml are non-actuating: they only propose materials; actual deployment must go through separate Organichain governors and ALN corridors."
+ROW,rights,forward_only_clause,rule,forward_only_clause,string,nonnull,"Material predictions must not encode any rollback or capability reduction; selected materials must increase or preserve biocompatibility and stability corridors."
+
+SECTION,KANI-VERIFICATION
+ROW,kani,harness_name,scalar,harness_name,string,nonnull,"material_features_tensor_harness"
+ROW,kani,harness_scope,scalar,harness_scope,string,nonnull,"Ensures material feature tensors are constructed within safe envelopes and finite ranges before training."
+ROW,kani,ciworkflowfile,scalar,ciworkflowfile,.github/workflows/nanoswarm-material-ml.yml,string,nonnull
+ROW,kani,ciworkflowtrigger,scalar,ciworkflowtrigger,string,nonnull,"On changes to crates/nanoswarm_material_ml/src/lib.rs or MD feature CSV, re-run Kani harness material_features_tensor_harness and refresh model index."
+
+FOOTER,END-OF-SHARD

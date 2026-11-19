@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<graphml xmlns="http://graphml.graphdrawing.org/xmlns"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
+  <!--
+    Psychological continuity protection graph (local, metadata-only).
+    Nodes are opaque continuity-state references; edges are declared
+    transition rules. This file stores no personal data, no signals, and
+    makes no claim to verify identity or personhood.
+  -->
+  <key id="kind" for="node" attr.name="kind" attr.type="string"/>
+  <key id="epoch" for="node" attr.name="epoch" attr.type="int"/>
+  <key id="rule" for="edge" attr.name="rule" attr.type="string"/>
+  <key id="requiresOversight" for="edge" attr.name="requires_oversight" attr.type="boolean"/>
+  <graph id="psych-continuity" edgedefault="directed">
+    <node id="urn:continuity:state:baseline">
+      <data key="kind">baseline_state</data>
+      <data key="epoch">0</data>
+    </node>
+    <node id="urn:continuity:state:adapted">
+      <data key="kind">adapted_state</data>
+      <data key="epoch">1</data>
+    </node>
+    <node id="urn:continuity:state:protected-pause">
+      <data key="kind">protected_pause</data>
+      <data key="epoch">1</data>
+    </node>
+    <node id="urn:continuity:state:restored">
+      <data key="kind">restored_state</data>
+      <data key="epoch">2</data>
+    </node>
+    <edge id="e0" source="urn:continuity:state:baseline" target="urn:continuity:state:adapted">
+      <data key="rule">consent_epoch_current_and_purpose_bound</data>
+      <data key="requiresOversight">false</data>
+    </edge>
+    <edge id="e1" source="urn:continuity:state:baseline" target="urn:continuity:state:protected-pause">
+      <data key="rule">environmental_guard_trigger</data>
+      <data key="requiresOversight">false</data>
+    </edge>
+    <edge id="e2" source="urn:continuity:state:protected-pause" target="urn:continuity:state:restored">
+      <data key="rule">guard_cleared_and_receipt_recorded</data>
+      <data key="requiresOversight">true</data>
+    </edge>
+    <edge id="e3" source="urn:continuity:state:adapted" target="urn:continuity:state:restored">
+      <data key="rule">revocation_event_received_for_prior_epoch</data>
+      <data key="requiresOversight">true</data>
+    </edge>
+  </graph>
+</graphml>

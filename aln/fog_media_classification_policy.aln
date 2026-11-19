@@ -1,0 +1,92 @@
+theory FogMediaClassificationPolicy
+
+sort MediaObservationId
+sort MediaClassRevisionId
+sort SpectralProfileDigest
+sort Confidence
+sort Context
+sort AdmissionStatus
+sort Truth
+
+constructors
+  known_safe : AdmissionStatus
+  review_required : AdmissionStatus
+  restricted : AdmissionStatus
+  unknown : AdmissionStatus
+  admitted : AdmissionStatus
+  pending : AdmissionStatus
+  rejected : AdmissionStatus
+
+operators
+  approved_revision : MediaClassRevisionId -> Truth
+  profile_matches_revision :
+    SpectralProfileDigest * MediaClassRevisionId -> Truth
+  context_matches_revision :
+    Context * MediaClassRevisionId -> Truth
+  evidence_complete :
+    MediaObservationId * MediaClassRevisionId -> Truth
+  confidence_at_least :
+    Confidence * Decimal -> Truth
+  may_admit_known_safe :
+    MediaObservationId *
+    SpectralProfileDigest *
+    Context *
+    Confidence *
+    MediaClassRevisionId *
+    AdmissionStatus -> Truth
+  prior_admission_unchanged :
+    MediaObservationId * MediaClassRevisionId -> Truth
+
+axioms
+  may_admit_known_safe(
+    observation,
+    profile,
+    context,
+    confidence,
+    revision,
+    admitted
+  ) =
+    and(
+      approved_revision(revision),
+      and(
+        profile_matches_revision(profile, revision),
+        and(
+          context_matches_revision(context, revision),
+          and(
+            evidence_complete(observation, revision),
+            confidence_at_least(confidence, 0.95)
+          )
+        )
+      )
+    )
+
+  may_admit_known_safe(
+    observation,
+    profile,
+    context,
+    confidence,
+    revision,
+    review_required
+  ) = true
+
+  may_admit_known_safe(
+    observation,
+    profile,
+    context,
+    confidence,
+    revision,
+    pending
+  ) = true
+
+  may_admit_known_safe(
+    observation,
+    profile,
+    context,
+    confidence,
+    revision,
+    rejected
+  ) = true
+
+  prior_admission_unchanged(observation, revision) = true
+
+end

@@ -1,0 +1,309 @@
+aln.nutrition-energy-resources.v2.aln
+
+META
+  hostdid                    didalnorganic-host
+  bostromaddress             bostrom18sd2ujv24ual9c9pshtxys6j8knh6xaead9ye7
+  authority                  ALN.MIGRATION.CYBERCORE_AUTHORITY.v2
+  contracts                  TBD: OrganichainNutritionEnergyGuard.v2.sol
+                             status: not_authored, not_audited, not_deployed
+  domain                     NUTRITION_ENERGY_RESOURCES
+  supersedes                 aln.cybernetic-energy-resources.v1.aln
+  integration_target         lua/nutrition/
+  doc_reference              docs/nutrition/integrated-research-foundation.md
+  status                     DESIGN_PROPOSAL
+  evidence_axes              parse:not_started execution:not_started
+                             authority:not_assessed authenticity:not_assessed
+                             calibration:uncalibrated
+
+EPOCH
+  version                    2
+  max_observations_per_session 1000
+  max_tokens_per_display        3
+  max_burns_per_operation       0
+    note: v1 declared 10; v2 sets 0 because token layer is display-only,
+          nothing is burned; GD-09 resolves any intended subject of "burn"
+
+NEURORIGHTS
+  resources_are_rights                 true
+  forbid_tokenization                  true
+  forbid_gambling                      true
+  forbid_financialization              true
+  forbid_identity_derived_coefficients true
+  forbid_physiological_inference       true
+  preserve_communication_channel_purpose true
+  preserve_human_fallback              true
+  preserve_deintegration_right         true
+
+ACCESS-DEFAULTS
+  default_communication                  text
+  default_pacing                         user_led
+  default_sensory                        quiet
+  default_continuity                     preserve
+  missing_preference_is_rejection        false
+  logging_permission_implies_reminder    false
+  reminder_permission_implies_logging    false
+  assistance_independent_of_logging      true
+  assistance_independent_of_estimate     true
+  access_available_with_no_bci_metadata  true
+
+TOKEN-CLASSES
+  token hematinic
+    schema_name                       intake_token_hematinic
+    public_label_primary              hematinic intake
+    public_label_alternative          blood-token
+    alternative_requires_disclosure   true
+    disclosure_line                   "Reports dietary iron, B12, and folate
+                                       intake. Not a blood measurement.
+                                       Nothing is taken from your body."
+    subunits                          iron_heme, iron_non_heme, vitamin_b12,
+                                      folate
+    units_never_summed                true
+    display_only                      true
+    exchangeable                      false
+    consumer_allowlist                renderer
+    prohibited_semantics              blood_volume, blood_glucose, hemoglobin,
+                                      oxygen_capacity, host_reserve, extractable,
+                                      donation_analog, phlebotomy_analog
+
+  token protein
+    schema_name                       intake_token_protein
+    public_label_primary              protein intake share
+    public_label_alternative          protein-token
+    units_grams                       true
+    display_only                      true
+    exchangeable                      false
+    consumer_allowlist                renderer
+    prohibited_semantics              muscle_mass, tissue, nitrogen_balance,
+                                      amino_acid_sufficiency, retained_protein,
+                                      protein_stability_verified
+
+  token carbohydrate
+    schema_name                       intake_token_carbohydrate
+    public_label_primary              carbohydrate intake share
+    public_label_alternative          sugar-token
+    sub_labels                        total_carbohydrate, free_sugars,
+                                      added_sugars
+    fiber_tracked_as_token            false
+    display_only                      true
+    exchangeable                      false
+    consumer_allowlist                renderer
+    prohibited_semantics              blood_glucose, glycemic_response,
+                                      insulin_response, available_energy,
+                                      device_fuel, host_fuel
+
+SELF-REPORT-OBSERVATIONS
+  -- v2 principle: every body- and experience-adjacent quantity that v1
+  -- carried as a scaled LEDGER field is now a USER-REPORTED observation,
+  -- with no floor, no ceiling enforced as invariant, no inference, and
+  -- no on-chain linkage. Renamed fields preserve lineage via renamed_from.
+
+  observation hunger
+    schema_name              exp_hunger_report
+    report_modality          numeric | categorical | symbolic | assistive
+    scale                    user_defined_or_unknown
+    enforced_invariants      none
+    conversion_to_kcal       prohibited
+    conversion_to_deficit    prohibited
+    consumer_allowlist       renderer, experience_module
+
+  observation thirst
+    schema_name              exp_thirst_report
+    report_modality          numeric | categorical | symbolic | assistive
+    scale                    user_defined_or_unknown
+    enforced_invariants      none
+    conversion_to_liters     prohibited
+    conversion_to_deficit    prohibited
+    consumer_allowlist       renderer, experience_module
+
+  observation satiety
+    schema_name              exp_satiety_report
+    report_modality          numeric | categorical | symbolic | assistive
+    enforced_invariants      none
+
+  observation subjective_vitality
+    schema_name              exp_subjective_vitality_report
+    renamed_from             lifeforcescaled
+    report_modality          numeric | categorical | symbolic | assistive
+    enforced_invariants      none
+    body_derived             false
+    inference                prohibited
+    onchain_linkage          prohibited
+
+  observation subjective_pain
+    schema_name              exp_subjective_pain_report
+    renamed_from             painindexscaled
+    report_modality          numeric | categorical | symbolic | assistive
+    enforced_invariants      none
+    body_derived             false
+    inference                prohibited
+    onchain_linkage          prohibited
+
+  observation subjective_fear
+    schema_name              exp_subjective_fear_report
+    renamed_from             fearindexscaled
+    report_modality          numeric | categorical | symbolic | assistive
+    enforced_invariants      none
+    body_derived             false
+    inference                prohibited
+    onchain_linkage          prohibited
+    note: v1 fear_min 0.31 and fear_max 0.68 are NOT enforced here;
+          an invariant that fails when a person is insufficiently afraid
+          is coercive; GD-04 records the intended reading
+
+  observation reported_integration_depth
+    schema_name              exp_reported_integration_depth
+    renamed_from             integrationdepthbefore, integrationdepthafter
+    report_modality          user_choice
+    enforced_invariants      none
+    monotonic_requirement    none
+    deintegration_always_permitted true
+    onchain_linkage          prohibited
+
+PENDING-DEFINITIONS
+  -- v1 fields whose meaning is not established. They are named here so
+  -- their absence is explicit rather than silent. No invariant, no
+  -- estimator, and no renderer may consume them until resolved.
+
+  field roh
+    original_field           rohscaled
+    original_bound           roh_ceiling 0.30
+    status                   UNDEFINED_AWAITING_GD-02
+    consumed_by              none
+    enforced_invariants      none
+
+  field bcr
+    original_field           bcrscaled
+    original_bound           bcr_floor 0.57
+    status                   UNDEFINED_AWAITING_GD-03
+    consumed_by              none
+    enforced_invariants      none
+
+COMPUTE-COST-DOMAIN
+  -- v1 totalgasused moved here. This domain has no path to L1-L3.
+
+  field computational_cost_units
+    type                     u64
+    renamed_from             totalgasused
+    unit_declared            true
+    nutrition_consumer_prohibited true
+    nutrition_source_prohibited   true
+
+ENVELOPE
+  -- Positive invariants. Only invariants whose satisfaction is
+  -- checkable against declared fields, and whose failure cannot
+  -- coerce or penalize a person, are listed here.
+
+  invariant display_integrity
+    rule token_display_only = true
+    rule token_exchangeable = false
+    rule token_consumer_allowlist = [renderer]
+    rule partial_interval_totals_labeled_partial
+    rule unknown_never_equals_zero
+    rule no_streak_no_earn_no_decay_penalty
+    rule no_reminder_implies_quota_or_deficit
+    rule no_reminder_implies_more_is_better
+
+  invariant access_independence
+    rule food_access_available_without_logging
+    rule water_access_available_without_logging
+    rule human_help_available_without_logging
+    rule access_available_with_no_bci_preference
+    rule access_available_when_estimate_unavailable
+    rule access_available_on_malformed_input
+
+  invariant channel_purpose_isolation
+    rule communication_fields_not_readable_by_estimators
+    rule self_report_fields_not_readable_by_estimators
+    rule no_path_from_communication_to_physiological_inference
+    rule no_path_from_self_report_to_estimator_coefficient
+
+  invariant computational_boundary
+    rule computational_cost_units_not_readable_by_nutrition
+    rule nutrition_quantities_not_readable_by_compute_domain
+    rule dietary_energy_and_computational_energy_never_summed
+
+  invariant no_onchain_linkage_until_gd07
+    rule GD-07_resolved_before_any_field_emitted_onchain
+    rule v1_subjectid_replaced_by_envelope_id
+    rule envelope_id_has_no_cross_envelope_linkage
+    rule onchain_emission_requires_separate_consent_artifact
+
+INTEGRATION-BOUNDARY
+  -- Declares the connection surface positively, so "no integration"
+  -- is a checkable claim rather than an absence to be filled by
+  -- convenience.
+
+  nutrition_namespace_importable           false
+  aln_namespace_importable                 false
+  bridge_module                            prohibited
+  taint_path_token_to_envelope             prohibited
+  taint_path_self_report_to_estimator      prohibited
+  taint_path_nutrition_to_compute_domain   prohibited
+  prohibited_bridge_path                   lua/adapters/prohibited/
+
+  declarations_consumable_readonly_by_nutrition
+    - resources_are_rights
+    - forbid_tokenization
+    - forbid_gambling
+    - forbid_financialization
+    - forbid_identity_derived_coefficients
+    - forbid_physiological_inference
+    - preserve_communication_channel_purpose
+    - preserve_human_fallback
+    - preserve_deintegration_right
+
+  token_class_definitions_consumable_readonly_by_renderer
+    - hematinic
+    - protein
+    - carbohydrate
+    purpose: renderer uses shard as canonical class definitions,
+             prohibits ad-hoc class invention in nutrition code
+
+  access_defaults_consumable_readonly_by_assistance_proposer
+    purpose: proposer uses shard as baseline defaults;
+             proposer may not override defaults with narrower ones
+
+  envelope_invariants_evaluable_by_shard_validator
+    purpose: pure boolean evaluation, no inference,
+             no side effects, no external action
+
+PENDING-DECISIONS
+  GD-01  domain_scope_remains_nutrition_adjacent      unresolved
+  GD-02  meaning_and_units_of_roh                     unresolved
+  GD-03  meaning_and_units_of_bcr                     unresolved
+  GD-04  intended_reading_of_fear                     unresolved
+  GD-05  intended_reading_of_pain                     unresolved
+  GD-06  intended_reading_of_vitality                 unresolved
+  GD-07  onchain_subject_linkage_policy               unresolved
+  GD-08  integration_depth_monotonicity_policy        unresolved
+  GD-09  intended_subject_of_burn                     unresolved
+  GD-10  compute_vs_nutrition_ledger_split            unresolved
+
+CHANGELOG-V1-TO-V2
+  removed    subjectid bytes32  -> envelope_id, no cross-linkage
+  removed    totalgasused u64   -> moved to COMPUTE-COST-DOMAIN
+  removed    fear_min 0.31, fear_max 0.68 as enforced invariants
+  removed    pain_ceiling 0.73 as enforced invariant
+  removed    lifeforce_floor 0.57, bcr_floor 0.57 as enforced invariants
+  removed    integration_depth_monotone as enforced invariant
+  removed    max_burns_per_operation 10 -> 0 (no burnable subject)
+  removed    roh_ceiling 0.30 as enforced invariant -> PENDING
+  renamed    lifeforcescaled    -> exp_subjective_vitality_report
+  renamed    painindexscaled    -> exp_subjective_pain_report
+  renamed    fearindexscaled    -> exp_subjective_fear_report
+  renamed    integrationdepth*  -> exp_reported_integration_depth
+  renamed    totalgasused       -> computational_cost_units
+  renamed    subjectid          -> envelope_id (scope: per-envelope)
+  retained   all four NEURORIGHTS declarations
+  retained   envelope-as-invariant pattern
+  added      ACCESS-DEFAULTS, TOKEN-CLASSES, SELF-REPORT-OBSERVATIONS,
+             INTEGRATION-BOUNDARY, PENDING-DEFINITIONS, PENDING-DECISIONS
+  added      explicit evidence axes and DESIGN_PROPOSAL status
+
+ATTRIBUTION
+  bostrom18sd2ujv24ual9c9pshtxys6j8knh6xaead9ye7
+  scope:    document credit and configured workstream metadata only
+  does_not_establish: biological binding, verified identity, consent,
+                      capability authorization, execution evidence,
+                      authority over any person or system
+  persistent_memory_storage_claimed: false

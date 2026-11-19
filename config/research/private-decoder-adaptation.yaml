@@ -1,0 +1,98 @@
+schema_version: "1.0.0"
+document_version: "0.1.0"
+kind: private-decoder-adaptation-plan
+status: proposed_not_executed
+date_created: "2026-10-31"
+
+provenance:
+  attribution_anchor: "bostrom18sd2ujv24ual9c9pshtxys6j8knh6xaead9ye7"
+  scope: [credit_metadata, workstream_metadata]
+  attestation_claim: none
+  execution_evidence: absent
+
+default_mode: local_only
+
+continuity:
+  essential_communication_requires_training: false
+  essential_communication_requires_federation: false
+  approved_model_retained_during_candidate_training: true
+  training_failure_disables_communication: prohibited
+  rollback_required: true
+
+data_scope:
+  raw_recording_export_default: deny
+  labels_export_default: deny
+  voice_profile_export_default: deny
+  model_update_export_default: deny
+  diagnostics_payload_export_default: deny
+  new_purpose_requires_separate_authorization: true
+  derived_update_is_nonsensitive_by_default: false
+
+adaptation:
+  permitted_parameters: explicitly_declared_before_training
+  training_data_scope: explicitly_authorized
+  calibration_and_evaluation_separated: required
+  candidate_activation: separately_reviewed
+  automatic_activation_from_lower_training_loss: prohibited
+  preprocessing_and_channel_metadata_pinned: required
+  input_and_model_changes_recorded: true
+
+federated_mode:
+  enabled: false
+  enabling_requires:
+    - specified_server_and_client_threat_model
+    - protocol_and_dependency_review
+    - authenticated_participation
+    - dropout_and_collusion_analysis
+    - release_and_revocation_policy
+    - privacy_and_utility_evaluation
+    - resource_and_continuity_measurement
+
+secure_aggregation:
+  implemented: false
+  individual_update_hiding_assumptions: required_before_claim
+  aggregate_output_leakage_addressed_separately: true
+
+differential_privacy:
+  implemented: false
+  required_before_claim:
+    - adjacency_unit
+    - clipping_definition
+    - noise_mechanism
+    - epsilon
+    - delta
+    - composition_accountant
+    - total_release_budget
+    - implementation_validation
+  privacy_guarantee_inferred_from_noise_presence: prohibited
+
+evaluation:
+  utility:
+    - held_out_task_error
+    - calibration
+    - coverage
+    - latency
+    - user_correction_burden
+  privacy:
+    - membership_inference
+    - reconstruction
+    - property_inference
+    - repeated_round_and_metadata_attacks
+  resource:
+    - endpoint_energy
+    - communication_volume
+    - training_duration
+    - peak_memory
+    - thermal_or_service_interference
+  claims:
+    empirical_attack_result_is_universal_privacy: false
+    raw_locality_is_complete_privacy: false
+    update_compression_is_privacy_proof: false
+
+retention:
+  local_training_data: explicit_duration_and_deletion_policy
+  candidate_models: explicit_duration_and_access_policy
+  exported_updates: separately_scoped_if_ever_enabled
+  revocation:
+    stop_future_in_scope_exports: required
+    historical_release_retraction_claim_without_evidence: prohibited

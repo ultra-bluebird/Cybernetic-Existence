@@ -1,0 +1,77 @@
+theory DrainageDecayFrame
+
+sort FrameId
+sort ObservationId
+sort SourceId
+sort CanalNodeId
+sort HexAnchorId
+sort TimestampUtc
+sort BODValue
+sort TSSValue
+sort CECValue
+sort NormalizedValue
+sort Variance
+sort Residual
+sort InclusionStatus
+sort FrameStatus
+sort Truth
+
+constructors
+  included : InclusionStatus
+  excluded_quality : InclusionStatus
+  excluded_window : InclusionStatus
+
+  provisional : FrameStatus
+  accepted : FrameStatus
+  rejected : FrameStatus
+  superseded : FrameStatus
+
+operators
+  finite_nonnegative : Decimal -> Truth
+  bounded_normalized : NormalizedValue -> Truth
+  positive_variance : Variance -> Truth
+  valid_bod : BODValue -> Truth
+  valid_tss : TSSValue -> Truth
+  valid_cec : CECValue -> Truth
+  source_active : SourceId -> Truth
+  raw_observation_accepted : ObservationId -> Truth
+  observation_in_window :
+    ObservationId * TimestampUtc * TimestampUtc -> Truth
+  contribution_traceable :
+    FrameId * ObservationId * SourceId * InclusionStatus -> Truth
+  frame_has_bod : FrameId -> Truth
+  frame_has_tss : FrameId -> Truth
+  frame_has_cec : FrameId -> Truth
+  frame_auditable : FrameId -> Truth
+  frame_may_be_accepted :
+    FrameId * FrameStatus -> Truth
+
+axioms
+  valid_bod(value) = finite_nonnegative(value)
+  valid_tss(value) = finite_nonnegative(value)
+  valid_cec(value) = finite_nonnegative(value)
+
+  contribution_traceable(frame, observation, source, included) =
+    and(
+      source_active(source),
+      raw_observation_accepted(observation)
+    )
+
+  contribution_traceable(frame, observation, source, excluded_quality) = true
+  contribution_traceable(frame, observation, source, excluded_window) = true
+
+  frame_auditable(frame) =
+    and(
+      frame_has_bod(frame),
+      and(
+        frame_has_tss(frame),
+        frame_has_cec(frame)
+      )
+    )
+
+  frame_may_be_accepted(frame, accepted) = frame_auditable(frame)
+  frame_may_be_accepted(frame, provisional) = true
+  frame_may_be_accepted(frame, rejected) = true
+  frame_may_be_accepted(frame, superseded) = true
+
+end

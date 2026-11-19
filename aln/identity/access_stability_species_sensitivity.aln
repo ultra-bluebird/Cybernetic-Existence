@@ -1,0 +1,114 @@
+aln_version: "2"
+
+policy:
+  name: "non-certified-access-social-stability-species-protection"
+  revision: "2026-08-28"
+  status: "rights-centered-research-policy"
+
+essential_access:
+  certificate_required: false
+  medical_documentation_required: false
+  device_identifier_required: false
+  biometric_identification_required: false
+  integration_data_required: false
+  continuous_telemetry_required: false
+  continuous_connectivity_required: false
+  protected_services:
+    - "public_transit_information"
+    - "public_transit_access"
+    - "shade_information"
+    - "cooling_information"
+    - "water_information"
+    - "water_quality_reporting"
+    - "maintenance_reporting"
+    - "grievance_submission"
+    - "appeal_submission"
+    - "public_participation"
+    - "emergency_information"
+    - "accessibility_support"
+
+identity:
+  stated_identity_required_for_protective_access: true
+  non_certification_invariant:
+    expression: "not certified(identity) does not imply not valid(identity)"
+  continuity_of_existence:
+    protected: true
+  denial_of_access_due_to_missing_certificate: prohibited
+
+social_influence_stability:
+  scope: "aggregate-institutional-conditions-only"
+  individual_tracking_permitted: false
+  personal_identity_profiling_permitted: false
+  private_communication_collection_permitted: false
+  biometric_collection_permitted: false
+  residual:
+    expression: "V_t = (1 - SAI_t)^2 + lambda * sum(discrimination_barrier_t^2)"
+    stability_goal: "V_t_plus_1 <= V_t + epsilon"
+  review_triggers:
+    - "residual_increase_above_tolerance"
+    - "uncertainty_above_threshold"
+    - "minimum_group_size_not_met"
+    - "accessible_participation_not_available"
+  required_response:
+    - "community_review"
+    - "accessible_explanation"
+    - "methodology_review"
+    - "privacy_review"
+    - "appeal_path"
+
+species_inclusive_protection:
+  species_non_discrimination: true
+  sentience_classifier_required: false
+  protection_review_triggers:
+    - "credible_welfare_concern"
+    - "credible_habitat_concern"
+    - "credible_biodiversity_concern"
+    - "material_ecological_uncertainty"
+  prohibited_rationales:
+    - "species_membership_alone"
+    - "low_market_value"
+    - "low_public_visibility"
+    - "absence_of_complete_data"
+  non_compensation:
+    expression: "unresolved_species_harm blocks eco-benefit-only approval"
+  required_response:
+    - "ecological_review"
+    - "plain_language_explanation"
+    - "alternative_analysis"
+    - "documented_mitigation_or_redesign"
+
+integration_data:
+  classification: "sensitive"
+  integration_data_required: false
+  permitted_only_when:
+    - "voluntarily_provided"
+    - "explicit_informed_consent"
+    - "specific_documented_purpose"
+    - "necessary_for_that_purpose"
+    - "time_bounded_retention"
+    - "revocation_available"
+    - "export_available"
+    - "deletion_available"
+  prohibited_uses:
+    - "service_eligibility"
+    - "service_denial"
+    - "employment_screening"
+    - "housing_screening"
+    - "insurance_pricing"
+    - "credit_scoring"
+    - "fraud_scoring"
+    - "surveillance_targeting"
+    - "social_scoring"
+    - "marketing"
+    - "behavioral_profiling"
+
+invariants:
+  - "integration_data_required == false"
+  - "essential access remains available without identity certificate"
+  - "essential access remains available without integration data"
+  - "identity certification absence does not reduce protective access"
+  - "social influence measurement is aggregate and privacy preserving"
+  - "social residual increase triggers review rather than automated penalty"
+  - "species_non_discrimination == true"
+  - "unresolved species harm is non-compensable by claimed ecological benefit"
+  - "all sensitive integration-data use is voluntary purpose-limited revocable and deletable"

@@ -1,0 +1,109 @@
+aln_version: "2"
+particle_type: "fog_acceptance_identity_policy"
+policy_id: "fog-acceptance-identity-2026-08-26"
+status: "advisory_only"
+purpose: "Cross-language deterministic FOG routing, privacy-preserving aggregate system-condition measurement, and equal protection of self-asserted identity."
+
+fog_router:
+  canonical_scale: "milli_integer_0_to_1000"
+  approved_media:
+    - "AQUEOUS"
+    - "SEDIMENT"
+    - "BIOREACTOR"
+    - "ORGANIC_DEBRIS"
+  predicate_order:
+    - "validate_structure_and_integer_range"
+    - "validate_media_taxonomy"
+    - "hazard_flag"
+    - "uncertainty_flag"
+    - "confidence_milli < 700"
+    - "completeness_milli < 900"
+    - "knowledge_factor_milli < 700"
+    - "harm_risk_milli > 300"
+    - "KNOWN_MEDIA_REVIEWABLE"
+  outputs:
+    - "REJECTED_INPUT"
+    - "FOG_REVIEW"
+    - "KNOWN_MEDIA_REVIEWABLE"
+  execution_constraints:
+    pure_function: true
+    random_input_prohibited: true
+    wall_clock_input_prohibited: true
+    external_state_input_prohibited: true
+    locale_dependent_parsing_prohibited: true
+    floating_point_computation_prohibited: true
+  conformance:
+    shared_test_vectors_required: true
+    canonical_output_format: "test_id|route|reason_code"
+    byte_for_byte_output_match_required: true
+
+acceptance_pattern:
+  permitted_inputs:
+    - "opt_in_anonymous_aggregate_survey"
+    - "aggregate_policy_compliance"
+    - "aggregate_accessible_appeal_resolution"
+    - "aggregate_service_access_improvement"
+  prohibited_inputs:
+    - "individual_tracking"
+    - "social_graph"
+    - "device_identifier"
+    - "biometric_data"
+    - "neural_data"
+    - "message_content"
+    - "precise_location_history"
+    - "persuasion_profile"
+    - "behavioral_scoring"
+  publication_controls:
+    opt_in_required: true
+    minimum_cohort_size: 30
+    small_cell_suppression_required: true
+    accessible_response_options_required: true
+    service_access_conditioned_on_participation: false
+  prohibited_interpretations:
+    - "individual_influence_inference"
+    - "social_conformity_score"
+    - "identity_acceptability_score"
+    - "targeted_persuasion"
+
+identity_protection:
+  default_status: "PROTECTED_SELF_ASSERTED_IDENTITY"
+  nondisclosure_equally_protected: true
+  identity_eligibility_decision_permitted: false
+  identity_based_harm_inference_permitted: false
+  protected_descriptions:
+    - "cybernetic_host"
+    - "augmented_citizen"
+    - "assistive_technology_user"
+    - "non_augmented_person"
+    - "self_described_identity"
+  action_assessment_requires:
+    - "concrete_action_description"
+    - "independent_documented_evidence"
+    - "notice"
+    - "accessible_human_review"
+    - "appeal_path"
+  prohibited:
+    - "existence_validation"
+    - "identity_profiling"
+    - "identity_authentication_requirement_for_dignity"
+    - "service_denial_due_to_identity"
+    - "retaliation_for_nondisclosure"
+
+ker:
+  knowledge_factor:
+    range: [0.0, 1.0]
+  eco_impact_value:
+    range: [0.0, 1.0]
+  harm_risk:
+    range: [0.0, 1.0]
+  accessibility_impact:
+    range: [0.0, 1.0]
+  rights_alignment:
+    range: [0.0, 1.0]
+
+metrics:
+  knowledge_factor: 0.90
+  eco_impact_value: 0.70
+  harm_risk: 0.10
+  accessibility_impact: 0.94
+  rights_alignment: 0.98

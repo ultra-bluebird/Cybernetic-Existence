@@ -1,0 +1,156 @@
+theory HexRotationAndKerHullPolicy
+
+sort AnchorId
+sort GeometryRevision
+sort TriadRevision
+sort KValue
+sort EValue
+sort RValue
+sort Weight
+sort Truth
+
+constructors
+  k_value : Decimal -> KValue
+  e_value : Decimal -> EValue
+  r_value : Decimal -> RValue
+  weight : Decimal -> Weight
+
+operators
+  bounded_unit_interval : Decimal -> Truth
+  valid_k : KValue -> Truth
+  valid_e : EValue -> Truth
+  valid_r : RValue -> Truth
+  valid_weight : Weight -> Truth
+  same_anchor : AnchorId * AnchorId -> Truth
+  same_geometry_revision : GeometryRevision * GeometryRevision -> Truth
+  same_triad_revision : TriadRevision * TriadRevision -> Truth
+  nonnegative_weight : Weight -> Truth
+  normalized_weights : Weight * Weight * Weight * Weight -> Truth
+  convex_k :
+    Weight * KValue *
+    Weight * KValue *
+    Weight * KValue *
+    Weight * KValue -> KValue
+  convex_e :
+    Weight * EValue *
+    Weight * EValue *
+    Weight * EValue *
+    Weight * EValue -> EValue
+  convex_r :
+    Weight * RValue *
+    Weight * RValue *
+    Weight * RValue *
+    Weight * RValue -> RValue
+  candidate_in_same_anchor_hull :
+    AnchorId *
+    AnchorId *
+    GeometryRevision *
+    GeometryRevision *
+    TriadRevision *
+    TriadRevision *
+    Weight *
+    Weight *
+    Weight *
+    Weight *
+    KValue *
+    EValue *
+    RValue *
+    KValue *
+    EValue *
+    RValue *
+    KValue *
+    EValue *
+    RValue *
+    KValue *
+    EValue *
+    RValue *
+    KValue *
+    EValue *
+    RValue -> Truth
+
+axioms
+  valid_k(k_value(x)) = bounded_unit_interval(x)
+  valid_e(e_value(x)) = bounded_unit_interval(x)
+  valid_r(r_value(x)) = bounded_unit_interval(x)
+
+  valid_weight(weight(x)) = bounded_unit_interval(x)
+  nonnegative_weight(weight(x)) = bounded_unit_interval(x)
+
+  normalized_weights(w1, w2, w3, w4) =
+    equal(add(add(w1, w2), add(w3, w4)), weight(1.0))
+
+  candidate_in_same_anchor_hull(
+    candidate_anchor,
+    basis_anchor,
+    candidate_geometry_revision,
+    basis_geometry_revision,
+    candidate_triad_revision,
+    basis_triad_revision,
+    w1,
+    w2,
+    w3,
+    w4,
+    candidate_k,
+    candidate_e,
+    candidate_r,
+    k1,
+    e1,
+    r1,
+    k2,
+    e2,
+    r2,
+    k3,
+    e3,
+    r3,
+    k4,
+    e4,
+    r4
+  ) =
+    and(
+      same_anchor(candidate_anchor, basis_anchor),
+      and(
+        same_geometry_revision(
+          candidate_geometry_revision,
+          basis_geometry_revision
+        ),
+        and(
+          same_triad_revision(
+            candidate_triad_revision,
+            basis_triad_revision
+          ),
+          and(
+            valid_weight(w1),
+            and(
+              valid_weight(w2),
+              and(
+                valid_weight(w3),
+                and(
+                  valid_weight(w4),
+                  and(
+                    normalized_weights(w1, w2, w3, w4),
+                    and(
+                      equal(
+                        candidate_k,
+                        convex_k(w1, k1, w2, k2, w3, k3, w4, k4)
+                      ),
+                      and(
+                        equal(
+                          candidate_e,
+                          convex_e(w1, e1, w2, e2, w3, e3, w4, e4)
+                        ),
+                        equal(
+                          candidate_r,
+                          convex_r(w1, r1, w2, r2, w3, r3, w4, r4)
+                        )
+                      )
+                    )
+                  )
+                )
+              )
+            )
+          )
+        )
+      )
+    )
+
+end

@@ -1,0 +1,29 @@
+aln_path care.detox.corridor.calibration.v1.aln
+aln_type care.detox.corridor.v1
+aln_license MIT OR Apache-2.0
+
+record DetoxCorridorCalibrationV1 {
+  host_did                : string,
+  bostrom_address         : string,
+  aln_clause              : string,
+  schema_version          : string,
+  evidence_tags           : string[],
+
+  roh_ceiling_corridor    : float,
+  roh_ceiling_global      : float,
+  roh_margin_soft         : float,
+
+  psychrisk_index_max     : float,
+  pain_index_max          : float,
+  fear_index_max          : float,
+
+  il6_ceiling_pg_ml       : float,
+  crp_ceiling_mg_l        : float,
+  hrvrmssd_min_ms         : float,
+}
+
+constraint DetoxCorridorCalibrationV1.HostBinding { ... }
+constraint DetoxCorridorCalibrationV1.RoH {
+  roh_ceiling_global == 0.30;
+  roh_ceiling_corridor <= roh_ceiling_global;
+}

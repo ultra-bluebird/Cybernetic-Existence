@@ -1,0 +1,107 @@
+{
+  "claimTypes": [
+    "empirical",
+    "normative",
+    "mixed",
+    "methodological",
+    "semantic",
+    "descriptive"
+  ],
+  "normativeFrameworkRequirements": {
+    "requiredForClaimTypes": [
+      "normative",
+      "mixed"
+    ],
+    "minimumValues": 1,
+    "minimumStakeholders": 1,
+    "minimumTradeoffs": 1
+  },
+  "stakeholderImpactLevels": [
+    "beneficial",
+    "neutral",
+    "adverse",
+    "uncertain"
+  ],
+  "governanceDecisionOutcomes": [
+    "adopted",
+    "adopted-with-conditions",
+    "not-adopted",
+    "deferred",
+    "requires-stakeholder-consultation"
+  ],
+  "uncertaintyModel": {
+    "version": "1.0.0",
+    "scale": {
+      "minimum": 0,
+      "maximum": 1,
+      "meaning": "0 represents no stated uncertainty and 1 represents maximal stated uncertainty. Values are structured assessments, not objective probabilities."
+    },
+    "requiredDimensions": [
+      "evidenceUncertainty",
+      "scopeUncertainty",
+      "measurementUncertainty",
+      "modelUncertainty"
+    ],
+    "aggregation": {
+      "method": "maximum-dimension-with-evidence-penalty",
+      "evidencePenalty": {
+        "unknown": 0.25,
+        "low": 0.15,
+        "moderate": 0.05,
+        "high": 0
+      },
+      "reviewThresholds": {
+        "high": 0.7,
+        "moderate": 0.4
+      }
+    },
+    "rationaleRequirement": {
+      "minimumLength": 40
+    }
+  },
+  "strengthRubric": {
+    "version": "1.0.0",
+    "assignmentAuthority": [
+      "reviewer",
+      "decision-owner"
+    ],
+    "criteria": [
+      "relevance",
+      "evidenceQuality",
+      "inferentialSupport",
+      "scopeSpecificity",
+      "impactPlausibility",
+      "falsifiability"
+    ],
+    "scoreRange": {
+      "minimum": 0,
+      "maximum": 3
+    },
+    "labels": {
+      "weak": {
+        "minimumAverage": 0,
+        "maximumAverageExclusive": 1
+      },
+      "moderate": {
+        "minimumAverage": 1,
+        "maximumAverageExclusive": 2
+      },
+      "strong": {
+        "minimumAverage": 2,
+        "maximumAverage": 3
+      },
+      "undetermined": {
+        "requiresIncompleteCriteria": true
+      }
+    },
+    "minimumCompleteCriteria": 6,
+    "rationaleMinimumLength": 40,
+    "reassessmentRequiredWhen": [
+      "linked-evidence-changes",
+      "scope-changes",
+      "falsification-criterion-changes",
+      "stakeholder-impact-changes",
+      "governance-decision-changes"
+    ]
+  }
+}

@@ -1,0 +1,107 @@
+aln_version: "2"
+particle_type: "surcharge_rights_door_policy"
+policy_id: "surcharge-rights-door-2026-08-26"
+status: "advisory_only"
+purpose: "Conservative surcharge screening, equal-access municipal rights information, and non-actuating door-sensor alignment alerts."
+
+surcharge_breach:
+  formula: "radius_coefficient*sqrt(flow_m3_s*duration_s)*(1+sensitivity_coefficient*bank_sensitivity_0_1)+shear_coefficient*critical_shear_stress_pa"
+  required_bounded_inputs:
+    flow_m3_s:
+      minimum: 0.0
+    duration_s:
+      minimum: 0.0
+    bank_sensitivity_0_1:
+      range: [0.0, 1.0]
+    critical_shear_stress_pa:
+      minimum: 0.0
+  categories:
+    local_review:
+      condition: "screening_radius_m <= local_review_radius_m"
+      qualified_engineering_review_required: false
+    extended_review:
+      condition: "local_review_radius_m < screening_radius_m <= extended_review_radius_m"
+      qualified_engineering_review_required: true
+    critical_review:
+      condition: "screening_radius_m > extended_review_radius_m"
+      qualified_engineering_review_required: true
+  required_indexes:
+    - "asset_id, observed_at_utc"
+    - "category, screening_radius_m, observed_at_utc"
+  prohibited_claims:
+    - "real_world_impact_prediction"
+    - "structural_safety_certification"
+    - "flood_prediction"
+  prohibited_data:
+    - "direct_identity"
+    - "continuous_person_tracking"
+
+municipal_rights_knowledge:
+  permitted_content:
+    - "official_policy_summary"
+    - "public_service_process"
+    - "accommodation_route"
+    - "complaint_route"
+    - "official_contact_information"
+  required_fields:
+    - "jurisdiction"
+    - "official_source_url"
+    - "official_publication_date"
+    - "last_reviewed_date"
+    - "plain_language_summary"
+    - "not_legal_advice_notice"
+    - "accessible_feedback_route"
+  prohibited_content:
+    - "legal_advice"
+    - "legal_outcome_prediction"
+    - "eligibility_determination"
+    - "identity_assumption"
+    - "personal_data_request"
+  equality:
+    self_asserted_identity_respected: true
+    assistive_and_cybernetic_technology_neutral: true
+    equal_access_required: true
+
+door_sensor_alignment:
+  formula: "abs(observed_crossing_duration_s-expected_crossing_duration_s)/allowed_duration_deviation_s"
+  alert_when:
+    - "timing_residual > 1.0"
+    - "sensor_health_flag=false"
+    - "inconsistent_sample_count >= inconsistency_count_threshold"
+  reject_when:
+    - "required_numeric_value_non_finite"
+    - "expected_crossing_duration_s <= 0"
+    - "observed_crossing_duration_s < 0"
+    - "allowed_duration_deviation_s <= 0"
+  outputs:
+    - "WITHIN_CONFIGURED_TIMING_BAND"
+    - "ALIGNMENT_ALERT"
+    - "REJECTED_INPUT"
+  non_actuation:
+    physical_door_control_authorized: false
+    prohibited_actions:
+      - "open_door"
+      - "close_door"
+      - "lock_door"
+      - "unlock_door"
+      - "reset_door"
+      - "disable_door"
+
+ker:
+  knowledge_factor:
+    range: [0.0, 1.0]
+  eco_impact_value:
+    range: [0.0, 1.0]
+  harm_risk:
+    range: [0.0, 1.0]
+  accessibility_impact:
+    range: [0.0, 1.0]
+  rights_alignment:
+    range: [0.0, 1.0]
+
+metrics:
+  knowledge_factor: 0.86
+  eco_impact_value: 0.73
+  harm_risk: 0.13
+  accessibility_impact: 0.93
+  rights_alignment: 0.96

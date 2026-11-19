@@ -1,0 +1,92 @@
+theory PhoenixAmaCorridorPipeline
+
+sort GaugeId
+sort AnchorId
+sort CorridorId
+sort TimestampUtc
+sort CsvRecord
+sort ParsedObservation
+sort GeometryRevision
+sort CalibrationStatus
+sort Truth
+
+constructors
+  accepted : CalibrationStatus
+  rejected : CalibrationStatus
+  pending_review : CalibrationStatus
+
+operators
+  csv_record_is_well_formed : CsvRecord -> Truth
+  gauge_id_present : ParsedObservation -> Truth
+  timestamp_is_utc : ParsedObservation -> Truth
+  discharge_is_nonnegative : ParsedObservation -> Truth
+  observation_has_units : ParsedObservation -> Truth
+  anchor_binding_is_valid : ParsedObservation * AnchorId -> Truth
+  geometry_revision_matches : ParsedObservation * GeometryRevision -> Truth
+  temporal_interval_is_valid : TimestampUtc * TimestampUtc -> Truth
+  corridor_record_is_admissible :
+    CsvRecord *
+    ParsedObservation *
+    AnchorId *
+    GeometryRevision -> Truth
+  validator_may_accept :
+    Truth *
+    Truth *
+    Truth *
+    Truth *
+    Truth *
+    Truth -> Truth
+
+axioms
+  corridor_record_is_admissible(
+    source,
+    observation,
+    anchor,
+    revision
+  ) =
+    and(
+      csv_record_is_well_formed(source),
+      and(
+        gauge_id_present(observation),
+        and(
+          timestamp_is_utc(observation),
+          and(
+            discharge_is_nonnegative(observation),
+            and(
+              observation_has_units(observation),
+              and(
+                anchor_binding_is_valid(observation, anchor),
+                geometry_revision_matches(observation, revision)
+              )
+            )
+          )
+        )
+      )
+    )
+
+  validator_may_accept(
+    source_valid,
+    temporal_valid,
+    topology_valid,
+    residual_within_limit,
+    provenance_valid,
+    human_review_present
+  ) =
+    and(
+      source_valid,
+      and(
+        temporal_valid,
+        and(
+          topology_valid,
+          and(
+            residual_within_limit,
+            and(
+              provenance_valid,
+              human_review_present
+            )
+          )
+        )
+      )
+    )
+
+end

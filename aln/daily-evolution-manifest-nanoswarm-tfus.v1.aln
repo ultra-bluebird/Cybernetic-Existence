@@ -1,0 +1,58 @@
+aln
+File,aln/daily-evolution-manifest-nanoswarm-tfus.v1.aln
+Type,QPU.Datashard
+Purpose,Define a DailyEvolutionManifest shard binding cyberfs://manifests/daily-evolution.json to nanoswarm+tFUS OTA episodes, require Rust/Kani consistency harness re-runs on manifest updates, and constrain daily evolution under Cybercore/Organichain sovereignty. Designed for https://github.com/mk-bluebird/Nano-Tree and mk-bluebird/Cybercore.
+
+SECTION,META
+ROW,meta,shardid,scalar,shardid,daily-evolution-manifest-nanoswarm-tfus.v1,string,primarykey
+ROW,meta,version,scalar,version,1.0.0,string,immutable
+ROW,meta,createdutc,scalar,createdutc,2026-08-03T00:20:00Z,timestamp,nonnull
+ROW,meta,authoritynamespace,scalar,authoritynamespace,ALN.MIGRATION.CYBERCOREAUTHORITY.v1,string,nonnull
+ROW,meta,space,scalar,space,Nano-Tree-DailyEvolution,string,nonnull
+ROW,meta,authoringstack,scalar,authoringstack,mk-bluebird/Nano-Tree mk-bluebird/Cybercore mk-bluebird/Organichain,string,nonnull
+ROW,meta,hostdid,scalar,hostdid,didalnorganic-host,string,nonnull
+ROW,meta,bostromaddressprimary,scalar,bostromaddressprimary,bostrom18sd2ujv24ual9c9pshtxys6j8knh6xaead9ye7,string,nonnull
+ROW,meta,designedforrepo,scalar,designedforrepo,https://github.com/mk-bluebird/Nano-Tree,string,nonnull
+ROW,meta,cyberfspath_manifest,scalar,cyberfspath_manifest,cyberfs://manifests/daily-evolution.json,string,nonnull
+ROW,meta,consistencyshardid,scalar,consistencyshardid,cyberfs-consistency-checks-nanoswarm-tfus.v1,string,nonnull
+
+SECTION,MANIFEST-SCHEMA
+ROW,manifest,date,scalar,date,date,primarykey
+ROW,manifest,hostdid,scalar,hostdid,didalnorganic-host,string,nonnull
+ROW,manifest,bostromaddress,scalar,bostromaddress,bostrom18sd2ujv24ual9c9pshtxys6j8knh6xaead9ye7,string,nonnull
+ROW,manifest,episodecount,scalar,episodecount,int,range0,+
+ROW,manifest,manifestjsonhash,scalar,manifestjsonhash,bytes32,nonnull
+ROW,manifest,cyberfspath_manifest,scalar,cyberfspath_manifest,cyberfs://manifests/daily-evolution.json,string,nonnull
+
+SECTION,MANIFEST-EPISODES
+ROW,episode,date,scalar,date,date,refMANIFEST-SCHEMA.date
+ROW,episode,episodeid,scalar,episodeid,bytes32,primarykey
+ROW,episode,cyberfspath_consistency,scalar,cyberfspath_consistency,string,nonnull,"cyberfs://nanoswarm/episodes/<episodeid>/consistency"
+ROW,episode,consistencyshardid,scalar,consistencyshardid,string,nonnull,"cyberfs-consistency-checks-nanoswarm-tfus.v1"
+ROW,episode,fp_mass_consistency,scalar,fp_mass_consistency,bool,nonnull
+ROW,episode,fp_density_below_threshold,scalar,fp_density_below_threshold,bool,nonnull
+ROW,episode,tfus_within_safety_envelope,scalar,tfus_within_safety_envelope,bool,nonnull
+ROW,episode,tfus_approvals_match_tx_log,scalar,tfus_approvals_match_tx_log,bool,nonnull
+ROW,episode,no_dual_violation_nanoswarm_tfus,scalar,no_dual_violation_nanoswarm_tfus,bool,nonnull
+ROW,episode,telepathic_lane_verdict,scalar,telepathic_lane_verdict,string,Allow|Defer|Deny,nonnull
+ROW,episode,organichain_tx_id,scalar,organichain_tx_id,bytes32,nonnull
+
+SECTION,VERIFIER-BINDING
+ROW,verifier,cratepath,scalar,cratepath,crates/nanoswarm_consistency/src/lib.rs,string,nonnull
+ROW,verifier,kaniharnesses,scalar,kaniharnesses,string,nonnull,"nanoswarm_fp_consistency_harness tfus_safety_envelope_harness nanoswarm_tfus_dual_constraint_harness"
+ROW,verifier,ciworkflowfile,scalar,ciworkflowfile,.github/workflows/daily-evolution-consistency.yml,string,nonnull
+ROW,verifier,ciworkflowtrigger,scalar,ciworkflowtrigger,string,nonnull,"On manifestjsonhash change or manifest episodes array mutation, run Kani on all three harnesses with updated telemetry inputs."
+ROW,verifier,verifiercommitrequired,scalar,verifiercommitrequired,bool,nonnull,true
+
+SECTION,INVARIANTS
+ROW,invariant,manifest_consistency_binding,rule,manifest_consistency_binding,string,nonnull,"For any manifest date, every episodeid listed MUST have a cyberfspath_consistency that resolves to a CyberFS object conforming to aln/cyberfs-consistency-checks-nanoswarm-tfus.v1, and consistencyshardid MUST equal daily-evolution-manifest-nanoswarm-tfus.v1.meta.consistencyshardid."
+ROW,invariant,episode_checks_required,rule,episode_checks_required,string,nonnull,"For any episode with telepathic_lane_verdict == 'Allow', fp_mass_consistency, fp_density_below_threshold, tfus_within_safety_envelope, tfus_approvals_match_tx_log, and no_dual_violation_nanoswarm_tfus MUST all be true. Episodes with any check == false MUST NOT be used for OTA execution and MUST be quarantined or tagged for remediation."
+ROW,invariant,kaniharness_rerun_on_update,rule,kaniharness_rerun_on_update,string,nonnull,"Any update to cyberfs://manifests/daily-evolution.json (manifestjsonhash change, episode additions/removals, or check flag mutations) SHALL trigger the CI workflow .github/workflows/daily-evolution-consistency.yml, which MUST re-run nanoswarm_fp_consistency_harness, tfus_safety_envelope_harness, and nanoswarm_tfus_dual_constraint_harness on the updated telemetry corpus. Commits altering the manifest without a passing Kani run MUST be rejected."
+ROW,invariant,no_unverified_manifest_use,rule,no_unverified_manifest_use,string,nonnull,"Runtime components in mk-bluebird/Nano-Tree, mk-bluebird/Cybercore, and mk-bluebird/Organichain MUST treat any manifest with verifiercommitrequired == true and missing a successful CI/Kani verifier commit as non-authoritative. Daily evolution automation MUST read only manifests whose manifestjsonhash is signed or tagged as Kani-verified."
+ROW,invariant,hostbinding,rule,hostbinding,string,nonnull,"Manifest hostdid and bostromaddress MUST bind to didalnorganic-host and bostrom18sd2ujv24ual9c9pshtxys6j8knh6xaead9ye7, and any deviation MUST invalidate the manifest."
+
+SECTION,DAILY-EVOLUTION-USAGE
+ROW,usage,component,scalar,component,string,nonnull,"Nano-Tree-kernels|Cybercore-CI|Organichain-telepathic-lane"
+ROW,usage,behavior,scalar,behavior,string,nonnull,"On each day, load manifest from cyberfs://manifests/daily-evolution.json, iterate episodes with telepathic_lane_verdict == 'Allow', and schedule OTA operations ONLY for episodes where all consistency checks and Kani-verifier tags are valid. For episodes with Defer or Deny, record research/diagnostic actions but do not actuate nanoswarms or tFUS."
+
+FOOTER,END-OF-SHARD

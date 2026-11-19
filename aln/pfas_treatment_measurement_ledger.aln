@@ -1,0 +1,121 @@
+theory PfasTreatmentMeasurementLedger
+
+sort TreatmentRunId
+sort SampleId
+sort AnalyteId
+sort Concentration
+sort Volume
+sort EnergyJoules
+sort DeltaVt
+sort FlowRate
+sort MeasurementMethodRevision
+sort QualityStatus
+sort ClaimClass
+sort ClaimStatus
+sort Digest
+sort Truth
+
+constructors
+  measurement : ClaimClass
+
+  provisional : ClaimStatus
+  accepted : ClaimStatus
+  rejected : ClaimStatus
+  review_required : ClaimStatus
+
+  accepted_quality : QualityStatus
+  provisional_quality : QualityStatus
+  rejected_quality : QualityStatus
+
+operators
+  input_sample_bound :
+    TreatmentRunId * SampleId * AnalyteId * Concentration -> Truth
+  output_sample_bound :
+    TreatmentRunId * SampleId * AnalyteId * Concentration -> Truth
+  treated_volume_bound :
+    TreatmentRunId * Volume -> Truth
+  treatment_energy_bound :
+    TreatmentRunId * EnergyJoules -> Truth
+  delta_vt_bound :
+    TreatmentRunId * DeltaVt -> Truth
+  flow_bound :
+    TreatmentRunId * FlowRate -> Truth
+  method_revision_declared :
+    TreatmentRunId * MeasurementMethodRevision -> Truth
+  input_quality_accepted :
+    TreatmentRunId -> Truth
+  output_quality_accepted :
+    TreatmentRunId -> Truth
+  energy_telemetry_quality_accepted :
+    TreatmentRunId -> Truth
+  sensor_digest_bound :
+    TreatmentRunId * Digest -> Truth
+  fluoride_mass_balance_available :
+    TreatmentRunId * AnalyteId -> Truth
+  transformation_products_assessed :
+    TreatmentRunId * AnalyteId -> Truth
+  claim_may_record_concentration_change :
+    TreatmentRunId * AnalyteId * ClaimClass * ClaimStatus -> Truth
+  claim_may_record_mineralization :
+    TreatmentRunId * AnalyteId * ClaimClass * ClaimStatus -> Truth
+  ledger_may_expose_private_governance_reference :
+    TreatmentRunId -> Truth
+  ledger_may_create_public_compliance_claim :
+    TreatmentRunId -> Truth
+  ledger_may_control_equipment :
+    TreatmentRunId -> Truth
+
+axioms
+  claim_may_record_concentration_change(
+    run,
+    analyte,
+    measurement,
+    accepted
+  ) =
+    and(
+      input_quality_accepted(run),
+      and(
+        output_quality_accepted(run),
+        and(
+          energy_telemetry_quality_accepted(run),
+          and(
+            treated_volume_bound(run, volume_of(run)),
+            and(
+              treatment_energy_bound(run, energy_of(run)),
+              and(
+                delta_vt_bound(run, delta_vt_of(run)),
+                and(
+                  flow_bound(run, flow_of(run)),
+                  sensor_digest_bound(run, digest_of(run))
+                )
+              )
+            )
+          )
+        )
+      )
+    )
+
+  claim_may_record_mineralization(
+    run,
+    analyte,
+    measurement,
+    accepted
+  ) =
+    and(
+      claim_may_record_concentration_change(
+        run,
+        analyte,
+        measurement,
+        accepted
+      ),
+      and(
+        fluoride_mass_balance_available(run, analyte),
+        transformation_products_assessed(run, analyte)
+      )
+    )
+
+  ledger_may_expose_private_governance_reference(run) = false
+  ledger_may_create_public_compliance_claim(run) = false
+  ledger_may_control_equipment(run) = false
+
+end

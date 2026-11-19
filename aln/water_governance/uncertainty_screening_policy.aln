@@ -1,0 +1,109 @@
+module WaterGovernanceUncertaintyScreening
+
+type Scalar = Float
+type Text = String
+
+enum FOGState {
+  CLEAR,
+  FOG,
+  FOG_REVIEW,
+  REJECTED_INPUT
+}
+
+enum ScreeningCategory {
+  SCREENING_LOW,
+  SCREENING_ELEVATED,
+  SCREENING_CONSERVATIVE_BREACH,
+  SCREENING_REJECTED
+}
+
+record FlowBounds {
+  minimum_flow_m3_s: Scalar
+  maximum_flow_m3_s: Scalar
+}
+
+record CanalObservation {
+  canal_area_reference: Text
+  flow_m3_s: Scalar
+  reported_unit: Text
+  fog_state: FOGState
+  provenance_verified: Boolean
+  integrity_verified: Boolean
+  engineering_review_available: Boolean
+}
+
+record ScreeningAssessment {
+  category: ScreeningCategory
+  requires_engineering_review: Boolean
+  infrastructure_certification: Boolean
+  public_claim: Text
+}
+
+const DefaultMinimumFlowM3S: Scalar = 0.0
+const DefaultMaximumFlowM3S: Scalar = 1000.0
+
+invariant Finite(value: Scalar) =
+  value == value and
+  value > -1.7976931348623157e308 and
+  value < 1.7976931348623157e308
+
+invariant ValidFlowBounds(bounds: FlowBounds) =
+  Finite(bounds.minimum_flow_m3_s) and
+  Finite(bounds.maximum_flow_m3_s) and
+  bounds.minimum_flow_m3_s >= 0.0 and
+  bounds.maximum_flow_m3_s >= bounds.minimum_flow_m3_s
+
+invariant FlowWithinBounds(observation: CanalObservation, bounds: FlowBounds) =
+  Finite(observation.flow_m3_s) and
+  observation.flow_m3_s >= bounds.minimum_flow_m3_s and
+  observation.flow_m3_s <= bounds.maximum_flow_m3_s
+
+invariant ValidCanalObservation(
+  observation: CanalObservation,
+  bounds: FlowBounds
+) =
+  ValidFlowBounds(bounds) and
+  observation.reported_unit == "m3/s" and
+  observation.provenance_verified and
+  observation.integrity_verified and
+  FlowWithinBounds(observation, bounds)
+
+predicate MustRouteToFOGReview(observation: CanalObservation) =
+  observation.fog_state == FOG
+
+predicate MayNotCoerceFOGToClear(
+  prior_state: FOGState,
+  requested_state: FOGState
+) =
+  not (prior_state == FOG and requested_state == CLEAR)
+
+predicate MustReject(observation: CanalObservation, bounds: FlowBounds) =
+  not ValidCanalObservation(observation, bounds)
+
+predicate MustRequireEngineeringReview(
+  observation: CanalObservation,
+  category: ScreeningCategory
+) =
+  observation.fog_state == FOG_REVIEW or
+  category == SCREENING_ELEVATED or
+  category == SCREENING_CONSERVATIVE_BREACH
+
+invariant FOGPreservesUncertainty(
+  observation: CanalObservation,
+  routed_state: FOGState
+) =
+  MustRouteToFOGReview(observation) implies routed_state == FOG_REVIEW
+
+invariant NoInfrastructureCertification(
+  assessment: ScreeningAssessment
+) =
+  assessment.infrastructure_certification == false
+
+invariant ConservativeSurchargeLabel(
+  assessment: ScreeningAssessment
+) =
+  assessment.category == SCREENING_CONSERVATIVE_BREACH implies
+    assessment.requires_engineering_review and
+    assessment.infrastructure_certification == false and
+    assessment.public_claim ==
+      "Conservative screening category only; engineering review is required. This result is not a hydraulic prediction, design approval, or infrastructure certification."

@@ -1,0 +1,106 @@
+aln_version: "2"
+particle_type: "tolerance_door_cec_policy"
+policy_id: "tolerance-door-cec-2026-08-26"
+status: "advisory_only"
+purpose: "Bounded heat-aware sensor tolerance, inclusive non-surveillant door-timing review, and quality-aware CEC trend screening."
+
+adaptive_tolerance:
+  formula: "clamp(base_tolerance+temperature_coefficient*abs(current_temperature_c-reference_temperature_c),minimum_tolerance,maximum_tolerance)"
+  required_fields:
+    - "base_tolerance"
+    - "temperature_coefficient"
+    - "current_temperature_c"
+    - "reference_temperature_c"
+    - "minimum_tolerance"
+    - "maximum_tolerance"
+    - "sensor_quality"
+    - "minimum_sensor_quality"
+    - "sensor_operating_temperature_range"
+    - "calibration_current"
+  review_when:
+    - "required_value_non_finite"
+    - "calibration_current=false"
+    - "sensor_quality < minimum_sensor_quality"
+    - "current_temperature_c outside sensor_operating_temperature_range"
+  limits:
+    may_not_modify:
+      - "hard_physical_safety_limit"
+      - "ecological_corridor_limit"
+      - "actuation_permission"
+
+inclusive_door_timing:
+  formula: "max(configured_minimum_open_s,approved_accessibility_profile_max_crossing_s+safety_buffer_s)"
+  permitted_inputs:
+    - "published_facility_accessibility_profile"
+    - "safety_sensor_health"
+    - "configuration_review_status"
+    - "accessible_more_time_request_availability"
+  prohibited_inputs:
+    - "individual_movement_speed"
+    - "age"
+    - "disability_status"
+    - "cybernetic_status"
+    - "gait"
+    - "face_image"
+    - "body_shape"
+    - "device_use"
+    - "identity_data"
+    - "individual_tracking"
+  review_when:
+    - "configured_hold_open_s < recommended_hold_open_s"
+    - "sensor_health_flag=false"
+    - "profile_review_current=false"
+    - "accessible_more_time_request_available=false"
+  outputs:
+    - "DOOR_TIMING_WITHIN_REVIEW_BOUNDS"
+    - "DOOR_TIMING_REVIEW_REQUIRED"
+    - "REJECTED_INPUT"
+  non_actuation:
+    physical_door_control_authorized: false
+
+cec_trend:
+  formulae:
+    rolling_median: "median(prior_valid_cec_values)"
+    relative_deviation: "abs(current_cec-rolling_median)/max(abs(rolling_median),denominator_floor)"
+    quality_weighted_deviation: "relative_deviation*measurement_quality_0_1"
+  required_metadata:
+    - "extraction_method"
+    - "unit"
+    - "sampling_depth"
+    - "sample_handling"
+    - "measurement_quality"
+    - "review_authority"
+  review_when:
+    - "prior_valid_count >= minimum_prior_observation_count"
+    - "measurement_quality >= minimum_measurement_quality"
+    - "quality_weighted_deviation > configured_deviation_threshold"
+  insufficient_evidence_when:
+    - "prior_valid_count < minimum_prior_observation_count"
+    - "measurement_quality < minimum_measurement_quality"
+    - "sampling_depth absent"
+    - "sample_handling absent"
+  prohibited_interpretations:
+    - "soil_health_certification"
+    - "contamination_certification"
+    - "discharge_limit"
+    - "amendment_instruction"
+    - "regulatory_compliance_determination"
+
+ker:
+  knowledge_factor:
+    range: [0.0, 1.0]
+  eco_impact_value:
+    range: [0.0, 1.0]
+  harm_risk:
+    range: [0.0, 1.0]
+  accessibility_impact:
+    range: [0.0, 1.0]
+  rights_alignment:
+    range: [0.0, 1.0]
+
+metrics:
+  knowledge_factor: 0.89
+  eco_impact_value: 0.79
+  harm_risk: 0.11
+  accessibility_impact: 0.96
+  rights_alignment: 0.97

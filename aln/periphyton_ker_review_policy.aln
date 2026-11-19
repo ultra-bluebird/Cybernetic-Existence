@@ -1,0 +1,116 @@
+theory PeriphytonKerReviewPolicy
+
+sort AnchorId
+sort CanalNodeId
+sort Action
+sort KScore
+sort EScore
+sort RScore
+sort ResuspensionRisk
+sort RiskLimit
+sort ReviewStatus
+sort Truth
+
+constructors
+  harvest_review : Action
+  brush_review : Action
+  monitor_only : Action
+  defer_for_sampling : Action
+
+  eligible_for_human_review : ReviewStatus
+  blocked : ReviewStatus
+  review_required : ReviewStatus
+
+operators
+  unit_ker :
+    KScore * EScore * RScore -> Truth
+  resuspension_below_limit :
+    ResuspensionRisk * RiskLimit -> Truth
+  sediment_stability_verified :
+    AnchorId * CanalNodeId -> Truth
+  biomass_handling_plan_present :
+    AnchorId * CanalNodeId -> Truth
+  contaminant_characterization_complete :
+    AnchorId * CanalNodeId -> Truth
+  ecological_review_complete :
+    AnchorId * CanalNodeId -> Truth
+  human_authorization_present :
+    AnchorId * CanalNodeId * Action -> Truth
+  ker_evidence_available :
+    AnchorId * CanalNodeId -> Truth
+  action_may_enter_review :
+    AnchorId *
+    CanalNodeId *
+    Action *
+    KScore *
+    EScore *
+    RScore *
+    ResuspensionRisk *
+    RiskLimit *
+    ReviewStatus -> Truth
+  action_may_control_equipment :
+    AnchorId * CanalNodeId * Action -> Truth
+
+axioms
+  action_may_enter_review(
+    anchor,
+    node,
+    harvest_review,
+    k,
+    e,
+    r,
+    resuspension,
+    limit,
+    eligible_for_human_review
+  ) =
+    and(
+      unit_ker(k, e, r),
+      and(
+        resuspension_below_limit(resuspension, limit),
+        and(
+          sediment_stability_verified(anchor, node),
+          and(
+            biomass_handling_plan_present(anchor, node),
+            and(
+              contaminant_characterization_complete(anchor, node),
+              and(
+                ecological_review_complete(anchor, node),
+                ker_evidence_available(anchor, node)
+              )
+            )
+          )
+        )
+      )
+    )
+
+  action_may_enter_review(
+    anchor,
+    node,
+    harvest_review,
+    k,
+    e,
+    r,
+    resuspension,
+    limit,
+    blocked
+  ) =
+    equal(resuspension_below_limit(resuspension, limit), false)
+
+  action_may_enter_review(
+    anchor,
+    node,
+    brush_review,
+    k,
+    e,
+    r,
+    resuspension,
+    limit,
+    review_required
+  ) = true
+
+  action_may_control_equipment(anchor, node, harvest_review) = false
+  action_may_control_equipment(anchor, node, brush_review) = false
+  action_may_control_equipment(anchor, node, monitor_only) = false
+  action_may_control_equipment(anchor, node, defer_for_sampling) = false
+
+end

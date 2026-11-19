@@ -1,0 +1,227 @@
+aln.cross-domain-energy-resources.v1.aln
+
+META
+  hostdid                    didalnorganic-host
+  bostromaddress             bostrom18sd2ujv24ual9c9pshtxys6j8knh6xaead9ye7
+  authority                  ALN.MIGRATION.CYBERCORE_AUTHORITY.v3
+  domain                     CROSS_DOMAIN_GOVERNANCE
+  purpose                    Define shared governance vocabulary for sibling
+                             energy-resource domains, and prohibit cross-
+                             domain transfer of body-adjacent quantities.
+  registers                  aln.nutrition-energy-resources.v2
+                             aln.nanoswarm-bio-gas-governance.v1
+  status                     DESIGN_PROPOSAL
+  evidence_axes              parse:not_started execution:not_started
+                             authority:not_assessed authenticity:not_assessed
+
+DOMAIN-REGISTRY
+  domain nutrition
+    shard                    aln.nutrition-energy-resources.v2
+    resource_classes         intake_token_hematinic
+                             intake_token_protein
+                             intake_token_carbohydrate
+    resource_use             display_only, non_transferable,
+                             non_redeemable, no_compute_conversion
+    may_read_from            CROSS_DOMAIN_GOVERNANCE (read-only)
+    may_not_read_from        nanoswarm-bio-gas
+                             RESOURCE-GAS
+
+  domain nanoswarm-bio-gas
+    shard                    aln.nanoswarm-bio-gas-governance.v1
+    resource_classes         BLOOD PROTEIN SUGAR LIFEFORCE OXYGEN
+                             BRAIN WAVE DW PAIN FEAR
+    resource_use             compute_cost_driver (unresolved: see GD-11)
+    may_read_from            CROSS_DOMAIN_GOVERNANCE (read-only)
+    may_not_read_from        nutrition
+                             intake_token_*
+
+SHARED-NEURORIGHTS
+  -- Adopted from both domain shards where they agree. Every domain shard
+  -- MUST satisfy these; a domain shard that contradicts any of them is
+  -- rejected by the cross-domain validator, not merged by convention.
+
+  forbid_raw_biosignals                    true
+    source: nanoswarm shard NEURORIGHTS.mentalprivacy
+    reinforces: EN-12, nutrition forbid_physiological_inference
+
+  forbid_coercive_mechanics                true
+    source: nanoswarm shard NEURORIGHTS.cognitiveliberty
+    scope: no body-resource class may be used to coerce participation
+           or punish non-participation in any domain
+    reinforces: EN-24, nutrition resources_are_rights
+
+  forbid_transferable_body_resource_claims true
+    source: nanoswarm shard NEURORIGHTS.nonfinancialization
+    scope: no ERC-20-style transfer, no marketization, no earn/spend
+           loop on any body-resource class in any domain
+    reinforces: EN-03, EN-13, nutrition forbid_financialization
+
+  forbid_abrupt_state_transitions          true
+    source: nanoswarm shard identity_continuity.forbid_abrupt_psych_state_jumps
+    reinforces: nutrition pacing = extended, continuity = preserve
+
+  protections_only_tighten                 true
+    source: nanoswarm shard mental_integrity.forbid_envelope_rollback
+            + evolution_constraints.monotone_floors / monotone_ceilings
+    scope: envelope bounds, once tightened, may not be loosened in a
+           later epoch by any domain shard
+    reinforces: nutrition access-defaults stability
+
+  consent_must_be_bound_to_declared_subject true
+    source: nanoswarm shard cognitive_liberty.require_host_did_bound_consent
+    reinforces: nutrition consent_* family, EN-07
+
+  no_direct_actuation                      true
+    source: nanoswarm shard INVARIANTS.nonactuation
+    scope: any domain shard SHALL only record operations and enforce
+           envelopes; SHALL NOT actuate hardware, devices, or services
+    reinforces: EN-10, nutrition every external action proposed only
+
+  preserve_deintegration_right             true
+    source: nutrition cross-domain requirement, overriding nanoswarm
+            depthMonotone for nutrition scope
+    scope: in the nutrition domain, a person may reduce any reported
+           integration depth at any time; no invariant may forbid this
+
+SHARED-GOVERNANCE-PATTERNS
+  -- Structural patterns adopted from the nanoswarm shard, applied to
+  -- both domains as optional-but-recommended.
+
+  pattern evidence_package_required_for_capability_grant
+    source: nanoswarm audit.require_capacity_evidence_bundle
+    domain_shards_that_use_it: nutrition (research gates), nanoswarm
+    reinforces: nutrition evidence-package discipline
+
+  pattern formal_proof_required_for_high_impact_gates
+    source: nanoswarm audit.require_kani_pass_for_strict_mode
+    domain_shards_that_use_it: nanoswarm (Kani), nutrition (planned
+                                property-based + holdout validation)
+    reinforces: nutrition EN-17 (fitted without holdout != validated)
+    note: nutrition does not currently claim Kani or equivalent;
+          research_gate statuses are the nutrition analogue
+
+  pattern epoch_tagged_audit
+    source: nanoswarm audit.log_host_did_and_epoch_tag
+    domain_shards_that_use_it: both
+    reinforces: upgradetag versioning; nutrition model_manifest revision
+
+  pattern envelope_as_invariant
+    source: both domain shards
+    domain_shards_that_use_it: both
+    note: this is a pattern adoption; values are domain-scoped
+
+CROSS-DOMAIN-BOUNDARY
+  -- No data path exists between domains. This is a structural claim,
+  -- not a policy convention. A build check that discovers a path is
+  -- a failure, not a finding.
+
+  nutrition_to_nanoswarm_path            prohibited
+  nanoswarm_to_nutrition_path            prohibited
+  intake_token_to_resource_gas_path      prohibited
+  resource_gas_to_intake_token_path      prohibited
+  self_report_to_resource_gas_path       prohibited
+  envelope_field_to_nutrition_estimate   prohibited
+  compute_cost_to_nutrition_estimate     prohibited
+  dietary_energy_and_compute_energy_summed prohibited
+
+  bridge_module_path                     lua/adapters/prohibited/
+  presence_of_bridge_is                  build_failure
+
+  shared_vocabulary_flows
+    -- The ONLY cross-domain reads permitted are read-only consumption
+    -- of SHARED-NEURORIGHTS and SHARED-GOVERNANCE-PATTERNS.
+    nutrition_reads_shared_neurorights    readonly
+    nutrition_reads_shared_patterns       readonly
+    nanoswarm_reads_shared_neurorights    readonly
+    nanoswarm_reads_shared_patterns       readonly
+
+QUARANTINE
+  -- Fields from the nanoswarm shard that conflict with nutrition
+  -- defaults or with shared governance. Placed here so the absence
+  -- of integration is auditable rather than silent.
+
+  item lifeforce_floor_any_value
+    values_seen              0.57 (earlier attachment)
+                             0.20 (this attachment YAML)
+                             31/255 ≈ 0.1216 (this attachment CSV)
+    disposition              resolve via GD-06 before any consumption
+    nutrition_reachability   none
+
+  item pain_index_ceiling_0.73
+    disposition              resolve via GD-05
+    nutrition_reachability   none
+
+  item fear_corridor_0.31_to_0.68
+    disposition              resolve via GD-04
+    nutrition_reachability   none
+
+  item integration_depth_monotone
+    disposition              nutrition scope overrides via
+                             preserve_deintegration_right; sibling
+                             domain may retain monotonicity if it
+                             does not affect nutrition
+    nutrition_reachability   none
+
+  item subjectId_on_ledger
+    disposition              replace with envelope_id per operation
+                             before any on-chain emission (GD-07)
+    nutrition_reachability   none
+
+  item resource_gas_pricing
+    disposition              adopt as compute-cost schedule under
+                             Reading A or Reading C (see GD-11);
+                             under Reading B the shard is rejected
+    nutrition_reachability   none under A or C; full shard rejection
+                             under B
+
+  item two_contracts_named
+    dispositions             resolve which invariants bind which
+                             contract (GD-12)
+    nutrition_reachability   none
+
+PENDING-DECISIONS
+  GD-01  nutrition_domain_scope_remains_unchanged         resolved (v2 stands)
+  GD-02  meaning_and_units_of_roh                         unresolved
+  GD-03  meaning_and_units_of_bcr                         unresolved
+  GD-04  intended_reading_of_fear                         unresolved
+  GD-05  intended_reading_of_pain                         unresolved
+  GD-06  intended_reading_of_vitality                     unresolved
+  GD-07  onchain_subject_linkage_policy                   unresolved
+  GD-08  integration_depth_monotonicity_policy            unresolved
+  GD-09  intended_subject_of_burn                         unresolved
+  GD-10  compute_vs_nutrition_ledger_split                resolved (split stands)
+  GD-11  resource_gas_reading_A_C_or_B                    unresolved
+  GD-12  which_contract_binds_which_invariants            unresolved
+  GD-13  lifeforce_floor_reconciliation_among_three_values unresolved
+  GD-14  expansion_of_DW_WAVE_BRAIN                       unresolved
+
+EVIDENCE-AXES-REQUIRED
+  -- Any domain shard registered here must declare these before it
+  -- can be marked activated.
+
+  parse_status            declared per domain shard
+  execution_status        declared per domain shard
+  invariant_verification  declared per domain shard
+  internal_consistency    demonstrated (no contradictions between
+                          data and policy blocks)
+  external_consistency    demonstrated (no contradiction with
+                          SHARED-NEURORIGHTS)
+
+CHANGELOG
+  v1  Cross-domain governance layer created.
+      Adopted 10 NEURORIGHTS and 4 governance patterns from the
+      nanoswarm shard.
+      Placed nutrition and nanoswarm as siblings with no data path.
+      Registered 14 pending decisions.
+      Nutrition shard v2 remains valid; gains cross_domain_layer
+      reference only.
+      Earlier nutrition shard v1 (from prior attachments) status
+      becomes unresolved_legacy for all reclassified fields.
+
+ATTRIBUTION
+  bostrom18sd2ujv24ual9c9pshtxys6j8knh6xaead9ye7
+  scope:    document credit and configured workstream metadata only
+  does_not_establish: biological binding, verified identity, consent,
+                      capability authorization, execution evidence,
+                      authority over any person or system
+  persistent_memory_storage_claimed: false

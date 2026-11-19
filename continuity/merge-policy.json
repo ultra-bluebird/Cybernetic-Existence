@@ -1,0 +1,35 @@
+{
+  "version": "1.0.0",
+  "policy_id": "urn:continuity:merge-policy:1.0.0",
+  "description": "Local rules for merging continuity records from cooperating components without silently overwriting protection-relevant state.",
+  "merge_rules": [
+    {
+      "rule_id": "no-silent-drop",
+      "statement": "A merge that would remove any protection event or clause reference must produce an explicit supersession record."
+    },
+    {
+      "rule_id": "highest-sensitivity-wins",
+      "statement": "Merged records inherit the highest sensitivity classification of their inputs."
+    },
+    {
+      "rule_id": "epoch-monotonicity",
+      "statement": "Merge output carries a consent epoch equal to or later than every input epoch; older epochs cannot be reintroduced."
+    },
+    {
+      "rule_id": "conflict-denies",
+      "statement": "Conflicting transition claims deny the merge and route to oversight review when high-impact."
+    }
+  ],
+  "requires_oversight_when": [
+    "merge touches protected-pause or restored-state transitions",
+    "merge supersedes a non-removable clause reference"
+  ],
+  "audit": {
+    "record_minimal_metadata": true,
+    "store": "local_audit_store",
+    "export": "decision_receipt_only"
+  },
+  "limitations": [
+    "This policy governs local merge bookkeeping; it does not adjudicate truth, legal status, or identity continuity."
+  ]
+}

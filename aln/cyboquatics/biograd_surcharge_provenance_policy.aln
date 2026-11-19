@@ -1,0 +1,110 @@
+aln_version: "2"
+particle_type: "biograd_surcharge_provenance_policy"
+policy_id: "biograd-surcharge-provenance-2026-08-26"
+status: "review_required"
+purpose: "Method-aligned biodegradation control evidence, indexed non-local surcharge review retrieval, and privacy-preserving routing accountability."
+
+biodegradation_control_validity:
+  single_observation_sufficient: false
+  required_fields:
+    - "method_name"
+    - "method_version"
+    - "duration_days"
+    - "minimum_duration_days"
+    - "replicate_count"
+    - "minimum_replicate_count"
+    - "replicate_spread"
+    - "maximum_replicate_spread"
+    - "blank_or_negative_control_valid"
+    - "positive_control_valid"
+    - "response_channel"
+    - "temperature"
+    - "test_medium"
+    - "inoculum_or_compost_source"
+    - "units"
+    - "calibration"
+    - "chain_of_custody"
+  response_alignment:
+    oxygen_demand:
+      required_measurement: "oxygen_demand_or_BOD"
+    carbon_dioxide_evolution:
+      required_measurement: "carbon_dioxide_evolution"
+  review_ready_when:
+    - "duration_days >= minimum_duration_days"
+    - "replicate_count >= minimum_replicate_count"
+    - "replicate_spread <= maximum_replicate_spread"
+    - "blank_or_negative_control_valid=true"
+    - "positive_control_valid=true"
+    - "declared_response_measurement_present=true"
+  prohibited_claims:
+    - "biodegradability_certification"
+    - "compostability_certification"
+    - "safety_certification"
+    - "environmental_release_authorization"
+    - "regulatory_compliance_determination"
+
+surcharge_lookup:
+  indexes:
+    - "asset_id, observed_at_utc DESC"
+    - "category, observed_at_utc DESC"
+  time_window_query_contract:
+    predicate: "asset_id = ? AND observed_at_utc >= ? AND observed_at_utc < ?"
+    ordering: "observed_at_utc DESC"
+  non_local_categories:
+    - "EXTENDED_REVIEW"
+    - "CRITICAL_REVIEW"
+  qualified_human_engineering_review_required: true
+  prohibited_claims:
+    - "real_world_impact_prediction"
+    - "automatic_response_authorization"
+
+routing_audit_provenance:
+  required_fields:
+    - "audit_event_id"
+    - "observation_id"
+    - "node_pseudonym"
+    - "route_code"
+    - "explanation_code"
+    - "explanation_text"
+    - "review_status"
+    - "observed_at_utc"
+    - "policy_id"
+    - "input_schema_version"
+  prohibited_fields:
+    - "raw_neural_data"
+    - "raw_biometric_data"
+    - "raw_health_data"
+    - "raw_augmentation_data"
+    - "exact_personal_location"
+    - "household_identifier"
+    - "device_identifier"
+    - "camera_imagery"
+    - "visitor_history"
+    - "identity_inference"
+  lifecycle:
+    append_only: true
+    access_control_required: true
+    retention_limited: true
+    export_path_required: true
+    correction_and_appeal_path_required: true
+  non_actuation:
+    external_action_authorized: false
+
+ker:
+  knowledge_factor:
+    range: [0.0, 1.0]
+  eco_impact_value:
+    range: [0.0, 1.0]
+  harm_risk:
+    range: [0.0, 1.0]
+  accessibility_impact:
+    range: [0.0, 1.0]
+  rights_alignment:
+    range: [0.0, 1.0]
+
+metrics:
+  knowledge_factor: 0.90
+  eco_impact_value: 0.76
+  harm_risk: 0.11
+  accessibility_impact: 0.90
+  rights_alignment: 0.97

@@ -1,0 +1,142 @@
+aln_version: "2"
+particle_type: "cyboquatic_recovery_acceptance_fog_policy"
+policy_id: "phoenix-recovery-acceptance-fog-2026-08-26"
+status: "review_required"
+purpose: "Ecological heat recovery measurement, voluntary aggregate inclusion assessment, and precautionary canal-media routing."
+prohibited_uses:
+  - "resident displacement eligibility"
+  - "surveillance"
+  - "neural_or_biometric_collection"
+  - "identity_verification"
+  - "automated_enforcement"
+  - "automated_water_discharge_authorization"
+
+data_classes:
+  heat_recovery:
+    allowed:
+      - "public_space_air_temperature"
+      - "public_surface_albedo"
+      - "public_route_shade_fraction"
+      - "vegetation_condition_proxy"
+      - "airflow_obstruction_proxy"
+    forbidden:
+      - "household_telemetry"
+      - "device_identifiers"
+      - "precise_person_location"
+      - "biometric_data"
+      - "neural_data"
+  acceptance:
+    allowed:
+      - "voluntary_anonymous_likert_aggregate"
+      - "policy_compliance_aggregate"
+      - "appeal_aggregate"
+    forbidden:
+      - "augmentation_status"
+      - "health_status"
+      - "identity_proof"
+      - "persistent_identifier"
+      - "neural_data"
+      - "biometric_data"
+  canal_media:
+    allowed:
+      - "media_class"
+      - "confidence"
+      - "evidence_completeness"
+      - "knowledge_factor"
+      - "chain_of_custody_status"
+      - "calibration_status"
+      - "retention_status"
+      - "hazard_status"
+
+consent:
+  acceptance:
+    required: true
+    scope: "voluntary_aggregate_social_conditions_survey"
+    revocable: true
+    collection_mode: "opt_in"
+    minimum_release_cohort: 30
+  heat_recovery:
+    required: false
+    scope: "public_non_residential_environmental_measurement"
+    personal_data_prohibited: true
+  canal_media:
+    required: false
+    scope: "environmental_safety_review"
+    personal_data_prohibited: true
+
+ker:
+  knowledge_factor:
+    min_known_media: 0.70
+    min_heat_reporting: 0.70
+    min_acceptance_reporting: 0.70
+  eco_impact_value:
+    range: [0.0, 1.0]
+  harm_risk:
+    range: [0.0, 1.0]
+    expected_max_for_public_reporting: 0.30
+  rights_alignment:
+    range: [0.0, 1.0]
+    required_minimum: 0.85
+
+fog:
+  known_media_requires:
+    uncertainty_flag: false
+    classification_confidence_min: 0.70
+    evidence_completeness_min: 0.90
+    knowledge_factor_min: 0.70
+    approved_media_taxonomy_match: true
+    chain_of_custody_complete: true
+    calibration_record_current: true
+    retention_metadata_present: true
+    hazard_flag_active: false
+  review_route: "FOG_REVIEW"
+  fail_closed: true
+
+canal_node:
+  route_decision:
+    decision_type: "classification_only"
+    may_not_authorize:
+      - "discharge"
+      - "chemical_dosing"
+      - "mechanical_removal"
+      - "water_diversion"
+  retention:
+    raw_operational_data_days: 30
+    aggregate_audit_record_days: 365
+    deletion_request_path: "accessible_human_review"
+  accountability:
+    audit_record_required: true
+    accessible_appeal_required: true
+    human_review_required_for:
+      - "FOG_REVIEW"
+      - "rights_gate_failure"
+      - "community_displacement_report"
+
+heat_recovery:
+  cooling_potential:
+    formula: "clamp01(0.25*clamp01(albedo_delta/0.25)+0.55*clamp01(0.60*canopy_shade_fraction+0.40*evapotranspiration_proxy)+0.20*clamp01(1-airflow_obstruction_factor))"
+  observed_night_cooling:
+    formula: "clamp01((-night_air_temperature_delta_c)/target_night_cooling_c)"
+  rights_gate:
+    must_be_true:
+      - "displacement_reported=false"
+      - "rights_review_available=true"
+      - "personal_or_sensitive_telemetry_collected=false"
+      - "community_identity_protection_documented=true"
+    failure_route: "RECOVERY_HOLD_FOR_RIGHTS_REVIEW"
+
+acceptance:
+  formula: "clamp01(0.50*clamp01((anonymous_likert_mean-1)/4)+0.30*policy_compliance_ratio+0.20*appeal_resolution_ratio)"
+  appeal_rate: "valid_appeals/covered_services_or_decisions"
+  interpretation: "report_separately_with_accessibility_review"
+  release_controls:
+    minimum_completed_responses: 30
+    suppress_small_cells: true
+    aggregate_only: true
+
+metrics:
+  knowledge_factor: 0.86
+  eco_impact_value: 0.79
+  harm_risk: 0.18
+  accessibility_impact: 0.90
+  rights_alignment: 0.94

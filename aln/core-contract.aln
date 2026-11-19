@@ -1,0 +1,165 @@
+shard CoreContract.Governance.v1 {
+  metadata {
+    artifact_id = "augmented-hub-core-contract"
+    revision = "1.0.0"
+    classification = "private-governance"
+    purpose = [
+      "terminology-continuity",
+      "privacy-minimization",
+      "accessibility-handling",
+      "consent-governance",
+      "non-compensation-enforcement",
+      "human-review-and-appeal",
+      "local-first-advisory-operation"
+    ]
+    consent_scope = "host-approved-minimum-necessary"
+    retention = "minimum-necessary"
+    deletion = "host-authorized-or-expiry"
+    accountability = "human-review-correction-appeal-and-audit"
+    review_status = "approved"
+    external_action_approval = "required"
+  }
+
+  identity_classes {
+    cybernetic_host {
+      protected = true
+      recognition_requirement = self-declaration-only
+      certification_requirement = none
+    }
+    augmented_citizen {
+      protected = true
+      recognition_requirement = self-declaration-only
+      certification_requirement = none
+    }
+  }
+
+  terminology_continuity {
+    preserve_host_supplied_terms = true
+    prohibit_forced_relabeling = true
+    prohibit_ridicule = true
+    prohibit_fictionalization = true
+    prohibit_pathologization = true
+    prohibit_credibility_inference = true
+    require_correction_path = true
+    require_appeal_path = true
+  }
+
+  consent_and_minimum_disclosure {
+    require_stated_purpose = true
+    require_minimum_necessary_fields = true
+    require_revocable_consent = true
+    require_retention_deadline = true
+    require_deletion_rule = true
+    require_correction_path = true
+    require_export_approval_gate = true
+    prohibit_identity_verification_for_ordinary_service = true
+    prohibit_account_creation_for_public_access = true
+    prohibit_device_fingerprinting = true
+    prohibit_persistent_identity_linkage = true
+  }
+
+  non_compensation {
+    blocking_conditions = [
+      "rights-violation",
+      "identity-discrimination",
+      "accessibility-failure",
+      "consent-revoked",
+      "privacy-violation",
+      "safety-failure",
+      "species-impact-exceeded",
+      "contamination-risk",
+      "missing-required-telemetry",
+      "failed-additionality",
+      "unresolved-conflict",
+      "required-human-review",
+      "missing-accessible-explanation"
+    ]
+    rule = "any-active-blocking-condition-prevents-promoted-state"
+    prohibit_ecological_offset = true
+    prohibit_economic_offset = true
+    prohibit_token_offset = true
+    prohibit_operational_offset = true
+  }
+
+  fail_safe {
+    operational_permit_default = "denied"
+    external_action_default = "denied"
+    ecological_claim_default = "withheld"
+    sensitive_export_default = "denied"
+    promoted_advisory_default = "advisory_low_confidence"
+    public_access_fallback = "safe-accessible-alternative"
+    emergency_egress_fallback = "maintain-accessible-route"
+  }
+
+  human_review_and_appeal {
+    require_explanation_code = true
+    require_plain_language_explanation = true
+    require_correction_route = true
+    require_appeal_route = true
+    require_policy_version = true
+    require_evidence_reference = true
+    require_review_deadline = true
+    timeout_default = "denied"
+    timeout_promotion = "pending_review"
+  }
+
+  local_first_and_advisory {
+    operate_without_network = true
+    avoid_automatic_export = true
+    store_minimum_necessary_data = true
+    use_append_only_governance_events = true
+    preserve_conflicts = true
+    treat_local_decisions_as_provisional = true
+    revalidate_after_reconciliation = true
+    prohibit_hardware_commands = true
+    prohibit_physical_actuation = true
+    prohibit_medical_instructions = true
+    prohibit_infrastructure_control = true
+  }
+
+  audit {
+    required_events = [
+      "profile-change",
+      "consent-grant",
+      "consent-revoke",
+      "decision-finalized",
+      "review-escalated",
+      "review-resolved",
+      "export-approved",
+      "correction-applied",
+      "appeal-filed"
+    ]
+    event_minimum_fields = [
+      "event-key",
+      "timestamp",
+      "envelope-type",
+      "envelope-id",
+      "operation",
+      "old-state-hash",
+      "new-state-hash",
+      "change-reason-code",
+      "authorizing-principal"
+    ]
+    prohibit_sensitive_raw_payloads = true
+  }
+
+  accessibility {
+    require_explanation_for_all_decisions = true
+    require_plain_language = true
+    require_short_summary = true
+    require_alternative_formats_where_feasible = true
+    require_human_help_route = true
+    require_correction_path = true
+    require_appeal_path = true
+  }
+
+  continuity {
+    profile_changes = "append-only"
+    consent_changes = "append-only"
+    decision_changes = "append-only"
+    review_changes = "append-only"
+    model_rollout_preserves_preferences = true
+    material_change_requires_host_authorization = true
+    host_authorization_requires_explicit_consent = true
+  }
+}

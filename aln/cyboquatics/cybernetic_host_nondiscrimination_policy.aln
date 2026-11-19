@@ -1,0 +1,142 @@
+aln_version: "2"
+particle_type: "cybernetic_host_nondiscrimination_policy"
+policy_id: "cybernetic-host-nondiscrimination-2026-08-26"
+status: "governance_required"
+purpose: "Protect equal access, self-asserted identity, privacy, and meaningful review for people who use, do not use, or choose not to disclose cybernetic or assistive technologies."
+
+scope:
+  covered_systems:
+    - "municipal_service_information"
+    - "environmental_observation"
+    - "accessibility_service"
+    - "gathering_hub_assessment"
+    - "maintenance_review"
+    - "cyboquatic_decision_support"
+  protected_characteristics:
+    - "self_asserted_cybernetic_existence"
+    - "augmentation_status"
+    - "non_augmentation_status"
+    - "assistive_technology_use"
+    - "implant_or_wearable_use"
+    - "interface_or_device_choice"
+    - "choice_not_to_disclose_technology_use"
+
+prohibited_decisions:
+  - "service_denial"
+  - "service_delay"
+  - "service_degradation"
+  - "pricing_difference"
+  - "eligibility_reduction"
+  - "mobility_restriction"
+  - "retaliation"
+  - "profiling"
+  - "identity_inference"
+  - "adverse_decision_without_human_review"
+
+essential_service_protection:
+  services:
+    - "water"
+    - "sanitation"
+    - "health"
+    - "mobility"
+    - "civic_participation"
+    - "accessibility"
+  prohibited_conditions:
+    - "optional_telemetry"
+    - "augmentation_status"
+    - "external_identity_verification"
+    - "unrelated_sensitive_data_consent"
+    - "continuous_connectivity"
+    - "proprietary_augmentation"
+
+data_classes:
+  sensitive_by_default:
+    - "neural_data"
+    - "biometric_data"
+    - "health_data"
+    - "augmentation_data"
+    - "device_telemetry"
+    - "identity_data"
+    - "precise_location"
+  permitted_non_sensitive:
+    - "aggregate_facility_accessibility_measurement"
+    - "aggregate_environmental_measurement"
+    - "privacy_preserving_audit_metadata"
+  prohibited:
+    - "covert_collection"
+    - "identity_inference"
+    - "continuous_person_tracking"
+    - "sensitive_data_use_for_service_eligibility"
+
+purpose_limitation:
+  purpose_id_required: true
+  compatibility_review_required_for_new_purpose: true
+  prohibited_secondary_purposes:
+    - "surveillance"
+    - "social_scoring"
+    - "marketing"
+    - "insurance_pricing"
+    - "employment_screening"
+    - "law_enforcement_targeting"
+
+consent_scope:
+  required_for_optional_sensitive_processing: true
+  requirements:
+    - "explicit"
+    - "informed"
+    - "specific"
+    - "granular"
+    - "revocable"
+    - "accessible_explanation"
+  revocation:
+    stop_processing: true
+    retention_review_required: true
+    export_or_deletion_path_required: true
+    minimized_audit_event_required: true
+
+rights_requests:
+  access: true
+  correction: true
+  export: true
+  deletion_review: true
+  human_review: true
+  appeal:
+    accessible: true
+    non_retaliatory: true
+    time_bounded: true
+    independent_review_available: true
+
+audit:
+  required: true
+  append_only: true
+  raw_sensitive_data_permitted: false
+  required_fields:
+    - "event_type"
+    - "purpose_id"
+    - "decision_category"
+    - "human_review_status"
+    - "appeal_status"
+    - "timestamp_utc"
+
+external_action:
+  mode: "non_actuating_decision_support"
+  autonomous_physical_action_permitted: false
+
+ker:
+  knowledge_factor:
+    range: [0.0, 1.0]
+  eco_impact_value:
+    range: [0.0, 1.0]
+  harm_risk:
+    range: [0.0, 1.0]
+  accessibility_impact:
+    range: [0.0, 1.0]
+  rights_alignment:
+    range: [0.0, 1.0]
+
+metrics:
+  knowledge_factor: 0.88
+  eco_impact_value: 0.77
+  harm_risk: 0.13
+  accessibility_impact: 0.95
+  rights_alignment: 0.97

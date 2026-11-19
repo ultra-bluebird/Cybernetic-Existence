@@ -1,0 +1,108 @@
+schema_version: "1.0.0"
+document_version: "0.1.0"
+kind: decoder-reproduction-package
+status: proposed_not_executed
+date_created: "2026-10-31"
+
+provenance:
+  attribution_anchor: "bostrom18sd2ujv24ual9c9pshtxys6j8knh6xaead9ye7"
+  scope: [credit_metadata, workstream_metadata]
+  attestation_claim: none
+  persistent_memory_claim: none
+  external_literature_consulted: true
+  execution_evidence: absent
+
+reproduction_targets:
+  numerical_reanalysis: planned
+  synthetic_pipeline_reproduction: planned
+  original_neural_experiment_reproduction: not_claimed
+
+artifacts:
+  required:
+    - source_code
+    - dependency_manifest
+    - preprocessing_configuration
+    - frozen_task_scope
+    - split_construction_description
+    - metric_definitions
+    - latency_event_definitions
+    - synthetic_fixture_generator_or_fixed_fixtures
+    - verification_tests
+    - execution_instructions
+    - known_limitations
+    - evidence_manifest
+  hashing:
+    algorithm: SHA-256
+    digest_is_execution_proof: false
+    digest_is_anonymization: false
+
+environment:
+  target_matlab_release: "R2024b"
+  validated_matlab_release: null
+  container_used: not_yet_decided
+  container_digest: null
+  host_and_accelerator_description_required: true
+  products_and_versions_required: true
+  numerical_tolerances_required: true
+
+randomness:
+  explicit_generator_algorithm_required: true
+  explicit_seed_required_for_each_stochastic_component: true
+  cpu_gpu_worker_states_distinguished: true
+  shuffle_seed_for_final_reproduction: prohibited
+  deterministic_library_options_recorded: required
+
+splits:
+  selection_rule_frozen_before_final_evaluation: required
+  participant_overlap_declared: required
+  session_overlap_declared: required
+  temporal_direction_declared: required
+  overlapping_raw_support_checked: required
+  reference_statistics_fit_on_evaluation_data: prohibited
+  adaptation_labels_reused_as_final_evaluation_labels: prohibited
+  restricted_split_mapping:
+    public_identity_release_required: false
+    controlled_verification_record_required: true
+
+task_benchmark:
+  specialist_scope_declared_before_evaluation: required
+  general_decoder_scope_declared: required
+  common_tasks_reported: required
+  specialist_out_of_scope_tasks_reported: required
+  switching_time_separate: required
+  repair_time_definition: required
+  coverage_and_conditional_accuracy_separate: true
+  aggregate_task_mix_published: required
+  automatic_winner_from_accuracy_only: prohibited
+
+privacy:
+  raw_neural_data_public_release_default: deny
+  private_transcript_release_default: deny
+  voice_profile_release_default: deny
+  model_weights_release_requires_review: true
+  derived_features_are_anonymous_by_default: false
+  synthetic_data_supports_original_physiological_claim: false
+  controlled_access_is_separately_authorized: true
+
+execution_evidence:
+  record_actual_start_and_end_times: required
+  record_environment_and_commands: required
+  record_pass_fail_and_incomplete_results: required
+  retain_discrepancies: required
+  distinguish_replay_from_retraining: required
+  source_file_existence_implies_execution: false
+
+independent_attempt:
+  responsible_role: independent_reproduction_reviewer
+  outcomes:
+    - reproduced_within_declared_scope
+    - reproduced_with_documented_differences
+    - not_reproduced
+    - blocked_by_missing_material
+    - blocked_by_access_restriction
+  private_data_disclosure_to_resolve_failure: not_automatically_authorized
+
+release:
+  external_upload_or_repository_write: separately_approved
+  security_and_privacy_review_before_export: required
+  license_and_third_party_restrictions_reviewed: required

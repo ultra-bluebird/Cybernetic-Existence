@@ -1,0 +1,115 @@
+aln_version: "2"
+particle_type: "driftmachine_downstream_contract_policy"
+policy_id: "driftmachine-downstream-contract-2026-08-26"
+status: "advisory_only"
+purpose: "Versioned, privacy-minimized, deterministic DriftMachine transition outputs and fail-closed downstream validation."
+
+output_contract:
+  schema_id: "https://mk-bluebird.github.io/Augmented-Hub/schemas/driftmachine/driftmachine-transition-output.schema.json"
+  required_fields:
+    - "event_id"
+    - "transition_id"
+    - "timestamp_utc"
+    - "input_schema_version"
+    - "policy_version"
+    - "current_state"
+    - "next_state"
+    - "decision_code"
+    - "explanation.reason_code"
+    - "explanation.plain_language"
+    - "human_review_status"
+    - "provenance.audit_event_id"
+    - "provenance.evidence_reference"
+    - "provenance.input_integrity_status"
+    - "provenance.policy_id"
+    - "provenance.input_schema_id"
+    - "provenance.review_case_id"
+    - "external_action_authorized"
+  versioning:
+    semantic_version_required: true
+    source_of_truth_required: true
+    compatibility_registry_required: true
+  decision_codes:
+    advisory_only: true
+    prohibited_codes:
+      - "PERMITTED"
+      - "DENIED"
+      - "ACTUATE"
+      - "AUTHORIZE"
+      - "RESTRICT_ACCESS"
+
+consumer_validation:
+  required_before_business_logic: true
+  reject_when:
+    - "mandatory_field_missing"
+    - "unknown_state"
+    - "unknown_decision_code"
+    - "unknown_review_status"
+    - "incompatible_schema_version"
+    - "incompatible_policy_version"
+    - "invalid_identifier"
+    - "invalid_timestamp"
+    - "invalid_or_missing_provenance"
+    - "external_action_authorized=true"
+    - "invalid_recovery_transition"
+  rejection_behavior:
+    process_payload: false
+    retain_full_payload: false
+    create_privacy_minimized_rejection_event: true
+    human_review_queue_available: true
+
+privacy:
+  permitted_provenance:
+    - "audit_event_id"
+    - "evidence_reference"
+    - "input_integrity_status"
+    - "policy_id"
+    - "input_schema_id"
+    - "review_case_id"
+  prohibited:
+    - "raw_neural_data"
+    - "raw_biometric_data"
+    - "raw_health_data"
+    - "raw_augmentation_data"
+    - "direct_identity"
+    - "precise_person_location"
+    - "continuous_person_tracking"
+    - "household_identifier"
+    - "camera_imagery"
+
+invariants:
+  INV_01: "Each valid state-event-guard tuple yields exactly one canonical outcome."
+  INV_02: "Invalid, incomplete, stale, unverifiable, or schema-incompatible evidence never yields an OPERATIONAL acceptance."
+  INV_03: "Every LOCKED_OUT transition emits a privacy-minimized audit event with stable reason, explanation, timestamp, policy version, and review status."
+  INV_04: "LOCKED_OUT to OPERATIONAL requires HUMAN_RECOVERY_VERIFIED and a separately documented qualified recovery decision."
+  INV_05: "All outputs have external_action_authorized=false."
+  INV_06: "Identity, assistive-technology use, cybernetic existence, augmentation status, and non-disclosure are excluded from signals, guards, risk, eligibility, and recovery."
+  INV_07: "Audit records contain only the minimum provenance required for explanation and review."
+  INV_08: "Consumers reject non-conforming transition outputs before business logic."
+  INV_09: "Non-operational states provide accessible human-support and informational fallback references where technically feasible."
+  INV_10: "Implementations and optimizations match canonical conformance vectors exactly."
+
+validation:
+  required_suites:
+    - "transition_coverage"
+    - "invariant_property"
+    - "malformed_input"
+    - "lockout_recovery"
+    - "consumer_contract_rejection"
+    - "privacy_minimization"
+    - "identity_neutrality"
+    - "cross_language_conformance"
+  required_outputs:
+    - "state_before"
+    - "state_after"
+    - "decision_code"
+    - "reason_code"
+    - "human_review_status"
+    - "external_action_authorized=false"
+
+metrics:
+  knowledge_factor: 0.91
+  eco_impact_value: 0.75
+  harm_risk: 0.10
+  accessibility_impact: 0.94
+  rights_alignment: 0.98

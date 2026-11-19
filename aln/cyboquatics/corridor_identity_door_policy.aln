@@ -1,0 +1,92 @@
+aln_version: "2"
+particle_type: "corridor_identity_door_accessibility_policy"
+policy_id: "phoenix-corridor-identity-door-2026-08-26"
+status: "review_required"
+purpose: "Fail-closed sensor-calibration evidence, identity protection without adjudication, and privacy-preserving accessible automatic-door configuration."
+
+prohibited:
+  - "continuous_person_tracking"
+  - "biometric_tracking"
+  - "neural_data_collection"
+  - "identity_adjudication"
+  - "identity_verification_as_protection_condition"
+  - "door_timing_personal_profiling"
+  - "automated_actuation_from_drift_fsm"
+
+corridor_drift:
+  execution_mode: "event_driven"
+  continuous_telemetry_required: false
+  residual_formula: "abs(observed-reference)/tolerance"
+  exceedance_rule: "residual>1.0"
+  confirmation_rule: "consecutive_exceedances>=N"
+  states:
+    - "UNINITIALIZED"
+    - "NOMINAL"
+    - "SUSPECT"
+    - "DRIFT_LOCKOUT"
+    - "INVALID_INPUT_LOCKOUT"
+  invariants:
+    - "tolerance>0"
+    - "N>0"
+    - "DRIFT_LOCKOUT=>manual_review_required"
+    - "INVALID_INPUT_LOCKOUT=>manual_review_required"
+    - "DRIFT_LOCKOUT=>safe_for_automated_reliance=false"
+    - "INVALID_INPUT_LOCKOUT=>safe_for_automated_reliance=false"
+    - "actuation_command_emitted=false"
+  retention:
+    event_audit_days: 365
+    raw_sample_retention: "minimum_required_for_calibration_review"
+
+identity_protection:
+  model: "self_asserted_identity_protection"
+  protection_rule: "voluntary_nonempty_self_description AND NOT requested_harm_to_others"
+  uncertainty_default: "PROTECT_WITHOUT_ADJUDICATION"
+  required_commitments:
+    - "non_discrimination"
+    - "accessible_grievance"
+    - "accessible_human_review"
+    - "no_neural_biometric_health_or_device_collection"
+    - "no_identity_verification_requirement"
+  harmful_request_response:
+    decision: "PROTECT_AND_ESCALATE_HARM_CONSTRAINT"
+    constraints:
+      - "preserve_protection_for_declarant"
+      - "do_not_implement_harm_coercion_exclusion_or_rights_deprivation"
+
+door_accessibility:
+  use_case: "configuration_decision_support"
+  personal_data:
+    permitted: false
+    prohibited:
+      - "biometrics"
+      - "persistent_identifiers"
+      - "identity_categories"
+      - "mobility_classification"
+      - "continuous_tracking"
+  inputs:
+    - "minimum_safe_open_duration_ms"
+    - "maximum_open_duration_ms"
+    - "anonymous_crossing_time_distribution"
+    - "selected_quantile"
+    - "safety_margin_ms"
+  formula: "clamp(max(minimum_safe_open_duration_ms,quantile(anonymous_crossing_time_distribution,selected_quantile)+safety_margin_ms),minimum_safe_open_duration_ms,maximum_open_duration_ms)"
+  invariants:
+    - "minimum_safe_open_duration_ms>0"
+    - "maximum_open_duration_ms>=minimum_safe_open_duration_ms"
+    - "selected_quantile>0"
+    - "selected_quantile<=1"
+    - "recommended_open_duration_ms>=minimum_safe_open_duration_ms"
+    - "recommended_open_duration_ms<=maximum_open_duration_ms"
+    - "invalid_or_missing_configuration=>MANUAL_CONFIGURATION_REVIEW_REQUIRED"
+  approvals:
+    required:
+      - "manufacturer_documentation_review"
+      - "authority_having_jurisdiction_review"
+      - "accessible_manual_alternative_review"
+
+metrics:
+  knowledge_factor: 0.88
+  eco_impact_value: 0.62
+  harm_risk: 0.14
+  accessibility_impact: 0.93
+  rights_alignment: 0.95

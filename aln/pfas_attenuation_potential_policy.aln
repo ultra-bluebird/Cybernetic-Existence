@@ -1,0 +1,107 @@
+theory PfasAttenuationPotentialPolicy
+
+sort AnchorId
+sort CanalNodeId
+sort Fraction
+sort Coefficient
+sort Potential
+sort Risk
+sort Residual
+sort EvidenceStatus
+sort ReviewStatus
+sort Truth
+
+constructors
+  accepted : EvidenceStatus
+  provisional : EvidenceStatus
+  rejected : EvidenceStatus
+
+  approved : ReviewStatus
+  review_required : ReviewStatus
+  excluded : ReviewStatus
+
+operators
+  unit_interval : Fraction -> Truth
+  nonnegative_coefficient : Coefficient -> Truth
+  mass_balance_available : AnchorId * CanalNodeId -> Truth
+  biofilm_evidence_accepted : AnchorId * CanalNodeId -> Truth
+  sorptive_media_serviceable : AnchorId * CanalNodeId -> Truth
+  dilution_is_not_removal_credit : AnchorId * CanalNodeId -> Truth
+  resuspension_risk_declared : AnchorId * CanalNodeId -> Truth
+  open_environment_release_proposed : AnchorId * CanalNodeId -> Truth
+  ecological_review_complete : AnchorId * CanalNodeId -> Truth
+  human_review_complete : AnchorId * CanalNodeId -> Truth
+  harm_risk_within_limit : Risk -> Truth
+  residual_within_limit : Residual -> Truth
+  potential_is_defined :
+    Coefficient * Fraction *
+    Coefficient * Fraction *
+    Coefficient * Fraction *
+    Coefficient * Fraction *
+    Potential -> Truth
+  potential_may_support_review :
+    AnchorId *
+    CanalNodeId *
+    Potential *
+    Risk *
+    Residual *
+    ReviewStatus -> Truth
+
+axioms
+  potential_may_support_review(
+    anchor,
+    node,
+    potential,
+    risk,
+    residual,
+    approved
+  ) =
+    and(
+      mass_balance_available(anchor, node),
+      and(
+        biofilm_evidence_accepted(anchor, node),
+        and(
+          sorptive_media_serviceable(anchor, node),
+          and(
+            dilution_is_not_removal_credit(anchor, node),
+            and(
+              resuspension_risk_declared(anchor, node),
+              and(
+                equal(open_environment_release_proposed(anchor, node), false),
+                and(
+                  ecological_review_complete(anchor, node),
+                  and(
+                    human_review_complete(anchor, node),
+                    and(
+                      harm_risk_within_limit(risk),
+                      residual_within_limit(residual)
+                    )
+                  )
+                )
+              )
+            )
+          )
+        )
+      )
+    )
+
+  potential_may_support_review(
+    anchor,
+    node,
+    potential,
+    risk,
+    residual,
+    review_required
+  ) = true
+
+  potential_may_support_review(
+    anchor,
+    node,
+    potential,
+    risk,
+    residual,
+    excluded
+  ) =
+    open_environment_release_proposed(anchor, node)
+
+end

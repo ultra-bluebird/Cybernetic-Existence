@@ -1,0 +1,118 @@
+theory HybridSensorFusionIntegrity
+
+sort AnchorId
+sort CorridorId
+sort ObservationId
+sort SensorId
+sort SensorKind
+sort MeasurementKind
+sort CalibrationRevision
+sort GeometryRevision
+sort Uncertainty
+sort InclusionStatus
+sort FrameStatus
+sort Truth
+
+constructors
+  stationary : SensorKind
+  mobile : SensorKind
+
+  bod : MeasurementKind
+  tss : MeasurementKind
+  cec : MeasurementKind
+  temperature : MeasurementKind
+  conductivity : MeasurementKind
+  dissolved_oxygen : MeasurementKind
+  turbidity : MeasurementKind
+  ph : MeasurementKind
+  chlorophyll_proxy : MeasurementKind
+
+  included : InclusionStatus
+  excluded_quality : InclusionStatus
+  excluded_calibration : InclusionStatus
+  excluded_window : InclusionStatus
+  exploratory_only : InclusionStatus
+
+  provisional : FrameStatus
+  accepted : FrameStatus
+  review_required : FrameStatus
+  rejected : FrameStatus
+
+operators
+  source_is_stationary : SensorId -> Truth
+  source_is_mobile : SensorId -> Truth
+  source_health_accepted : SensorId -> Truth
+  source_calibration_declared :
+    SensorId * CalibrationRevision -> Truth
+  source_geometry_current :
+    SensorId * AnchorId * CorridorId * GeometryRevision -> Truth
+  uncertainty_positive : Uncertainty -> Truth
+  co_location_record_accepted :
+    SensorId * ObservationId -> Truth
+  calibration_transfer_accepted :
+    SensorId * CalibrationRevision -> Truth
+  observation_unit_matches :
+    ObservationId * MeasurementKind -> Truth
+  observation_in_frame_window : ObservationId -> Truth
+  observation_may_contribute :
+    ObservationId *
+    SensorId *
+    MeasurementKind *
+    InclusionStatus -> Truth
+  frame_has_component :
+    AnchorId * CorridorId * MeasurementKind -> Truth
+  frame_may_be_accepted :
+    AnchorId * CorridorId * FrameStatus -> Truth
+  observation_may_assert_pfas_result :
+    ObservationId -> Truth
+
+axioms
+  observation_may_contribute(
+    observation,
+    sensor,
+    measurement,
+    included
+  ) =
+    and(
+      source_health_accepted(sensor),
+      and(
+        observation_unit_matches(observation, measurement),
+        and(
+          observation_in_frame_window(observation),
+          and(
+            uncertainty_positive(uncertainty_of(observation)),
+            and(
+              source_geometry_current(
+                sensor,
+                anchor_of(observation),
+                corridor_of(observation),
+                geometry_revision_of(observation)
+              ),
+              or(
+                source_is_stationary(sensor),
+                or(
+                  co_location_record_accepted(sensor, observation),
+                  calibration_transfer_accepted(
+                    sensor,
+                    calibration_revision_of(observation)
+                  )
+                )
+              )
+            )
+          )
+        )
+      )
+    )
+
+  frame_may_be_accepted(anchor, corridor, accepted) =
+    and(
+      frame_has_component(anchor, corridor, bod),
+      and(
+        frame_has_component(anchor, corridor, tss),
+        frame_has_component(anchor, corridor, cec)
+      )
+    )
+
+  observation_may_assert_pfas_result(observation) = false
+
+end

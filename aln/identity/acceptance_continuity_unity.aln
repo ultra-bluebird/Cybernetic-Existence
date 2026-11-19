@@ -1,0 +1,117 @@
+aln_version: "2"
+
+policy:
+  name: "acceptance-continuity-and-equal-eco-contribution"
+  revision: "2026-08-28"
+  status: "rights-centered-research-policy"
+
+acceptance_pattern_measurement:
+  permitted_scope: "aggregate_public_discourse"
+  individual_identity_tracking_permitted: false
+  persistent_speaker_profiling_permitted: false
+  biometric_identification_permitted: false
+  private_communication_collection_permitted: false
+  allowed_source_classes:
+    - "public_policy_document"
+    - "public_organization_statement"
+    - "public_consultation_record"
+    - "public_news_or_opinion_item"
+    - "public_research_publication"
+  required_controls:
+    - "documented_source_inclusion_rule"
+    - "privacy_preserving_aggregation"
+    - "minimum_group_size_protection"
+    - "source_diversity_measurement"
+    - "annotation_provenance"
+    - "uncertainty_reporting"
+    - "public_methodology"
+    - "accessible_review"
+    - "appeal_path"
+
+sentiment_graph:
+  node_kind:
+    - "public_statement"
+    - "public_document"
+    - "aggregate_discussion_cluster"
+  edge_kind:
+    - "citation"
+    - "quotation"
+    - "reply"
+    - "endorsement"
+    - "reshare"
+  scoring:
+    centrality_method: "katz"
+    signed_orientation_range: [-1.0, 1.0]
+    annotation_quality_range: [0.0, 1.0]
+    alpha_constraint: "0 < alpha < 1 / spectral_radius(adjacency_matrix)"
+  prohibited_outputs:
+    - "individual_acceptance_score"
+    - "identity_legitimacy_score"
+    - "targeting_list"
+    - "surveillance_priority"
+    - "service_eligibility_score"
+
+continuity_of_existence:
+  protected: true
+  self_assertion_accepted_for_protective_purposes: true
+  external_certification_required_for_dignity: false
+  medical_documentation_required_for_dignity: false
+  device_identifier_required_for_dignity: false
+  required_protections:
+    - "respectful_communication"
+    - "privacy_protection"
+    - "service_access"
+    - "accessibility_support"
+    - "grievance_access"
+    - "appeal_access"
+    - "community_participation"
+  adverse_inference_permitted: false
+
+equal_eco_contribution:
+  contribution_recording:
+    voluntary: true
+    identity_disclosure_required: false
+    cybernetic_status_used_in_eco_formula: false
+    biometric_identification_permitted: false
+  eco_impact_formula:
+    expression: "eco_impact = f(verified_ecological_outcome, method_quality, uncertainty, nuisance_constraints)"
+  rights_alignment:
+    expression: "rights_alignment = g(consent, privacy, accessibility, explanation, review, non_discrimination)"
+  rights_independence:
+    expression: "rights(entity) is independent of eco_impact(entity)"
+  aggregation:
+    minimum_group_size_required: true
+    individual_contribution_publication_permitted: false
+    uncertainty_reporting_required: true
+
+non_discrimination:
+  outcome_invariant:
+    expression: "outcome_with_cybernetic_status >= outcome_without_cybernetic_status"
+  prohibited_status_uses:
+    - "penalty_feature"
+    - "eligibility_reduction"
+    - "service_denial"
+    - "social_scoring"
+    - "employment_screening"
+    - "housing_screening"
+    - "insurance_pricing"
+    - "credit_scoring"
+    - "surveillance_targeting"
+  violation_response:
+    - "block_automated_decision"
+    - "create_audit_record"
+    - "provide_accessible_explanation"
+    - "offer_human_review"
+    - "offer_appeal"
+
+invariants:
+  - "individual_identity_tracking_permitted == false"
+  - "persistent_speaker_profiling_permitted == false"
+  - "biometric_identification_permitted == false"
+  - "private_communication_collection_permitted == false"
+  - "continuity_of_existence.protected == true"
+  - "external_certification_required_for_dignity == false"
+  - "cybernetic_status_used_in_eco_formula == false"
+  - "rights(entity) is independent of eco_impact(entity)"
+  - "outcome_with_cybernetic_status >= outcome_without_cybernetic_status"
+  - "all adverse-decision signals require explanation, human review, and appeal"

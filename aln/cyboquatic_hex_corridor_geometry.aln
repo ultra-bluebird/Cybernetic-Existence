@@ -1,0 +1,144 @@
+theory CyboquaticHexCorridorGeometry
+
+sort AnchorId
+sort GridId
+sort CorridorId
+sort BasinCrs
+sort EvidenceHex
+sort Revision
+sort AxialCoordinate
+sort EdgeIndex
+sort DistanceMillimetres
+sort VarianceSquareMillimetres
+sort ResidualSquareMillimetres
+sort Truth
+
+constructors
+  revision : Nat -> Revision
+  axial : Int -> AxialCoordinate
+  edge : Nat -> EdgeIndex
+  distance_mm : Nat -> DistanceMillimetres
+  variance_mm2 : Nat -> VarianceSquareMillimetres
+
+operators
+  valid_edge : EdgeIndex -> Truth
+  opposite_edge : EdgeIndex -> EdgeIndex
+  neighbor_q_delta : EdgeIndex -> AxialCoordinate
+  neighbor_r_delta : EdgeIndex -> AxialCoordinate
+  positive_variance : VarianceSquareMillimetres -> Truth
+  nonnegative_distance : DistanceMillimetres -> Truth
+  same_grid : GridId * GridId -> Truth
+  same_corridor : CorridorId * CorridorId -> Truth
+  same_revision : Revision * Revision -> Truth
+  reciprocal_edge : EdgeIndex * EdgeIndex -> Truth
+  axial_neighbor :
+    AxialCoordinate *
+    AxialCoordinate *
+    AxialCoordinate *
+    AxialCoordinate *
+    EdgeIndex -> Truth
+  corridor_edge_consistent :
+    GridId *
+    GridId *
+    CorridorId *
+    CorridorId *
+    Revision *
+    Revision *
+    AxialCoordinate *
+    AxialCoordinate *
+    AxialCoordinate *
+    AxialCoordinate *
+    EdgeIndex *
+    EdgeIndex -> Truth
+  segment_input_valid :
+    DistanceMillimetres *
+    DistanceMillimetres *
+    VarianceSquareMillimetres -> Truth
+
+axioms
+  valid_edge(edge(0)) = true
+  valid_edge(edge(1)) = true
+  valid_edge(edge(2)) = true
+  valid_edge(edge(3)) = true
+  valid_edge(edge(4)) = true
+  valid_edge(edge(5)) = true
+
+  opposite_edge(edge(0)) = edge(3)
+  opposite_edge(edge(1)) = edge(4)
+  opposite_edge(edge(2)) = edge(5)
+  opposite_edge(edge(3)) = edge(0)
+  opposite_edge(edge(4)) = edge(1)
+  opposite_edge(edge(5)) = edge(2)
+
+  neighbor_q_delta(edge(0)) = axial(1)
+  neighbor_r_delta(edge(0)) = axial(0)
+
+  neighbor_q_delta(edge(1)) = axial(1)
+  neighbor_r_delta(edge(1)) = axial(-1)
+
+  neighbor_q_delta(edge(2)) = axial(0)
+  neighbor_r_delta(edge(2)) = axial(-1)
+
+  neighbor_q_delta(edge(3)) = axial(-1)
+  neighbor_r_delta(edge(3)) = axial(0)
+
+  neighbor_q_delta(edge(4)) = axial(-1)
+  neighbor_r_delta(edge(4)) = axial(1)
+
+  neighbor_q_delta(edge(5)) = axial(0)
+  neighbor_r_delta(edge(5)) = axial(1)
+
+  positive_variance(variance_mm2(0)) = false
+  positive_variance(variance_mm2(successor(n))) = true
+
+  nonnegative_distance(distance_mm(n)) = true
+
+  reciprocal_edge(a, b) = equal(opposite_edge(a), b)
+
+  axial_neighbor(q_a, r_a, q_b, r_b, direction) =
+    and(
+      valid_edge(direction),
+      and(
+        equal(q_b, add(q_a, neighbor_q_delta(direction))),
+        equal(r_b, add(r_a, neighbor_r_delta(direction)))
+      )
+    )
+
+  corridor_edge_consistent(
+    grid_a,
+    grid_b,
+    corridor_a,
+    corridor_b,
+    revision_a,
+    revision_b,
+    q_a,
+    r_a,
+    q_b,
+    r_b,
+    edge_a,
+    edge_b
+  ) =
+    and(
+      same_grid(grid_a, grid_b),
+      and(
+        same_corridor(corridor_a, corridor_b),
+        and(
+          same_revision(revision_a, revision_b),
+          and(
+            axial_neighbor(q_a, r_a, q_b, r_b, edge_a),
+            reciprocal_edge(edge_a, edge_b)
+          )
+        )
+      )
+    )
+
+  segment_input_valid(measured, predicted, variance) =
+    and(
+      nonnegative_distance(measured),
+      and(
+        nonnegative_distance(predicted),
+        positive_variance(variance)
+      )
+    )
+
+end

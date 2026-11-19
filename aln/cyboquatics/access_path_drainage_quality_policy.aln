@@ -1,0 +1,90 @@
+aln_version: "2"
+particle_type: "access_path_drainage_quality_policy"
+policy_id: "access-path-drainage-quality-2026-08-26"
+status: "review_required"
+purpose: "Accessible status communication, path-condition assessment, and early drainage-quality evidence review."
+
+assistance_panel:
+  stable_code_format: "AP-NNNN"
+  required_fields:
+    - "code"
+    - "plain_sentence"
+    - "next_action"
+    - "icon_name"
+    - "audio_text"
+    - "human_support_route"
+  prohibited_designs:
+    - "color_only_meaning"
+    - "biometric_access_requirement"
+    - "identity_disclosure_requirement"
+    - "audio_only_communication"
+  plain_language:
+    maximum_plain_sentence_characters: 180
+    maximum_next_action_characters: 180
+    required_pattern: "what_happened_then_next_action"
+
+accessible_path:
+  units: "m"
+  effective_width_formula: "physical_width_m-expansion_gap_m-obstruction_buffer_m-mobility_variance_buffer_m"
+  required_review_when:
+    - "effective_width_m < required_clear_width_m"
+    - "running_slope_ratio > 1/12"
+    - "heat_resilience_inspection_current = false"
+    - "debris_inspection_current = false"
+    - "any_required_value_is_non_finite"
+  accessibility_requirements:
+    jurisdiction_specific_design_review_required: true
+    human_review_required: true
+    personal_data_collection_prohibited: true
+
+drainage_decay:
+  analytes:
+    - "BOD"
+    - "TSS"
+    - "CEC"
+  configuration_required:
+    - "minimum_value"
+    - "maximum_value"
+    - "unit"
+    - "minimum_measurement_quality"
+    - "maximum_relative_trend_difference"
+    - "maximum_relative_replicate_difference"
+    - "review_authority"
+  flag_logic:
+    out_of_config_range: "value < minimum_value OR value > maximum_value"
+    low_measurement_quality: "measurement_quality < minimum_measurement_quality"
+    trend_difference: "relative_difference(value, previous_valid_value) > maximum_relative_trend_difference"
+    conflicting_replicates: "relative_difference(value, replicate_value) > maximum_relative_replicate_difference"
+    no_baseline: "previous_valid_value absent"
+    invalid_input: "missing OR non_finite OR structurally_invalid"
+  prohibition:
+    - "embedded_discharge_limit"
+    - "discharge_authorization"
+    - "automated_remediation"
+
+ker:
+  knowledge_factor:
+    range: [0.0, 1.0]
+  eco_impact_value:
+    range: [0.0, 1.0]
+  harm_risk:
+    range: [0.0, 1.0]
+  accessibility_impact:
+    range: [0.0, 1.0]
+  rights_alignment:
+    range: [0.0, 1.0]
+
+accountability:
+  accessible_review_route_required: true
+  audit_record_required: true
+  correction_path_required: true
+  retention:
+    raw_observation_days: 30
+    aggregate_audit_record_days: 365
+
+metrics:
+  knowledge_factor: 0.88
+  eco_impact_value: 0.78
+  harm_risk: 0.15
+  accessibility_impact: 0.95
+  rights_alignment: 0.95

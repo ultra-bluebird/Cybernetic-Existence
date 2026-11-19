@@ -1,0 +1,196 @@
+aln_version: "2"
+particle_type: "ecological_access_governance"
+policy_name: "Ecological Access and Cybernetic Rights Governance"
+status: "review_required"
+purpose: "Coordinate ecological restoration, universal access, cybernetic-host dignity, privacy, consent, non-discrimination, reviewability, and non-actuating smart-city decision support."
+
+data_classes:
+  environmental_aggregate:
+    sensitivity: "moderate"
+    permitted_fields:
+      - "coarse_area_reference"
+      - "time_bounded_observation_window"
+      - "aggregate_vegetation_measure"
+      - "aggregate_surface_temperature_measure"
+      - "aggregate_runoff_retention_measure"
+      - "aggregate_energy_use"
+      - "aggregate_waste_heat"
+      - "measurement_quality"
+  access_configuration:
+    sensitivity: "moderate"
+    permitted_fields:
+      - "minimum_safe_open_duration_ms"
+      - "maximum_open_duration_ms"
+      - "anonymous_crossing_time_distribution"
+      - "selected_quantile"
+      - "safety_margin_ms"
+      - "manual_operation_available"
+      - "power_loss_fallback_available"
+      - "manufacturer_review_status"
+      - "site_accessibility_review_status"
+  prohibited_personal_data:
+    sensitivity: "sensitive"
+    prohibited_fields:
+      - "direct_identifier"
+      - "precise_person_location"
+      - "persistent_device_identifier"
+      - "biometric_data"
+      - "face_image"
+      - "neural_data"
+      - "health_data"
+      - "cybernetic_status_inference"
+      - "identity_credibility_score"
+      - "continuous_surveillance_record"
+      - "individual_mobility_profile"
+
+joint_purpose_limitation:
+  permitted_purposes:
+    - "eco_restoration_measurement"
+    - "public_access_configuration"
+    - "aggregate_service_equity_measurement"
+    - "safety_review"
+    - "accessible_grievance_resolution"
+  prohibited_purposes:
+    - "identity_adjudication"
+    - "biometric_gatekeeping"
+    - "neural_or_health_profiling"
+    - "service_denial_for_non_disclosure"
+    - "behavioral_manipulation"
+    - "social_scoring"
+    - "continuous_person_tracking"
+    - "autonomous_physical_actuation"
+
+consent:
+  required_for:
+    - "optional_accommodation_information"
+    - "voluntary_self_asserted_identity_record"
+  requirements:
+    - "explicit"
+    - "informed"
+    - "specific"
+    - "purpose_limited"
+    - "revocable"
+    - "accessible_in_multiple_formats"
+  invariants:
+    - "optional_identity_or_accommodation_data_without_active_consent_must_not_be_stored"
+    - "essential_public_service_access_must_not_depend_on_consent_to_unrelated_processing"
+    - "withdrawn_consent_requires_deletion_or_deidentification_under_the_declared_retention_rule"
+
+cybernetic_rights:
+  commitments:
+    - "non_discrimination"
+    - "equal_access_without_disclosure"
+    - "voluntary_self_asserted_identity_recognition"
+    - "privacy_of_neural_biometric_health_and_augmentation_data"
+    - "accessible_accommodation_request"
+    - "human_review"
+    - "accessible_appeal"
+    - "non_retaliation"
+  invariants:
+    - "identity_disclosure_required_for_access=false"
+    - "external_identity_verification_required_for_access=false"
+    - "unrelated_telemetry_required_for_access=false"
+    - "biometric_gate_required=false"
+    - "neural_data_collection_required=false"
+
+automatic_door_access:
+  design_mode: "universal_access_configuration"
+  prohibited:
+    - "biometric_entry_gate"
+    - "identity_based_door_timing"
+    - "individual_mobility_profiling"
+    - "continuous_person_tracking"
+  required:
+    - "accessible_non_biometric_activation_method"
+    - "manual_operation_or_equivalent_accessible_fallback"
+    - "power_loss_fallback"
+    - "visual_textual_and_audio_status_feedback"
+    - "manufacturer_documentation_review"
+    - "site_accessibility_review"
+    - "accessible_human_support_route"
+  inputs:
+    - "minimum_safe_open_duration_ms"
+    - "maximum_open_duration_ms"
+    - "anonymous_crossing_time_distribution"
+    - "selected_quantile"
+    - "safety_margin_ms"
+  formula: "recommended_open_duration_ms=clamp(max(minimum_safe_open_duration_ms,quantile(anonymous_crossing_time_distribution,selected_quantile)+safety_margin_ms),minimum_safe_open_duration_ms,maximum_open_duration_ms)"
+  invariants:
+    - "minimum_safe_open_duration_ms>0"
+    - "maximum_open_duration_ms>=minimum_safe_open_duration_ms"
+    - "selected_quantile>0"
+    - "selected_quantile<=1"
+    - "recommended_open_duration_ms>=minimum_safe_open_duration_ms"
+    - "recommended_open_duration_ms<=maximum_open_duration_ms"
+    - "invalid_configuration_requires_accessible_human_review"
+    - "door_configuration_must_not_reduce_access_below_validated_site_baseline"
+
+ker_governance:
+  formula: "eco_impact_value=knowledge_factor*verified_ecological_value*(1-harm_risk)"
+  invariants:
+    - "knowledge_factor>=0"
+    - "knowledge_factor<=1"
+    - "eco_impact_value>=0"
+    - "eco_impact_value<=1"
+    - "harm_risk>=0"
+    - "harm_risk<=1"
+    - "harm_risk>0.30_requires_human_review"
+    - "insufficient_knowledge_factor_requires_human_review"
+    - "FOG_or_unresolved_uncertainty_requires_human_review"
+    - "high_eco_impact_value_must_not_override_accessibility_or_rights_constraints"
+
+non_actuation:
+  invariant: "physical_actuation_authorized=false"
+  permitted_outputs:
+    - "aggregate_measurement"
+    - "access_configuration_recommendation"
+    - "review_required"
+    - "appeal_required"
+    - "privacy_storage_block"
+    - "maintenance_assessment"
+  prohibited_outputs:
+    - "door_motor_command"
+    - "transit_control_command"
+    - "maintenance_start_command"
+    - "identity_based_access_command"
+    - "environmental_infrastructure_control_command"
+  human_authorized_adapter:
+    required: true
+    requirements:
+      - "separate_governance_boundary"
+      - "current_site_safety_interlocks"
+      - "scoped_human_authorization"
+      - "accessible_operator_confirmation"
+      - "auditable_reason"
+      - "revocation_path"
+
+appeal_and_review:
+  required:
+    - "plain_language_explanation"
+    - "machine_readable_reason_code"
+    - "accessible_human_review"
+    - "non_retaliatory_appeal"
+    - "correction_path"
+    - "consent_revocation_path"
+  invariants:
+    - "adverse_or_access_affecting_decision_requires_explanation"
+    - "appeal_must_not_require_biometric_verification"
+    - "appeal_must_not_require_cybernetic_status_disclosure"
+    - "appeal_outcome_must_be_auditable"
+
+retention:
+  environmental_aggregate:
+    rule: "retain_only_for_declared_ecological_measurement_period_and_delete_when_no_longer_necessary"
+  access_configuration:
+    rule: "retain_current_validated_configuration_and_minimized_review_history_only"
+  voluntary_identity_or_accommodation_data:
+    rule: "retain_only_while_active_consent_and_declared_service_purpose_remain_valid"
+  audit_record:
+    rule: "retain_minimized_non-identifying_policy_and_review_event_under_approved_public_records_and_privacy_schedule"
+
+metrics:
+  knowledge_factor: 0.92
+  eco_impact_value: 0.81
+  harm_risk: 0.10
+  accessibility_impact: 0.97
+  rights_alignment: 0.99

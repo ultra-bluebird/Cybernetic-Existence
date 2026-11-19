@@ -1,0 +1,123 @@
+aln_version: "2"
+particle_type: "maintenance_equity_transit_review_policy"
+policy_id: "maintenance-equity-transit-2026-08-26"
+status: "human_review_required"
+purpose: "Bounded maintenance-workload assessment, privacy-preserving gathering-hub equity measurement, and transit input review."
+
+non_negotiable_constraints:
+  autonomous_actuation_permitted: false
+  autonomous_train_control_permitted: false
+  autonomous_bus_control_permitted: false
+  human_review_required_for_all_physical_actions: true
+
+maintenance_bot:
+  parameters:
+    energyreqJ:
+      unit: "J"
+      minimum: 0.0
+    energy_budget_j:
+      unit: "J"
+      exclusive_upper_bound: true
+    delta_vt:
+      unit: "V*s"
+    thermal_delta_vt_threshold:
+      unit: "V*s"
+      exclusive_upper_bound_for_absolute_delta_vt: true
+    R:
+      range: [0.0, 1.0]
+      maximum_without_escalation: 0.30
+  decision:
+    within_review_bounds_requires:
+      - "energyreqJ < energy_budget_j"
+      - "abs(delta_vt) < thermal_delta_vt_threshold"
+      - "R <= 0.30"
+      - "reviewer_available = true"
+      - "safety_interlocks_verified = true"
+    otherwise: "HUMAN_REVIEW_REQUIRED"
+  prohibited_actions:
+    - "motor_command"
+    - "tool_command"
+    - "physical_actuation"
+    - "lockout_bypass"
+
+gathering_hub_equity:
+  privacy:
+    permitted_data:
+      - "aggregate_area_id"
+      - "aggregate_population_weight"
+      - "aggregate_coverage_ratio"
+      - "aggregate_transit_time"
+      - "published_hub_accessibility_features"
+    prohibited_data:
+      - "personal_identifiers"
+      - "precise_person_location"
+      - "device_identifier"
+      - "facial_data"
+      - "biometric_data"
+      - "neural_data"
+      - "identity_inference"
+  formula:
+    block_access_score: "coverage_ratio * clamp01(1 - transit_time_minutes / time_threshold_minutes)"
+    city_equity_score: "sum(population_weight * block_access_score) / sum(population_weight)"
+    access_gap: "max(block_access_score) - min(block_access_score)"
+  reporting:
+    publish_distribution: true
+    publish_data_quality: true
+    suppress_small_cells: true
+    accessible_appeal_required: true
+
+transit_fog:
+  required_inputs:
+    - "sensor_id"
+    - "observed_at_utc"
+    - "reading_value"
+    - "physical_minimum"
+    - "physical_maximum"
+    - "R"
+  reject_when:
+    - "any_required_numeric_value_is_non_finite"
+    - "physical_minimum > physical_maximum"
+    - "reading_value < physical_minimum"
+    - "reading_value > physical_maximum"
+    - "R outside [0,1]"
+  quarantine_when:
+    - "all_required_values_are_finite_and_bounded"
+    - "R > 0.30"
+  reviewable_when:
+    - "all_required_values_are_finite_and_bounded"
+    - "R <= 0.30"
+  outputs:
+    - "REJECTED_INPUT"
+    - "QUARANTINED_INPUT"
+    - "REVIEWABLE_INPUT"
+  prohibited_actions:
+    - "train_control"
+    - "bus_control"
+    - "signal_control"
+    - "brake_control"
+    - "steering_control"
+
+ker:
+  knowledge_factor:
+    range: [0.0, 1.0]
+  eco_impact_value:
+    range: [0.0, 1.0]
+  harm_risk:
+    range: [0.0, 1.0]
+    escalation_threshold: 0.30
+  accessibility_impact:
+    range: [0.0, 1.0]
+  rights_alignment:
+    range: [0.0, 1.0]
+
+canal_node:
+  required_fields:
+    - "canal_node_id"
+    - "fog_state"
+    - "knowledge_factor"
+    - "eco_impact_value"
+    - "harm_risk"
+  audit:
+    append_only_review_record: true
+    human_review_status_required: true
+    accessible_grievance_path_required: true

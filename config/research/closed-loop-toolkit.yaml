@@ -1,0 +1,267 @@
+schema_version: "1.1.0"
+kind: research-toolkit-configuration
+status: proposed
+
+provenance:
+  attribution_anchor: "bostrom18sd2ujv24ual9c9pshtxys6j8knh6xaead9ye7"
+  attribution_scope:
+    - credit_metadata
+    - workstream_metadata
+  attribution_is_not:
+    - biological_binding
+    - verified_identity
+    - consent
+    - capability_authorization
+    - execution_evidence
+    - authority_over_other_persons_or_systems
+  persistence_claim: none
+  external_literature_consulted: true
+  matlab_execution_performed: false
+
+runtime:
+  target_matlab_release: "R2024b"
+  validated_matlab_release: null
+  random_seed: 1729
+  tolerance:
+    absolute: 1.0e-11
+    relative: 1.0e-10
+  strict_input_class_validation: required
+  implicit_numeric_or_logical_conversion: reject
+
+scope:
+  non_actuating: true
+  acquisition: prohibited
+  networking: prohibited
+  automatic_recalibration: prohibited
+  clinical_interpretation: prohibited
+  privacy_enforcement_implemented_by_this_file: false
+
+envelope:
+  required_fields:
+    - trace_label
+    - modality
+    - task
+    - condition
+    - regime_dimensions
+    - clock_descriptors
+    - event_definitions
+    - preprocessing_sha256
+    - provenance_sha256
+    - review_events
+  enums:
+    modality:
+      - brain_to_voice
+      - brain_spine_interface
+      - adaptive_dbs
+    condition:
+      - startup
+      - steady_state
+      - transition
+      - recovery
+    timestamp_convention:
+      - point
+      - interval_start
+      - interval_end
+      - midpoint
+    reference_kind:
+      - independently_observed
+      - derived_from_control_features
+      - externally_estimated
+      - unavailable
+    output_depth:
+      - command_ack
+      - actuator_onset
+      - physiological_onset
+      - behavioral_onset
+    review_event_kind:
+      - feature_change
+      - monitor_flag
+      - human_review
+      - approved_recalibration
+      - performance_change
+  regime_dimensions:
+    declared_vocabulary_required: true
+    unknown_values: reject
+    private_attributes_required: false
+  units:
+    accepted_time_units: [s, ms]
+    canonical_time_unit: s
+    conversion_before_analysis: required
+    conversion_record_required: true
+    feature_dimension_names_required: true
+    feature_units_required: true
+    infer_units_from_magnitude: prohibited
+  hashes:
+    algorithm: SHA-256
+    encoding: lowercase_hex
+    pattern: "^[0-9a-f]{64}$"
+    preprocessing_canonicalization: "UTF-8 exact byte sequence"
+    hash_is_authorization: false
+  review_log:
+    event_time_and_recorded_time_distinguished: true
+    missing_events: explicit
+    automatic_action_authorized_by_log: false
+
+latency:
+  event_model: intervals_and_reference_points
+  overlapping_activities: allowed
+  end_to_end_method: direct_matched_reference_difference
+  sum_overlapping_durations_as_elapsed_latency: prohibited
+  output_unit_lineage_required: true
+  derived_reference:
+    retain_as_derived_measurement: true
+    claim_independent_physiological_onset: prohibited
+  clocks:
+    per_event_clock_required: true
+    mixed_clocks_require_valid_transform: true
+    transform_fields:
+      - scale
+      - offset_seconds
+      - validity_interval
+      - uncertainty_bound_seconds
+      - synchronization_method
+    unresolved_transform: reject_cross_clock_measurement
+  missingness:
+    all_missing_rows: reject
+    endpoint_pair_coverage_required: true
+    fallback_pairs_are_separate_metrics: true
+    silently_substitute_metric: prohibited
+    minimum_coverage_fraction: 0.95
+    below_minimum: report_without_comparative_claim
+  quantiles:
+    convention: empirical_nearest_rank
+    minimum_count_policy:
+      median: 5
+      p95: 20
+      p99: 100
+    below_minimum:
+      numeric_result: null
+      reason: insufficient_n_under_project_policy
+    minimum_count_implies_precision: false
+  jitter:
+    require_ordered_stream_membership: true
+    metrics:
+      - stage_interarrival_variance_seconds_squared
+      - matched_latency_difference_variance_seconds_squared
+    missing_intervals: report
+  comparison:
+    require_matching_event_definitions: true
+    require_matching_output_depth: true
+    require_matching_operating_regime: true
+
+invariants:
+  component_class: segmented_exponential_smoother
+  required:
+    - prefix_causality
+    - segment_convexity
+    - translation_equivariance
+    - restart_independence
+    - deterministic_state_initialization
+  prefix_testing:
+    lengths: every_prefix_2_through_n_minus_1
+    evaluation_order: seeded_shuffle
+    finite_test_is_formal_proof: false
+  boundedness:
+    derived_from_convexity_and_initialization: true
+    independent_coverage_credit: false
+  restart_indices: derive_from_restart_vector
+  reproducibility:
+    bitwise_environment_scope_required: true
+    numerical_tolerance_scope_required: true
+  mutation:
+    isolation: test_only_wrappers
+    branches_in_reference_implementation: prohibited
+    minimum_submitted: 15
+    full_ledger_required: true
+    allowed_status:
+      - detected
+      - survived
+      - execution_failure
+      - reviewed_equivalent
+      - equivalence_unresolved
+    primary_report: per_property_detection
+    aggregate_headline_score: prohibited
+
+drift:
+  primary_score: block_mean_squared_mahalanobis
+  reference_update: frozen
+  block_overlap: none
+  missing_or_cross_segment_blocks: reject
+  descriptor_required:
+    - reference_regimes
+    - preprocessing_sha256
+    - feature_dimension_names
+    - feature_units
+    - session_labels
+  assumptions:
+    gaussian_distribution_required_to_compute_score: false
+    iid_required_to_compute_score: false
+    calibration_validity_requires_declared_dependence_model: true
+  calibration:
+    rule: rank_based_upper_threshold
+    report_requested_tail_fraction: true
+    report_exchangeability_rank_tail_bound: true
+    report_empirical_false_alert_rate_separately: true
+    required_blocks_formula: "ceil(1 / alpha) - 1"
+    unresolved_threshold: positive_infinity
+    repeated_monitoring_guarantee: not_claimed
+  supplementary_detection:
+    optional_methods:
+      - dependence_calibrated_ks
+      - dependence_calibrated_energy_distance
+      - held_out_classifier_two_sample
+    agreement_implies_false_alarm_control: false
+    false_alarm_claim_requires_validation: true
+  persistence:
+    semantics: active_alarm
+    output_fields:
+      - alarm_active
+      - alarm_started
+    starts_on_false_to_true_transition: true
+  delay:
+    universal_finite_detection_bound: not_claimed
+    report_block_phase_and_processing_delay: true
+    partial_block_policy: declared
+    undetected_shifts: report
+  regularization:
+    rule: gamma_times_mean_variance_with_explicit_floor
+    gamma: 1.0e-3
+    variance_floor_required: true
+    condition_diagnostic_required: true
+  explanation:
+    standardized_mean_shift_per_dimension: required
+    marginal_ranking_is_causal_attribution: false
+    sensor_vs_physiology_attribution: prohibited
+    accuracy_degradation_claim_from_unlabeled_data: prohibited
+
+verification:
+  implementation_status: not_yet_enforced
+  static_symbol_screen:
+    required: true
+    forbidden:
+      - serialport
+      - tcpclient
+      - tcpserver
+      - udpport
+      - visadev
+      - loadlibrary
+      - calllib
+      - system
+      - eval
+      - evalin
+      - feval
+      - str2func
+    security_sandbox_claim: prohibited
+  dependency_allowlist:
+    required: true
+    unreviewed_native_or_pcode_dependencies: reject
+    dynamic_dispatch_review: required
+  execution_environment:
+    network_isolation_required: true
+    device_access_denied_required: true
+    credential_access_denied_required: true
+  report:
+    embed_configuration_digest: true
+    embed_envelope: true
+    record_tests_actually_run: true
+    infer_success_from_configuration: prohibited

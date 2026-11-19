@@ -1,0 +1,106 @@
+aln_version: "2"
+
+policy:
+  name: "augmented-hub-evidence-review-foundation"
+  revision: "2026-08-28"
+  status: "research-and-advisory"
+
+scope:
+  supported_domains:
+    - "shade_equity"
+    - "community_water"
+    - "green_infrastructure_repair"
+
+data:
+  sensitive_by_default:
+    - "location-linked-environmental-observation"
+    - "infrastructure-condition-record"
+    - "community-observation"
+    - "laboratory-result"
+    - "sensor-measurement"
+  prohibited_collection:
+    - "biometric-identification"
+    - "neural-data"
+    - "continuous-location-history"
+    - "protected-trait-inference"
+  permitted_source_types:
+    - "public_dataset"
+    - "sensor_measurement"
+    - "laboratory_result"
+    - "community_observation"
+    - "inspection_record"
+    - "model_output"
+  purpose_limitation:
+    - "ecological-restoration-decision-support"
+    - "public-service-gap-identification"
+    - "accessible-community-explanation"
+    - "maintenance-and-review-prioritization"
+  retention:
+    minimum_days: 1
+    maximum_days: 3650
+    deletion_path_required: true
+    export_path_required: true
+
+rights:
+  continuous_connectivity_required: false
+  optional_telemetry_required: false
+  external_identity_verification_required: false
+  biometric_identification_permitted: false
+  accessible_explanation_required: true
+  human_review_required: true
+  appeal_path_required: true
+  automated_actuation_permitted: false
+  automated_service_denial_permitted: false
+  social_scoring_permitted: false
+
+ker:
+  knowledge_factor:
+    advisory_minimum: 0.60
+  eco_impact_value:
+    advisory_minimum: 0.50
+  harm_risk:
+    advisory_maximum: 0.45
+  accessibility_impact:
+    advisory_minimum: 0.70
+  rights_alignment:
+    advisory_minimum: 0.80
+
+uncertainty:
+  required_for:
+    - "derived_metric"
+    - "recommendation"
+  minimum_explanation_fields:
+    - "data_coverage"
+    - "method_limitations"
+    - "freshness"
+    - "validation_status"
+
+review:
+  advisory_approval_requires:
+    - "ker_thresholds_met"
+    - "uncertainty_record_present"
+    - "plain_language_explanation_present"
+    - "human_review_path_present"
+    - "appeal_path_present"
+  review_states:
+    - "draft"
+    - "needs_review"
+    - "reviewed"
+    - "approved_for_advisory_use"
+    - "rejected"
+    - "archived"
+
+invariants:
+  - "automated_actuation_permitted == false"
+  - "automated_service_denial_permitted == false"
+  - "social_scoring_permitted == false"
+  - "biometric_identification_permitted == false"
+  - "continuous_connectivity_required == false"
+  - "optional_telemetry_required == false"
+  - "human_review_required == true"
+  - "appeal_path_required == true"
+  - "knowledge_factor >= 0.60 for advisory approval"
+  - "eco_impact_value >= 0.50 for advisory approval"
+  - "harm_risk <= 0.45 for advisory approval"
+  - "accessibility_impact >= 0.70 for advisory approval"
+  - "rights_alignment >= 0.80 for advisory approval"

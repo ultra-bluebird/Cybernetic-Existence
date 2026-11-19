@@ -1,0 +1,102 @@
+specification:
+  version: "0.1.0"
+  status: "proposed_review_baseline"
+  approval: "not_obtained"
+  github_actions_workflow: false
+  operational_use: "not_authorized"
+
+attribution:
+  anchor: "bostrom18sd2ujv24ual9c9pshtxys6j8knh6xaead9ye7"
+  meaning: "document_credit_and_workstream_metadata_only"
+
+development_gate:
+  new_operational_kernel: "blocked_pending_contract_approval"
+  confirmatory_research: "blocked_pending_completed_preregistration"
+  existing_prototype_conformance_testing: "permitted"
+
+purpose_firewall:
+  subject_of_assessment: "operation_not_person"
+  effect_states:
+    - "supported"
+    - "refuted"
+    - "unresolved"
+  prohibited_effect_checks:
+    - "essential_access_conditioned_on_unrelated_labor"
+    - "unauthorized_sensitive_disclosure"
+    - "coercive_manipulation"
+    - "unauthorized_bodily_or_neural_intervention"
+  routing:
+    any_supported: "prohibited_operation"
+    none_supported_and_any_unresolved: "supported_review"
+    all_refuted: "no_prohibition_established"
+  operator_label_is_evidence_of_permissibility: false
+  nlp_role: "advisory_review_routing_only"
+  no_prohibition_established_is_authorization: false
+  numerical_threshold_overrides_prohibition: false
+  augmentation_status_is_threat_evidence: false
+  unresolved_effects_require_private_inventory: false
+
+allocation:
+  rights_constraints: "hard"
+  service_floors: "hard"
+  budget_constraint: "explicit"
+  objective: "minimize_declared_energy_measure"
+  unresolved_rights: "policy_review_required"
+  solver_outcomes:
+    - "optimal"
+    - "feasible"
+    - "infeasible"
+    - "unknown"
+    - "model_invalid"
+  forbidden_transformations:
+    - "unknown_to_infeasible"
+    - "feasible_to_optimal_without_evidence"
+    - "silent_service_floor_reduction"
+    - "infeasibility_to_participant_fault"
+    - "resource_shortage_to_forced_labor_permission"
+  infeasibility_report_requires:
+    - "model_version"
+    - "resource_units"
+    - "planning_horizon"
+    - "unchanged_service_floors"
+    - "budget_assumptions"
+    - "solver_status"
+    - "evidence_reference"
+    - "escalation_owner"
+    - "continuity_arrangement"
+  automatic_execution_from_solution: false
+
+cross_boundary_rules:
+  prohibited_operation_enters_optimizer: false
+  allocation_solution_overrides_firewall: false
+  solver_timeout_lowers_service_floors: false
+  missed_escalation_deadline_authorizes_coercion: false
+  essential_access_penalty_for_optional_data_refusal: false
+
+review_obligation:
+  required:
+    - "responsible_owner"
+    - "deadline"
+    - "accessible_contact_route"
+    - "minimized_evidence_request"
+    - "continuity_check"
+    - "escalation_route"
+    - "correction_route"
+  breach_history_erased_by_replanning: false
+
+privacy:
+  raw_neural_data_required: false
+  augmentation_inventory_required: false
+  person_level_risk_score_produced: false
+  public_reporting: "aggregate_and_disclosure_reviewed"
+  detailed_effect_findings:
+    access_control: "required"
+    retention_policy: "required"
+    public_logging: "prohibited"
+
+assessment:
+  knowledge_factor: {status: "not_scored"}
+  eco_impact_value: {status: "not_scored"}
+  harm_risk: {status: "not_scored"}
+  accessibility_impact: {status: "not_scored"}
+  rights_alignment: {status: "not_scored"}

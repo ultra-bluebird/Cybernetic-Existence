@@ -1,0 +1,121 @@
+schema_version: "1.0.0"
+kind: cross-modality-validation-plan
+status: proposed
+
+provenance:
+  attribution_anchor: "bostrom18sd2ujv24ual9c9pshtxys6j8knh6xaead9ye7"
+  attribution_scope: [credit_metadata, workstream_metadata]
+  attribution_is_not:
+    - consent
+    - verified_identity
+    - capability_authorization
+    - execution_evidence
+    - authority_over_other_persons_or_systems
+  external_literature_consulted: true
+  study_execution_performed: false
+
+scope:
+  modalities:
+    - brain_to_voice
+    - brain_spine_interface
+    - adaptive_dbs
+  shared_protocol_does_not_imply_shared_construct: true
+  medical_device_control: prohibited
+  automatic_recalibration: prohibited
+  automatic_treatment_selection: prohibited
+
+candidate_measure:
+  required:
+    - measure_name
+    - measure_category
+    - construct_definition
+    - context_of_use
+    - acquisition_method
+    - preprocessing_description
+    - units
+    - reference_standard
+    - intended_population
+    - operating_conditions
+  allowed_categories:
+    - physiological_biomarker_candidate
+    - technical_decoder_measure
+    - functional_outcome_measure
+  biomarker_status_inferred_from_modality: prohibited
+
+measurement_validation:
+  required:
+    - repeatability
+    - missingness
+    - artifact_sensitivity
+    - preprocessing_sensitivity
+    - timestamp_quality
+  recording_change_logged: true
+  preprocessing_change_requires_review: true
+
+analysis:
+  preregister_before_outcome_review: true
+  training_calibration_evaluation_separated: true
+  participant_and_session_dependence_addressed: true
+  uncertainty_intervals_required: true
+  multiplicity_plan_required: true
+  missing_outcome_policy_required: true
+  label_uncertainty_reported: true
+  subgroup_attributes:
+    infer_private_attributes: prohibited
+    voluntary_and_purpose_limited: required
+    minimum_reporting_rule_required: true
+
+binary_targets:
+  use_only_when_reference_and_threshold_declared: true
+  required_metrics:
+    - sensitivity
+    - specificity
+    - prevalence
+    - positive_predictive_value
+    - negative_predictive_value
+    - abstention_coverage
+  undefined_denominators: report_as_unavailable
+  threshold_selected_on_evaluation_outcomes: prohibited
+
+continuous_targets:
+  metric_choice_requires_construct_justification: true
+  association_is_agreement: false
+  association_is_causal_effect: false
+
+functional_endpoints:
+  independent_outcome_required_for_benefit_claim: true
+  examples:
+    brain_to_voice:
+      - successful_message_communication
+      - correction_burden
+      - user_reported_communication_agency
+    brain_spine_interface:
+      - chosen_task_completion
+      - assistance_required
+      - participation
+    adaptive_dbs:
+      - independently_assessed_function
+      - adverse_effect_burden
+      - user_reported_daily_life_outcome
+  biomarker_change_substitutes_for_functional_benefit: prohibited
+
+confounding_review:
+  required:
+    - recording_configuration
+    - task_composition
+    - motion_artifact
+    - preprocessing_revision
+    - relevant_intervention_context
+  private_information_collection:
+    minimum_necessary: required
+    public_disclosure: prohibited
+
+reporting:
+  distinguish:
+    - measurement_validity
+    - predictive_validity
+    - functional_association
+    - clinical_utility
+  null_and_adverse_results_retained: true
+  construct_transfer_between_modalities: prohibited
+  qualification_or_approval_claim_without_evidence: prohibited

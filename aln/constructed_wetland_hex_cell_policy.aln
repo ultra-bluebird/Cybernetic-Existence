@@ -1,0 +1,119 @@
+theory ConstructedWetlandHexCellPolicy
+
+sort AnchorId
+sort CorridorId
+sort GeometryRevision
+sort Fraction
+sort Area
+sort HydraulicLoadingRate
+sort HydraulicRetentionTime
+sort WaterDepth
+sort MassBalanceStatus
+sort PfosEvidenceStatus
+sort ReviewStatus
+sort Truth
+
+constructors
+  accepted : ReviewStatus
+  review_required : ReviewStatus
+  rejected : ReviewStatus
+
+  mass_balance_available : MassBalanceStatus
+  mass_balance_unavailable : MassBalanceStatus
+
+  pfas_evidence_accepted : PfosEvidenceStatus
+  pfas_evidence_provisional : PfosEvidenceStatus
+  pfas_evidence_absent : PfosEvidenceStatus
+
+operators
+  unit_fraction : Fraction -> Truth
+  positive_area : Area -> Truth
+  nonnegative_hydraulic_loading : HydraulicLoadingRate -> Truth
+  positive_retention_time : HydraulicRetentionTime -> Truth
+  nonnegative_water_depth : WaterDepth -> Truth
+  geometry_binding_current :
+    AnchorId * CorridorId * GeometryRevision -> Truth
+  vegetation_cover_observed :
+    AnchorId * CorridorId * Fraction -> Truth
+  open_water_fraction_observed :
+    AnchorId * CorridorId * Fraction -> Truth
+  open_and_vegetation_partition_valid :
+    Fraction * Fraction -> Truth
+  hydraulic_loading_observed :
+    AnchorId * CorridorId * HydraulicLoadingRate -> Truth
+  retention_time_observed :
+    AnchorId * CorridorId * HydraulicRetentionTime -> Truth
+  water_depth_observed :
+    AnchorId * CorridorId * WaterDepth -> Truth
+  mass_balance_status :
+    AnchorId * CorridorId * MassBalanceStatus -> Truth
+  pfas_result_may_be_claimed :
+    AnchorId * CorridorId * PfosEvidenceStatus -> Truth
+  geometry_frame_may_be_accepted :
+    AnchorId *
+    CorridorId *
+    GeometryRevision *
+    ReviewStatus -> Truth
+
+axioms
+  open_and_vegetation_partition_valid(open_water, vegetation) =
+    and(
+      unit_fraction(open_water),
+      and(
+        unit_fraction(vegetation),
+        less_or_equal(add(open_water, vegetation), fraction(1.0))
+      )
+    )
+
+  geometry_frame_may_be_accepted(
+    anchor,
+    corridor,
+    revision,
+    accepted
+  ) =
+    and(
+      geometry_binding_current(anchor, corridor, revision),
+      and(
+        vegetation_cover_observed(anchor, corridor, vegetation_fraction_of(anchor)),
+        and(
+          open_water_fraction_observed(anchor, corridor, open_water_fraction_of(anchor)),
+          and(
+            open_and_vegetation_partition_valid(
+              open_water_fraction_of(anchor),
+              vegetation_fraction_of(anchor)
+            ),
+            and(
+              hydraulic_loading_observed(anchor, corridor, loading_of(anchor)),
+              and(
+                retention_time_observed(anchor, corridor, retention_of(anchor)),
+                water_depth_observed(anchor, corridor, depth_of(anchor))
+              )
+            )
+          )
+        )
+      )
+    )
+
+  pfas_result_may_be_claimed(
+    anchor,
+    corridor,
+    pfas_evidence_accepted
+  ) =
+    equal(
+      mass_balance_status(anchor, corridor),
+      mass_balance_available
+    )
+
+  pfas_result_may_be_claimed(
+    anchor,
+    corridor,
+    pfas_evidence_provisional
+  ) = false
+
+  pfas_result_may_be_claimed(
+    anchor,
+    corridor,
+    pfas_evidence_absent
+  ) = false
+
+end

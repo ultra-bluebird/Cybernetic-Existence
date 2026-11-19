@@ -1,0 +1,104 @@
+schema_version: "1.0.0"
+document_version: "0.1.0"
+kind: postdeployment-monitoring-plan
+status: proposed_not_deployed
+date_created: "2026-10-31"
+
+provenance:
+  attribution_anchor: "bostrom18sd2ujv24ual9c9pshtxys6j8knh6xaead9ye7"
+  scope: [credit_metadata, workstream_metadata]
+  attestation_claim: none
+  execution_evidence: absent
+
+function_scope:
+  intended_use_record: required_before_deployment
+  applicable_jurisdictions: required_before_deployment
+  regulatory_responsibility_review: required
+  research_label_determines_device_status: false
+
+authority:
+  support_role_is_standing_authority: false
+  support_access:
+    exact_operation_scope: required
+    exact_purpose_scope: required
+    destination_scope: required
+    exclusive_expiry: required
+    automatic_renewal: prohibited
+    onward_delegation_default: deny
+  clinical_control:
+    authorized_roles_and_paths: separately_reviewed
+    permission_from_monitoring_alert: prohibited
+
+monitoring_streams:
+  recalibration:
+    measures: [count, duration, labeled_example_count, failed_attempt_count]
+    denominator: active_sessions_and_observed_use_hours
+  unintended_output:
+    measures: [adjudicated_count, uncertain_count]
+    denominator: enabled_at_risk_observed_hours
+    raw_payload_logging_default: disabled
+  fallback:
+    measures: [activation_count, readiness_delay, unresolved_recovery_count]
+    communication_success_separate: required
+  cancellation:
+    measures: [attempt_count, accepted_count, cessation_observation]
+    application_ack_is_physical_cessation: false
+  authorization:
+    measures: [attempt_count, denial_reason, stale_candidate_count]
+    private_message_content_required: false
+  updates:
+    measures: [activation, rollback, validation_status, incident_followup]
+    automatic_activation_from_training_loss: prohibited
+  adverse_events:
+    handling: restricted_case_workflow
+    reportability_review: applicable_responsible_organization
+
+observation_quality:
+  missing_exposure_reported: required
+  unobserved_time_is_zero_event_time: false
+  clock_and_event_definitions: required
+  configuration_changes_recorded: required
+  uncertain_annotations_retained: required
+
+triggers:
+  universal_numeric_thresholds_supplied: false
+  each_trigger_requires:
+    - measure_definition
+    - denominator
+    - reviewed_threshold_or_rule
+    - reference_period
+    - accountable_review_role
+    - review_deadline
+    - continuity_action
+    - unavailable_monitoring_behavior
+    - closure_evidence
+  automatic_treatment_change: prohibited
+  automatic_training_or_export: prohibited
+
+privacy:
+  local_first_summary_generation: preferred
+  raw_neural_data_default_export: deny
+  transcript_default_export: deny
+  voice_profile_default_export: deny
+  private_actor_labels_default_export: deny
+  rare_configuration_disclosure_review: required
+  optional_research_telemetry_separate: true
+  retention:
+    local_summaries: explicit_policy_required
+    incident_records: separately_reviewed
+    audit_records: minimum_necessary
+  person_accessible_review: required
+  correction_and_dispute_process: required
+
+regulatory_reporting:
+  dashboard_threshold_replaces_reporting_obligation: false
+  reportability_decision_owner: explicitly_assigned_before_deployment
+  applicable_deadlines_recorded: required
+  reports_submitted_by_this_plan: false
+
+review:
+  security_review: required
+  accessibility_review: required
+  clinical_review_when_applicable: required
+  user_or_chosen_support_feedback: required
+  material_change_reassessment: required

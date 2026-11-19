@@ -1,0 +1,172 @@
+specification:
+  version: "0.1.0"
+  status: "proposed_review_baseline"
+  approval: "not_obtained"
+  purpose: "synthetic_workflow_conformance"
+  github_actions_workflow: false
+
+attribution:
+  anchor: "bostrom18sd2ujv24ual9c9pshtxys6j8knh6xaead9ye7"
+  use: "document_credit_and_workstream_metadata_only"
+
+scope:
+  operational_deployment_authorized: false
+  device_operation_authorized: false
+  clinical_intervention_authorized: false
+  external_action_authorized: false
+
+schema:
+  unknown_fields: "reject"
+  duplicate_serialized_keys: "reject_before_table_construction"
+  time_unit: "seconds"
+  numeric_time_policy: "bounded_nonnegative_integer"
+  missing_evidence: "unresolved_not_passed"
+  programmer_fault: "raise"
+  malformed_external_input: "typed_validation_outcome"
+  unresolved_policy: "typed_domain_outcome"
+
+change_classification:
+  classes:
+    - "nonmaterial"
+    - "material"
+    - "access_critical"
+    - "undetermined"
+  paths:
+    - "ordinary"
+    - "emergency"
+  impact_domains:
+    - "accessibility"
+    - "essential_continuity"
+    - "privacy_and_permission"
+    - "agency_and_confirmation"
+    - "security_and_trust"
+    - "correction_and_remedy"
+    - "repair_interoperability_and_exit"
+  unknown_impact_class: "undetermined"
+  emergency_is_not_a_materiality_downgrade: true
+
+ordinary_gate:
+  required_before_deployment:
+    - "notice_completed"
+    - "compatibility_assessed"
+    - "continuity_established"
+    - "authorization_established"
+    - "independent_review_completed"
+
+emergency_gate:
+  required_before_deployment:
+    - "urgent_threat_documented"
+    - "ordinary_delay_harm_justified"
+    - "response_scope_bounded"
+    - "emergency_authorization_established"
+    - "minimum_compatibility_assessed"
+    - "effective_continuity_established"
+    - "notice_obligation_assigned"
+    - "review_obligation_assigned"
+    - "safe_containment_or_transition_plan"
+  does_not_override:
+    - "prohibited_purpose"
+    - "required_action_authorization"
+    - "non_coercion"
+    - "essential_access_protection"
+  post_change_review_is_not_retroactive_authorization: true
+  missed_deadline_action:
+    - "record_breach"
+    - "escalate"
+    - "check_continuity"
+    - "review_continued_operation"
+  automatic_disable_or_rollback_on_deadline: false
+
+workflow_record:
+  required_fields:
+    - "case_reference"
+    - "obligation_reference"
+    - "original_intake_time"
+    - "owner"
+    - "review_authority"
+    - "deadline"
+    - "accessible_contact_route"
+    - "evidence_references"
+    - "event_history"
+  event_types:
+    - "intake"
+    - "assigned"
+    - "notice_delivered"
+    - "review_completed"
+    - "deadline_breached"
+    - "escalated"
+    - "alternative_delivered"
+    - "correction_completed"
+    - "access_restored"
+    - "remedy_assessed"
+    - "reopened"
+  event_history:
+    append_only: true
+    preserve_original_obligation_links: true
+    fresh_plan_resets_deadline: false
+    repair_erases_breach: false
+
+simulation_parameters:
+  approved_for_real_service_use: false
+  emergency_notice_due_after_seconds: 3600
+  emergency_review_due_after_seconds: 86400
+  remedy_due_after_original_intake_seconds:
+    acknowledgment: 3600
+    reasoned_review: 86400
+    correction: 172800
+    restoration: 86400
+    final_remedy: 604800
+
+remedy:
+  stages:
+    - "acknowledgment"
+    - "reasoned_review"
+    - "correction"
+    - "restoration"
+    - "final_remedy"
+  rigid_stage_order_required: false
+  restoration_may_precede_completed_investigation: true
+  stage_applicability_requires_reasoned_record: true
+  unknown_applicability: "review_required"
+  quality_requirements:
+    - "accessible"
+    - "substantive"
+    - "supported_by_stage_specific_evidence"
+  participant_confirmation:
+    offer_accessible_confirmation: true
+    silence_means_success: false
+    nonresponse_means_failure: false
+    alternative_evidence_requires_review: true
+
+metrics:
+  cohort: "all_applicable_obligations_due_by_reporting_time"
+  zero_denominator: "not_applicable"
+  report_separately:
+    - "on_time_qualified_completion"
+    - "qualified_completion_by_reporting_time"
+    - "late_qualified_completion"
+    - "overdue_unresolved"
+    - "accessibility_failure"
+    - "substantive_quality_failure"
+    - "quality_unknown"
+    - "reopened_cases"
+    - "confirmed_access_restoration"
+  single_overall_remedy_score: "not_defined"
+  ticket_closed_implies_success: false
+
+privacy:
+  collect_raw_neural_data: false
+  require_augmentation_inventory: false
+  evidence_rule: "minimum_necessary_for_specific_obligation"
+  public_reporting: "aggregate_and_disclosure_reviewed"
+  operational_logs:
+    prohibit_private_content_in_labels: true
+    access_policy_required: true
+    retention_policy_required: true
+
+assessment:
+  knowledge_factor: {status: "not_scored"}
+  eco_impact_value: {status: "not_scored"}
+  harm_risk: {status: "not_scored"}
+  accessibility_impact: {status: "not_scored"}
+  rights_alignment: {status: "not_scored"}

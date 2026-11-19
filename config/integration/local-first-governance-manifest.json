@@ -1,0 +1,354 @@
+{
+  "version": "1.0.0",
+  "integration_id": "local-first-governance-plane",
+  "default_posture": "local_first_risk_reduction",
+  "sensitive_data_default": "deny_external_disclosure",
+  "artifacts": [
+    {
+      "artifact_id": "mesh-trust-crate",
+      "kind": "rust_crate",
+      "path": "crates/mesh-trust",
+      "boundary": "Classifies mesh-neighbor capabilities from bounded local signals; it does not establish identity or permanent trust.",
+      "sensitivity": "public_metadata",
+      "execution": "local_policy"
+    },
+    {
+      "artifact_id": "anchor-registry-crate",
+      "kind": "rust_crate",
+      "path": "crates/anchor-registry",
+      "boundary": "Records opaque local state commitments; it does not establish personhood or publish personal data.",
+      "sensitivity": "public_metadata",
+      "execution": "local_policy"
+    },
+    {
+      "artifact_id": "environmental-emc-monitor-crate",
+      "kind": "rust_crate",
+      "path": "crates/environmental-emc-monitor",
+      "boundary": "Classifies device-specific EMC margin observations; it does not assess human exposure safety.",
+      "sensitivity": "public_metadata",
+      "execution": "local_policy"
+    },
+    {
+      "artifact_id": "protected-operation-state-crate",
+      "kind": "rust_crate",
+      "path": "crates/protected-operation-state",
+      "boundary": "Pauses noncritical software work under configured environmental conditions; it does not command physical movement.",
+      "sensitivity": "public_metadata",
+      "execution": "local_policy"
+    },
+    {
+      "artifact_id": "external-energy-accounting-crate",
+      "kind": "rust_crate",
+      "path": "crates/external-energy-accounting",
+      "boundary": "Accounts for externally characterized bench energy samples; it does not authorize energy transfer near people.",
+      "sensitivity": "public_metadata",
+      "execution": "local_policy"
+    },
+    {
+      "artifact_id": "workload-cost-estimator-crate",
+      "kind": "rust_crate",
+      "path": "crates/workload-cost-estimator",
+      "boundary": "Computes a unitless workload-cost index; it does not estimate physiology or medical status.",
+      "sensitivity": "public_metadata",
+      "execution": "local_policy"
+    },
+    {
+      "artifact_id": "evidence-gate-engine-crate",
+      "kind": "rust_crate",
+      "path": "crates/evidence-gate-engine",
+      "boundary": "Evaluates supplied gate records; it does not certify scientific truth, safety, or legal compliance.",
+      "sensitivity": "public_metadata",
+      "execution": "local_policy"
+    },
+    {
+      "artifact_id": "neural-data-policy-crate",
+      "kind": "rust_crate",
+      "path": "crates/neural-data-policy",
+      "boundary": "Evaluates purpose-bound consent metadata; it is not a standalone endpoint confidentiality boundary.",
+      "sensitivity": "restricted_policy",
+      "execution": "local_policy"
+    },
+    {
+      "artifact_id": "oversight-quorum-crate",
+      "kind": "rust_crate",
+      "path": "crates/oversight-quorum",
+      "boundary": "Checks policy-defined review quorum records; it does not create legal authority or reviewer neutrality.",
+      "sensitivity": "restricted_policy",
+      "execution": "local_policy"
+    },
+    {
+      "artifact_id": "cyberrank-tier3-eligibility-schema",
+      "kind": "json_schema",
+      "path": "schemas/cyberrank/tier3-eligibility.schema.json",
+      "boundary": "Defines the shape of metadata-only tier 3 eligibility records; it does not verify brain-bound identity or personhood.",
+      "sensitivity": "public_metadata",
+      "execution": "static"
+    },
+    {
+      "artifact_id": "sovereignty-decision-record-schema",
+      "kind": "json_schema",
+      "path": "schemas/sovereignty-preservation/decision-record.schema.json",
+      "boundary": "Defines exportable metadata-only decision receipts; it documents procedure and grants no legal standing.",
+      "sensitivity": "public_metadata",
+      "execution": "static"
+    },
+    {
+      "artifact_id": "anchor-manifest-schema",
+      "kind": "json_schema",
+      "path": "schemas/anchor-registry/anchor-manifest.schema.json",
+      "boundary": "Constrains anchor manifests to opaque digests; it never carries personal data or plaintext state.",
+      "sensitivity": "public_metadata",
+      "execution": "static"
+    },
+    {
+      "artifact_id": "social-goods-metric-claim-schema",
+      "kind": "json_schema",
+      "path": "schemas/social-goods/metric-claim.schema.json",
+      "boundary": "Shapes aggregate metric claims pending external review; it does not certify scientific truth.",
+      "sensitivity": "public_metadata",
+      "execution": "static"
+    },
+    {
+      "artifact_id": "bioelectronic-evidence-ledger-schema",
+      "kind": "json_schema",
+      "path": "schemas/bioelectronic-interface/evidence-ledger.schema.json",
+      "boundary": "Ledgers evidence by digest and consent epoch; it stores no signals and assesses no clinical safety or efficacy.",
+      "sensitivity": "sensitive_governance",
+      "execution": "static"
+    },
+    {
+      "artifact_id": "evidence-gate-advancement-ledger-schema",
+      "kind": "json_schema",
+      "path": "schemas/evidence-gates/advancement-ledger.schema.json",
+      "boundary": "Records gate outcomes for research-stage advancement; it certifies neither safety nor legal compliance.",
+      "sensitivity": "restricted_policy",
+      "execution": "static"
+    },
+    {
+      "artifact_id": "consent-receipt-record",
+      "kind": "policy_record",
+      "path": "schemas/consent/consent-receipt.json",
+      "boundary": "Binds a purpose set and epoch to consent metadata; it proves procedure followed, not identity of the subject.",
+      "sensitivity": "sensitive_governance",
+      "execution": "local_policy"
+    },
+    {
+      "artifact_id": "revocation-event-record",
+      "kind": "policy_record",
+      "path": "schemas/consent/revocation-event.json",
+      "boundary": "Advances the revocation epoch to block future cooperative use; it cannot recall prior disclosure.",
+      "sensitivity": "sensitive_governance",
+      "execution": "local_policy"
+    },
+    {
+      "artifact_id": "dp-release-policy-record",
+      "kind": "policy_record",
+      "path": "schemas/corridor-calibration/dp-release-policy.json",
+      "boundary": "Declares adjacency, bounds, budgets, and release checks for corridor aggregation; differential privacy here is a disclosure control, not anonymization.",
+      "sensitivity": "restricted_policy",
+      "execution": "local_policy"
+    },
+    {
+      "artifact_id": "release-decision-policy-record",
+      "kind": "policy_record",
+      "path": "schemas/corridor-calibration/release-decision-policy.json",
+      "boundary": "Orders release checks before publication; passing them authorizes review, not deployment or safety.",
+      "sensitivity": "restricted_policy",
+      "execution": "local_policy"
+    },
+    {
+      "artifact_id": "neural-data-classification-policy",
+      "kind": "policy_record",
+      "path": "schemas/neural-data-governance/data-classification.json",
+      "boundary": "Assigns default storage and disclosure posture per data class; it evaluates metadata and does not prove endpoint confidentiality.",
+      "sensitivity": "restricted_policy",
+      "execution": "local_policy"
+    },
+    {
+      "artifact_id": "anchor-policy-record",
+      "kind": "policy_record",
+      "path": "schemas/anchor-registry/anchor-policy.json",
+      "boundary": "Governs local anchoring bookkeeping over opaque digests; it demonstrates commitment ordering, not identity or tamper resistance.",
+      "sensitivity": "public_metadata",
+      "execution": "local_policy"
+    },
+    {
+      "artifact_id": "smart-city-augmented-hub-openapi",
+      "kind": "openapi_contract",
+      "path": "openapi/smart-city-augmented-hub.openapi.yaml",
+      "boundary": "Contracts localhost hub metadata exchange; it implies no remote service availability or regulatory approval.",
+      "sensitivity": "public_metadata",
+      "execution": "static"
+    },
+    {
+      "artifact_id": "augmented-citizen-rights-openapi",
+      "kind": "openapi_contract",
+      "path": "openapi/augmented-citizen-rights.openapi.yaml",
+      "boundary": "Serves procedural rights metadata locally; serving documents grants no legal rights or citizen-status determination.",
+      "sensitivity": "public_metadata",
+      "execution": "static"
+    },
+    {
+      "artifact_id": "non-removal-clause-jsonld",
+      "kind": "policy_record",
+      "path": "governance/non-removal-clause.jsonld",
+      "boundary": "Records the locally adopted amendment procedure for safety clauses; it creates no legal authority outside the adopting context.",
+      "sensitivity": "sensitive_governance",
+      "execution": "local_policy"
+    },
+    {
+      "artifact_id": "oversight-membership-jsonld",
+      "kind": "policy_record",
+      "path": "governance/oversight-membership.jsonld",
+      "boundary": "Enumerates declared reviewer membership and independence attestations; declarations are procedural and require external verification for neutrality.",
+      "sensitivity": "sensitive_governance",
+      "execution": "external_review_required"
+    },
+    {
+      "artifact_id": "psych-continuity-graph",
+      "kind": "documentation",
+      "path": "continuity/psych-continuity.graphml",
+      "boundary": "Maps declared continuity-state transitions over opaque references; it does not prove continuity of experience or identity.",
+      "sensitivity": "public_metadata",
+      "execution": "static"
+    },
+    {
+      "artifact_id": "prompt-continuity-envelope",
+      "kind": "policy_record",
+      "path": "continuity/prompt-continuity-envelope.json",
+      "boundary": "Bounds prompt-continuity context by digest and epoch; it embeds no prompt text and prevents no already-exported disclosure.",
+      "sensitivity": "public_metadata",
+      "execution": "local_policy"
+    },
+    {
+      "artifact_id": "continuity-merge-policy",
+      "kind": "policy_record",
+      "path": "continuity/merge-policy.json",
+      "boundary": "Rules for merging continuity records without silent drops; it adjudicates bookkeeping, not truth or legal status.",
+      "sensitivity": "restricted_policy",
+      "execution": "local_policy"
+    },
+    {
+      "artifact_id": "sovereignty-architecture-spec",
+      "kind": "documentation",
+      "path": "specs/sovereignty-preservation/architecture.md",
+      "boundary": "Describes the local sovereignty-preservation mechanism set and its boundaries; it confers no rights or approvals.",
+      "sensitivity": "public_metadata",
+      "execution": "static"
+    },
+    {
+      "artifact_id": "procedural-claims-governance-spec",
+      "kind": "documentation",
+      "path": "specs/procedural-claims/governance-requirements.md",
+      "boundary": "Specifies metadata-only claim requirements; claim acceptance remains procedural and externally reviewable.",
+      "sensitivity": "public_metadata",
+      "execution": "static"
+    },
+    {
+      "artifact_id": "procedural-claims-authentication-spec",
+      "kind": "documentation",
+      "path": "specs/procedural-claims/authentication-profile.md",
+      "boundary": "Authenticates requests against policy metadata, not persons; attestation digests are advisory integrity hints only.",
+      "sensitivity": "public_metadata",
+      "execution": "static"
+    },
+    {
+      "artifact_id": "neural-threat-model-doc",
+      "kind": "documentation",
+      "path": "specs/neural-data-governance/threat-model.md",
+      "boundary": "Enumerates assumed adversaries for local neural-data governance; it is analysis, not a security certification.",
+      "sensitivity": "public_metadata",
+      "execution": "external_review_required"
+    },
+    {
+      "artifact_id": "neural-defense-in-depth-doc",
+      "kind": "documentation",
+      "path": "specs/neural-data-governance/defense-in-depth.md",
+      "boundary": "Layers declared mitigations over the threat model; layering reduces exposure but does not prove endpoint security.",
+      "sensitivity": "public_metadata",
+      "execution": "external_review_required"
+    },
+    {
+      "artifact_id": "sovereignty-decision-record-module",
+      "kind": "javascript_module",
+      "path": "src/sovereignty-preservation/decision-record.js",
+      "boundary": "Builds and validates metadata-only decision receipts in-process; it performs no file, network, or sensor access.",
+      "sensitivity": "public_metadata",
+      "execution": "local_policy"
+    },
+    {
+      "artifact_id": "entitlement-guard-module",
+      "kind": "javascript_module",
+      "path": "src/procedural-claims/entitlement-guard.js",
+      "boundary": "Gates procedural entitlements on epoch, purpose, and class metadata; it authenticates procedure, not people.",
+      "sensitivity": "restricted_policy",
+      "execution": "local_policy"
+    },
+    {
+      "artifact_id": "cyberrank-tier3-migration",
+      "kind": "sql_migration",
+      "path": "db/migrations/025_cyberrank_tier3.sql",
+      "boundary": "Creates metadata-only eligibility audit tables with opaque references; it stores no signals, biometrics, or payloads.",
+      "sensitivity": "public_metadata",
+      "execution": "static"
+    },
+    {
+      "artifact_id": "social-goods-metrics-migration",
+      "kind": "sql_migration",
+      "path": "db/migrations/030_social_goods_metrics.sql",
+      "boundary": "Creates aggregate claim ledger tables referencing digests; it stores no row-level observations or location traces.",
+      "sensitivity": "public_metadata",
+      "execution": "static"
+    },
+    {
+      "artifact_id": "neural-data-audit-migration",
+      "kind": "sql_migration",
+      "path": "db/migrations/040_neural_data_audit.sql",
+      "boundary": "Creates consent-event and access-audit tables over epochs and opaque references; audit rows are minimal metadata, not content.",
+      "sensitivity": "restricted_policy",
+      "execution": "static"
+    },
+    {
+      "artifact_id": "local-first-governance-manifest",
+      "kind": "policy_record",
+      "path": "config/integration/local-first-governance-manifest.json",
+      "boundary": "Inventories wired artifacts and their runtime boundaries; the manifest declares posture and makes no security, legal, or clinical claims.",
+      "sensitivity": "public_metadata",
+      "execution": "static"
+    }
+  ],
+  "non_claims": [
+    "No artifact verifies brain-bound identity or personhood.",
+    "No artifact grants legal rights, clinical status, or regulatory approval.",
+    "Local-first processing reduces remote exposure but does not prove endpoint security.",
+    "Revocation prevents future cooperative use but cannot recall prior disclosure.",
+    "Differential privacy is a disclosure control, not anonymization.",
+    "Oversight records are procedural and require an adopted enforcement context."
+  ],
+  "integration_order": [
+    "Load data classification and consent policy.",
+    "Validate current consent epoch before sensitive processing.",
+    "Keep sensitive source and derived artifacts in local-only storage.",
+    "Use evidence gates before advancing research stage.",
+    "Require oversight quorum for policy-defined high-impact actions.",
+    "Apply aggregation, release checks, and privacy accounting before corridor publication.",
+    "Record minimal audit metadata and exportable decision receipts."
+  ],
+  "validation": {
+    "method": "local_static_inspection_only",
+    "checks": [
+      "file_existence",
+      "json_parsing",
+      "inventory_completeness",
+      "boundary_declarations"
+    ],
+    "guarantees": "Validation confirms that listed artifacts exist at repository-relative paths, that JSON artifacts parse, that the inventory is complete, and that boundary statements are present.",
+    "explicitly_excludes": [
+      "executing Rust or Cargo commands",
+      "reading sensitive payloads",
+      "invoking network services",
+      "installing tools or dependencies"
+    ],
+    "script": "scripts/validate-local-first-governance.mjs"
+  }
+}

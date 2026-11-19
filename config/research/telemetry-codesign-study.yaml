@@ -1,0 +1,85 @@
+schema_version: "1.0.0"
+document_version: "0.1.0"
+kind: telemetry-codesign-bench-plan
+status: proposed_not_executed
+date_created: "2026-10-31"
+
+provenance:
+  attribution_anchor: "bostrom18sd2ujv24ual9c9pshtxys6j8knh6xaead9ye7"
+  scope: [credit_metadata, workstream_metadata]
+  execution_evidence: absent
+  authority_claim: none
+
+scope:
+  real_implant_access: prohibited
+  clinical_parameter_selection: prohibited
+  credentials_or_private_recordings_required: false
+  inputs: synthetic_or_separately_authorized_bench_traces
+
+required_device_evidence:
+  - supported_transport
+  - payload_and_framing_limits
+  - sensing_bandwidth
+  - command_update_constraints
+  - freshness_semantics
+  - link_loss_behavior
+  - power_and_duty_cycle_constraints
+  - documented_security_interface
+  - configuration_and_software_versions
+
+measurements:
+  bandwidth:
+    - application_payload_bits_per_second
+    - total_wire_bits_per_second
+    - retransmission_fraction
+  timing:
+    - packetization_delay
+    - queue_delay
+    - transmission_delay
+    - verification_delay
+    - receiving_scheduler_delay
+    - end_to_end_delay
+  delivery:
+    - loss_fraction
+    - stale_message_fraction
+    - reorder_fraction
+    - duplicate_fraction
+  continuity:
+    - local_function_available
+    - local_communication_available
+    - recovery_time
+  resource_cost:
+    - processing_load
+    - memory_use
+    - energy_per_declared_operation
+
+security_tests:
+  - unauthenticated_message
+  - modified_message
+  - replayed_message
+  - expired_message
+  - wrong_destination
+  - revoked_permission
+  - mismatched_configuration
+  - interrupted_session_establishment
+
+failure_injection:
+  - bounded_delay
+  - burst_loss
+  - prolonged_disconnect
+  - receiver_overload
+  - repeated_reconnection
+  - unavailable_optional_telemetry
+
+reporting:
+  timestamp_definitions_required: true
+  tail_latency_and_trace_count_required: true
+  security_checks_omitted_for_performance: prohibited
+  local_availability_distinct_from_link_availability: true
+  mathematical_feasibility_is_clinical_safety: false
+  observed_bench_result_is_future_guarantee: false
+
+acceptance:
+  numeric_limits_source: device_and_context_specific_reviewed_requirements
+  thresholds_invented_by_this_template: false
+  require_review_before_real_system_integration: true
