@@ -1,0 +1,349 @@
+AR Authorization and Research Continuation Notes
+1. Status and governing boundaries
+Sections 1–10 have been supplied as code in this conversation. Compilation, runtime tests, property-based tests, and adversarial tests have not been executed or demonstrated.
+
+Do not label the module production-ready merely because the remaining sections are generated.
+
+Maintain the separation between:
+
+Eligibility and authorization.
+
+Member-directed social interaction.
+
+Independently consented research.
+
+Optional expressive media.
+
+The project blueprint requires explicit service contracts, least privilege, and a documented purpose before one trust zone uses another zone’s sensitive data. It also excludes public reputation scores, autonomous social actions, and matching through health, financial, behavioral, or social-graph information. 
+
+2. Current code baseline
+Section	Current artifact	Important contract
+1	typescript/xr/ar-authorization-contracts.ts	Domain types, error taxonomy, constants
+2	typescript/xr/ar-runtime-validators.ts	Strict shape validation; not source authentication
+3	typescript/xr/approved-configuration-registry.ts	Trusted review gate; immutable configurations; duplicate references rejected
+4	typescript/xr/eligibility-snapshot-intake.ts	Narrow eligibility evidence and revision-aware test double
+5	typescript/xr/permission-snapshot-intake.ts	Corrected account-wide permission snapshot with explicit feature grants
+6	typescript/xr/authorize-ar.ts	Pure proposal generation; no source calls
+7	typescript/xr/ar-lease-store.ts	Server-generated lease identifiers; process-local single-use transition
+8	typescript/xr/consume-lease-atomically.ts	Atomic account/feature binding within one store instance
+9	typescript/xr/revocation-coordinator.ts	Revision-only reconciliation of explicitly tracked references
+10	typescript/xr/revocation-receipt-store.ts	Separate receipt store with trusted account binding
+Superseded interfaces
+Use the corrected Sections 5 and 6—not their earlier feature-envelope versions.
+
+Permission lookup is getCurrentPermissions(accountRef, now).
+
+Its response contains explicit grants for each feature.
+
+Permission revisions are account-wide.
+
+acceptUntil is the snapshot acceptance deadline.
+
+Each grant’s validUntil is its permission deadline.
+
+Neither deadline proves that a recent revocation has been observed.
+
+The legacy ArPermissions type remains in Section 1 but is not the current permission-intake contract.
+
+Applied Section 7 amendment
+The three bulk-revocation methods now return actual transition counts. Confirm that the replacement block is applied before compiling Section 9.
+
+Do not calculate revocations by subtracting store sizes: expiration and cleanup would contaminate that count.
+
+3. Engineering issues to resolve before calling the chain complete
+A. Trusted issuance and consumption orchestration
+The store accepts structurally valid proposals. Structural validity does not establish that the proposal came from a current, authorized decision.
+
+A trusted orchestration contract must:
+
+Resolve authoritative eligibility, permission, configuration, and policy state.
+
+Establish the account and requested feature.
+
+Register revision tracking.
+
+Check coordinator blocking.
+
+Prevent stale proposals from crossing the issuance boundary.
+
+Recheck relevant authority at consumption.
+
+Establish ordering with concurrent revocation.
+
+Neither issue() nor consumeLeaseAtomically() currently supplies this complete contract.
+
+B. Active-session revocation
+Outstanding leases and active rendering sessions are different enforcement surfaces.
+
+After consumption, the store intentionally discards account and configuration references. Consequently, its bulk-revocation methods cannot identify active sessions.
+
+Define a separate active-session controller that specifies:
+
+The narrowly scoped session authorization retained.
+
+Current-authority checks.
+
+Immediate stop behavior.
+
+Outage behavior.
+
+Permission changes during suspension and resume.
+
+Expiry while the tab or headset is suspended.
+
+Teardown and application-held data clearing.
+
+Limits of device/browser enforcement.
+
+A consumption receipt must not become an indefinitely reusable rendering capability.
+
+C. Single-use versus retry idempotency
+The current implementation permits one successful consumption and rejects later attempts.
+
+It does not recover the original receipt after a lost response. If retry recovery is required, declare a separate bounded idempotency contract without silently retaining member metadata in consumption tombstones.
+
+D. Clock semantics
+All current deadlines use epoch milliseconds.
+
+The injected clock must be nondecreasing and epoch-compatible. Raw performance.now() is incompatible with these deadlines.
+
+Monotonic behavior does not prove correct wall-clock time. Define permitted skew, authority-time provenance, restart behavior, and fail-closed handling.
+
+E. Revocation reconciliation races
+The coordinator needs additional adversarial review:
+
+An event can advance observed revision during an asynchronous source read.
+
+A returned lower revision currently blocks and invalidates conservatively.
+
+Overlapping sweeps can race to clear or establish blocking.
+
+A successful revision read does not, by itself, establish that an authority currently permits the operation.
+
+Recovery from an outage must not be mistaken for renewed permission.
+
+Tracking must not silently begin from an untrusted or stale baseline.
+
+Define sweep serialization or a generation/fencing mechanism before claiming stable outage recovery.
+
+F. Scope and revision meaning
+An eligibility revision may refer to one account, while a configuration reference or policy version may be immutable.
+
+Before Section 12, decide:
+
+Which authorities have mutable revisions.
+
+Whether policy invalidation uses a revision, a new version reference, or both.
+
+How a superseded configuration is reconciled.
+
+Whether a revision increase always invalidates all related outstanding leases.
+
+How renewal differs from revocation.
+
+Do not infer these semantics merely from the existence of a numeric revision.
+
+G. Retention, capacity, and restoration
+The implementations have no complete capacity or durable-restoration policy.
+
+Resolve retention for:
+
+Consumed and revoked lease tombstones.
+
+Registry entries.
+
+Coordinator revision history.
+
+Receipt-account associations.
+
+Review evidence.
+
+Used reference identifiers.
+
+Specify backup restoration, stale-event replay, reference reuse, and crash behavior. Expiry-triggered logical ineligibility is not equivalent to physical deletion.
+
+H. Runtime error containment
+Some injected callbacks and constructor property reads remain trusted-code boundaries. If the intended guarantee is “all observable failures use the taxonomy,” review every callback, accessor, proxy inspection, and asynchronous failure path.
+
+Do not claim that TypeScript types or ordinary object validation sandbox hostile JavaScript.
+
+4. Remaining sections: decisions and deliverables
+Section	Required focus before generation
+11 — Feature-specific policy	Distinguish feature prerequisites; separate public non-member information from member-gated AR; specify the additional shared-session gate
+12 — Policy reconciliation	Define policy/version authority, immutable references, invalidation, restoration, and reconciliation ordering
+13 — Non-AR parity	Verify evidence-backed task parity, not merely a boolean or identical appearance
+14 — Sensor-inference attestation	Validate evidence provenance and scope; do not claim runtime sensing is prevented
+15 — Persistent-anchor attestation	Cover application, browser, device, and external retention limits
+16 — Recording attestation	Separate application recording restrictions from OS capture, casting, household observation, and external copies
+17 — Audit hooks	Allowlisted, purpose-limited events; exclude authored content and sensitive diagnostics
+18 — Boundary contract	Make trusted orchestration, active-session enforcement, authority outages, and receipt access explicit
+19 — Acceptance gates	Execute tests and report real outcomes; distinguish process-local tests from distributed evidence
+20 — Documentation	State actual guarantees, unsupported guarantees, integration requirements, residual risks, and release blockers
+Preserve generation order
+Each file must import only earlier sections.
+
+If Sections 18 or 19 reveal a behavioral defect, amend the earlier implementation explicitly. Do not “repair” it solely through documentation.
+
+5. Shared-fragment authorization remains incomplete
+The shared-fragment prerequisite is not mutual consent.
+
+Before exchange, independently bind permission to:
+
+Each participating account.
+
+The selected fragment and its version.
+
+The named recipient or audience.
+
+The session.
+
+Its expiry.
+
+Permitted rendering mode.
+
+Copying or export permission, if offered.
+
+Current revocation state.
+
+Do not exchange unselected notes, profile fields, location, room layouts, gaze, or presence outside the bounded session.
+
+Do not implement trust accumulation, inferred compatibility, or progressive disclosure as an automatic entitlement.
+
+6. Attachment triage: retain as research leads, not verified findings
+The attachment proposes an Arizona legal matrix, age-assurance route analysis, evaluation protocol, and digital-loneliness synthesis. Its conclusions contain several issues that require source-level review before adoption. 
+
+Legal applicability
+Record these attachment issues in the contradiction register:
+
+The matrix attributes data-broker registration duties to the dating-services chapter, while other rows attribute those duties to separate provisions.
+
+A cited legislative bill is used to support provisions presented as existing statutory obligations.
+
+A Tucson discussion includes a source URL identifying a different municipality.
+
+The report extrapolates physical adult-business and residential-business rules to a web platform without establishing the necessary applicability analysis.
+
+Its treatment of the private-club question relies heavily on licensing discussion rather than a direct analysis of the relevant public-accommodation definitions and exceptions. 
+
+Required next work:
+
+Retrieve exact official authorities.
+
+Establish enacted status, effective dates, amendments, and current procedural status.
+
+Separate admission, marketing, discovery, subscriptions, content access, and operated events.
+
+Analyze state and relevant local public-accommodation rules directly.
+
+Leave the 30+ exclusion unresolved until counsel review.
+
+Do not treat the attachment’s “no direct conflict identified” as legal approval of excluding adults aged 18–29.
+
+Age assurance
+The attachment describes documentary verification as definitive, proposes speculative challenge thresholds such as 35 or 40, and includes OCR, banking data, and test purchasing in its route discussion. These are research leads, not established end-to-end 30+ admission configurations. 
+
+Carry forward these corrections:
+
+“Below 30” is not synonymous with “minor.”
+
+Reading a document’s birthdate does not establish applicant-to-document binding.
+
+Bank or card access does not, without further evidence, establish completed age of at least 30.
+
+Test purchasing is an evaluation method, not an admission credential route.
+
+Authoritative evidence can still fail through forgery, binding defects, issuer error, or credential lending.
+
+A valid age threshold can remain true while credential status, holder binding, or contextual acceptance changes.
+
+Non-facial is not necessarily non-camera or accessible.
+
+Challenge thresholds require boundary-specific evaluation, not extrapolation.
+
+A facial route must remain optional. Non-camera alternatives belong in initial route design, not only at the end of a facial-first evaluation sequence.
+
+Evaluation protocol
+The attachment contains placeholder acceptance targets and proposes testing against NIST datasets without establishing that those datasets are available to Hearthline. It also uses “no statistically significant disparity” as a fairness target and combines presentation and injection attack concerns under liveness. 
+
+Required corrections:
+
+Approve finite targets and confidence methods before procurement or testing.
+
+Identify lawful, actually available datasets.
+
+Report referral separately from final exclusion.
+
+Include capture failure, fallback completion, recovery, and appeal.
+
+Treat retries and contribution limits explicitly.
+
+Separate PAD, IAD, protocol binding, replay resistance, and holder binding.
+
+Do not interpret an insignificant statistical result as demonstrated equality.
+
+Evaluate outcome differences with effect sizes, uncertainty, and sufficient coverage.
+
+Keep subgroup research separate from operational eligibility data.
+
+No participant recruitment, vendor integration, or live-data pilot is authorized by these notes.
+
+7. Digital-loneliness and pre-AR research
+The attachment contains both negative and positive accounts of digital interaction, but sometimes turns associations into broad claims about displacement and treats offline connection as the preferred endpoint. It also proposes “closed affordances” and progressively unlocked expression. These need qualification before becoming product requirements. 
+
+Continue with a qualified evidence map:
+
+Substitution, supplementation, and stimulation are separate possibilities.
+
+Online relationships can be meaningful ends in themselves.
+
+Remote access must not be treated as inferior participation.
+
+“Presence erosion” remains a construct to verify, not a diagnosis.
+
+Do not assume the three-factor instrument measures presence erosion.
+
+Check populations, age ranges, study design, confounding, and causal limits.
+
+Do not infer loneliness from member activity.
+
+Do not make sensor-rich embodiment a prerequisite for connection.
+
+The initial workspace study should ask whether participants can understand, author, revise, stop, clear, and selectively share their expression—not whether the workspace “solves loneliness.”
+
+Bounded interaction options may be studied, but they must not suppress accessible free expression or create a trust-based unlocking system.
+
+8. Evidence and release discipline
+For every material claim, preserve the research program’s evidence fields: source, date, version, population or jurisdiction, method, scope, uncertainty, conflicting evidence, review owner, and next review trigger.
+
+Label outcomes separately:
+
+Verified evidence.
+
+Proposed design.
+
+Implemented behavior.
+
+Executed test results.
+
+Remaining limitations.
+
+Release blockers.
+
+The attachment is a source artifact to inspect—not independent corroboration of the works it cites.
+
+9. Immediate continuation order
+Before generating Section 11:
+
+Freeze the corrected permission contract and apply the Section 7 count amendment.
+
+Record the issuance/consumption and active-session gaps as release blockers.
+
+Define feature-specific policy without assuming shared-fragment mutuality.
+
+Decide which attestation claims are structural, evidence-backed, or integration-tested.
+
+Preserve the Arizona-first research scope and quarantine unverified attachment conclusions.
+
+Plan an executable compilation and test harness for the existing files.
+
+No additional feature should be enabled merely because its remaining documentation or attestation wrapper has been generated.
