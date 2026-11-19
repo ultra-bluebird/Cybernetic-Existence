@@ -1,0 +1,28 @@
+[package]
+name = "corridor-calibration-node"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.86"
+description = "Privacy-minimizing distributed temperature and humidity corridor calibration"
+license = "MIT OR Apache-2.0"
+publish = false
+
+[lib]
+name = "corridor_calibration_node"
+path = "src/lib.rs"
+
+[[bin]]
+name = "corridor-calibration-node"
+path = "src/main.rs"
+
+[dependencies]
+
+[lints.rust]
+unsafe_code = "forbid"
+missing_debug_implementations = "warn"
+missing_docs = "warn"
+
+[lints.clippy]
+all = "warn"
+pedantic = "warn"
+nursery = "warn"

@@ -1,0 +1,30 @@
+[package]
+name = "cybernetic-host-governance"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.85"
+description = "Non-certifying, privacy-preserving governance contracts for voluntary identity acknowledgment."
+license = "MIT OR Apache-2.0"
+readme = "README.md"
+keywords = [
+    "governance",
+    "privacy",
+    "identity",
+    "accessibility",
+    "consent"
+]
+categories = [
+    "accessibility",
+    "data-structures",
+    "no-std",
+    "simulation"
+]
+publish = false
+
+[lib]
+name = "cybernetic_host_governance"
+path = "src/lib.rs"
+
+[features]
+default = []
+std = []

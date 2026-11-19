@@ -1,0 +1,44 @@
+{
+  "registry_version": "CipherSuiteRegistry.v1",
+  "policy_version": "crypto-policy-v1",
+  "policy_epoch": 2,
+  "minimum_security_rank": 100,
+  "minimum_protocol_version": 1,
+  "suites": [
+    {
+      "suite_id": "ASCON_AEAD128_V1",
+      "protocol_version": 1,
+      "aead_algorithm": "Ascon-AEAD128",
+      "hash_algorithm": "Ascon-Hash256",
+      "key_bits": 128,
+      "nonce_bits": 128,
+      "tag_bits": 128,
+      "security_rank": 100,
+      "status": "active",
+      "activation_epoch": 1,
+      "sunset_epoch": null,
+      "implementation_digest_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "sbom_reference": "sbom:crypto-agility:ascon-v1",
+      "evidence_manifest_reference": "evidence:crypto-agility:ascon-v1"
+    },
+    {
+      "suite_id": "ASCON_AEAD128_LEGACY",
+      "protocol_version": 1,
+      "aead_algorithm": "Ascon-AEAD128",
+      "hash_algorithm": "Ascon-Hash256",
+      "key_bits": 128,
+      "nonce_bits": 128,
+      "tag_bits": 128,
+      "security_rank": 100,
+      "status": "decrypt_only",
+      "activation_epoch": 1,
+      "sunset_epoch": 10,
+      "implementation_digest_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "sbom_reference": "sbom:crypto-agility:legacy",
+      "evidence_manifest_reference": "evidence:crypto-agility:legacy"
+    }
+  ],
+  "registry_payload_hash_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+  "sbom_reference": "sbom:crypto-agility:registry",
+  "evidence_manifest_reference": "evidence:crypto-agility:registry"
+}

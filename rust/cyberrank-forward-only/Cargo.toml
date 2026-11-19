@@ -1,0 +1,28 @@
+[package]
+name = "cyberrank-forward-only"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.85"
+license = "MIT OR Apache-2.0"
+description = "Private, forward-only CyberRank progression vocabulary with non-interference and non-public-use safeguards."
+readme = "README.md"
+keywords = [
+    "privacy",
+    "consent",
+    "non-interference",
+    "progression",
+    "governance",
+]
+categories = [
+    "data-structures",
+    "no-std",
+]
+
+[lib]
+path = "src/lib.rs"
+
+[dependencies]
+serde = { version = "1.0.120", features = ["derive"] }
+
+[dev-dependencies]
+serde_json = "1.0.120"

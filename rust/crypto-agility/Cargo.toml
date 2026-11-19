@@ -1,0 +1,30 @@
+[package]
+name = "augmented-hub-crypto-agility"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.86"
+license = "MIT OR Apache-2.0"
+description = "Policy-only cipher-suite registry, anti-downgrade selection, and key-rotation validation for Augmented-Hub."
+repository = "https://github.com/mk-bluebird/Augmented-Hub"
+publish = false
+
+[lib]
+name = "augmented_hub_crypto_agility"
+path = "src/lib.rs"
+
+[[bin]]
+name = "crypto-agility-inspect"
+path = "src/main.rs"
+
+[dependencies]
+serde_json = "1.0.120"
+
+[lints.rust]
+unsafe_code = "forbid"
+missing_debug_implementations = "warn"
+missing_docs = "warn"
+
+[lints.clippy]
+all = "warn"
+pedantic = "warn"
+nursery = "warn"

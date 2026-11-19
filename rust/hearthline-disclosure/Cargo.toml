@@ -1,0 +1,29 @@
+[package]
+name = "hearthline-disclosure"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.85"
+description = "Privacy-preserving disclosure contracts for Hearthline recovery-context presentation."
+license = "MIT OR Apache-2.0"
+readme = "README.md"
+keywords = [
+    "privacy",
+    "consent",
+    "disclosure",
+    "credentials",
+    "hearthline"
+]
+categories = [
+    "authentication",
+    "cryptography",
+    "data-structures",
+    "web-programming"
+]
+publish = false
+
+[lib]
+name = "hearthline_disclosure"
+path = "src/lib.rs"
+
+[features]
+default = []

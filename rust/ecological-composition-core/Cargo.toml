@@ -1,0 +1,27 @@
+[package]
+name = "ecological-composition-core"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.85"
+license = "MIT OR Apache-2.0"
+description = "Bounded ecological model composition and small-gain assurance primitives."
+readme = "README.md"
+keywords = [
+    "ecology",
+    "model-composition",
+    "small-gain",
+    "assurance",
+    "decision-support",
+]
+categories = [
+    "science",
+    "mathematics",
+    "simulation",
+]
+
+[lib]
+path = "src/lib.rs"
+
+[dependencies]
+
+[dev-dependencies]
