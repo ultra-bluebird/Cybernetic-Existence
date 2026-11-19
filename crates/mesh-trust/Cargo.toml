@@ -1,0 +1,20 @@
+[package]
+name = "mesh-trust"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.85"
+description = "Bounded local classification of mesh-neighbor capabilities from local signals."
+license = "MIT OR Apache-2.0"
+publish = false
+
+[lib]
+name = "mesh_trust"
+path = "src/lib.rs"
+
+[lints.rust]
+unsafe_code = "forbid"
+missing_docs = "warn"
+
+[lints.clippy]
+all = "warn"
+pedantic = "warn"

@@ -1,0 +1,9 @@
+[package]
+name = "nanorobotics-neuroshield"
+version = "0.1.0"
+edition = "2024"
+license = "MIT OR Apache-2.0"
+description = "Neurorights-aware pain/fear shield LUT generator for nanoswarm control"
+repository = "https://github.com/mk-bluebird/nanorobotics.git"
+
+[dependencies]

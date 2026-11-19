@@ -1,0 +1,9 @@
+[package]
+name = "nanorobotics-guardmesh"
+version = "0.1.0"
+edition = "2024"
+license = "MIT OR Apache-2.0"
+description = "Sovereignty guard mesh configuration and Brake decision logic"
+repository = "https://github.com/mk-bluebird/nanorobotics.git"
+
+[dependencies]

@@ -1,0 +1,27 @@
+[package]
+name = "multi-organ-ssm-ph-core"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.85"
+license = "MIT OR Apache-2.0"
+description = "Host-sovereign multiorgan SSM and PH evidence core for unknown-region upgrades in nanorobotics."
+repository = "https://github.com/mk-bluebird/nanorobotics"
+readme = false
+publish = false
+
+[package.metadata]
+aln.migration.authority = "ALN.MIGRATION.CYBERCORE_AUTHORITY.v1"
+host.did = "did.aln.organic-host"
+bostrom.address = "bostrom18sd2ujv24ual9c9pshtxys6j8knh6xaead9ye7"
+
+[lib]
+name = "multi_organ_ssm_ph_core"
+path = "src/lib.rs"
+crate-type = ["rlib"]
+
+[dependencies]
+alloc = { package = "alloc-no-std", version = "0.1", default-features = false, optional = false }
+
+[features]
+default = []
+std = []

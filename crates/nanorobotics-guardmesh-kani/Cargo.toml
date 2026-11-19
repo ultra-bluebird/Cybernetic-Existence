@@ -1,0 +1,13 @@
+[package]
+name = "nanorobotics-guardmesh-kani"
+version = "0.1.0"
+edition = "2024"
+license = "MIT OR Apache-2.0"
+description = "Kani proof harnesses for sovereignty guard mesh decisions."
+repository = "https://github.com/mk-bluebird/nanorobotics.git"
+
+[dependencies]
+nanorobotics-guardmesh = { path = "../nanorobotics-guardmesh" }
+
+[dev-dependencies]
+kani = "0.56.0"

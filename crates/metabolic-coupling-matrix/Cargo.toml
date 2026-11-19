@@ -1,0 +1,33 @@
+[package]
+name = "metabolic-coupling-matrix"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.85"
+license = "MIT OR Apache-2.0"
+authors = ["mk-bluebird <host@mk-bluebird>"]
+description = "Metabolic coupling matrix Λ mapping nanoswarm activity into host metabolic axes with corridor guards."
+readme = "README.md"
+repository = "https://github.com/mk-bluebird/nanorobotics"
+keywords = ["nanorobotics", "metabolic", "matrix", "safety"]
+categories = ["science", "simulation"]
+publish = false
+
+[lib]
+name = "metabolic_coupling_matrix"
+path = "src/lib.rs"
+crate-type = ["rlib"]
+
+[dependencies]
+serde = { version = "1.0.203", features = ["derive"] }
+
+[dev-dependencies]
+serde_json = { version = "1.0.120" }
+
+[features]
+default = []
+kani = []
+
+[package.metadata.kani]
+version = "0.67.0"
+enable = true
+tests = true

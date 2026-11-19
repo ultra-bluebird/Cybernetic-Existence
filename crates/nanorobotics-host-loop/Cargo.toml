@@ -1,0 +1,21 @@
+[package]
+name = "nanorobotics-host-loop"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.85"
+license = "MIT OR Apache-2.0"
+authors = ["mk-bluebird <host@cybercore>"]
+description = "Host-local nanorobotics control loop using AFM and motion hardware driven by swarm command envelopes."
+repository = "https://github.com/mk-bluebird/nanorobotics.git"
+
+[dependencies]
+serde = { version = "1.0.203", features = ["derive"] }
+serde_json = { version = "1.0.120" }
+anyhow = "1.0.86"
+tokio = { version = "1.40.0", features = ["rt-multi-thread", "macros"] }
+
+afm-control = { path = "../afm-control" }
+swarm-intelligence = { path = "../swarm-intelligence" }
+
+[dev-dependencies]
+kani = { version = "0.56.0" }

@@ -1,0 +1,40 @@
+
+[package]
+name = "nanorobotics-ledger"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.85"
+license = "MIT OR Apache-2.0"
+description = "Nanoswarm-centric ledger for Nano-Tree: nanoswarm events, state records, and host-facing metrics"
+repository = "https://github.com/mk-bluebird/Nano-Tree"
+authors = ["mk-bluebird <dev@mk-bluebird>"]
+readme = "README.md"
+
+[lib]
+name = "nanorobotics_ledger"
+path = "src/lib.rs"
+
+[[bin]]
+name = "nanorobotics_ledger_cli"
+path = "src/main.rs"
+
+[dependencies]
+anyhow = "1.0.86"
+thiserror = "1.0.61"
+serde = { version = "1.0.203", features = ["derive"] }
+serde_json = "1.0.120"
+chrono = { version = "0.4.38", default-features = false, features = ["clock", "serde"] }
+uuid = { version = "1.9.1", features = ["v4", "serde"] }
+
+# Shared types for Nano-Tree and CyberFS (we assume a sister crate `nanorobotics-types` exists).
+nanorobotics-types = { path = "../crates/nanorobotics-types" }
+
+[dev-dependencies]
+kani-verifier = "0.67.0"
+
+[features]
+default = ["std"]
+std = []
+
+[package.metadata.kani]
+config = "kani.conf"

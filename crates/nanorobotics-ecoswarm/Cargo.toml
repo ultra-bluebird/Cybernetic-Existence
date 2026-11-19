@@ -1,0 +1,9 @@
+[package]
+name = "nanorobotics-ecoswarm"
+version = "0.1.0"
+edition = "2024"
+license = "MIT OR Apache-2.0"
+description = "Eco-aware nanoswarm mission planning primitives"
+repository = "https://github.com/mk-bluebird/nanorobotics.git"
+
+[dependencies]

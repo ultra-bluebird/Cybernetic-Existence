@@ -1,0 +1,15 @@
+[package]
+name = "nanorobotics-metrics"
+version = "0.1.0"
+edition = "2024"
+license = "MIT OR Apache-2.0"
+description = "Prometheus metrics for nanoswarm observability, guard enforcement, and CI gating."
+repository = "https://github.com/mk-bluebird/nanorobotics"
+
+[dependencies]
+nanorobotics-core = { path = "../nanorobotics-core", version = "0.1.0" }
+prometheus = { workspace = true }
+once_cell = { workspace = true }
+serde = { workspace = true }
+
+[dev-dependencies]
