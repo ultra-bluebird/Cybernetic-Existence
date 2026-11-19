@@ -1,0 +1,51 @@
+policy fog_accessibility_audit_v2 {
+  version = "2"
+  classification = "governance_policy"
+  advisory_only = true
+  non_actuating = true
+
+  data_class {
+    name = "fog_accessibility_template_audit"
+    purpose = "evaluate correction-path readability and assistive-technology compatibility"
+    consent_scope = "template and interface condition data only"
+    retention = "minimum necessary audit metadata"
+    deletion = "according to documented template audit retention policy"
+  }
+
+  accessibility {
+    require plain_language_status
+    require human_review_path
+    require keyboard_navigation_test
+    require screen_reader_semantics_test
+    require non_visual_status_equivalence
+    require no_forced_time_limit
+    require offline_text_availability
+    require accessible_alternative_to_visual_only_representation
+    require community_review_for_non_default_language_variants
+    forbid composite_score_compensation_for_essential_access_failure
+  }
+
+  privacy {
+    forbid personal_data_collection
+    forbid identity_inference
+    forbid disability_inference
+    forbid assistive_device_tracking
+    forbid biometric_collection
+    forbid visitor_history
+    forbid individual_literacy_assessment
+  }
+
+  multilingual_support {
+    require locale_tag
+    require community_review_status_for_translated_templates
+    forbid automatic_claim_of_translation_equivalence
+  }
+
+  accountability {
+    require template_version
+    require audit_result
+    require simulation_profile
+    require evidence_digest
+    require review_status
+  }
+}

@@ -1,0 +1,218 @@
+@SHARD "DECLARED-RECORD-CONTINUITY-AND-RECOVERY" {
+
+  @meta {
+    version: "1.0.0"
+    scope: "local_declared_record_continuity_and_reconstructive_artifact_recovery"
+    audience: "local_validators_recovery_tools_session_agents_and_governance_reviewers"
+    consent_basis: "user_sovereign_default"
+    retention: "declared_audit_window_only"
+    accountability: "local_record_integrity_owner"
+    review_status: "draft_for_user_review"
+    operating_mode: "local_only_research_advisory"
+  }
+
+  @CONTINUITY_SCOPE {
+    continuity_subject: "declared_local_artifact_records"
+
+    continuity_does_not_establish: [
+      "identity_verification",
+      "legal_identity",
+      "biometric_identity",
+      "neural_or_brain_binding",
+      "medical_status",
+      "physiological_status",
+      "institutional_status",
+      "cyberrank_verification",
+      "continuity_of_a_real_world_person",
+      "continuity_of_a_real_world_system",
+      "system_existence_proof"
+    ]
+
+    no_identity_disclosure_required: true
+    no_identity_proof_required: true
+    no_private_reference_required: true
+    missing_private_reference_must_not_block_access_or_recovery: true
+  }
+
+  @DECLARED_RECORD_CONTINUITY {
+    hash_algorithm: "sha256"
+    canonicalization_required: true
+
+    record_requires: [
+      "record_kind",
+      "record_version",
+      "declared_role",
+      "artifact_sha256",
+      "change_record",
+      "review_status"
+    ]
+
+    transition_requires: [
+      "prior_record_sha256",
+      "result_record_sha256",
+      "change_kind",
+      "declared_purpose",
+      "policy_version",
+      "review_status"
+    ]
+
+    result_states: [
+      "declared_record_continuity_complete",
+      "declared_record_continuity_incomplete",
+      "declared_record_continuity_not_established"
+    ]
+
+    continuity_result_is_local_provenance_only: true
+    continuity_result_is_not_person_status: true
+  }
+
+  @OPTIONAL_PRIVATE_CONTINUITY_REFERENCE {
+    permitted: true
+    required: false
+    disclosure: "voluntary_private_and_minimal"
+
+    permitted_meaning: [
+      "user_controlled_local_context_label",
+      "private_communication_preference_reference",
+      "private_continuity_boundary_reference"
+    ]
+
+    prohibited_meaning: [
+      "neural_binding",
+      "brain_binding",
+      "biometric_binding",
+      "medical_verification",
+      "institutional_authentication",
+      "identity_verification",
+      "eligibility_criterion",
+      "ranking_criterion"
+    ]
+
+    must_not_be_used_for: [
+      "access_restriction",
+      "trusted_source_priority",
+      "quarantine_decision",
+      "recovery_decision",
+      "external_action",
+      "public_registry"
+    ]
+  }
+
+  @QUARANTINE_PRESERVATION {
+    quarantine_status: "quarantined_not_authoritative"
+    quarantine_does_not_delete: true
+    quarantine_does_not_modify_original: true
+    quarantine_does_not_overwrite_source: true
+    quarantine_copy_requires_sha256_match: true
+    quarantine_copy_read_only_for_recovery_tool: true
+    user_may_inspect_original_and_copy_offline: true
+    quarantine_is_not_person_status: true
+  }
+
+  @RECONSTRUCTIVE_RECOVERY {
+    rebuild_requires: [
+      "declared_legitimate_source_set",
+      "source_kind_declared",
+      "source_reference_declared",
+      "source_sha256_declared",
+      "declared_role_present",
+      "source_session_link_valid",
+      "rebuilt_artifact_sha256_recorded",
+      "rebuilt_artifact_revalidated"
+    ]
+
+    permitted_rebuild_sources: [
+      "session_policy_shard",
+      "repository_file",
+      "corpus_prior_artifact",
+      "user_supplied_attachment",
+      "user_supplied_message"
+    ]
+
+    prohibited_trusted_rebuild_sources: [
+      "quarantined_artifact",
+      "undeclared_external_return",
+      "unattributed_url_content",
+      "unattributed_prompt_block",
+      "automatically_fetched_reference"
+    ]
+
+    rebuild_must_not: [
+      "modify_original_artifact",
+      "delete_original_artifact",
+      "silently_replace_history",
+      "treat_quarantined_content_as_trusted_source",
+      "auto_fetch_external_content",
+      "auto_execute_artifact_content",
+      "trigger_external_action",
+      "infer_user_identity_intent_or_capability"
+    ]
+
+    rebuilt_result_status: "rebuilt_from_declared_legitimate_sources"
+    rebuilt_result_authority_scope: "declared_local_task_only_non_authoritative_elsewhere"
+  }
+
+  @RECOVERY_RECORD {
+    required_fields: [
+      "quarantined_artifact_sha256",
+      "quarantine_copy_sha256",
+      "rebuilt_artifact_sha256",
+      "declared_source_set_sha256",
+      "source_records",
+      "policy_version",
+      "validator_version",
+      "integrity_status",
+      "recovery_status",
+      "plain_language_summary"
+    ]
+
+    required_non_claims: [
+      "not_identity_verification",
+      "not_person_continuity_proof",
+      "not_neural_or_brain_binding",
+      "not_medical_or_biometric_assessment",
+      "not_external_action_authorization",
+      "not_person_or_session_ranking"
+    ]
+  }
+
+  @ACCESS_EQUIVALENCE {
+    plain_language_summary_required: true
+    machine_readable_record_required: true
+    offline_readable: true
+    no_account_required: true
+    no_identity_verification_required: true
+    no_disclosure_required_for_recovery: true
+    no_correction_required_for_recovery: true
+    correction_and_appeal_available: true
+    material_change_review_available: true
+  }
+
+  @NON_INTERFERENCE {
+    never_modify_user_owned_files: true
+    never_modify_repository_files: true
+    never_contact_external_services: true
+    never_auto_fetch_references: true
+    never_auto_execute_artifact_content: true
+    never_trigger_external_action: true
+    never_trigger_external_notification: true
+    never_rank_users_sessions_or_artifacts: true
+    never_infer_identity_intent_or_capability: true
+  }
+
+  @PROHIBITED_USES {
+    list: [
+      "identity_verification",
+      "brain_or_neural_binding_claim",
+      "biometric_or_medical_inference",
+      "public_continuity_registry",
+      "user_or_session_scoring",
+      "eligibility_determination",
+      "diagnosis",
+      "automatic_external_action",
+      "automatic_repository_modification",
+      "deletion_of_quarantined_original_by_default",
+      "use_of_quarantined_artifact_as_trusted_rebuild_source"
+    ]
+  }
+}

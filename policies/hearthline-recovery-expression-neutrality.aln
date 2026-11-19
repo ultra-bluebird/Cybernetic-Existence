@@ -1,0 +1,58 @@
+policy HearthlineRecoveryExpressionNeutrality version "2026-09-16" {
+
+  invariant recovery_expression_is_not_a_person_judgment {
+    require recovery_expression.used_as_virtue_signal == false
+    require recovery_expression.used_as_honesty_signal == false
+    require recovery_expression.used_as_safety_signal == false
+    require recovery_expression.used_as_relationship_readiness_signal == false
+    require recovery_expression.used_as_social_worth_signal == false
+  }
+
+  invariant claim_format_has_no_connection_advantage {
+    require recovery_expression.affects_candidate_rank == false
+    require recovery_expression.affects_candidate_visibility == false
+    require recovery_expression.affects_message_access == false
+    require recovery_expression.affects_waypoint_access == false
+    require recovery_expression.affects_capability_access == false
+    require recovery_expression.affects_lantern_state == false
+  }
+
+  invariant recipient_filtering_and_requests_are_prohibited {
+    require interface.recovery_expression_filter_available == false
+    require interface.recovery_duration_filter_available == false
+    require interface.recovery_verification_filter_available == false
+    require interface.request_recovery_proof_available == false
+    require interface.compare_recovery_presentations_available == false
+  }
+
+  invariant silence_has_no_negative_interpretation {
+    when recovery_expression.mode(expression_ref) == NONE
+    require profile.silence_label_visible(subject_ref) == false
+    require matching.rank_penalty(subject_ref) == 0
+    require discovery.visibility_penalty(subject_ref) == 0
+  }
+
+  invariant presentation_is_private_and_time_bound {
+    when recovery_expression.presentation_created(presentation_ref)
+    require recovery_expression.recipient_scoped(presentation_ref) == true
+    require recovery_expression.public_visibility(presentation_ref) == false
+    require recovery_expression.expiry_present_or_holder_controlled(
+      presentation_ref
+    ) == true
+  }
+
+  invariant platform_does_not_issue_recovery_attestations {
+    require hearthline.recovery_claim_issuer_enabled == false
+    require hearthline.recovery_duration_certifier_enabled == false
+    require hearthline.recovery_status_registry_enabled == false
+  }
+
+  invariant platform_handles_conduct_not_recovery_doctrine {
+    require safety.enforces_consent_and_conduct_boundaries == true
+    require safety.enforces_recovery_method_doctrine == false
+  }
+
+  invariant non_actuation {
+    require recovery_expression.external_action_authorized == false
+  }
+}

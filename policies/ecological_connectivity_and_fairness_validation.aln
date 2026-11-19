@@ -1,0 +1,116 @@
+policy ecological_connectivity_and_fairness_validation_v1 {
+  policy_type "eco_restoration_measurement_and_rights_constraint"
+  review_status "candidate_for_review"
+
+  ecological_measurement {
+    allowed_purposes [
+      "habitat_quality_assessment",
+      "wildlife_connectivity_planning",
+      "riparian_restoration_planning",
+      "pollinator_habitat_planning",
+      "aquatic_habitat_monitoring",
+      "environmental_impact_review"
+    ]
+
+    required_evidence [
+      "species_or_functional_group_scope",
+      "habitat_condition_provenance",
+      "uncertainty_statement",
+      "methodology_version",
+      "field_validation_status",
+      "community_and_ecological_review_status"
+    ]
+
+    prohibited_claims [
+      "unqualified_species_presence_claim",
+      "guaranteed_population_outcome",
+      "ecological_benefit_without_measurement",
+      "use_of_ecological_claim_to_reduce_human_rights_or_access"
+    ]
+
+    review_requirements [
+      "ecologist_or_qualified_reviewer",
+      "water_and_soil_review_when_applicable",
+      "native_plant_and_habitat_review",
+      "community_accessibility_review"
+    ]
+  }
+
+  habitat_connectivity {
+    data_classes [
+      "aggregate_habitat_patch_data",
+      "water_quality_metrics",
+      "vegetation_condition_metrics",
+      "barrier_inventory",
+      "noninvasive_species_observations",
+      "seasonal_environmental_measurements"
+    ]
+
+    prohibited_data_classes [
+      "personal_identity_data",
+      "biometric_surveillance_of_people",
+      "individual_route_tracking",
+      "human_behavioral_profiling"
+    ]
+
+    publication {
+      require_uncertainty_statement true
+      require_spatial_precision_review true
+      require_sensitive_species_protection true
+    }
+  }
+
+  fairness_validation {
+    technical_scope "system_input_output_and_access_behavior"
+
+    prohibited_decision_inputs [
+      "claimed_identity",
+      "identity_status",
+      "augmentation_status",
+      "cybernetic_host_status",
+      "assistive_technology_status",
+      "biometric_information",
+      "neural_information",
+      "health_information",
+      "disability_related_information",
+      "private_learning_continuity_information",
+      "absence_of_optional_telemetry",
+      "absence_of_external_identity_verification"
+    ]
+
+    required_access_invariants [
+      "essential_service_access_not_contingent_on_identity_verification",
+      "accessibility_accommodation_available_by_voluntary_preference",
+      "appeal_and_correction_path_accessible",
+      "no_identity_linked_ecological_score",
+      "no_identity_linked_credibility_score",
+      "no_identity_linked_service_priority_reduction"
+    ]
+
+    self_description {
+      permitted true
+      voluntary true
+      external_certification_required false
+      use "respectful_interaction_and_interface_presentation_only"
+    }
+
+    unknown_or_unverified_identity_handling {
+      action "provide_equal_default_service_and_accessible_options"
+      identity_inference_prohibited true
+      adverse_action_prohibited true
+      explanation "The system does not need to determine whether a self-description is traditionally verifiable in order to preserve equal access, dignity, privacy, or voluntary accommodation."
+    }
+  }
+
+  legal_boundary {
+    statement "This policy is an Augmented-Hub technical governance framework. It is not a statement of binding law or a legal determination."
+    jurisdiction_specific_review_required true
+  }
+
+  accountability {
+    policy_receipt_required true
+    human_review_required true
+    accessible_appeal_or_correction_path "accessible-grievance-protocol"
+    external_action_status "requires_separate_approval"
+  }
+}

@@ -1,0 +1,9 @@
+stateDiagram-v2
+    [*] --> RECEIVED
+    RECEIVED --> HUMAN_REVIEW_REQUIRED: U > theta_U OR K < K_min OR R > R_max
+    RECEIVED --> LOCAL_PENDING: thresholds not exceeded and local queue has capacity
+    LOCAL_PENDING --> EXPIRED: retention boundary reached
+    HUMAN_REVIEW_REQUIRED --> HUMAN_DECISION_RECORDED: reviewer signature and decision
+    HUMAN_DECISION_RECORDED --> RETAINED_WITHHELD: signed decision recorded
+    RETAINED_WITHHELD --> [*]
+    EXPIRED --> [*]

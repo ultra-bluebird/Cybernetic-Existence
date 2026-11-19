@@ -1,0 +1,52 @@
+aln_version: "2"
+policy_class: "forward_progress_research_governance"
+purpose_scope:
+  allow:
+    - ecological_research
+    - model_assurance
+    - evidence_governance
+    - privacy_preserving_provenance
+    - accessibility_assurance
+    - decision_support
+  deny:
+    - public_identity_or_credibility_ranking
+    - identity_inference_from_language_or_metadata
+    - cyberrank_as_public_status_or_eligibility
+    - autonomous_high_consequence_action
+    - unsupported_real_world_control_claim
+    - automatic_relaxation_of_hard_floors
+    - coercive_or_financialized_participation
+priority_order:
+  - interaction_scope_continuity_and_consent
+  - evidence_provenance_reproducibility_and_validation
+  - shared_corridor_and_residual_invariants
+  - telemetry_quality_observability_and_fusion
+  - uncertainty_and_model_assurance
+  - coupled_nexus_feasibility
+  - local_ecological_calibration
+  - advanced_learning_and_governance_extensions
+implementation_requirements:
+  typed_contract_required: true
+  provenance_record_required: true
+  local_validation_required: true
+  uncertainty_statement_required: true
+  accessible_explanation_required: true
+  correction_and_appeal_required: true
+  material_change_review_required: true
+  external_action_requires_explicit_approval: true
+social_influence_review:
+  agenda_setting_documentation_required: true
+  measurement_coverage_review_required: true
+  model_weight_disclosure_required: true
+  participation_access_review_required: true
+  concentration_risk_review_required: true
+  privacy_and_retention_review_required: true
+  automation_bias_review_required: true
+  corrective_burden_measurement_required: true
+model_boundaries:
+  model_outputs_are_decision_support_only: true
+  model_control_category_error_prohibited: true
+  out_of_domain_result_is_indeterminate: true
+  false_safe_result_prohibits_proceed: true
+review:
+  status: "draft_for_scientific_accessibility_community_and_operations_review"

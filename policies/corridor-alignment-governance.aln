@@ -1,0 +1,34 @@
+policy CorridorAlignmentGovernance version "2026-09-17" {
+
+  invariant corridor_inputs_are_environmental_or_aggregate {
+    require corridor.named_person_input_allowed == false
+    require corridor.device_identifier_input_allowed == false
+    require corridor.face_image_input_allowed == false
+    require corridor.voiceprint_input_allowed == false
+    require corridor.travel_history_profile_input_allowed == false
+    require corridor.identity_inference_allowed == false
+  }
+
+  invariant alignment_respects_quality_and_uncertainty {
+    require corridor.measurement_uncertainty_required == true
+    require corridor.drift_tolerance_required == true
+    require corridor.stale_reading_weight == 0
+    require corridor.out_of_range_reading_weight == 0
+    require corridor.reference_mismatch_weight == 0
+    require corridor.drift_alert_reading_weight == 0
+  }
+
+  invariant corridor_result_reports_limits {
+    require corridor.contributing_sensor_count_reported == true
+    require corridor.excluded_sensor_count_reported == true
+    require corridor.uncertainty_proxy_reported == true
+    require corridor.review_required_flag_reported == true
+  }
+
+  invariant corridor_results_are_not_person_decisions {
+    require corridor.person_level_access_decision_allowed == false
+    require corridor.person_level_enforcement_decision_allowed == false
+    require corridor.person_level_ranking_allowed == false
+    require corridor.external_action_authorized == false
+  }
+}

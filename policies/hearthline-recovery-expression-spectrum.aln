@@ -1,0 +1,72 @@
+policy HearthlineRecoveryExpressionSpectrum version "2026-09-16" {
+
+  invariant all_modes_have_equal_platform_access {
+    require recovery_expression.mode_affects_matching == false
+    require recovery_expression.mode_affects_ranking == false
+    require recovery_expression.mode_affects_profile_visibility == false
+    require recovery_expression.mode_affects_message_access == false
+    require recovery_expression.mode_affects_capability_access == false
+    require recovery_expression.mode_affects_lantern_state == false
+  }
+
+  invariant recovery_expression_is_private_and_scoped {
+    when recovery_expression.presentation_requested(expression_ref)
+    require recovery_expression.user_initiated(expression_ref) == true
+    require recovery_expression.recipient_scope_present(expression_ref) == true
+    require recovery_expression.purpose_scope_present(expression_ref) == true
+    require recovery_expression.public_visibility(expression_ref) == false
+  }
+
+  invariant none_never_creates_negative_signal {
+    when recovery_expression.mode(expression_ref) == NONE
+    require matching.visibility_penalty(subject_ref) == 0
+    require matching.rank_penalty(subject_ref) == 0
+    require profile.disclosure_absence_label_visible(subject_ref) == false
+  }
+
+  invariant self_commitment_does_not_certify_claim_truth {
+    when recovery_expression.mode(expression_ref) == TIME_BOUND_COMMITMENT
+    require recovery_expression.claim_truth_certified(expression_ref) == false
+    require recovery_expression.predicate(expression_ref) ==
+      COMMITMENT_EXISTS_BEFORE_THRESHOLD
+  }
+
+  invariant consistency_does_not_certify_recovery_status {
+    when recovery_expression.mode(expression_ref) == CONSISTENCY_PRESENTATION
+    require recovery_expression.claim_truth_certified(expression_ref) == false
+    require identity.recovery_status_inference_allowed == false
+    require lantern.recovery_status_inference_allowed == false
+  }
+
+  invariant attestations_are_optional_and_context_bound {
+    when recovery_expression.mode(expression_ref) == OPTIONAL_ISSUER_ATTESTATION
+    require recovery_expression.required_for_access(expression_ref) == false
+    require recovery_expression.required_for_matching(expression_ref) == false
+    require recovery_expression.issuer_globally_ranked == false
+    require recovery_expression.issuer_context_declared(expression_ref) == true
+  }
+
+  invariant vouches_are_non_surveillance_presentations {
+    when recovery_expression.mode(expression_ref) == OPTIONAL_VOUCH
+    require recovery_expression.supporter_learns_recipient(expression_ref) == false
+    require recovery_expression.supporter_has_profile_access(expression_ref) == false
+    require recovery_expression.supporter_has_message_access(expression_ref) == false
+  }
+
+  invariant recipients_cannot_request_proof {
+    require interface.recipient_proof_request_available == false
+    require interface.proof_comparison_available == false
+    require interface.proof_filter_available == false
+  }
+
+  invariant no_recovery_hierarchy_is_created {
+    require interface.public_recovery_badge_available == false
+    require interface.recovery_duration_sort_available == false
+    require interface.recovery_duration_filter_available == false
+    require interface.recovery_duration_candidate_card_available == false
+  }
+
+  invariant recovery_expression_is_non_actuating {
+    require recovery_expression.external_action_authorized == false
+  }
+}

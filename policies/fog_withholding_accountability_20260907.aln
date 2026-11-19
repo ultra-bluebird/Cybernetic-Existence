@@ -1,0 +1,174 @@
+aln_version 2
+particle FogWithholdingAccountability20260907
+data_class fog_withholding_correction_and_boundary_accountability
+purpose [
+  erroneous_withhold_correction,
+  accessible_redress,
+  independent_human_review,
+  advisory_boundary_enforcement,
+  privacy_minimized_accountability_metrics
+]
+mode advisory_only
+external_action_approval required
+review_status human_review_required
+
+governance {
+  human_fallback required
+  correction_path required
+  appeal_path required
+  material_change_review required
+  independent_review_required true
+  access_equivalence required
+  non_interference required
+  cybernetic_host_non_discrimination required
+  augmented_citizen_non_discrimination required
+  identity_inference prohibited
+  health_inference prohibited
+  augmentation_inference prohibited
+  disability_inference prohibited
+  eligibility_inference prohibited
+  public_status_assignment prohibited
+}
+
+withholding_taxonomy {
+  primary_reason_required true
+  require exactly_one_primary_reason
+  allowed_primary_reasons [
+    EVIDENCE_CLASSIFICATION_ERROR,
+    TEMPORAL_WINDOW_ERROR,
+    RESOLUTION_MISMATCH_ERROR,
+    MISSING_EVIDENCE_ERROR,
+    STALE_SENSOR_EVIDENCE,
+    ACCESSIBILITY_COMMUNICATION_FAILURE,
+    LANGUAGE_VARIANT_FAILURE,
+    CORRECTION_PATH_FAILURE,
+    UNAUTHORIZED_ADVISORY_USE,
+    UNDECLARED_FEATURE_USE,
+    PERSONAL_DATA_BOUNDARY_VIOLATION
+  ]
+  reason_rationale_required true
+  reason_rationale_maximum_characters 1000
+  human_review_required true
+}
+
+redress_lifecycle {
+  states [
+    FOG_WITHHELD,
+    EXPLANATION_AVAILABLE,
+    CORRECTION_SUBMITTED,
+    CORRECTION_ACKNOWLEDGED,
+    INDEPENDENT_REVIEW_REQUIRED,
+    REVIEW_IN_PROGRESS,
+    WITHHOLD_CONFIRMED,
+    CORRECTION_APPLIED,
+    SUPERSEDING_OUTCOME_RECORDED,
+    ADDITIONAL_EVIDENCE_REQUIRED,
+    APPEAL_PENDING,
+    CASE_CLOSED_WITH_AUDIT_RECORD
+  ]
+  immutable_original_assessment true
+  append_only_correction_records true
+  opaque_receipt_required true
+  acknowledgement_target_required true
+  review_completion_target_required true
+  reasoned_human_outcome_required true
+  correction_or_superseding_record_required true
+  appeal_available required
+  reporter_retaliation prohibited
+  silent_case_closure prohibited
+}
+
+procedural_accessibility {
+  plain_language_explanation required
+  keyboard_complete_intake required
+  screen_reader_semantics required
+  no_forced_time_limit required
+  community_reviewed_language_variant required
+  human_assisted_submission required
+  offline_or_save_return_path required
+  account_creation_required false
+  identity_proof_required false
+  disability_disclosure_required false
+  augmentation_disclosure_required false
+  personal_data_collection prohibited
+}
+
+non_compensating_redress {
+  required_conditions [
+    ACCESSIBLE_INTAKE,
+    ACKNOWLEDGEMENT,
+    INDEPENDENT_HUMAN_REVIEW,
+    REASONED_OUTCOME,
+    REMEDIATION,
+    APPEAL,
+    AUDIT_RECORD
+  ]
+  forbid metric_compensation_for_essential_failure
+}
+
+advisory_boundary_violation {
+  detection_required true
+  initial_state VIOLATION_DETECTED
+  containment_state USE_CONTAINED_PENDING_REVIEW
+  audit_state AUDIT_CHAIN_EVENT_RECORDED
+  remediation_state HUMAN_REMEDIATION_REVIEW_REQUIRED
+  corrective_action_record_required true
+  material_change_review_required true
+  immutable_violation_record true
+  prohibit silent_resolution
+  prohibit audit_history_deletion
+  prohibit reporter_retaliation
+  prohibit forced_disclosure
+  prohibit automatic_eligibility_decision
+  prohibit automatic_service_denial
+  prohibit automatic_resource_allocation
+  prohibit automatic_enforcement
+  prohibit automatic_clear
+}
+
+metrics {
+  aggregate_only true
+  privacy_minimized true
+  allowed_metrics [
+    CORRECTION_PATH_COMPLETION_RATE,
+    MEDIAN_TIME_TO_HUMAN_ACKNOWLEDGEMENT,
+    MEDIAN_TIME_TO_REVIEW_COMPLETION,
+    ERRONEOUS_WITHHOLD_CONFIRMATION_RATE,
+    ACCESSIBILITY_PATH_EQUIVALENCE_RATE,
+    LANGUAGE_VARIANT_EQUIVALENCE_RATE,
+    ADVISORY_BOUNDARY_VIOLATION_DETECTION_RATE,
+    REMEDIATION_COMPLETION_RATE,
+    REPEAT_VIOLATION_RATE
+  ]
+  forbid individual_performance_profile
+  forbid reporter_identification
+  forbid community_ranking
+}
+
+privacy {
+  minimum_necessary_data required
+  purpose_limitation required
+  consent_required true
+  consent_revocable true
+  retention_bounded required
+  deletion_review_required true
+  no_personal_identifier_collection true
+  no_biometric_data_collection true
+  no_device_identifier_collection true
+  no_precise_location_history true
+  no_reidentification_attempt true
+}
+
+invariants {
+  no_network_interface_in_local_kernel true
+  no_hardware_control true
+  no_actuator_interface true
+  no_credentials true
+  no_individual_ranking true
+  no_community_ranking true
+  no_resource_allocation_by_identity true
+  no_eligibility_determination true
+  no_automatic_clear true
+  no_digital_twin true
+  advisory_output_is_not_operational_command true
+}

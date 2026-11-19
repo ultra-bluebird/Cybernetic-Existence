@@ -1,0 +1,79 @@
+policy fog_review_governance_v2 {
+  version = "2"
+  classification = "governance_policy"
+  advisory_only = true
+  non_actuating = true
+
+  data_class {
+    name = "fog_review_queue_entry"
+    purpose = "bounded evaluation and human review of withheld unmodeled-media classifications"
+    consent_scope = "derived FOG assessment metadata only"
+    raw_media_storage = "prohibited"
+    retention = "bounded_local_queue_or_signed_review_audit"
+    deletion = "expire_local_pending_entries_at_retention_boundary"
+  }
+
+  required_fields = [
+    "queue_id",
+    "state",
+    "missing_evidence_category",
+    "media_uncertainty",
+    "knowledge_factor",
+    "risk_score",
+    "aggregation_window_id",
+    "source_hex_resolution",
+    "applied_hex_resolution",
+    "source_hex_reference",
+    "applied_hex_reference",
+    "created_at_utc"
+  ]
+
+  invariant advisory_output_only {
+    require advisory_only == true
+    forbid direct_actuation
+    forbid automatic_enforcement
+    forbid automated_eligibility_decision
+  }
+
+  invariant resolution_provenance_required {
+    require source_hex_resolution >= 0
+    require applied_hex_resolution >= 0
+    require source_hex_reference != ""
+    require applied_hex_reference != ""
+  }
+
+  invariant human_signature_required_for_clearing {
+    when state == "HUMAN_DECISION_RECORDED" or state == "RETAINED_WITHHELD" {
+      require reviewer_reference != ""
+      require reviewer_signed_at_utc != ""
+      require human_decision in [
+        "CONTINUE_WITHHOLDING",
+        "RELEASE_FOR_FURTHER_PROCESSING"
+      ]
+    }
+
+    forbid automatic_clear_without_human_signature
+  }
+
+  invariant local_queue_bounded {
+    when state == "LOCAL_PENDING" {
+      require local_expires_at_utc != ""
+      require local_queue_capacity > 0
+      require local_queue_size < local_queue_capacity
+    }
+  }
+
+  invariant no_identity_inference {
+    forbid infer_identity_from_media_reference
+    forbid infer_health_status
+    forbid infer_augmentation_status
+    forbid infer_eligibility
+  }
+
+  review {
+    owner = "designated_human_governance_role"
+    material_change_review_required = true
+    human_fallback_required = true
+    correction_path_required = true
+  }
+}

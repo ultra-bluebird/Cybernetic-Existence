@@ -1,0 +1,44 @@
+policy FairnessUnderUncertainty version "2026-09-16" {
+
+  invariant non_certification_has_no_core_access_penalty {
+    require service.certification_required_for_core_access == false
+    require service.documentation_required_for_core_access == false
+    require service.refusal_to_disclose_access_penalty == false
+    require service.user_revocation_access_penalty == false
+  }
+
+  invariant uncertainty_does_not_trigger_identity_inference {
+    require identity.inference_from_language_allowed == false
+    require identity.inference_from_behavior_allowed == false
+    require identity.inference_from_metadata_allowed == false
+    require identity.inference_from_communication_mode_allowed == false
+    require identity.inference_from_assistive_technology_allowed == false
+  }
+
+  invariant accessible_access_equivalence_is_required {
+    require service.accessible_communication_path_available == true
+    require service.human_fallback_available == true
+    require service.correction_path_available == true
+    require service.appeal_path_available == true
+    require service.nonstandard_communication_penalty_allowed == false
+  }
+
+  invariant metrics_audit_systems_not_people {
+    require metric.person_identity_classifier_created == false
+    require metric.person_augmentation_classifier_created == false
+    require metric.person_neural_classifier_created == false
+    require metric.person_level_fairness_score_created == false
+    require metric.demographic_inference_for_measurement_allowed == false
+  }
+
+  invariant feedback_is_optional_and_aggregated {
+    require feedback.identity_disclosure_required == false
+    require feedback.health_disclosure_required == false
+    require feedback.minimum_aggregation_threshold_required == true
+    require feedback.person_level_reporting_allowed == false
+  }
+
+  invariant fairness_policy_is_non_actuating {
+    require fairness.external_action_authorized == false
+  }
+}

@@ -1,0 +1,75 @@
+policy: eco_restoration_credit_governance
+version: 2.0.0
+data_class: ecological_credit_accounting_governance_policy
+purpose: issue conservative, independently validated, period-bound eco-restoration credits without double counting or offsetting unresolved harm
+consent_scope: validated_environmental_accounting_data_only
+retention: retain_credit_benefit_harm_validation_and_ledger_records_for_configured_accounting_audit_period
+deletion: preserve_minimal_ledger_integrity_records_after_raw_measurement_retention_expires
+accountability: independent_validation_double_entry_audit_public_methodology_and_remedy_review
+review_status: required_before_credit_issuance_retirement_or_void_reversal
+access_equivalence_safeguards: credit_accounting_must_not_offset_rights_accessibility_consent_or_species_harm
+external_action_approval: required_before_external_transfer_or_public_credit_claim
+
+credit_formula:
+  formula: alpha_times_verified_benefit_minus_one_minus_alpha_times_measured_harm
+  alpha_range:
+    minimum: 0.50
+    maximum: 1.00
+
+issuance_requirements:
+  require:
+    - independently_validated_benefit
+    - independently_validated_harm_measurement
+    - same_project
+    - same_accounting_period
+    - audited_accounting_period
+    - species_impact_clear
+    - rights_impact_clear
+    - accessibility_impact_clear
+    - current_or_not_applicable_consent
+    - double_entry_ledger_pair
+    - no_negative_credit_balance
+    - no_prior_counting_in_other_report
+
+rules:
+  - id: double-counting-void
+    when: underlying_benefit_counted_toward_other_corporate_municipal_or_biodiversity_report
+    result:
+      credit_status: void
+      explanation_code: ECO_CREDIT_DOUBLE_COUNTING_DETECTED
+    require:
+      - void_event
+      - public_correction_when_public_claim_exists
+      - human_review
+    prohibit:
+      - issuance
+      - transfer
+      - retirement_for_offset
+      - duplicate_reporting
+
+  - id: non-compensation-boundary
+    when:
+      any:
+        - species_impact_threshold_exceeded
+        - rights_impact_not_clear
+        - accessibility_impact_not_clear
+        - consent_revoked_or_expired
+        - independent_validation_absent
+    result:
+      credit_status: void
+    prohibit:
+      - harm_offset_claim
+      - environmental_benefit_claim
+      - financial_credit_transfer
+
+  - id: period-bound-credit-use
+    when: credit_used_for_harm_offset
+    require:
+      - same_accounting_period_as_issuance
+      - same_project_or_explicitly_approved_program_scope
+      - ledger_entry_pair
+      - human_review
+    prohibit:
+      - cross_period_offset
+      - retroactive_reclassification
+      - negative_balance

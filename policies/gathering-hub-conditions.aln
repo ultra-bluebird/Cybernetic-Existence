@@ -1,0 +1,52 @@
+policy GatheringHubConditions version "2026-09-17" {
+
+  purpose {
+    data_class = PUBLIC_SPACE_CONDITION_MONITORING
+    permitted_use = ENVIRONMENTAL_AND_ACCESSIBILITY_DECISION_SUPPORT
+    prohibited_use = PERSON_LEVEL_OCCUPANCY_TRACKING
+    prohibited_use = IDENTITY_INFERENCE
+    prohibited_use = ACCESS_DENIAL
+    prohibited_use = HEALTH_DIAGNOSIS
+  }
+
+  invariant occupancy_is_aggregate_and_non_identifying {
+    require hub.named_person_occupancy_record_allowed == false
+    require hub.device_identifier_tracking_allowed == false
+    require hub.face_recognition_allowed == false
+    require hub.voiceprint_processing_allowed == false
+    require hub.person_level_longitudinal_movement_profile_allowed == false
+    require hub.aggregate_count_only == true
+  }
+
+  invariant environmental_inputs_are_contextualized {
+    require hub.temperature_measurement_uncertainty_present == true
+    require hub.humidity_measurement_uncertainty_present == true
+    require hub.air_quality_measurement_uncertainty_present == true
+    require hub.outdoor_reference_context_present == true
+    require hub.co2_presented_as_complete_iaq_indicator_allowed == false
+  }
+
+  invariant accessibility_is_a_required_operational_condition {
+    require hub.accessible_entry_path_available == true
+    require hub.accessible_internal_route_available == true
+    require hub.alternative_communication_path_available == true
+    require hub.human_assistance_route_available == true
+    require hub.accessibility_degradation_notice_available == true
+    require hub.accessibility_degradation_hidden_allowed == false
+  }
+
+  invariant recommendations_do_not_deny_people_access {
+    require hub.identity_based_entry_decision_allowed == false
+    require hub.health_inference_based_entry_decision_allowed == false
+    require hub.augmentation_inference_based_entry_decision_allowed == false
+    require hub.occupancy_prediction_used_for_person_denial_allowed == false
+    require hub.human_review_path_available == true
+  }
+
+  invariant data_governance_is_limited {
+    require hub.retention_schedule_present == true
+    require hub.indefinite_occupancy_retention_allowed == false
+    require hub.raw_video_retention_allowed == false
+    require hub.external_action_authorized == false
+  }
+}

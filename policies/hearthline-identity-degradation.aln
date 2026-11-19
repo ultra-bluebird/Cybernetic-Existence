@@ -1,0 +1,68 @@
+policy HearthlineIdentityDegradation version "2026-09-16" {
+
+  invariant degradation_preserves_user_existence {
+    when identity.access_state(account_ref) in [
+      LIMITED_ACCESS,
+      READ_ONLY,
+      CONTINUITY_AVAILABLE,
+      CONTINUITY_ACTIVE
+    ]
+    require identity.account_identity_deleted(account_ref) == false
+  }
+
+  invariant universal_safety_controls_are_preserved {
+    require capabilities.pause_available_to_all_access_states == true
+    require capabilities.consent_revocation_available_to_all_access_states == true
+    require capabilities.block_available_to_all_access_states == true
+    require capabilities.safety_report_available_to_all_access_states == true
+    require capabilities.security_history_available_to_all_access_states == true
+    require capabilities.continuity_guidance_available_to_all_access_states == true
+  }
+
+  invariant degraded_access_blocks_sensitive_outbound_actions {
+    when identity.access_state(account_ref) in [
+      READ_ONLY,
+      CONTINUITY_AVAILABLE,
+      CONTINUITY_ACTIVE
+    ]
+    require messaging.send_allowed(account_ref) == false
+    require matching.express_interest_allowed(account_ref) == false
+    require consent.expand_scope_allowed(account_ref) == false
+    require profile.contact_details_reveal_allowed(account_ref) == false
+    require export.account_data_allowed(account_ref) == false
+    require bridge.provider_link_allowed(account_ref) == false
+  }
+
+  invariant lost_or_compromised_device_uses_protective_rendering {
+    when identity.device_risk_reported(account_ref) == true
+    require messages.sensitive_rendering_allowed(account_ref) == false
+    require profile.sensitive_rendering_allowed(account_ref) == false
+    require consent.revocation_allowed(account_ref) == true
+    require pacing.pause_allowed(account_ref) == true
+  }
+
+  invariant degradation_is_not_person_judgment {
+    require identity.access_state_used_for_matching == false
+    require identity.access_state_used_for_ranking == false
+    require identity.access_state_used_for_profile_visibility == false
+    require identity.access_state_used_for_recovery_inference == false
+    require identity.access_state_used_for_health_inference == false
+    require identity.access_state_used_for_lantern_person_score == false
+  }
+
+  invariant provider_failure_is_adapter_scoped {
+    when bridge.provider_token_expired(adapter_ref)
+    require bridge.other_adapter_sessions_affected(adapter_ref) == false
+    require identity.hearthline_core_access_terminated(adapter_ref) == false
+  }
+
+  invariant restoration_requires_current_secure_verification {
+    when identity.access_state(account_ref) == RESTORED
+    require authentication.fresh_user_verification_complete(account_ref) == true
+    require identity.new_authenticator_bound(account_ref) == true
+  }
+
+  invariant all_components_remain_non_actuating {
+    require system.external_action_authorized == false
+  }
+}

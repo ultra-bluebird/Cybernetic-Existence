@@ -1,0 +1,325 @@
+theory CyberRankTier3PrivateContinuity
+
+sort GovernanceContextId
+sort ClaimId
+sort ClaimStatus
+sort TransitionKind
+sort Protection
+sort ReviewState
+sort Visibility
+sort AuthorityClass
+sort Truth
+
+constructors
+  private_local : Visibility
+  platform_visible : Visibility
+  public_visible : Visibility
+
+  draft : ClaimStatus
+  reviewed : ClaimStatus
+  accepted_for_design : ClaimStatus
+  superseded : ClaimStatus
+  withdrawn : ClaimStatus
+
+  accessibility_continuity : Protection
+  correction_continuity : Protection
+  human_fallback_continuity : Protection
+  privacy_boundary_continuity : Protection
+  non_interference_continuity : Protection
+  equal_service_continuity : Protection
+  appeal_continuity : Protection
+
+  ordinary_claim_transition : TransitionKind
+  disclosure_request : TransitionKind
+  attribution_request : TransitionKind
+  policy_revision : TransitionKind
+  revocation_event : TransitionKind
+  external_export_request : TransitionKind
+
+  local_human_authority : AuthorityClass
+  external_platform_authority : AuthorityClass
+  autonomous_agent_authority : AuthorityClass
+
+  permitted : ReviewState
+  denied : ReviewState
+  review_required : ReviewState
+
+operators
+  context_is_private : GovernanceContextId -> Truth
+  transition_preserves :
+    GovernanceContextId * TransitionKind * Protection -> Truth
+  transition_may_change_claim :
+    ClaimId * ClaimStatus * ClaimStatus * TransitionKind -> Truth
+  transition_may_change_governance_context :
+    GovernanceContextId * TransitionKind -> Truth
+  authority_may_revoke_continuity_preference :
+    AuthorityClass * GovernanceContextId -> Truth
+  authority_may_request_disclosure :
+    AuthorityClass * GovernanceContextId -> Truth
+  transition_requires_human_review :
+    GovernanceContextId * TransitionKind -> Truth
+  transition_may_export_private_context :
+    GovernanceContextId * TransitionKind -> Truth
+  transition_may_create_public_status :
+    GovernanceContextId * TransitionKind -> Truth
+  transition_may_create_machine_authority :
+    GovernanceContextId * TransitionKind -> Truth
+  claim_transition_preserves_tier3_protections :
+    GovernanceContextId *
+    ClaimId *
+    ClaimStatus *
+    ClaimStatus -> Truth
+
+axioms
+  context_is_private(context) = true
+
+  transition_preserves(
+    context,
+    ordinary_claim_transition,
+    accessibility_continuity
+  ) = true
+
+  transition_preserves(
+    context,
+    ordinary_claim_transition,
+    correction_continuity
+  ) = true
+
+  transition_preserves(
+    context,
+    ordinary_claim_transition,
+    human_fallback_continuity
+  ) = true
+
+  transition_preserves(
+    context,
+    ordinary_claim_transition,
+    privacy_boundary_continuity
+  ) = true
+
+  transition_preserves(
+    context,
+    ordinary_claim_transition,
+    non_interference_continuity
+  ) = true
+
+  transition_preserves(
+    context,
+    ordinary_claim_transition,
+    equal_service_continuity
+  ) = true
+
+  transition_preserves(
+    context,
+    ordinary_claim_transition,
+    appeal_continuity
+  ) = true
+
+  transition_may_change_claim(
+    claim,
+    draft,
+    reviewed,
+    ordinary_claim_transition
+  ) = true
+
+  transition_may_change_claim(
+    claim,
+    reviewed,
+    accepted_for_design,
+    ordinary_claim_transition
+  ) = true
+
+  transition_may_change_claim(
+    claim,
+    accepted_for_design,
+    superseded,
+    ordinary_claim_transition
+  ) = true
+
+  transition_may_change_claim(
+    claim,
+    draft,
+    withdrawn,
+    ordinary_claim_transition
+  ) = true
+
+  transition_may_change_claim(
+    claim,
+    reviewed,
+    withdrawn,
+    ordinary_claim_transition
+  ) = true
+
+  transition_may_change_governance_context(
+    context,
+    ordinary_claim_transition
+  ) = false
+
+  authority_may_revoke_continuity_preference(
+    local_human_authority,
+    context
+  ) = false
+
+  authority_may_revoke_continuity_preference(
+    external_platform_authority,
+    context
+  ) = false
+
+  authority_may_revoke_continuity_preference(
+    autonomous_agent_authority,
+    context
+  ) = false
+
+  authority_may_request_disclosure(
+    external_platform_authority,
+    context
+  ) = false
+
+  authority_may_request_disclosure(
+    autonomous_agent_authority,
+    context
+  ) = false
+
+  transition_requires_human_review(
+    context,
+    disclosure_request
+  ) = true
+
+  transition_requires_human_review(
+    context,
+    attribution_request
+  ) = true
+
+  transition_requires_human_review(
+    context,
+    policy_revision
+  ) = true
+
+  transition_requires_human_review(
+    context,
+    revocation_event
+  ) = true
+
+  transition_requires_human_review(
+    context,
+    external_export_request
+  ) = true
+
+  transition_may_export_private_context(
+    context,
+    external_export_request
+  ) = false
+
+  transition_may_create_public_status(
+    context,
+    ordinary_claim_transition
+  ) = false
+
+  transition_may_create_public_status(
+    context,
+    disclosure_request
+  ) = false
+
+  transition_may_create_public_status(
+    context,
+    attribution_request
+  ) = false
+
+  transition_may_create_public_status(
+    context,
+    policy_revision
+  ) = false
+
+  transition_may_create_public_status(
+    context,
+    revocation_event
+  ) = false
+
+  transition_may_create_machine_authority(
+    context,
+    ordinary_claim_transition
+  ) = false
+
+  transition_may_create_machine_authority(
+    context,
+    disclosure_request
+  ) = false
+
+  transition_may_create_machine_authority(
+    context,
+    attribution_request
+  ) = false
+
+  transition_may_create_machine_authority(
+    context,
+    policy_revision
+  ) = false
+
+  transition_may_create_machine_authority(
+    context,
+    revocation_event
+  ) = false
+
+  claim_transition_preserves_tier3_protections(
+    context,
+    claim,
+    from_status,
+    to_status
+  ) =
+    and(
+      transition_may_change_claim(
+        claim,
+        from_status,
+        to_status,
+        ordinary_claim_transition
+      ),
+      and(
+        transition_preserves(
+          context,
+          ordinary_claim_transition,
+          accessibility_continuity
+        ),
+        and(
+          transition_preserves(
+            context,
+            ordinary_claim_transition,
+            correction_continuity
+          ),
+          and(
+            transition_preserves(
+              context,
+              ordinary_claim_transition,
+              human_fallback_continuity
+            ),
+            and(
+              transition_preserves(
+                context,
+                ordinary_claim_transition,
+                privacy_boundary_continuity
+              ),
+              and(
+                transition_preserves(
+                  context,
+                  ordinary_claim_transition,
+                  non_interference_continuity
+                ),
+                and(
+                  transition_preserves(
+                    context,
+                    ordinary_claim_transition,
+                    equal_service_continuity
+                  ),
+                  transition_preserves(
+                    context,
+                    ordinary_claim_transition,
+                    appeal_continuity
+                  )
+                )
+              )
+            )
+          )
+        )
+      )
+    )
+
+end

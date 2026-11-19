@@ -1,0 +1,48 @@
+policy HearthlinePromptLoad version "2026-09-16" {
+
+  invariant prompt_load_is_user_configured {
+    require prompt_load.user_selects_pace == true
+    require prompt_load.user_selects_quiet_hours == true
+    require prompt_load.user_selects_active_days == true
+    require prompt_load.user_can_request_optional_items_now == true
+  }
+
+  invariant prompt_load_does_not_infer_health_or_recovery {
+    require prompt_load.uses_sleep_data == false
+    require prompt_load.uses_biometric_data == false
+    require prompt_load.uses_mood_data == false
+    require prompt_load.uses_recovery_status == false
+    require prompt_load.uses_health_information == false
+    require prompt_load.uses_trauma_information == false
+    require prompt_load.uses_message_sentiment == false
+    require prompt_load.uses_response_latency == false
+  }
+
+  invariant safety_controls_are_never_deferred {
+    require prompt_load.may_defer_pause == false
+    require prompt_load.may_defer_consent_revocation == false
+    require prompt_load.may_defer_block == false
+    require prompt_load.may_defer_safety_report == false
+    require prompt_load.may_defer_session_end == false
+    require prompt_load.may_defer_continuity_guidance == false
+  }
+
+  invariant prompt_load_is_not_a_person_signal {
+    require matching.prompt_load_input_allowed == false
+    require ranking.prompt_load_input_allowed == false
+    require lantern.prompt_load_input_allowed == false
+    require persona.prompt_load_input_allowed == false
+    require analytics.person_level_prompt_load_input_allowed == false
+  }
+
+  invariant deferred_items_are_non_punitive {
+    require deferred_prompt.rank_penalty_created == false
+    require deferred_prompt.visibility_penalty_created == false
+    require deferred_prompt.expiry_pressure_created == false
+    require deferred_prompt.urgency_prompt_created == false
+  }
+
+  invariant non_actuation {
+    require prompt_load.external_action_authorized == false
+  }
+}

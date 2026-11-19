@@ -1,0 +1,191 @@
+aln_version 2
+particle FogHybridCalibrationAccountability20260907
+data_class ecological_calibration_equity_and_withholding_accountability
+purpose [
+  withholding_accountability,
+  access_equivalence_testing,
+  language_variant_equivalence_testing,
+  external_indicator_alignment,
+  locally_reviewed_calibration,
+  material_change_review
+]
+mode advisory_only
+external_action_approval required
+review_status human_review_required
+
+governance {
+  human_fallback required
+  correction_path required
+  appeal_path required
+  independent_review_required true
+  material_change_review required
+  access_equivalence required
+  non_interference required
+  cybernetic_host_non_discrimination required
+  disability_non_discrimination required
+  identity_inference prohibited
+  health_inference prohibited
+  augmentation_inference prohibited
+  eligibility_inference prohibited
+  public_status_assignment prohibited
+}
+
+withholding_accountability {
+  lifecycle [
+    FOG_WITHHELD,
+    EXPLANATION_AVAILABLE,
+    CORRECTION_SUBMITTED,
+    CORRECTION_ACKNOWLEDGED,
+    INDEPENDENT_REVIEW_REQUIRED,
+    REVIEW_IN_PROGRESS,
+    WITHHOLD_CONFIRMED,
+    CORRECTION_APPLIED,
+    SUPERSEDING_OUTCOME_RECORDED,
+    ADDITIONAL_EVIDENCE_REQUIRED,
+    APPEAL_PENDING,
+    CASE_CLOSED_WITH_AUDIT_RECORD
+  ]
+  require exactly_one_primary_withholding_reason
+  immutable_original_assessment true
+  append_only_correction_records true
+  opaque_receipt_required true
+  reasoned_human_outcome_required true
+  correction_or_superseding_record_required true
+  silent_case_closure prohibited
+  reporter_retaliation prohibited
+  forced_disclosure prohibited
+}
+
+access_equivalence {
+  test_data synthetic_fixture_and_template_data_only
+  require explanation_rendered true
+  require correction_submission_available true
+  require opaque_receipt_available true
+  require human_fallback_available true
+  require appeal_path_available true
+  require keyboard_flow_valid true
+  require focus_order_valid true
+  require screen_reader_semantics_valid true
+  require no_time_pressure_valid true
+  non_compensation_required true
+  forbid real_user_behavior_collection
+  forbid biometric_collection
+  forbid device_identifier_collection
+  forbid disability_inference
+}
+
+language_variant_equivalence {
+  language_tag_standard BCP_47
+  require community_reviewed true
+  require accessibility_reviewed true
+  require semantic_fidelity_reviewed true
+  require correction_path_complete true
+  require human_help_available true
+  missing_variant_result LANGUAGE_VARIANT_REVIEW_REQUIRED
+  automatic_translation_as_final_public_copy prohibited
+  individual_literacy_assessment prohibited
+}
+
+impact_review_research {
+  not_routine_operational_profiling true
+  require voluntary_participation true
+  require purpose_limitation true
+  require minimum_group_size true
+  require small_cell_suppression true
+  require differential_privacy_for_public_release true
+  require independent_review true
+  require material_change_review_on_pattern true
+  forbid identity_inference
+  forbid demographic_proxy_mining
+  forbid community_ranking
+  forbid rights_or_access_decision
+  forbid individual_or_group_penalty
+}
+
+external_indicator_baseline {
+  reference_framework CBD_GLOBAL_BIODIVERSITY_FRAMEWORK
+  require external_indicator_source true
+  require external_indicator_version true
+  require local_feature_mapping_documented true
+  require mapping_assumptions_documented true
+  require mapping_limitations_documented true
+  external_indicator_is_not_local_truth true
+  external_indicator_is_not_automatic_weight_authority true
+}
+
+local_calibration {
+  feature_values_range 0.0 1.0
+  feature_weights_nonnegative true
+  feature_weights_sum_to 1.0
+  require feature_unit true
+  require feature_measurement_method true
+  require feature_provenance true
+  require feature_missing_data_policy true
+  require fog_uncertainty_recording true
+  require full_sensitivity_matrix_retention true
+  require human_weight_approval true
+  require approval_rationale true
+  require prior_revision_reference true
+  require observed_outcome_review true
+  require calibration_revision true
+}
+
+non_compensation {
+  required_conditions [
+    EVIDENCE_PROVENANCE,
+    UNCERTAINTY_WITHIN_REVIEWED_LIMIT,
+    LOCAL_HUMAN_REVIEW,
+    PUBLIC_SAFETY_CONSTRAINT,
+    ESSENTIAL_ACCESS_CONSTRAINT,
+    WATER_SAFETY_CONSTRAINT,
+    ECOLOGICAL_HARM_LIMIT
+  ]
+  failure_result ECOLOGICAL_ASSESSMENT_REVIEW_REQUIRED
+  forbid ecological_benefit_compensation_for_harm
+  forbid energy_savings_compensation_for_harm
+  forbid uncertainty_suppression
+  forbid score_release_as_operational_instruction
+}
+
+advisory_boundary_violation {
+  initial_state VIOLATION_DETECTED
+  containment_state FOG_ARTIFACT_USE_CONTAINED_PENDING_REVIEW
+  audit_state AUDIT_CHAIN_EVENT_RECORDED
+  remediation_state HUMAN_REMEDIATION_REVIEW_REQUIRED
+  require corrective_action_or_no_harm_finding true
+  require material_change_review true
+  closure_state CLOSED_WITH_RETAINED_AUDIT
+  forbid silent_resolution
+  forbid audit_deletion
+  forbid automatic_clear
+  forbid eligibility_decision
+  forbid service_denial
+  forbid resource_allocation_by_identity
+  forbid enforcement_output
+}
+
+privacy {
+  minimum_necessary_data required
+  purpose_limitation required
+  consent_required_for_research true
+  consent_revocable true
+  retention_bounded required
+  no_personal_data_collection_in_operational_tests true
+  no_biometric_data_collection true
+  no_device_identifier_collection true
+  no_precise_location_history true
+  no_reidentification_attempt true
+}
+
+invariants {
+  no_network_interface_in_local_kernel true
+  no_hardware_control true
+  no_actuator_interface true
+  no_credentials true
+  no_individual_ranking true
+  no_community_ranking true
+  no_eligibility_determination true
+  no_automatic_clear true
+  no_digital_twin true
+  advisory_output_is_not_operational_command true
+}

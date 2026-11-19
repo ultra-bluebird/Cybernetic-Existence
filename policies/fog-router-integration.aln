@@ -1,0 +1,56 @@
+policy: fog_router_integration
+version: 2.0.0
+data_class: wastewater_and_material_recovery_governance_policy
+purpose: require FOG capture before discharge from cafeteria and maintenance waste streams while preserving transparent maintenance review and responsible recovered-material handling
+consent_scope: operational_wastewater_and_material_recovery_data_only
+retention: retain_capture_measurements_maintenance_reviews_discharge_decisions_and_material_destination_records_for_configured_audit_period
+deletion: retain_minimal_compliance_and_material_provenance_after_raw_telemetry_retention_expiry
+accountability: capture_fraction_visibility_manual_inspection_human_review_and_discharge_explanation
+review_status: required_for_capture_failure_or_maintenance_bypass
+access_equivalence_safeguards: fog_controls_must_not_be_used_to_reduce_public_cooling_water_sanitation_or_accessibility_service
+external_action_approval: required_for_physical_bypass_discharge_or_material_transfer
+
+fog_node:
+  capture_required: true
+  minimum_grease_capture_fraction: 0.80
+  minimum_solids_capture_fraction: 0.75
+  maximum_unmodeled_media_fraction: 0.20
+  require:
+    - current_manual_inspection
+    - current_maintenance_status
+    - influent_load_measurement
+    - captured_mass_measurement
+    - discharge_mass_estimate
+    - approved_material_destination_when_recovery_claimed
+  prohibit:
+    - ordinary_discharge_when_capture_fraction_below_minimum
+    - silent_bypass
+    - material_recovery_claim_without_traceable_destination
+    - use_of_recovery_value_to_override_discharge_protection
+
+rules:
+  - id: fog-capture-mandatory
+    when: cafeteria_or_maintenance_wastewater_discharge_requested
+    require:
+      - fog_capture_system_active
+      - capture_fraction_at_or_above_minimum
+      - manual_inspection_current
+    otherwise:
+      discharge_status: denied
+      explanation_code: FOG_CAPTURE_REQUIREMENT_NOT_MET
+
+  - id: maintenance-bypass-boundary
+    when: fog_capture_system_requires_maintenance
+    permit:
+      - bypass_only_with_human_reviewer
+    require:
+      - documented_maintenance_reason
+      - limited_duration
+      - applicable_discharge_authorization
+      - accessible_incident_explanation
+      - post_maintenance_verification
+    prohibit:
+      - automatic_bypass
+      - indefinite_bypass
+      - bypass_for_convenience
+      - bypass_when_public_or_ecological_harm_is_unresolved

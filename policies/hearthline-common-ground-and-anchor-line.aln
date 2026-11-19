@@ -1,0 +1,56 @@
+policy HearthlineCommonGroundAndAnchorLine version "2026-09-15" {
+
+  invariant disclosure_requires_current_explicit_grant {
+    when artifact.render_sensitive_field(recipient_ref, field_name)
+    require consent.evaluate(recipient_ref, field_name, now).allowed == true
+  }
+
+  invariant revoked_scope_invalidates_all_artifacts {
+    when consent.scope_revoked(recipient_ref, field_name)
+    require artifacts.invalidate(
+      recipient_ref,
+      field_name,
+      kinds = [
+        PROFILE_PREVIEW,
+        AI_MESSAGE_DRAFT,
+        SEND_PREVIEW,
+        EXPORT,
+        NOTIFICATION
+      ]
+    )
+  }
+
+  invariant stale_artifacts_cannot_authorize_disclosure {
+    when artifact.policy_revision != consent.current_revision(
+      artifact.recipient_ref,
+      artifact.protected_field_manifest
+    )
+    require artifact.render_state == REDACT_AND_EXPLAIN_VISIBILITY_CHANGE
+  }
+
+  invariant assertion_requires_user_verification {
+    when authentication.assertion_accepted(account_subject_ref)
+    require authentication.webauthn.user_verification == REQUIRED
+  }
+
+  invariant recovery_never_reintroduces_password_authentication {
+    when recovery.ceremony_completed(account_subject_ref)
+    require authentication.password_only_fallback == false
+  }
+
+  invariant recovery_requires_notification {
+    when recovery.ceremony_started(account_subject_ref)
+    require recovery.notification_required == true
+  }
+
+  invariant recovery_contact_is_non_observing {
+    when recovery.contact_assists(ceremony_id)
+    require recovery.contact.profile_access == false
+    require recovery.contact.message_access == false
+    require recovery.contact.external_action_authorized == false
+  }
+
+  invariant all_components_are_non_actuating {
+    require system.external_action_authorized == false
+  }
+}

@@ -1,0 +1,56 @@
+policy EcoRestorationPrioritization version "2026-09-17" {
+
+  purpose {
+    data_class = ECOLOGICAL_PROJECT_DECISION_SUPPORT
+    permitted_use = RESTORATION_SCENARIO_PRIORITIZATION
+    permitted_use = ACCESS_EQUIVALENCE_REVIEW
+    permitted_use = PARTICIPATORY_GOVERNANCE_SUPPORT
+    prohibited_use = PERSON_RANKING
+    prohibited_use = NEIGHBORHOOD_REPUTATION_SCORING
+    prohibited_use = IDENTITY_INFERENCE
+    prohibited_use = AUTOMATED_FUNDING_DECISION
+  }
+
+  invariant project_evidence_is_explicit {
+    require project.ecological_benefit_evidence_present == true
+    require project.geographic_scope_present == true
+    require project.data_provenance_present == true
+    require project.uncertainty_statement_present == true
+    require project.maintenance_plan_present == true
+    require project.risk_assessment_present == true
+  }
+
+  invariant social_impact_means_system_duties_not_person_profiling {
+    require project.named_person_data_allowed == false
+    require project.identity_inference_allowed == false
+    require project.health_inference_allowed == false
+    require project.disability_inference_allowed == false
+    require project.augmentation_inference_allowed == false
+    require project.vulnerability_classifier_created == false
+    require project.neighborhood_reputation_score_created == false
+  }
+
+  invariant access_equivalence_is_a_project_quality_dimension {
+    require project.accessible_participation_path_available == true
+    require project.low_disclosure_feedback_path_available == true
+    require project.language_access_information_available == true
+    require project.non_displacement_review_completed == true
+    require project.public_benefit_rationale_published == true
+    require project.correction_and_appeal_path_available == true
+  }
+
+  invariant weights_are_reviewable_and_bounded {
+    require prioritization.weight_rationale_published == true
+    require prioritization.weight_range_documented == true
+    require prioritization.sensitivity_analysis_completed == true
+    require prioritization.material_change_review_required == true
+    require prioritization.hidden_weight_allowed == false
+  }
+
+  invariant recommendation_remains_human_governed {
+    require prioritization.automatic_funding_decision_allowed == false
+    require prioritization.automatic_land_use_decision_allowed == false
+    require prioritization.human_review_required == true
+    require prioritization.external_action_authorized == false
+  }
+}

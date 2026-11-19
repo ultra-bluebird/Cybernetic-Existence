@@ -1,0 +1,77 @@
+module cyboquatic.edgeTelemetry
+
+sensorLimits {
+  airTemperatureC = Range(-30.0, 70.0)
+  relativeHumidityPercent = Range(0.0, 100.0)
+  wbgtC = Range(-10.0, 65.0)
+  waterFlowM3PerS = Range(0.0, 10.0)
+  waterTemperatureC = Range(0.0, 60.0)
+  pressureKpa = Range(0.0, 3000.0)
+  electricPowerKw = Range(0.0, 5000.0)
+  maxSampleAgeSeconds = 180
+  maxClockSkewSeconds = 60
+  maxTemperatureRateCPerMinute = 8.0
+  maxHumidityRatePercentPerMinute = 30.0
+  maxFlowRateChangeM3PerSPerMinute = 2.0
+}
+
+privacy {
+  rawPersonalDataExportAllowed = false
+  rawDeviceIdentifierExportAllowed = false
+  rawLocationExportAllowed = false
+  minimumAggregateCount = 20
+  locationPrecisionMeters = 250
+  retentionDays = 365
+  permittedAggregateFields = List(
+    "h3Cell",
+    "intervalStart",
+    "intervalEnd",
+    "sensorType",
+    "sampleCount",
+    "mean",
+    "minimum",
+    "maximum",
+    "standardDeviation",
+    "qualityFlags",
+    "calibrationVersion",
+    "firmwareVersion"
+  )
+}
+
+mqtt {
+  transport = "mqtts"
+  requireMutualTls = true
+  minimumTlsVersion = "TLSv1.3"
+  allowedPublishTopicPrefix = "cyboquatic/v1/aggregate/"
+  allowedSubscribeTopicPrefix = "cyboquatic/v1/command/"
+  retainedMessagesAllowed = false
+  qos = 1
+}
+
+kafka {
+  securityProtocol = "SASL_SSL"
+  aggregateTopic = "cyboquatic.aggregate.v1"
+  qualityAlertTopic = "cyboquatic.quality-alert.v1"
+  deadLetterTopic = "cyboquatic.invalid.v1"
+  idempotentProducer = true
+}
+
+timescale {
+  measurementHypertable = "environmental_aggregate"
+  qualityHypertable = "telemetry_quality_event"
+  retentionDays = 365
+  compressionAfterDays = 14
+}
+
+governance {
+  automaticWaterReleaseAllowed = false
+  automaticWeatherModificationAllowed = false
+  humanReviewRequiredFor = List(
+    "waterRelease",
+    "reclaimedWaterUseChange",
+    "siteActivation",
+    "siteDeactivation",
+    "retentionChange",
+    "externalDataExport"
+  )
+}

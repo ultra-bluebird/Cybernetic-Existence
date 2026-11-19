@@ -1,0 +1,61 @@
+policy: distributional_benefit_equity
+version: 2.0.0
+data_class: ecological_and_social_benefit_governance_policy
+purpose: measure and remedy inequitable distribution of datacenter eco-program benefits without profiling individuals or using protected identity as an eligibility criterion
+consent_scope: use_aggregate_governance_defined_group_data_only
+retention: retain_aggregated_measurement_provenance_and_remedy_records_for_configured_audit_period
+deletion: delete_or_aggregate_raw_data_after_retention_expiry_subject_to_minimal_audit_commitments
+accountability: public_methodology_human_review_remedy_pathway_and_material_change_review
+review_status: required_when_distributional_threshold_is_not_met
+access_equivalence_safeguards: protected_groups_may_be_included_for_equity_audit_but_not_for_service_denial_or_eligibility_scoring
+external_action_approval: required_for_external_release_of_non_aggregate_group_data
+
+protected_groups:
+  - cybernetic_host
+  - augmented_citizen
+
+metric:
+  name: distributional_benefit_equity_index
+  formula: minimum_over_groups_of((group_benefit_divided_by_group_population)/(total_benefit_divided_by_total_population))
+  require:
+    - documented_group_denominator
+    - documented_benefit_unit
+    - source_validity_window
+    - aggregate_or_privacy_preserving_measurement
+    - uncertainty_and_missingness_reporting
+
+rules:
+  - id: equity-review-trigger
+    when: distributional_benefit_equity_index_less_than_0_50
+    require:
+      - mandatory_human_review
+      - public_plain_language_explanation
+      - remedy_pathway
+      - affected_group_consultation_when_appropriate
+      - corrective_delivery_plan
+      - follow_up_measurement_period
+    prohibit:
+      - declaring_equitable_benefit_distribution
+      - using_aggregate_score_to_hide_under_served_group
+
+  - id: per-group-underbenefit-trigger
+    when: group_benefit_equity_ratio_less_than_0_50
+    require:
+      - group_specific_remedy_review
+      - accessible_feedback_path
+      - documented_response_deadline
+    prohibit:
+      - identity_based_exclusion
+      - service_deprioritization
+
+  - id: protected-group-boundary
+    when: protected_group_is_included_in_equity_audit
+    permit:
+      - aggregate_equity_measurement
+      - accessibility_and_access_equivalence_review
+    prohibit:
+      - individual_profiling
+      - identity_verification_requirement
+      - eligibility_decision
+      - service_denial
+      - behavioral_targeting

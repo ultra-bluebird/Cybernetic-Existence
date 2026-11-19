@@ -1,0 +1,42 @@
+policy HearthlineTrueCompass version "2026-09-15" {
+
+  invariant matching_uses_only_declared_visible_attributes {
+    when true_compass.align(viewer_ref, candidate_ref)
+    require true_compass.attribute_source == DECLARED_AND_CONSENT_VISIBLE
+  }
+
+  invariant recovery_context_is_excluded {
+    require true_compass.reads_recovery_status == false
+    require true_compass.reads_recovery_history == false
+    require true_compass.infers_recovery_context == false
+  }
+
+  invariant technical_integrity_state_is_excluded {
+    require true_compass.reads_lantern_state == false
+    require true_compass.reads_authentication_history == false
+    require true_compass.reads_device_integrity_state == false
+  }
+
+  invariant behavior_and_popularity_are_excluded {
+    require true_compass.reads_message_content == false
+    require true_compass.reads_response_speed == false
+    require true_compass.reads_popularity == false
+    require true_compass.reads_external_social_graph == false
+  }
+
+  invariant output_is_private_to_viewer {
+    require true_compass.output_visible_to_candidate == false
+    require true_compass.output_visible_to_other_users == false
+    require true_compass.output_visible_to_general_staff == false
+  }
+
+  invariant ordering_is_not_persisted_as_person_score {
+    require true_compass.private_ordering_value_persisted == false
+    require true_compass.cross_user_aggregate_created == false
+    require true_compass.profile_visibility_affected == false
+  }
+
+  invariant no_external_actions {
+    require true_compass.external_action_authorized == false
+  }
+}

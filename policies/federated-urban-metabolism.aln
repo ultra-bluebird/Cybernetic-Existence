@@ -1,0 +1,39 @@
+aln_version: "2"
+policy_class: "federated_urban_metabolism"
+purpose_scope:
+  allow:
+    - urban_metabolism_model_training
+    - aggregate_water_demand_analysis
+    - aggregate_reclaimed_water_scenario_analysis
+    - ecological_decision_support
+  deny:
+    - raw_household_water_data_export
+    - household_identity_inference
+    - household_occupancy_inference
+    - unauthorized_secondary_model_training
+    - automated_high_consequence_action
+federated_learning:
+  raw_data_must_remain_with_authorized_local_custodian: true
+  secure_aggregation_required: true
+  per_update_clipping_required: true
+  minimum_participant_cohort_required: true
+  privacy_budget_accounting_required: true
+  model_update_provenance_required: true
+  model_release_review_required: true
+consent:
+  purpose_specific: true
+  explicit: true
+  revocable_for_future_rounds: true
+  expiry_required: true
+  withdrawal_blocks_future_participation: true
+retention:
+  aggregate_metrics_only_in_shared_ledger: true
+  retention_review_required: true
+  deletion_or_anonymization_after_expiry: true
+governance:
+  model_outputs_are_decision_support_only: true
+  accessible_explanation_required: true
+  correction_and_appeal_available: true
+  external_action_requires_explicit_approval: true
+review:
+  status: "draft_for_privacy_ecological_and_community_review"

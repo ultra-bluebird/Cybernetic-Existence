@@ -1,0 +1,137 @@
+aln_version 2
+particle EcologicalKnowledgeContinuity20260907
+data_class ecological_public_information_and_private_preference_governance
+purpose [
+  ecological_value_estimation,
+  public_rights_and_ecological_information_navigation,
+  aggregate_acceptance_research,
+  private_continuity_preference_respect
+]
+mode advisory_only
+external_action_approval required
+review_status human_review_required
+
+governance {
+  human_fallback required
+  correction_path required
+  appeal_path required
+  material_change_review required
+  access_equivalence required
+  non_interference required
+  cybernetic_host_non_discrimination required
+  augmented_citizen_non_discrimination required
+  identity_inference prohibited
+  eligibility_inference prohibited
+  public_status_assignment prohibited
+}
+
+ecological_value_estimation {
+  scope approved_planning_area_only
+  feature_values_range 0.0 1.0
+  weight_sum_required 1.0
+  require evidence_provenance true
+  require fog_uncertainty_recording true
+  require human_review true
+  no_property_level_personal_data true
+  no_owner_or_occupant_data true
+  no_household_profiling true
+  no_demographic_proxy true
+  forbid automatic_restoration_priority
+  forbid ecological_harm_compensation
+}
+
+public_knowledge_graph {
+  sources public_law_policy_and_regulation_only
+  allowed_node_types [
+    LAW,
+    REGULATION,
+    ORDINANCE,
+    PUBLIC_POLICY,
+    ACCESSIBILITY_REQUIREMENT,
+    ECOLOGICAL_STANDARD,
+    AGENCY,
+    PUBLIC_SERVICE,
+    RIGHTS_TOPIC,
+    FOG_GOVERNANCE_POLICY,
+    CORRECTION_PATH,
+    APPEAL_PATH
+  ]
+  require authority_metadata true
+  require jurisdiction_metadata true
+  require effective_date true
+  require source_status true
+  require legal_information_notice true
+  require accessible_query_interface true
+  require human_support_path true
+  forbid legal_adjudication
+  forbid eligibility_determination
+  forbid user_profile_retention
+  forbid identity_or_health_data
+}
+
+aggregate_acceptance_research {
+  participation voluntary
+  purpose rights_improvement_research_only
+  require explicit_consent true
+  require minimum_group_size true
+  require privacy_budget_accounting true
+  require release_review true
+  require methodology_limitations true
+  psych_continuity "protected_system_governance_and_communication_principle"
+  forbid identity_verification
+  forbid cybernetic_host_status_inference
+  forbid augmentation_detail_collection
+  forbid biometric_or_neural_data_collection
+  forbid public_discourse_identity_profiling
+  forbid reidentification_attempt
+  forbid acceptance_index_as_rights_condition
+  forbid acceptance_index_as_eligibility_condition
+}
+
+private_continuity_preferences {
+  private_voluntary true
+  user_controlled true
+  purpose communication_privacy_and_non_interference_preferences
+  proof_requirement prohibited
+  identity_certification prohibited
+  existence_validation prohibited
+  neural_or_medical_system_claim prohibited
+  public_registry prohibited
+  cryptographic_identifier_collection prohibited
+  private_key_collection prohibited
+  signature_heartbeat_requirement prohibited
+  require consent_scope true
+  require revocation true
+  require correction true
+  require deletion true
+  require human_fallback true
+}
+
+privacy {
+  minimum_necessary_data required
+  purpose_limitation required
+  consent_required true
+  consent_revocable true
+  retention_bounded required
+  no_personal_data_collection_in_public_modules true
+  no_biometric_data_collection true
+  no_neural_data_collection true
+  no_device_identifier_collection true
+  no_precise_location_history true
+  no_reidentification true
+}
+
+invariants {
+  no_network_interface_in_local_kernels true
+  no_hardware_control true
+  no_actuator_interface true
+  no_credentials true
+  no_individual_ranking true
+  no_community_ranking true
+  no_resource_allocation_by_identity true
+  no_eligibility_determination true
+  no_automatic_clear true
+  no_regulatory_certainty_claim true
+  no_digital_twin true
+  advisory_output_is_not_operational_command true
+}

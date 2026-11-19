@@ -1,0 +1,53 @@
+policy HearthlineIdentityContinuity version "2026-09-15" {
+
+  invariant identity_lifecycle_is_stage_agnostic {
+    require identity.recovery_stage_storage_allowed == false
+    require identity.recovery_stage_inference_allowed == false
+    require identity.health_state_storage_allowed == false
+    require identity.health_state_inference_allowed == false
+  }
+
+  invariant identity_state_vocabulary_is_limited {
+    require identity.state in [
+      IDENTITY_ACTIVE,
+      IDENTITY_PAUSED_BY_USER,
+      IDENTITY_DORMANT,
+      IDENTITY_REACTIVATED,
+      IDENTITY_CREDENTIAL_CONTINUITY_PENDING,
+      IDENTITY_CREDENTIALS_REVOKED,
+      IDENTITY_CLOSED_BY_USER
+    ]
+  }
+
+  invariant support_preferences_are_not_identity_labels {
+    require support_preferences.recovery_stage_storage_allowed == false
+    require support_preferences.recovery_stage_inference_allowed == false
+    require support_preferences.visible_to_matching == false
+    require support_preferences.visible_to_lantern == false
+    require support_preferences.visible_to_bridge_adapters == false
+  }
+
+  invariant dormant_is_not_a_social_penalty {
+    when identity.state(subject_ref) == IDENTITY_DORMANT
+    require matching.rank_penalty(subject_ref) == 0
+    require notifications.urgency_prompt_allowed(subject_ref) == false
+    require lantern.integrity_penalty_allowed(subject_ref) == false
+  }
+
+  invariant pause_and_resume_are_user_directed {
+    when identity.state(subject_ref) == IDENTITY_PAUSED_BY_USER
+    require discovery.new_exposure_allowed(subject_ref) == false
+    require profile.pause_reason_visible_to_other_users(subject_ref) == false
+  }
+
+  invariant credential_lifecycle_is_separate {
+    when identity.credential_state(subject_ref) ==
+      CREDENTIAL_CONTINUITY_PENDING
+    require identity.recovery_stage_inferred(subject_ref) == false
+    require profile.recovery_context_changed(subject_ref) == false
+  }
+
+  invariant identity_continuity_is_non_actuating {
+    require identity.external_action_authorized == false
+  }
+}

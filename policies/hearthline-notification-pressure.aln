@@ -1,0 +1,54 @@
+policy HearthlineNotificationPressure version "2026-09-16" {
+
+  invariant notification_purpose_is_user_benefit {
+    require notification.engagement_optimization_allowed == false
+    require notification.session_duration_optimization_allowed == false
+    require notification.return_frequency_optimization_allowed == false
+    require notification.message_volume_optimization_allowed == false
+    require notification.profile_completion_pressure_allowed == false
+  }
+
+  invariant optional_notifications_follow_user_policy {
+    when notification.class(notification_ref) == OPTIONAL
+    require prompt_load.user_policy_allows(notification_ref) == true
+    require prompt_load.quiet_mode_respected(notification_ref) == true
+    require prompt_load.spacing_respected(notification_ref) == true
+    require prompt_load.optional_allowance_respected(notification_ref) == true
+  }
+
+  invariant current_action_feedback_is_inline {
+    when notification.class(notification_ref) in [
+      DIRECT_ACTION_CONFIRMATION,
+      CURRENT_ACTION_STATUS
+    ]
+    require notification.presentation(notification_ref) == INLINE
+    require notification.counted_as_optional(notification_ref) == false
+  }
+
+  invariant location_and_private_context_are_not_notified {
+    require notification.contains_precise_location == false
+    require notification.contains_location_history == false
+    require notification.contains_recipient_identity == false
+    require notification.contains_recovery_context == false
+    require notification.contains_health_context == false
+    require notification.contains_credential_material == false
+  }
+
+  invariant engagement_pressure_patterns_are_prohibited {
+    require notification.streak_created == false
+    require notification.match_expiration_pressure_allowed == false
+    require notification.unread_guilt_badge_allowed == false
+    require notification.response_deadline_allowed == false
+    require notification.return_prompt_allowed == false
+  }
+
+  invariant notification_is_not_a_matching_signal {
+    require matching.notification_behavior_input_allowed == false
+    require ranking.notification_behavior_input_allowed == false
+    require lantern.notification_behavior_input_allowed == false
+  }
+
+  invariant non_actuation {
+    require notification.external_action_authorized == false
+  }
+}

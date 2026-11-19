@@ -1,0 +1,53 @@
+policy CyberneticHostContinuityProtection version "2026-09-16" {
+
+  invariant continuity_is_user_defined_not_platform_adjudicated {
+    require continuity.platform_psych_continuity_assessment_allowed == false
+    require continuity.platform_identity_authenticity_assessment_allowed == false
+    require continuity.platform_neural_status_assessment_allowed == false
+    require continuity.platform_medical_status_assessment_allowed == false
+    require continuity.platform_continuity_score_created == false
+  }
+
+  invariant preferences_remain_private_and_revocable {
+    require preference.user_selected_scope_only == true
+    require preference.public_visibility_allowed == false
+    require preference.revocation_available == true
+    require preference.revocation_explanation_required == false
+    require preference.refusal_to_disclose_access_penalty == false
+  }
+
+  invariant attribution_is_stable_until_user_changes_it {
+    require attribution.platform_reassignment_without_user_action_allowed == false
+    require attribution.public_registry_publication_allowed == false
+    require attribution.cross_context_matching_allowed == false
+    require attribution.ranking_use_allowed == false
+    require attribution.eligibility_use_allowed == false
+  }
+
+  invariant no_reclassification_without_user_control {
+    require classification.identity_reclassification_without_user_request_allowed == false
+    require classification.communication_reclassification_without_user_request_allowed == false
+    require classification.access_preference_reclassification_without_user_request_allowed == false
+    require classification.refusal_to_disclose_used_as_classification_signal == false
+  }
+
+  invariant material_change_is_reviewable {
+    require change.accessibility_impact_assessment_required == true
+    require change.preference_handling_impact_assessment_required == true
+    require change.notice_before_material_change_required == true
+    require change.human_review_path_available == true
+    require change.correction_path_available == true
+    require change.appeal_path_available == true
+  }
+
+  invariant no_devaluation_by_external_agent {
+    require external_agent.identity_validity_assessment_allowed == false
+    require external_agent.person_worth_score_allowed == false
+    require external_agent.continuity_score_allowed == false
+    require external_agent.declaration_used_for_access_reduction == false
+  }
+
+  invariant continuity_governance_is_non_actuating {
+    require continuity.external_action_authorized == false
+  }
+}

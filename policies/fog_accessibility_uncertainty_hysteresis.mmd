@@ -1,0 +1,13 @@
+flowchart TD
+    A[FOG result withheld] --> B[Classify missing-evidence category]
+    B --> C[Generate bounded plain-language correction path]
+    C --> D[Offer designated human review contact]
+    B --> E[Compute media and pathway uncertainty contributions]
+    E --> F[Store derived decomposition with provenance]
+    F --> G[Evaluate hysteresis candidate state]
+    G --> H{Threshold and dwell rules met?}
+    H -->|No| I[Retain prior FOG state]
+    H -->|Yes| J[Record state transition and reason]
+    I --> K[Advisory-only output]
+    J --> K
+    K --> L[No direct actuation or automatic clearance]

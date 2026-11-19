@@ -1,0 +1,167 @@
+policy "corridor-calibration-extended" {
+  version = "1.0.0"
+  status = "reviewable"
+  operation_mode = "offline-local-only"
+  commitment_algorithm = "sha256"
+
+  error_propagation {
+    individual_uncertainty = "sensor_record_scoped"
+    geometry_uncertainty = "optional_and_explicit"
+    corridor_representation = "uncertainty_vector_not_score"
+
+    pairwise_formula = "u_ij = sqrt(u_i^2 + u_j^2)"
+    pairwise_geometry_formula = "u_ijg = sqrt(u_i^2 + u_j^2 + u_gij^2)"
+
+    permitted_summary = [
+      "maximum_declared_uncertainty_bound",
+      "vector_completeness_state",
+      "edge_specific_uncertainty_state"
+    ]
+
+    prohibited = [
+      "corridor_uncertainty_score",
+      "uncertainty_total",
+      "uncertainty_average",
+      "weighted_uncertainty_index",
+      "sensor_reliability_rank",
+      "sensor_priority_order",
+      "sensor_eligibility_conversion",
+      "cross_corridor_uncertainty_comparison"
+    ]
+
+    unavailable_input = [
+      "required_edge_uncertainty = not_established",
+      "no_imputation",
+      "no_silent_omission",
+      "other_sensor_uncertainties_remain_independent"
+    ]
+  }
+
+  sensor_unavailability {
+    state_is_declared = true
+    inference_from_missing_bytes = "prohibited"
+
+    states = [
+      "sensor_bytes_available_locally",
+      "sensor_bytes_unavailable_locally",
+      "sensor_bytes_verification_failed",
+      "sensor_state_not_declared"
+    ]
+
+    non_claims = [
+      "unavailability_is_not_fault",
+      "unavailability_is_not_damage",
+      "unavailability_is_not_removal",
+      "unavailability_is_not_untrustworthiness",
+      "unavailability_is_not_priority_change",
+      "unavailability_is_not_eligibility_change",
+      "unavailability_does_not_invalidate_other_sensor_records"
+    ]
+
+    propagation = [
+      "edges_requiring_unavailable_sensor_are_not_established",
+      "other_sensor_records_remain_independently_reviewable",
+      "corridor_summary_must_name_unavailable_dependencies"
+    ]
+  }
+
+  local_verification {
+    bounded_local_operation = true
+    external_service_required = false
+    external_reviewer_required = false
+    cloud_sensor_fusion_required = false
+    identity_verification_required = false
+
+    dimensions = [
+      "schema",
+      "canonical_encoding",
+      "record_sha256",
+      "predecessor_link",
+      "reference_binding",
+      "drift_arithmetic",
+      "time_tolerance",
+      "topology_binding",
+      "geometry_binding",
+      "sensor_availability",
+      "currentness",
+      "purpose_scope"
+    ]
+
+    statuses = [
+      "locally_verified",
+      "not_established",
+      "needs_local_review",
+      "quarantined_not_authoritative"
+    ]
+
+    default = "not_established"
+    score_conversion = "prohibited"
+  }
+
+  sensor_replacement {
+    append_only = true
+    content_addressed = true
+    prior_history_overwrite = "prohibited"
+    replacement_history_substitution = "prohibited"
+
+    required = [
+      "prior_sensor_artifact_sha256",
+      "prior_calibration_record_sha256",
+      "replacement_sensor_artifact_sha256",
+      "replacement_sensor_node_id",
+      "replacement_relation",
+      "effective_local_timestamp",
+      "role",
+      "non_claims"
+    ]
+
+    non_claims = [
+      "replacement_is_not_retroactive_presence",
+      "replacement_is_not_prior_sensor_fault_claim",
+      "replacement_is_not_prior_sensor_damage_claim",
+      "replacement_is_not_sensor_rank_change",
+      "replacement_is_not_sensor_priority_change",
+      "replacement_is_not_authority_or_procurement_claim"
+    ]
+  }
+
+  declared_purpose {
+    closed_vocabulary = [
+      "heat_island_monitoring",
+      "air_quality_context_monitoring",
+      "traffic_flow_context_monitoring",
+      "stormwater_context_monitoring",
+      "urban_habitat_context_monitoring",
+      "maintenance_condition_monitoring",
+      "local_environmental_reference_comparison",
+      "sensor_integrity_review"
+    ]
+
+    prohibited = [
+      "personal_context",
+      "identity_data",
+      "community_name",
+      "city_name",
+      "address",
+      "route",
+      "health_or_medical_context",
+      "neural_or_biometric_context",
+      "institutional_program_name",
+      "funding_request",
+      "priority_label",
+      "eligibility_label",
+      "free_text"
+    ]
+
+    required_non_claims = [
+      "purpose_is_not_personal_context",
+      "purpose_is_not_eligibility_criterion",
+      "purpose_is_not_priority_signal",
+      "purpose_is_not_sensor_rank",
+      "purpose_is_not_funding_request",
+      "purpose_is_not_authority_claim"
+    ]
+
+    purpose_effect = "local_applicability_boundary_only"
+  }
+}

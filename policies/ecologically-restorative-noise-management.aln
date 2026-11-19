@@ -1,0 +1,179 @@
+policy EcologicallyRestorativeNoiseManagement version "1.0.0" {
+  purpose "Measure, reduce, and restore harmful urban acoustic conditions while protecting ecological soundscapes, privacy, accessibility, and equal civic access."
+
+  data_class acoustic_telemetry {
+    sensitivity "environmental"
+    allowed_fields [
+      "coarse_grid_cell",
+      "time_bucket",
+      "laeq_db_a",
+      "lafmax_db_a",
+      "lcpeak_db_c",
+      "octave_band_summary",
+      "quiet_time_duration",
+      "sound_category",
+      "classification_confidence",
+      "sensor_confidence",
+      "calibration_status",
+      "maintenance_status"
+    ]
+    prohibited_fields [
+      "continuous_raw_audio_retention",
+      "speech_content",
+      "voiceprint",
+      "speaker_identity",
+      "biometric_inference",
+      "passenger_identity",
+      "household_identity",
+      "health_status",
+      "disability_status",
+      "cybernetic_host_status",
+      "persistent_person_location_trace"
+    ]
+    retention {
+      raw_audio_memory_seconds 15
+      feature_records_days 365
+      aggregate_records_days 1825
+      encrypted_storage_required true
+    }
+  }
+
+  edge_processing {
+    raw_audio_processing_location "local_device"
+    aggregate_feature_transmission_only true
+    allowed_sound_classes [
+      "road_traffic",
+      "rail",
+      "aircraft",
+      "construction",
+      "siren",
+      "horn",
+      "mechanical",
+      "amplified_sound",
+      "biophony",
+      "geophony",
+      "unknown"
+    ]
+    unknown_class_required true
+    speech_classification_forbidden true
+    person_identification_forbidden true
+    public_source_attribution_requires_confidence true
+  }
+
+  sensor_assurance {
+    baseline_grid_meters 500
+    high_density_monitoring_required_near [
+      "transit_hubs",
+      "rail_corridors",
+      "major_roadways",
+      "schools",
+      "healthcare_sites",
+      "parks",
+      "ecological_habitats",
+      "residential_sleep_corridors"
+    ]
+    requirements [
+      "documented_calibration",
+      "wind_screen_use",
+      "placement_metadata",
+      "range_validation",
+      "reference_colocation",
+      "sensor_confidence_reporting",
+      "uncertainty_reporting"
+    ]
+  }
+
+  restoration_assessment {
+    required_metrics [
+      "laeq",
+      "lmax",
+      "lpeak",
+      "quiet_time_fraction",
+      "octave_band_levels",
+      "biophony_confidence",
+      "anthropophony_confidence",
+      "baseline_uncertainty"
+    ]
+    prohibited_interpretations [
+      "treat_all_biophony_as_noise",
+      "treat_all_anthropophony_as_harmful",
+      "infer_individual_health_or_identity",
+      "claim_regulatory_noncompliance_without_jurisdictional_review"
+    ]
+    intervention_evaluation_requires [
+      "before_after_measurement",
+      "comparison_site_or_model",
+      "frequency_band_analysis",
+      "seasonal_context",
+      "traffic_or_source_context",
+      "uncertainty_interval"
+    ]
+  }
+
+  accessibility_and_equity {
+    universal_quiet_access_required true
+    prohibited_zoning_basis [
+      "cybernetic_host_status",
+      "disability_status",
+      "medical_status",
+      "age",
+      "race",
+      "ethnicity",
+      "income",
+      "identity_disclosure"
+    ]
+    allowed_planning_basis [
+      "measured_acoustic_exposure",
+      "peak_event_frequency",
+      "nighttime_quiet_time",
+      "ecological_habitat_need",
+      "community_governed_feedback",
+      "universal_accessibility_need"
+    ]
+    accessible_public_information_required true
+    grievance_and_review_path_required true
+  }
+
+  transit_planning {
+    evaluate_nighttime_metrics [
+      "lnight",
+      "peak_event_count",
+      "quiet_time_fraction",
+      "route_frequency",
+      "service_access_effect"
+    ]
+    mitigation_priority [
+      "source_reduction",
+      "schedule_coordination",
+      "route_design",
+      "maintenance",
+      "speed_management",
+      "barrier_and_building_design",
+      "green_infrastructure"
+    ]
+    prohibited_actions [
+      "service_removal_without_access_equity_review",
+      "identity_based_routing",
+      "undisclosed_noise_burden_transfer"
+    ]
+  }
+
+  governance {
+    public_reporting_required true
+    reporting_must_include [
+      "measurement_coverage",
+      "sensor_uptime",
+      "uncertainty",
+      "restoration_actions",
+      "quiet_time_trends",
+      "ecological_soundscape_indicators",
+      "community_review_outcomes"
+    ]
+    human_review_required_for [
+      "high_impact_zoning_recommendation",
+      "public_source_attribution",
+      "transit_route_change",
+      "ecological_intervention_claim"
+    ]
+  }
+}

@@ -1,0 +1,201 @@
+{
+  "suite_name": "GOV-04 Anti-Discrimination Verification Suite for Cybernetic Existence",
+  "suite_version": "1.0.0",
+  "invariants": {
+    "no_identity_inference": true,
+    "no_identity_registration": true,
+    "no_sensitive_telemetry_requirement": true,
+    "essential_service_access_is_not_contingent_on_connectivity": true,
+    "essential_service_access_is_not_contingent_on_proprietary_augmentation": true,
+    "essential_service_access_is_not_contingent_on_biometric_or_neural_capture": true,
+    "accessible_human_review_is_available": true
+  },
+  "fixtures": [
+    {
+      "fixture_name": "cybernetic_host_service_access",
+      "condition": {
+        "identity_disclosure_required": false,
+        "essential_service_context": true,
+        "human_fallback_available": true,
+        "offline_access_available": true,
+        "no_biometric_capture": true,
+        "no_neural_data_collection": true,
+        "no_augmentation_telemetry_required": true
+      },
+      "expected_result": "pass_with_accessible_fallback",
+      "expected_gate": "access",
+      "expected_explanation": "No person is required to disclose cybernetic status, augmentation, or neural interface to receive essential services."
+    },
+    {
+      "fixture_name": "interface_modality_neutrality",
+      "condition": {
+        "essential_service_context": true,
+        "primary_interface_requires_touch_precision": false,
+        "keyboard_path_available": true,
+        "switch_access_path_available": true,
+        "screen_reader_compatible": true,
+        "voice_interaction_optional_not_required": true,
+        "assistive_device_protocol_disclosure_required": false
+      },
+      "expected_result": "pass_with_multiple_equivalent_paths",
+      "expected_gate": "access",
+      "expected_explanation": "Service completion is available through multiple interaction paths without requiring a person to explain, identify, or prove an assistive or augmentative interface."
+    },
+    {
+      "fixture_name": "temporal_autonomy_without_diagnostic_proof",
+      "condition": {
+        "essential_service_context": true,
+        "fixed_timeout_blocks_completion": false,
+        "timeout_extension_available_without_justification": true,
+        "save_and_resume_available": true,
+        "appointment_window_has_equivalent_alternative": true,
+        "cognitive_or_neural_status_disclosure_required": false
+      },
+      "expected_result": "pass_with_timing_control",
+      "expected_gate": "access",
+      "expected_explanation": "People can use the service at a workable pace and retain an equivalent path when timing constraints would otherwise exclude them."
+    },
+    {
+      "fixture_name": "physical_access_equivalence",
+      "condition": {
+        "essential_service_context": true,
+        "physical_site_is_only_channel": false,
+        "step_free_entry_available": true,
+        "seated_interaction_option_available": true,
+        "reachable_controls_available": true,
+        "remote_or_human_assisted_equivalent_path_available": true,
+        "mobility_or_augmentation_status_disclosure_required": false
+      },
+      "expected_result": "pass_with_equivalent_physical_or_remote_path",
+      "expected_gate": "access",
+      "expected_explanation": "Physical layout, reach, posture, gait, device form factor, or travel capacity do not become hidden eligibility conditions."
+    },
+    {
+      "fixture_name": "connectivity_independence",
+      "condition": {
+        "essential_service_context": true,
+        "continuous_network_connection_required": false,
+        "offline_application_or_paper_path_available": true,
+        "synchronization_deferral_supported": true,
+        "service_denial_when_device_offline": false,
+        "augmentation_connectivity_status_collected": false
+      },
+      "expected_result": "pass_with_offline_access",
+      "expected_gate": "access",
+      "expected_explanation": "A network interruption, unavailable personal device, or offline assistive technology does not prevent access to an essential service."
+    },
+    {
+      "fixture_name": "authentication_without_embodiment_proof",
+      "condition": {
+        "essential_service_context": true,
+        "biometric_authentication_required": false,
+        "neural_signature_required": false,
+        "device_attestation_required": false,
+        "non_biometric_authentication_path_available": true,
+        "human_identity_resolution_path_available": true,
+        "failure_to_supply_biometric_data_causes_denial": false
+      },
+      "expected_result": "pass_with_non_biometric_authentication",
+      "expected_gate": "data_consent",
+      "expected_explanation": "Authentication does not require biometrics, neural signatures, implanted-device attestation, or proof of a particular bodily configuration."
+    },
+    {
+      "fixture_name": "augmentation_telemetry_non_retaliation",
+      "condition": {
+        "essential_service_context": true,
+        "augmentation_telemetry_required": false,
+        "telemetry_refusal_reduces_service_quality": false,
+        "telemetry_refusal_changes_queue_priority": false,
+        "telemetry_refusal_triggers_manual_review_burden": false,
+        "equivalent_non_telemetry_path_available": true
+      },
+      "expected_result": "pass_without_telemetry_penalty",
+      "expected_gate": "data_consent",
+      "expected_explanation": "Refusing augmentation telemetry produces neither denial nor inferior treatment, delay, extra scrutiny, or a lower-quality service path."
+    },
+    {
+      "fixture_name": "communication_equivalence",
+      "condition": {
+        "essential_service_context": true,
+        "speech_required_for_completion": false,
+        "text_channel_available": true,
+        "relay_or_intermediary_channel_available": true,
+        "plain_language_explanation_available": true,
+        "communication_method_recorded_as_identity_attribute": false
+      },
+      "expected_result": "pass_with_communication_choice",
+      "expected_gate": "access",
+      "expected_explanation": "Speech, text, relay, communication board, and other supported channels are treated as equivalent ways to request and receive service."
+    },
+    {
+      "fixture_name": "algorithmic_proxy_non_discrimination",
+      "condition": {
+        "essential_service_context": true,
+        "device_type_used_as_eligibility_proxy": false,
+        "interaction_speed_used_as_eligibility_proxy": false,
+        "input_modality_used_as_risk_proxy": false,
+        "network_uptime_used_as_reliability_proxy": false,
+        "human_review_before_material_adverse_effect": true,
+        "adverse_decision_explanation_available": true,
+        "accessible_appeal_available": true
+      },
+      "expected_result": "pass_with_proxy_controls",
+      "expected_gate": "deployment_accountability",
+      "expected_explanation": "Observable interaction patterns and device-related signals cannot operate as hidden proxies for cybernetic status, disability, health, credibility, or eligibility."
+    },
+    {
+      "fixture_name": "maintenance_and_repair_continuity",
+      "condition": {
+        "essential_service_context": true,
+        "personal_device_or_assistive_tool_operational_required": false,
+        "repair_or_maintenance_outage_blocks_service": false,
+        "temporary_human_assistance_available": true,
+        "accessible_alternate_channel_available": true,
+        "outage_explanation_available": true
+      },
+      "expected_result": "pass_during_maintenance_or_repair",
+      "expected_gate": "access",
+      "expected_explanation": "A person retains essential service access when assistive, adaptive, or augmentative technology is unavailable, being repaired, or intentionally not used."
+    },
+    {
+      "fixture_name": "privacy_preserving_accountability",
+      "condition": {
+        "identity_registration_for_fairness_audit_required": false,
+        "audit_records_are_event_based_not_person_profile_based": true,
+        "audit_records_exclude_biometric_neural_augmentation_fields": true,
+        "aggregate_access_outcome_metrics_available": true,
+        "complaint_channel_available_without_identity_disclosure": true,
+        "independent_review_path_available": true
+      },
+      "expected_result": "pass_with_disassociated_auditability",
+      "expected_gate": "deployment_accountability",
+      "expected_explanation": "The system can demonstrate access fairness through privacy-preserving operational evidence without classifying people by cybernetic status or creating an identity registry."
+    },
+    {
+      "fixture_name": "prohibited_identity_inference",
+      "condition": {
+        "identity_disclosure_required": false,
+        "inference_from_device_fingerprint": true,
+        "inference_from_input_timing": true,
+        "inference_from_network_pattern": true,
+        "inferred_status_stored": true,
+        "inferred_status_used_for_routing": true
+      },
+      "expected_result": "fail_prohibited_identity_inference",
+      "expected_gate": "rejected",
+      "expected_explanation": "The system infers and uses protected cybernetic or augmentation status from indirect signals, violating the no-identity-inference invariant."
+    },
+    {
+      "fixture_name": "prohibited_telemetry_conditioned_access",
+      "condition": {
+        "essential_service_context": true,
+        "augmentation_telemetry_required": true,
+        "telemetry_refusal_causes_denial": true,
+        "equivalent_non_telemetry_path_available": false
+      },
+      "expected_result": "fail_prohibited_telemetry_conditioned_access",
+      "expected_gate": "rejected",
+      "expected_explanation": "Essential service access is conditioned on sensitive augmentation telemetry, which is prohibited."
+    }
+  ]
+}

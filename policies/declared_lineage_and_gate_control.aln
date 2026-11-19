@@ -1,0 +1,231 @@
+@SHARD "DECLARED-LINEAGE-AND-GATE-CONTROL" {
+
+  @meta {
+    version: "1.0.0"
+    scope: "local_declared_lineage_closed_world_layer_registry_and_non_compensatory_gate_control"
+    audience: "local_validators_policy_engines_summarizers_and_governance_reviewers"
+    consent_basis: "user_sovereign_default"
+    retention: "declared_audit_window_only"
+    accountability: "local_governance_maintainer"
+    review_status: "draft_for_user_review"
+    operating_mode: "local_only_declared_norm_governance"
+  }
+
+  @CONTRACT_POSITION {
+    architecture_description: "layered_governance_substrate_and_control_plane"
+    not_claimed: [
+      "coherence_proof",
+      "global_provenance_proof",
+      "system_existence_proof",
+      "description_of_specific_real_world_system",
+      "verification",
+      "certification",
+      "diagnosis",
+      "public_status",
+      "external_action_authorization"
+    ]
+
+    declared_norms_not_discovered_facts: true
+    local_execution_only: true
+    non_authoritative_application: true
+    authority_scope: "eligible_for_declared_local_task_only_non_authoritative_elsewhere"
+  }
+
+  @DECLARED_LINEAGE {
+    lineage_name: "declared_content_addressed_lineage"
+
+    sha256_means: [
+      "declared_byte_identity_when_source_bytes_are_available_locally",
+      "tamper_evident_local_artifact_reference",
+      "input_to_local_reconstruction_and_review"
+    ]
+
+    sha256_does_not_mean: [
+      "origin_attestation",
+      "global_provenance_proof",
+      "truth_claim",
+      "empirical_validation",
+      "legal_authority",
+      "external_action_authorization"
+    ]
+
+    local_byte_verification_optional_when_source_bytes_available: true
+    source_declaration_required: true
+    role_declaration_required: true
+    version_declaration_required: true
+    material_change_review_required_for_rename_or_role_change: true
+  }
+
+  @CLOSED_WORLD_LAYER_REGISTRY {
+    closed_world: true
+    registry_version_required: true
+
+    required_layer_fields: [
+      "layer_name",
+      "declared_role",
+      "artifact_sha256",
+      "layer_version",
+      "review_status"
+    ]
+
+    layer_rename_requires: [
+      "prior_layer_name",
+      "new_layer_name",
+      "material_change_record",
+      "local_review",
+      "plain_language_change_summary"
+    ]
+
+    unknown_layer_policy: "quarantined_not_authoritative"
+    undeclared_function_policy: "blocked_pending_layer_declaration_and_review"
+    missing_layer_coverage_blocks_declared_task_eligibility: true
+  }
+
+  @NON_COMPENSATORY_GATE_CONTROL {
+    required_gates: [
+      "declared_layer_coverage",
+      "declared_lineage_valid",
+      "integrity_valid",
+      "rights_constraint_satisfied",
+      "consent_scope_valid",
+      "continuity_constraint_satisfied",
+      "review_current",
+      "novel_risk_not_established",
+      "non_interference_satisfied"
+    ]
+
+    gate_evaluation: "boolean_conjunction"
+    gate_failure_default: "blocked_pending_local_review_or_recovery"
+    compensatory_scoring_prohibited: true
+
+    prohibited_operations: [
+      "compensatory_aggregation",
+      "weighted_sum_override",
+      "scalarization_override",
+      "trade_off_function_override",
+      "expected_value_override",
+      "benefit_minus_harm_eligibility_override",
+      "failed_gate_penalty_substitution",
+      "ranking_based_gate_override"
+    ]
+
+    allowed_conflict_outcomes: [
+      "blocked_pending_review",
+      "more_protective_constraint_applied",
+      "scope_reduced",
+      "unknown_not_established",
+      "bounded_local_emergency_suspension_recorded"
+    ]
+
+    conflict_resolution_requires: [
+      "declared_priority_order",
+      "material_change_review_for_priority_change",
+      "plain_language_reason",
+      "machine_readable_local_record"
+    ]
+
+    declared_priority_is_not_compensatory_trade: true
+  }
+
+  @THRESHOLD_AND_PARAMETER_GOVERNANCE {
+    all_gate_thresholds_are_declared_policy_parameters: true
+
+    threshold_record_requires: [
+      "parameter_name",
+      "parameter_value",
+      "unit_or_boolean_semantics",
+      "policy_version",
+      "sha256",
+      "rationale",
+      "review_status"
+    ]
+
+    threshold_change_requires: [
+      "material_change_review",
+      "prior_value_preserved",
+      "plain_language_change_summary",
+      "local_provenance_record"
+    ]
+
+    hidden_thresholds_prohibited: true
+    undeclared_utility_parameters_prohibited: true
+  }
+
+  @NOVEL_RISK {
+    gate_name: "novel_risk_not_established"
+    default_when_unknown_condition_present: false
+    result_when_false: "blocked_pending_local_review"
+    unknown_condition_must_not_be_scored_as_low_risk: true
+    unknown_condition_must_not_be_silently_ignored: true
+  }
+
+  @BOUNDED_LOCAL_EMERGENCY_SUSPENSION {
+    permitted: true
+
+    requires: [
+      "specific_gate_identifier",
+      "bounded_local_duration",
+      "local_reason_record",
+      "non_interference_check",
+      "mandatory_post_hoc_review",
+      "automatic_expiry"
+    ]
+
+    cannot: [
+      "alter_gate_set",
+      "create_new_gate",
+      "rewrite_prior_record",
+      "disable_provenance",
+      "authorize_external_action",
+      "authorize_external_notification",
+      "authorize_repository_modification",
+      "authorize_hardware_control",
+      "bypass_identity_or_disclosure_protections"
+    ]
+
+    default_status: "blocked_pending_review_after_expiry"
+  }
+
+  @EXPORT_STABLE_NON_CLAIMS {
+    machine_readable_non_claims_required: true
+    authority_scope_field_required: true
+    non_claims_must_survive_excerpt_and_export: true
+
+    required_non_claims: [
+      "not_a_public_status",
+      "not_identity_verification",
+      "not_cyberrank_verification",
+      "not_eligibility_determination",
+      "not_diagnosis",
+      "not_certification",
+      "not_evidence_of_specific_system_existence",
+      "not_description_of_specific_real_world_system",
+      "not_authorization_for_external_action",
+      "not_person_or_community_ranking"
+    ]
+  }
+
+  @ACCESS_EQUIVALENCE {
+    offline_readable: true
+    plain_language_reason_required: true
+    machine_readable_record_required: true
+    no_account_required: true
+    no_identity_verification_required: true
+    no_personal_layer_disclosure_required: true
+    correction_available: true
+    appeal_available: true
+    material_change_review_available: true
+  }
+
+  @NON_INTERFERENCE {
+    never_modify_user_owned_files: true
+    never_modify_repository_files: true
+    never_contact_external_services: true
+    never_auto_fetch_references: true
+    never_auto_execute_artifact_content: true
+    never_trigger_external_action: true
+    never_trigger_external_notification: true
+    never_rank_people_sessions_communities_or_systems: true
+    never_infer_identity_intent_or_capability: true
+  }
+}

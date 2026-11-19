@@ -1,0 +1,73 @@
+policy: corridor_result_decision
+version: 2.0.0
+data_class: operational_decision_governance_policy
+purpose: require complete machine-readable explanation codes for corridor outcomes and preserve a human-review path for unresolved or blocked conditions
+consent_scope: operational_telemetry_and_authorization_data_only
+retention: retain_minimal_decision_reason_and_review_events_for_configured_audit_period
+deletion: delete_raw_or_nonessential_telemetry_after_retention_expiry_subject_to_minimal_integrity_commitments
+accountability: explanation_code_reason_attributes_human_review_correction_and_appeal_path
+review_status: required_for_needs_human_review_and_identity_discrimination_events
+access_equivalence_safeguards: identity_discrimination_detection_must_not_be_used_to_deny_ordinary_access_or_create_identity_profiles
+external_action_approval: required_for_external_export_of_decision_records
+
+decision:
+  permitted:
+    require:
+      - machine_readable_explanation_code
+      - complete_metrics
+      - current_policy_version
+      - current_cache_or_telemetry_version
+
+  denied:
+    require:
+      - machine_readable_explanation_code
+      - typed_denial_reason
+      - reason_specific_audit_attributes
+      - plain_language_explanation
+      - correction_path
+    permitted_explanation_codes:
+      - ELECTRICAL_BOUND_VIOLATION
+      - THERMAL_BOUND_VIOLATION
+      - WATER_STRESS_STAGE_EXCEEDED
+      - CONSENT_REVOKED
+      - IDENTITY_DISCRIMINATION_DETECTED
+      - FOG_MEDIA_THRESHOLD_EXCEEDED
+      - CANAL_CONDITION_THRESHOLD_FAILED
+      - KER_THRESHOLD_FAILED
+      - CORRIDOR_CACHE_MISS_DENY
+      - CORRIDOR_CACHE_VERSION_STALE_DENY
+      - CORRIDOR_CACHE_TIME_STALE_DENY
+      - REQUIRED_CORRIDOR_SENSOR_MISSING_DENY
+      - KER_AUTHORIZATION_MISSING_DENY
+      - KER_AUTHORIZATION_INVALID_DENY
+
+  needs_human_review:
+    require:
+      - machine_readable_explanation_code
+      - pending_decision_list
+      - human_review_path
+      - accessible_explanation
+      - no_automated_finalization
+
+rules:
+  - id: denied-result-code-required
+    when: corridor_result_is_denied
+    require:
+      - explanation_code_present
+      - explanation_code_matches_typed_denial_reason
+    otherwise:
+      result:
+        corridor_state: needs_human_review
+        explanation_code: DENIAL_REASON_MAPPING_INVALID
+
+  - id: identity-discrimination-escalation
+    when: explanation_code_is_identity_discrimination_detected
+    require:
+      - immediate_human_review
+      - accessible_correction_path
+      - appeal_path
+      - non_discrimination_audit_event
+    prohibit:
+      - automated_final_adverse_action
+      - identity_based_eligibility_inference
+      - identity_profile_creation_without_explicit_consent

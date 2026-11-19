@@ -1,0 +1,78 @@
+policy fog_integrity_conformal_offline_v2 {
+  version = "2"
+  classification = "governance_policy"
+  advisory_only = true
+  non_actuating = true
+
+  integrity {
+    require hash_algorithm "SHA-256"
+    require hash_domain "AugmentedHub.FOG.StateLog.v1"
+    require canonicalization_version "canonical-fields-v1"
+    require previous_hash
+    require event_hash
+    require unique_nonce
+    require monotonic_sequence
+    require append_only_log
+    require periodic_checkpoint
+    require separate_checkpoint_control
+
+    forbid raw_media_in_event_data
+    forbid filename_or_url_in_event_data
+    forbid raw_coordinates_in_event_data
+    forbid personal_data_in_event_data
+    forbid reviewer_name_or_narrative_in_event_data
+    forbid health_biometric_neural_device_or_augmentation_data_in_event_data
+  }
+
+  conformal_prediction {
+    require alpha
+    require calibration_run_reference
+    require calibration_set_size
+    require finite_sample_quantile
+    require exchangeability_assessment
+    require non_stationarity_assessment
+    require prediction_set_size_at_most_two
+
+    when exchangeability_assessment != "SUPPORTED_WITH_LIMITATIONS" {
+      require prediction_set_status "UNAVAILABLE"
+    }
+
+    when non_stationarity_assessment != "WITHIN_APPROVED_ENVELOPE" {
+      require prediction_set_status "UNAVAILABLE"
+    }
+
+    forbid universal_coverage_claim
+    forbid individual_coverage_claim
+    forbid certainty_claim_without_documented_assumptions
+    forbid autonomous_decision
+    forbid automatic_clear_from_prediction_set
+  }
+
+  offline_first {
+    require event_timestamp_utc
+    require expiry_timestamp_utc
+    require maximum_staleness_policy
+    require append_only_sync_events
+    require integrity_verification_before_sync
+    require conflict_preservation
+    require human_conflict_review_path
+    require deletion_after_expiry
+
+    forbid stale_payload_upload
+    forbid automatic_clear_on_reconnect
+    forbid silent_last_write_wins
+    forbid historic_timestamp_rewrite
+    forbid automatic_merge_of_human_signed_decisions
+  }
+
+  accessibility_and_non_interference {
+    require plain_language_status
+    require human_review_path
+    require correction_path
+
+    forbid disclosure_pressure
+    forbid executable_instruction
+    forbid direct_control_output
+    forbid identity_health_or_augmentation_inference
+  }
+}

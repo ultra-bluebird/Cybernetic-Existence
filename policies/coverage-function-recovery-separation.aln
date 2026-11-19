@@ -1,0 +1,67 @@
+policy_name = "coverage_function_recovery_separation"
+policy_version = "1.0"
+record_class = "biofilm_recovery_assessment"
+purpose = "Prevent biofilm coverage return from being represented as functional or scoped recovery without supporting evidence."
+consent_scope = "local_validation_and_non_actuating_research_only"
+retention = "bounded_by_repository_retention_policy"
+deletion = "remove_derived_test_records_when_no_longer_required"
+accountability = "recovery_evidence_review_and_provenance_digest"
+review_status = "required_when_functional_or_community_evidence_is_incomplete"
+access_equivalence_safeguard = "plain_language_recovery_scope_and_review_reason"
+external_action_approval = "prohibited"
+
+require recovery_state in [
+    "UNASSESSED",
+    "STRUCTURAL_RECOVERY",
+    "FUNCTIONAL_OR_COMMUNITY_SHIFT",
+    "RECOVERED_WITHIN_SCOPE",
+    "INSUFFICIENT_EVIDENCE",
+    "REVIEW_REQUIRED"
+]
+
+require coverage_state in [
+    "NOT_ASSESSED",
+    "BELOW_REFERENCE_RANGE",
+    "WITHIN_REFERENCE_RANGE",
+    "ABOVE_REFERENCE_RANGE",
+    "UNCERTAIN"
+]
+
+require functional_resolution in [
+    "UNASSESSED",
+    "FUNCTIONAL_RECOVERY_SUPPORTED",
+    "FUNCTIONAL_RECOVERY_NOT_SUPPORTED",
+    "FUNCTIONAL_EVIDENCE_ABSENT",
+    "FUNCTIONAL_EVIDENCE_INCONCLUSIVE",
+    "FUNCTIONAL_REVIEW_REQUIRED"
+]
+
+when coverage_state == "WITHIN_REFERENCE_RANGE":
+    require recovery_state not_in ["RECOVERED_WITHIN_SCOPE"]
+        or functional_resolution == "FUNCTIONAL_RECOVERY_SUPPORTED"
+
+when recovery_state == "RECOVERED_WITHIN_SCOPE":
+    require coverage_state == "WITHIN_REFERENCE_RANGE"
+    require functional_resolution == "FUNCTIONAL_RECOVERY_SUPPORTED"
+    require functional_metric_reference_digest is_not_null
+    require functional_resolution_provenance_digest is_not_null
+    require uncertainty_status == "BOUNDED"
+    require evidence_state not_in [
+        "INSUFFICIENT_EVIDENCE",
+        "INCONCLUSIVE",
+        "CONTRADICTORY"
+    ]
+
+when functional_resolution in [
+    "FUNCTIONAL_EVIDENCE_ABSENT",
+    "FUNCTIONAL_EVIDENCE_INCONCLUSIVE",
+    "FUNCTIONAL_REVIEW_REQUIRED"
+]:
+    require recovery_state not_in ["RECOVERED_WITHIN_SCOPE"]
+    require promotion_allowed == false
+
+deny when coverage_state == "WITHIN_REFERENCE_RANGE"
+    and recovery_state == "RECOVERED_WITHIN_SCOPE"
+    and functional_resolution != "FUNCTIONAL_RECOVERY_SUPPORTED"
+
+deny when external_action_authorized == true

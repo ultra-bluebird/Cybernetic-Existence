@@ -1,0 +1,43 @@
+policy HearthlineDigitalLegacy version "2026-09-16" {
+
+  invariant legacy_is_pre_authorized_and_dual_consented {
+    when legacy.instruction_state(instruction_ref) == LEGACY_INSTRUCTION_ACTIVE
+    require legacy.user_confirmed(instruction_ref) == true
+    require legacy.contact_accepted(instruction_ref) == true
+  }
+
+  invariant no_instruction_means_account_protection {
+    when legacy.instruction_exists(subject_ref) == false
+    require legacy.account_access_granted(subject_ref) == false
+    require legacy.account_existence_disclosed(subject_ref) == false
+    require legacy.public_memorial_created(subject_ref) == false
+  }
+
+  invariant legacy_access_is_narrow {
+    require legacy.message_access_allowed == false
+    require legacy.draft_access_allowed == false
+    require legacy.match_access_allowed == false
+    require legacy.consent_history_access_allowed == false
+    require legacy.credential_access_allowed == false
+    require legacy.recovery_material_access_allowed == false
+    require legacy.account_impersonation_allowed == false
+  }
+
+  invariant legacy_action_requires_review {
+    when legacy.request_received(request_ref)
+    require legacy.matching_active_instruction_exists(request_ref) == true
+    require legacy.review_required(request_ref) == true
+    require legacy.action_completed_automatically(request_ref) == false
+  }
+
+  invariant legacy_is_not_a_social_signal {
+    require profile.legacy_status_visible_to_other_users == false
+    require matching.legacy_instruction_input_allowed == false
+    require lantern.legacy_instruction_input_allowed == false
+    require analytics.person_level_legacy_input_allowed == false
+  }
+
+  invariant legacy_is_non_actuating {
+    require legacy.external_action_authorized == false
+  }
+}

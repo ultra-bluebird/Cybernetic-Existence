@@ -1,0 +1,79 @@
+policy fog_liveness_counterfactual_integrity_v2 {
+  version = "2"
+  classification = "governance_policy"
+  advisory_only = true
+  non_actuating = true
+
+  liveness {
+    require review_due_timestamp
+    require reminder_due_timestamp
+    require escalation_due_timestamp
+    require maximum_review_age
+    require accessible_human_review_path
+    require overdue_retained_state
+    require append_only_timeout_event
+
+    ltl {
+      always "withhold implies eventually review_requested"
+      always "review_requested and not review_completed implies eventually escalated_review_required"
+      always "timeout_reached implies not automatic_clear"
+      always "review_overdue_retained implies withhold"
+    }
+
+    forbid timeout_as_implicit_approval
+    forbid automatic_clear_on_timeout
+    forbid automatic_release_on_timeout
+  }
+
+  counterfactual_explanation {
+    require bounded_feature_space
+    require derived_evidence_condition
+    require model_version_reference
+    require plain_language_explanation
+    require accessible_human_interpretation_path
+    require advisory_only
+
+    forbid infer_individual_action
+    forbid infer_personal_behavior
+    forbid compel_data_disclosure
+    forbid expose_hidden_threshold_without_policy
+    forbid executable_instruction
+    forbid automatic_clear_from_counterfactual
+  }
+
+  integrity_log {
+    require hash_algorithm "SHA-256"
+    require hash_domain "AugmentedHub.FOG.StateLog.v1"
+    require canonicalization_version "canonical-fields-v1"
+    require previous_hash
+    require event_hash
+    require unique_nonce
+    require monotonic_sequence
+    require append_only_log
+    require periodic_checkpoint
+    require retention_class
+
+    forbid raw_media_in_event_data
+    forbid filename_in_event_data
+    forbid url_in_event_data
+    forbid raw_coordinates_in_event_data
+    forbid property_identifier_in_event_data
+    forbid personal_data_in_event_data
+    forbid reviewer_name_in_event_data
+    forbid reviewer_narrative_in_event_data
+    forbid health_biometric_neural_device_or_augmentation_data_in_event_data
+  }
+
+  privacy_and_non_interference {
+    require minimum_necessary_data
+    require correction_path
+    require human_fallback
+
+    forbid identity_inference
+    forbid health_inference
+    forbid augmentation_inference
+    forbid disclosure_pressure
+    forbid direct_control_output
+    forbid automatic_eligibility_decision
+  }
+}

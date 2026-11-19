@@ -1,0 +1,54 @@
+policy: eco_benefit_additionality
+version: 2.0.0
+data_class: ecological_claim_validation_governance_policy
+purpose: prevent eco-benefit claims when measured benefit does not exceed a documented baseline by more than its combined uncertainty band
+consent_scope: validated_environmental_measurement_and_model_data_only
+retention: retain_baseline_observation_uncertainty_method_result_and_review_events_for_configured_audit_period
+deletion: retain_minimal_claim_provenance_after_raw_measurement_retention_expiry
+accountability: baseline_method_visibility_uncertainty_reporting_independent_review_ker_review_and_claim_correction
+review_status: required_when_additionality_is_not_demonstrated
+access_equivalence_safeguards: ecological_claim_validation_must_not_be_used_to_reduce_essential_service_access_or_profile_communities
+external_action_approval: required_before_external_publication_or_transfer_of_claim_metadata
+
+additionality:
+  formula: observed_benefit_minus_baseline_benefit_greater_than_combined_uncertainty_band
+  require:
+    - same_accounting_period
+    - same_spatial_scope
+    - same_measurement_unit
+    - documented_baseline_method
+    - documented_observation_method
+    - independently_reviewed_uncertainty_band
+    - confidence_level
+    - measurement_and_model_provenance
+
+rules:
+  - id: additionality-failure
+    when: observed_minus_baseline_less_than_or_equal_to_uncertainty_band
+    result:
+      eco_benefit_claim_status: void
+      explanation_code: ECO_BENEFIT_ADDITIONALITY_NOT_DEMONSTRATED
+    require:
+      - mandatory_human_review
+      - ker_authorization_review
+      - accessible_claim_correction
+      - public_claim_withdrawal_when_previously_published
+    prohibit:
+      - verified_eco_benefit_claim
+      - eco_credit_issuance
+      - carbon_or_water_offset_claim
+      - use_of_claim_to_raise_eco_impact_value
+
+  - id: uncertainty-method-boundary
+    when:
+      any:
+        - uncertainty_method_missing
+        - error_distribution_unknown_without_conservative_interval
+        - uncertainty_not_independently_reviewed
+    result:
+      eco_benefit_claim_status: withheld
+      explanation_code: ADDITIONALITY_UNCERTAINTY_METHOD_INSUFFICIENT
+    prohibit:
+      - additionality_determination
+      - credit_issuance
+      - public_verified_claim

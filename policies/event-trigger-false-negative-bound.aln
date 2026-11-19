@@ -1,0 +1,49 @@
+policy_name = "event_trigger_false_negative_bound"
+policy_version = "1.0"
+record_class = "event_trigger_validation"
+purpose = "Require independently labeled event sets and bounded false-negative uncertainty before a trigger is promoted as validated for event detection."
+consent_scope = "local_validation_and_non_actuating_research_only"
+retention = "bounded_by_repository_retention_policy"
+deletion = "remove_derived_test_records_when_no_longer_required"
+accountability = "method_review_and_evidence_review"
+review_status = "required_when_labeled_event_coverage_is_insufficient"
+access_equivalence_safeguard = "plain_language_detection_limitations_and_stratified_result_states"
+external_action_approval = "prohibited"
+
+require external_action_authorized == false
+
+require validation_state in [
+    "FNR_BOUND_CONFIRMED",
+    "FNR_BOUND_NOT_MET",
+    "INSUFFICIENT_LABELED_EVENTS_FOR_FNR_BOUND",
+    "REFERENCE_LABEL_CONFLICT",
+    "METHOD_REVIEW_REQUIRED"
+]
+
+require event_definition_version is_not_null
+require confidence_level is_not_null
+require target_false_negative_rate is_not_null
+require true_positive_count is_not_null
+require false_negative_count is_not_null
+require independently_labeled_event_count is_not_null
+require reference_label_provenance_digest is_not_null
+
+when independently_labeled_event_count < minimum_required_event_count:
+    require validation_state == "INSUFFICIENT_LABELED_EVENTS_FOR_FNR_BOUND"
+
+when validation_state == "FNR_BOUND_CONFIRMED":
+    require false_negative_rate_upper_bound <= target_false_negative_rate
+    require independently_labeled_event_count >= minimum_required_event_count
+
+when validation_state == "REFERENCE_LABEL_CONFLICT":
+    require promotion_allowed == false
+
+when validation_state in [
+    "FNR_BOUND_NOT_MET",
+    "INSUFFICIENT_LABELED_EVENTS_FOR_FNR_BOUND",
+    "REFERENCE_LABEL_CONFLICT",
+    "METHOD_REVIEW_REQUIRED"
+]:
+    require event_flux_promotion_allowed == false
+
+deny when external_action_authorized == true

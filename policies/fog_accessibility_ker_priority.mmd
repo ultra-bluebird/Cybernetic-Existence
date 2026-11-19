@@ -1,0 +1,12 @@
+flowchart TD
+    A[Approved FOG correction template] --> B[Bounded text analysis]
+    B --> C[Simulated keyboard, screen-reader, reflow, and offline checks]
+    C --> D{All essential accessibility checks pass?}
+    D -->|No| E[ACCESSIBILITY_REVIEW_REQUIRED]
+    D -->|Yes| F[Store privacy-preserving audit result]
+    G[Withheld FOG review item] --> H[Validate: no personal, community, or allocation data]
+    H --> I[Read K, E, R, and FOG uncertainty]
+    I --> J[Calculate review urgency]
+    J --> K[Deterministic item-only queue ordering]
+    K --> L[Human review]
+    L --> M[No automatic clear or resource allocation]

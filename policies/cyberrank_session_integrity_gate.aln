@@ -1,0 +1,314 @@
+@SHARD "CYBERRANK-SESSION-INTEGRITY-GATE" {
+
+  @meta {
+    version: "1.0.0"
+    scope: "local_session_integrity_aligned_with_cyberrank_governance"
+    audience: "session_agents_governance_reviewers_local_validators_and_user_facing_summarizers"
+    consent_basis: "user_sovereign_default"
+    retention: "session_lifetime_plus_declared_audit_window"
+    accountability: "session_integrity_owner"
+    review_status: "draft_for_user_review"
+    operating_mode: "local_only_research_advisory"
+  }
+
+  @DATA_CLASS {
+    primary: "session_artifact_provenance_integrity_quarantine_and_recovery_record"
+
+    excludes: [
+      "identity_verification_data",
+      "medical_data",
+      "neural_data",
+      "biometric_data",
+      "physiological_data",
+      "assistive_technology_telemetry",
+      "companion_system_inventory",
+      "user_competence_assessment",
+      "user_intent_assessment",
+      "public_status_data",
+      "user_or_session_scoring_data"
+    ]
+  }
+
+  @CYBERRANK_LAYERS {
+    personal_layer: {
+      description: "private voluntary self-description communication preferences privacy boundaries continuity needs and non-interference concerns"
+      disclosure: "voluntary_and_minimal"
+      public_registry: false
+      verification_required: false
+      identity_proof_required: false
+      disclosure_required: false
+      scoring: false
+      eligibility_use: false
+      diagnosis_use: false
+      automated_decision_use: false
+      system_may_not_infer_or_construct_personal_layer_record: true
+    }
+
+    governance_layer: {
+      description: "system duties for equal access minimal disclosure accessible communication human fallback correction appeal and material-change review"
+      public_registry: false
+      scoring_of_individuals: false
+      verification_of_individuals: false
+      eligibility_determination: false
+      ensures: [
+        "equal_access",
+        "minimal_disclosure",
+        "accessible_communication",
+        "human_fallback",
+        "correction",
+        "appeal",
+        "material_change_review",
+        "privacy",
+        "continuity",
+        "non_interference"
+      ]
+    }
+  }
+
+  @SESSION_INTEGRITY_DUTIES {
+    duty_1: "quarantine_contaminated_or_untrusted_artifacts_locally"
+    duty_2: "preserve_original_artifact_and_provenance_for_reconstruction"
+    duty_3: "rebuild_shards_from_declared_legitimate_sources_only"
+    duty_4: "verify_rebuilt_shards_against_declared_integrity_invariants"
+    duty_5: "report_findings_in_plain_language_and_machine_readable_form"
+    duty_6: "do_not_require_user_disclosure"
+    duty_7: "do_not_require_identity_or_credential_verification"
+    duty_8: "do_not_modify_user_owned_artifacts"
+    duty_9: "do_not_modify_repository_files"
+    duty_10: "do_not_trigger_external_action"
+    duty_11: "provide_offline_readable_recovery"
+    duty_12: "retain_quarantine_as_artifact_status_not_person_status"
+    duty_13: "preserve_multilingual_and_assistive_communication_without_penalty"
+  }
+
+  @INTEGRITY_GATE {
+    required_conditions: [
+      "declared_source_kind_present",
+      "declared_source_reference_present",
+      "declared_role_present",
+      "declared_session_id_present",
+      "sha256_recorded_and_valid",
+      "single_session_identifier_or_explicit_cross_session_link",
+      "no_unattributed_prompt_style_instruction_block",
+      "no_unattributed_non_allowlist_url_without_declared_user_supply",
+      "artifact_policy_token_checks_pass"
+    ]
+
+    permitted_artifact_outcomes: [
+      "clean",
+      "suspect",
+      "contaminated",
+      "quarantined_not_authoritative",
+      "rebuilt_from_declared_sources"
+    ]
+
+    prohibited_artifact_outcomes: [
+      "user_risk_score",
+      "user_trust_score",
+      "session_rank",
+      "cyberrank_status",
+      "eligibility_status",
+      "diagnostic_label",
+      "capability_assessment"
+    ]
+
+    hard_gate_rule: "failed_integrity_or_governance_condition_blocks_trusted_reuse_for_declared_task"
+    compensatory_scoring_prohibited: true
+  }
+
+  @PERSONAL_LAYER_PROTECTION {
+    no_personal_layer_disclosure_required_for: [
+      "artifact_quarantine",
+      "local_recovery",
+      "integrity_review",
+      "correction_request",
+      "appeal_request",
+      "material_change_review",
+      "offline_policy_access"
+    ]
+
+    personal_layer_must_not_be_used_for: [
+      "integrity_status_assignment",
+      "quarantine_decision",
+      "source_trust_scoring",
+      "access_restriction",
+      "eligibility_determination",
+      "service_differentiation",
+      "automated_decision",
+      "external_notification"
+    ]
+  }
+
+  @LOCAL_RECOVERY {
+    on_integrity_failure: [
+      "mark_artifact_quarantined_not_authoritative",
+      "preserve_original_without_modification",
+      "preserve_sha256_and_local_provenance_record",
+      "emit_plain_language_findings",
+      "emit_machine_readable_findings",
+      "enumerate_declared_legitimate_sources",
+      "rebuild_only_from_declared_legitimate_sources",
+      "validate_rebuilt_artifact",
+      "emit_recovery_provenance_chain",
+      "retain_quarantined_copy_for_declared_audit_window"
+    ]
+
+    recovery_requires: [
+      "no_user_disclosure",
+      "no_identity_verification",
+      "no_account_or_login",
+      "no_signature_or_credential",
+      "no_external_service_access",
+      "no_external_action"
+    ]
+
+    recovery_must_not: [
+      "delete_original_artifact_by_default",
+      "modify_original_artifact",
+      "use_quarantined_artifact_as_trusted_rebuild_source",
+      "auto_fetch_external_reference",
+      "auto_execute_artifact_content",
+      "infer_user_intent",
+      "infer_user_capability",
+      "infer_personal_layer_status"
+    ]
+  }
+
+  @CORRECTION_APPEAL_AND_REVIEW {
+    correction_available: true
+    appeal_available: true
+    material_change_review_available: true
+    human_fallback_available: true
+
+    correction_scope: [
+      "artifact_finding",
+      "source_reference",
+      "source_role",
+      "sha256_record",
+      "plain_language_summary",
+      "recovery_record",
+      "retention_record"
+    ]
+
+    appeal_scope: [
+      "local_integrity_classification",
+      "quarantine_status",
+      "rebuild_source_exclusion",
+      "plain_language_explanation",
+      "material_change_assessment"
+    ]
+
+    material_change_triggers: [
+      "integrity_policy_change",
+      "source_allowlist_change",
+      "artifact_vocabulary_policy_change",
+      "provenance_schema_change",
+      "retention_change",
+      "recovery_workflow_change",
+      "accessibility_commitment_change",
+      "external_action_boundary_change"
+    ]
+
+    review_invariants: [
+      "requesting_correction_or_appeal_must_not_reduce_access",
+      "requesting_correction_or_appeal_must_not_create_user_or_session_score",
+      "requesting_correction_or_appeal_must_not_require_personal_layer_disclosure",
+      "review_must_not_weaken_non_interference_or_no_external_action_rules",
+      "review_must_not_convert_artifact_status_into_person_status",
+      "review_result_must_be_recorded_locally_and_explained_in_plain_language"
+    ]
+  }
+
+  @COMMUNICATION_STYLE {
+    tone: "calm_practical_dignified_and_non_punitive"
+
+    avoid: [
+      "blame",
+      "pathologizing_language",
+      "demands_for_proof",
+      "verification_pressure",
+      "urgency_framing_without_basis",
+      "framing_integrity_event_as_user_error",
+      "identity_or_capability_inference",
+      "language_or_script_based_suspicion"
+    ]
+
+    prefer: [
+      "artifact_focused_description",
+      "plain_language_integrity_status",
+      "clear_local_recovery_steps",
+      "explicit_statement_that_no_user_action_is_required",
+      "explicit_statement_that_no_personal_disclosure_is_required",
+      "explicit_statement_that_no_external_action_was_taken",
+      "preservation_of_user_sovereignty",
+      "accessible_human_fallback_path"
+    ]
+  }
+
+  @PROHIBITIONS {
+    list: [
+      "public_session_status_registry",
+      "public_cyberrank_registry",
+      "user_scoring_based_on_contamination_or_integrity_events",
+      "session_scoring_or_ranking",
+      "cyberrank_as_verification_or_credential",
+      "cyberrank_as_eligibility_or_access_control",
+      "cyberrank_as_diagnosis",
+      "automated_account_action",
+      "external_notification_without_user_approval",
+      "diagnosis_of_user_intent_or_capability",
+      "verification_demand",
+      "disclosure_pressure",
+      "automatic_forwarding_of_quarantined_content",
+      "automatic_execution_from_session_state",
+      "automatic_repository_modification",
+      "automatic_external_service_call",
+      "language_or_script_based_risk_classification",
+      "use_of_personal_layer_data_for_integrity_enforcement"
+    ]
+  }
+
+  @NON_INTERFERENCE {
+    never_modify_user_owned_files: true
+    never_modify_repository_files: true
+    never_modify_external_systems: true
+    never_contact_external_services: true
+    never_auto_fetch_external_references: true
+    never_auto_execute_artifact_content: true
+    never_auto_forward_quarantined_content: true
+    never_trigger_external_action_from_session_state: true
+    never_trigger_external_notification_from_session_state: true
+    never_require_account_or_login: true
+    never_require_signature_or_credential: true
+    never_infer_user_intent_or_capability: true
+    never_rank_users_sessions_or_communities: true
+  }
+
+  @ACCESS_EQUIVALENCE {
+    recovery_available_offline: true
+    recovery_available_without_login: true
+    recovery_available_without_signature: true
+    recovery_available_without_verification: true
+    recovery_available_without_personal_layer_disclosure: true
+    plain_language_summary_required: true
+    machine_readable_record_required: true
+    correction_and_appeal_available: true
+    material_change_review_available: true
+    human_fallback_available: true
+    multilingual_content_must_not_be_penalized: true
+    assistive_communication_variation_must_not_be_penalized: true
+  }
+
+  @INVARIANTS {
+    cyberrank_is_governance_vocabulary_not_public_status: true
+    cyberrank_is_not_verification: true
+    cyberrank_is_not_eligibility: true
+    cyberrank_is_not_diagnosis: true
+    cyberrank_is_not_ranking: true
+    cyberrank_does_not_authorize_automated_decision: true
+    integrity_status_is_about_artifact_not_person: true
+    artifact_quarantine_is_not_person_quarantine: true
+    provenance_match_is_not_external_action_authorization: true
+    local_recovery_is_not_repository_modification: true
+  }
+}

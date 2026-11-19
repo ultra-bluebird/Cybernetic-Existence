@@ -1,0 +1,42 @@
+policy CyberneticHostSystemDuties version "2026-09-16" {
+
+  invariant equal_access_without_identity_disclosure {
+    require service.core_access_requires_identity_declaration == false
+    require service.core_access_requires_technical_disclosure == false
+    require service.core_access_requires_medical_disclosure == false
+    require service.core_access_requires_biometric_disclosure == false
+  }
+
+  invariant communication_access_is_equivalent {
+    require service.alternative_communication_path_available == true
+    require service.assistive_technology_path_available == true
+    require service.nonstandard_communication_penalty_allowed == false
+    require service.communication_mode_used_for_eligibility == false
+  }
+
+  invariant correction_and_appeal_are_available {
+    require service.correction_path_available == true
+    require service.appeal_path_available == true
+    require service.human_fallback_available == true
+    require service.material_change_review_available == true
+  }
+
+  invariant no_identity_inference_from_behavior {
+    require service.identity_inference_from_language_allowed == false
+    require service.identity_inference_from_metadata_allowed == false
+    require service.identity_inference_from_device_allowed == false
+    require service.identity_inference_from_refusal_allowed == false
+    require service.identity_inference_from_communication_mode_allowed == false
+  }
+
+  invariant no_person_level_acceptance_scoring {
+    require acceptance.person_score_created == false
+    require acceptance.person_rank_created == false
+    require acceptance.person_eligibility_effect_created == false
+    require acceptance.public_status_created == false
+  }
+
+  invariant system_duty_design_is_non_actuating {
+    require system.external_action_authorized == false
+  }
+}

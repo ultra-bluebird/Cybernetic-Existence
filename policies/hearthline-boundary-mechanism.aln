@@ -1,0 +1,61 @@
+policy HearthlineBoundaryMechanism version "2026-09-15" {
+
+  invariant invalidation_is_platform_controlled_and_unsent_only {
+    when consent.scope_changed(subject_ref)
+    require hearthchat.unsent_protected_content_eligible(subject_ref) == false
+    require hearthchat.sent_content_recall_claimed == false
+  }
+
+  invariant no_second_content_or_field_name_record {
+    when hearthchat.invalidation_receipt_written(receipt_ref)
+    require audit.receipt_contains_suggestion_text(receipt_ref) == false
+    require audit.receipt_contains_field_name(receipt_ref) == false
+    require audit.receipt_contains_recipient_reference(receipt_ref) == false
+  }
+
+  invariant recipient_invalidation_notice_is_prohibited {
+    when hearthchat.suggestion_invalidated(suggestion_ref)
+    require notifications.recipient_notice_sent(suggestion_ref) == false
+  }
+
+  invariant protected_text_has_no_unapproved_sink {
+    require telemetry.suggestion_text_capture_allowed == false
+    require telemetry.consent_field_capture_allowed == false
+    require crash_reporting.composer_attachment_allowed == false
+    require analytics.protected_payload_capture_allowed == false
+  }
+
+  invariant lantern_is_structurally_segregated {
+    require matching.lantern_read_access == false
+    require discovery.lantern_read_access == false
+    require profile.lantern_read_access == false
+    require hearthchat.lantern_read_access == false
+  }
+
+  invariant lantern_terms_are_recovery_neutral {
+    require lantern.reason_code_contains_recovery_term == false
+    require lantern.action_type_contains_recovery_term == false
+  }
+
+  invariant lantern_never_blocks_user_protective_controls {
+    require lantern.may_block_consent_revocation == false
+    require lantern.may_block_account_pause == false
+    require lantern.may_block_safety_report == false
+    require lantern.may_block_support_resource_access == false
+  }
+
+  invariant lantern_has_expiry_and_review {
+    when lantern.state(assessment_ref) != NORMAL
+    require lantern.expires_at(assessment_ref) != null
+    require lantern.review_available(assessment_ref) == true
+  }
+
+  invariant trusted_server_scope_is_explicit {
+    require documentation.trusted_server_assumption_published == true
+    require documentation.known_limitations_published == true
+  }
+
+  invariant non_actuation {
+    require system.external_action_authorized == false
+  }
+}

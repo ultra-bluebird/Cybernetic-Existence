@@ -1,0 +1,53 @@
+policy HearthlineAccessibleAuthentication version "2026-09-16" {
+
+  invariant normal_access_requires_phishing_resistant_authentication {
+    require authentication.password_only_access_allowed == false
+    require authentication.sms_only_access_allowed == false
+    require authentication.email_link_only_access_allowed == false
+    require authentication.knowledge_question_access_allowed == false
+    require authentication.webauthn_user_verification_required == true
+  }
+
+  invariant biometric_only_access_is_prohibited {
+    require authentication.fingerprint_required == false
+    require authentication.face_recognition_required == false
+    require authentication.platform_pin_route_allowed == true
+    require authentication.cross_platform_security_key_route_allowed == true
+  }
+
+  invariant cognitive_tests_are_not_required {
+    require authentication.password_memorization_required == false
+    require authentication.code_transcription_required == false
+    require authentication.puzzle_solution_required == false
+    require authentication.image_recognition_required == false
+    require authentication.audio_recognition_required == false
+  }
+
+  invariant continuity_is_not_password_reset {
+    require continuity.password_reset_allowed == false
+    require continuity.secondary_authenticator_path_allowed == true
+    require continuity.hardware_key_path_allowed == true
+    require continuity.offline_code_initiation_allowed == true
+    require continuity.support_contact_cosign_allowed == true
+    require continuity.support_contact_sufficient_alone == false
+  }
+
+  invariant accessibility_is_not_an_integrity_signal {
+    require lantern.uses_biometric_failure_as_person_signal == false
+    require lantern.uses_accessibility_profile_as_person_signal == false
+    require lantern.uses_device_class_as_person_signal == false
+    require lantern.uses_interaction_speed_as_person_signal == false
+  }
+
+  invariant degraded_access_preserves_protective_controls {
+    require capabilities.pause_available_during_degradation == true
+    require capabilities.consent_revocation_available_during_degradation == true
+    require capabilities.block_available_during_degradation == true
+    require capabilities.report_available_during_degradation == true
+    require capabilities.generic_continuity_guidance_available_during_degradation == true
+  }
+
+  invariant authentication_is_non_actuating {
+    require authentication.external_action_authorized == false
+  }
+}

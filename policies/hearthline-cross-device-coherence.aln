@@ -1,0 +1,59 @@
+policy HearthlineCrossDeviceCoherence version "2026-09-16" {
+
+  invariant device_binding_is_user_initiated {
+    when identity.device_binding_created(device_binding_ref)
+    require identity.user_initiated_binding(device_binding_ref) == true
+    require authentication.existing_device_user_verification_complete(
+      device_binding_ref
+    ) == true
+    require authentication.new_device_user_verification_complete(
+      device_binding_ref
+    ) == true
+  }
+
+  invariant passive_device_correlation_is_prohibited {
+    require device.passive_fingerprint_storage_allowed == false
+    require device.canvas_fingerprint_storage_allowed == false
+    require device.audio_fingerprint_storage_allowed == false
+    require device.font_fingerprint_storage_allowed == false
+    require device.ip_history_storage_allowed == false
+    require device.advertising_identifier_storage_allowed == false
+    require device.cross_site_correlation_allowed == false
+  }
+
+  invariant device_group_is_private_to_identity_service {
+    require matching.device_group_read_access == false
+    require lantern.device_group_read_access == false
+    require hearthchat.device_group_read_access == false
+    require common_ground.device_group_read_access == false
+    require true_compass.device_group_read_access == false
+    require bridge_adapters.device_group_read_access == false
+    require recipient_persona.device_group_read_access == false
+    require recovery_expression.device_group_read_access == false
+    require analytics.person_level_device_group_read_access == false
+  }
+
+  invariant device_signout_is_immediate {
+    when identity.device_signout_requested(device_binding_ref)
+    require sessions.device_session_ended(device_binding_ref) == true
+    require identity.device_binding_active(device_binding_ref) == false
+  }
+
+  invariant shared_device_is_not_bound_by_default {
+    when session.shared_device_mode(session_ref) == true
+    require identity.durable_device_binding_allowed(session_ref) == false
+    require storage.durable_local_preference_sync_allowed(session_ref) == false
+    require bridge.long_lived_token_storage_allowed(session_ref) == false
+  }
+
+  invariant single_device_mode_has_no_penalty {
+    when identity.single_device_mode_enabled(account_ref)
+    require matching.rank_penalty(account_ref) == 0
+    require discovery.visibility_penalty(account_ref) == 0
+    require account.capability_penalty(account_ref) == 0
+  }
+
+  invariant non_actuation {
+    require device.external_action_authorized == false
+  }
+}

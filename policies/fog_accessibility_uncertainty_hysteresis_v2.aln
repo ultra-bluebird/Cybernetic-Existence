@@ -1,0 +1,78 @@
+policy fog_accessibility_uncertainty_hysteresis_v2 {
+  version = "2"
+  classification = "governance_policy"
+  advisory_only = true
+  non_actuating = true
+
+  data_class {
+    name = "fog_correction_decomposition_hysteresis"
+    purpose = "plain-language correction, bounded uncertainty analysis, and stable FOG classification"
+    consent_scope = "derived non-personal FOG metadata only"
+    raw_media_storage = "prohibited"
+    identity_inference = "prohibited"
+    health_inference = "prohibited"
+    augmentation_inference = "prohibited"
+    retention = "minimum necessary and reviewable"
+    deletion = "according to documented retention boundary"
+  }
+
+  correction_path {
+    require evidence_category
+    require suggested_action
+    require human_contact_scope
+    require plain_language
+    require accessibility_review
+    forbid executable_instruction
+    forbid automation_command
+    forbid private_data_demand
+    forbid disclosure_pressure
+    forbid system_internal_threshold_disclosure
+  }
+
+  uncertainty_decomposition {
+    require media_uncertainty >= 0
+    require media_uncertainty <= 1
+    require pathway_uncertainty >= 0
+    require pathway_uncertainty <= 1
+    require overlap_uncertainty >= 0
+    require overlap_uncertainty <= 1
+    require interaction_uncertainty >= 0
+    require interaction_uncertainty <= 1
+    require total_uncertainty >= 0
+    require total_uncertainty <= 1
+    require advisory_only == true
+    forbid automated_personal_inference
+    forbid automated_eligibility_decision
+    require reconstruction_error_logged
+  }
+
+  hysteresis {
+    require theta_low >= 0
+    require theta_high <= 1
+    require theta_low < theta_high
+    require minimum_dwell_seconds > 0
+    require aggregation_window_provenance
+    require material_change_review
+    require review_status
+    require transition_reason
+    forbid hidden_threshold_change
+    forbid direct_actuation
+  }
+
+  non_interference {
+    require human_review_path
+    require correction_path
+    require accessible_explanation
+    forbid coercive_data_collection
+    forbid direct_control_output
+  }
+
+  accountability {
+    require policy_version
+    require provenance
+    require review_status
+    require correction_audit
+    require threshold_audit
+    require material_change_review
+  }
+}

@@ -1,0 +1,88 @@
+policy fog_final_accessibility_priority_v2 {
+  version = "2"
+  classification = "governance_policy"
+  advisory_only = true
+  non_actuating = true
+
+  data_class {
+    name = "fog_accessibility_and_review_priority_metadata"
+    purpose = "accessibility auditing and ordering of already-withheld FOG review items"
+    consent_scope = "derived non-personal template and review-item metadata only"
+    retention = "minimum necessary and policy-bounded"
+    deletion = "according to documented retention process"
+  }
+
+  accessibility_audit {
+    require template_version
+    require plain_language_status
+    require human_review_path
+    require keyboard_navigation_result
+    require screen_reader_semantics_result
+    require nonvisual_status_equivalence
+    require no_forced_time_limit
+    require offline_text_availability
+    require translation_review_status_for_non_default_locale
+    require non_personal_audit_metadata
+
+    forbid personal_data_collection
+    forbid literacy_inference
+    forbid disability_inference
+    forbid assistive_device_tracking
+    forbid visitor_history
+    forbid visual_only_status
+    forbid essential_access_failure_compensation
+    forbid executable_instruction
+  }
+
+  review_priority {
+    require human_review_required_state
+    require bounded_knowledge_factor
+    require bounded_ecological_value
+    require bounded_risk_factor
+    require bounded_fog_uncertainty
+    require explicit_ker_weights
+    require explicit_aging_weights
+    require weights_sum_to_one
+    require deterministic_tie_break
+    require immutable_weight_profile
+    require material_change_review
+
+    forbid priority_for_clearance
+    forbid priority_for_release
+    forbid priority_for_deletion
+    forbid individual_ranking
+    forbid community_ranking
+    forbid demographic_inference
+    forbid resource_allocation
+    forbid service_eligibility_decision
+    forbid real_world_intervention_command
+  }
+
+  non_compensation {
+    require fog_withhold_preserved_until_human_review
+    forbid favorable_ker_score_as_clearance
+    forbid favorable_accessibility_score_as_essential_access_override
+    forbid priority_score_as_rights_or_privacy_override
+  }
+
+  accessibility_and_non_interference {
+    require accessible_human_fallback
+    require correction_path
+    require plain_language_status
+    require offline_accessible_status_text
+
+    forbid disclosure_pressure
+    forbid direct_control_output
+    forbid operational_instruction
+    forbid identity_health_or_augmentation_inference
+  }
+
+  accountability {
+    require policy_version
+    require template_audit_reference
+    require priority_weight_profile_reference
+    require calculation_provenance
+    require correction_path
+    require review_status
+  }
+}

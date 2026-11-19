@@ -1,0 +1,150 @@
+policy fog_section2_governance_v2 {
+  version = "2"
+  classification = "governance_policy"
+  advisory_only = true
+  non_actuating = true
+
+  data_class {
+    name = "fog_section2_derived_governance_metadata"
+    purpose = "review liveness, explainability, integrity, uncertainty, offline synchronization, window selection, and derived inference"
+    consent_scope = "derived non-personal FOG metadata only"
+    retention = "minimum necessary and policy-bounded"
+    deletion = "authorized expiry with integrity-preserving audit record"
+  }
+
+  timeout_and_liveness {
+    require review_due_timestamp
+    require reminder_due_timestamp
+    require escalation_due_timestamp
+    require maximum_review_age
+    require accessible_human_review_path
+    require overdue_retained_state
+    require append_only_timeout_event
+
+    ltl {
+      always "withhold implies eventually review_requested"
+      always "review_requested and not review_completed implies eventually escalated_review_required"
+      always "timeout_reached implies not automatic_clear"
+      always "review_overdue_retained implies withhold"
+    }
+
+    forbid timeout_as_implicit_approval
+    forbid automatic_clear_on_timeout
+    forbid automatic_release_on_timeout
+  }
+
+  counterfactual_explanation {
+    require bounded_feature_space
+    require derived_evidence_condition
+    require model_version_reference
+    require human_interpretation_path
+    require plain_language_explanation
+    require advisory_only
+
+    forbid individual_action_inference
+    forbid personal_behavior_inference
+    forbid disclosure_pressure
+    forbid hidden_threshold_disclosure_without_policy
+    forbid executable_instruction
+    forbid automatic_clear_from_counterfactual
+  }
+
+  hash_chain_integrity {
+    require hash_algorithm "SHA-256"
+    require domain_separation
+    require canonicalization_version
+    require previous_hash
+    require event_hash
+    require unique_nonce
+    require monotonic_sequence
+    require append_only_log
+    require periodic_checkpoint
+
+    forbid raw_media_in_event_data
+    forbid filename_in_event_data
+    forbid url_in_event_data
+    forbid raw_coordinates_in_event_data
+    forbid personal_data_in_event_data
+    forbid reviewer_name_in_event_data
+    forbid reviewer_narrative_in_event_data
+    forbid health_biometric_neural_or_device_data_in_event_data
+  }
+
+  conformal_prediction {
+    require alpha
+    require calibration_run_reference
+    require calibration_set_size
+    require finite_sample_quantile
+    require exchangeability_assessment
+    require non_stationarity_assessment
+    require prediction_set_size_at_most_two
+
+    forbid universal_coverage_claim
+    forbid individual_coverage_claim
+    forbid certainty_claim_without_assumptions
+    forbid autonomous_decision
+    forbid automatic_clear_from_singleton_set
+  }
+
+  offline_first {
+    require event_timestamp_utc
+    require local_expiry_timestamp_utc
+    require maximum_staleness_policy
+    require append_only_sync_events
+    require conflict_preservation
+    require human_conflict_review_path
+    require content_deletion_after_expiry
+
+    forbid stale_content_upload
+    forbid automatic_clear_on_reconnect
+    forbid silent_last_write_wins
+    forbid historic_timestamp_rewrite
+  }
+
+  window_optimization {
+    require false_withhold_rate
+    require miss_rate
+    require coverage_ratio
+    require compute_energy_measurement
+    require energy_uncertainty_ratio
+    require calibration_support
+    require pareto_front
+    require hard_constraint_validation
+    require human_selected_weight_profile
+    require human_selection_record
+
+    forbid hidden_weights
+    forbid automatic_window_promotion
+    forbid weighted_score_as_safeguard_override
+  }
+
+  indirect_sensor_inference {
+    require derived_label
+    require regression_model_version
+    require validation_window
+    require validation_sample_count
+    require mean_squared_error
+    require maximum_absolute_error
+    require drift_assessment
+    require explicit_uncertainty_reduction_approval
+
+    forbid direct_evidence_label
+    forbid regulatory_claim
+    forbid enforcement_claim
+    forbid eligibility_claim
+    forbid person_level_inference
+    forbid automatic_clear_of_high_risk_withhold
+  }
+
+  accessibility_and_non_interference {
+    require plain_language_status
+    require accessible_human_review_path
+    require correction_path
+    require offline_text_availability
+
+    forbid disclosure_pressure
+    forbid executable_instruction
+    forbid direct_control_output
+    forbid identity_health_or_augmentation_inference
+  }
+}

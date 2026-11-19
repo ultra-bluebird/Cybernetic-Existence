@@ -1,0 +1,20 @@
+flowchart TD
+    A[New FOG sample] --> B[Conformal prediction set]
+    B --> C{Calibration and shift requirements satisfied?}
+    C -->|No| D[Conservative withhold or human review]
+    C -->|Yes| E{Prediction set is single label?}
+    E -->|No or empty| D
+    E -->|Yes| F[Advisory evidence routed through FOG safeguards]
+    F --> G[Offline local queue if disconnected]
+    G --> H{Staleness within retention limit?}
+    H -->|No| I[Delete content-bearing local record and preserve minimal expiry audit]
+    H -->|Yes| J[Append-only synchronization]
+    J --> K{Conflict detected?}
+    K -->|Yes| L[Preserve branches and require human review]
+    K -->|No| M[Store synchronized advisory history]
+    M --> N[Evaluate aggregation-window Pareto front]
+    N --> O[Human selects weights and window]
+    O --> P[Optional derived sensor imputation]
+    P --> Q{Validation and drift bounds met?}
+    Q -->|No| D
+    Q -->|Yes| R[Reduce uncertainty only; never relabel as direct evidence]

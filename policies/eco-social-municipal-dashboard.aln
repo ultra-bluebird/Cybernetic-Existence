@@ -1,0 +1,72 @@
+policy EcoSocialMunicipalDashboard version "2026-09-17" {
+
+  purpose {
+    data_class = MUNICIPAL_DECISION_SUPPORT
+    permitted_use = ECOLOGICAL_AND_ACCESSIBILITY_SCENARIO_ANALYSIS
+    permitted_use = TRANSPARENT_PUBLIC_REPORTING
+    permitted_use = DATA_QUALITY_DISCLOSURE
+    prohibited_use = PERSON_SCORING
+    prohibited_use = IDENTITY_INFERENCE
+    prohibited_use = AUTOMATED_GOVERNMENT_DECISION
+    prohibited_use = COMMUNITY_REPUTATION_SCORING
+  }
+
+  invariant dashboard_indicators_have_context {
+    require indicator.definition_present == true
+    require indicator.unit_present == true
+    require indicator.source_provenance_present == true
+    require indicator.data_owner_present == true
+    require indicator.collection_method_present == true
+    require indicator.reference_period_present == true
+    require indicator.geographic_scope_present == true
+    require indicator.uncertainty_statement_present == true
+    require indicator.missingness_statement_present == true
+    require indicator.last_review_date_present == true
+  }
+
+  invariant composite_indicators_are_transparent {
+    require composite.component_indicator_list_present == true
+    require composite.weight_rationale_published == true
+    require composite.weight_range_documented == true
+    require composite.sensitivity_analysis_completed == true
+    require composite.missing_data_rule_documented == true
+    require composite.uncertainty_penalty_included == true
+    require composite.hidden_weight_allowed == false
+  }
+
+  invariant dashboard_does_not_profile_or_score_people {
+    require dashboard.named_person_data_allowed == false
+    require dashboard.device_identifier_tracking_allowed == false
+    require dashboard.identity_inference_allowed == false
+    require dashboard.health_inference_allowed == false
+    require dashboard.augmentation_inference_allowed == false
+    require dashboard.person_score_created == false
+    require dashboard.household_score_created == false
+    require dashboard.neighborhood_reputation_score_created == false
+  }
+
+  invariant feedback_is_private_and_thresholded {
+    require feedback.low_disclosure_submission_available == true
+    require feedback.identity_disclosure_required == false
+    require feedback.raw_publication_allowed == false
+    require feedback.minimum_aggregation_threshold_required == true
+    require feedback.correction_path_available == true
+    require feedback.appeal_path_available == true
+  }
+
+  invariant dashboard_preserves_accessibility {
+    require interface.keyboard_operation_available == true
+    require interface.screen_reader_compatible_output_available == true
+    require interface.data_table_alternative_available == true
+    require interface.plain_language_summary_available == true
+    require interface.language_selection_user_controlled == true
+    require interface.human_fallback_route_available == true
+  }
+
+  invariant dashboard_is_non_actuating {
+    require dashboard.automatic_funding_decision_allowed == false
+    require dashboard.automatic_service_reduction_allowed == false
+    require dashboard.automatic_enforcement_allowed == false
+    require dashboard.external_action_authorized == false
+  }
+}

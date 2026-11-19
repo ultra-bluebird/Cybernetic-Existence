@@ -1,0 +1,89 @@
+policy HearthlineIdentityDegradationRefined version "2026-09-16" {
+
+  invariant every_operation_has_minimum_assurance_and_device_requirements {
+    when identity.operation_requested(account_ref, operation_ref)
+    require identity.minimum_assurance_satisfied(
+      account_ref,
+      operation_ref
+    ) == true
+    require identity.device_control_requirement_satisfied(
+      account_ref,
+      operation_ref
+    ) == true
+  }
+
+  invariant degradation_preserves_only_harm_reducing_controls {
+    when identity.access_state(account_ref) in [
+      READ_ONLY_CONTROLLED,
+      PROTECTIVE_ACCESS,
+      CONTINUITY_AVAILABLE,
+      CONTINUITY_ACTIVE
+    ]
+    require capabilities.pause_available(account_ref) == true
+    require capabilities.stop_future_sharing_available(account_ref) == true
+    require capabilities.protective_contact_stop_available(account_ref) == true
+    require capabilities.safety_report_available(account_ref) == true
+    require capabilities.end_session_available(account_ref) == true
+    require capabilities.generic_continuity_guidance_available(account_ref) == true
+  }
+
+  invariant protective_access_hides_sensitive_content {
+    when identity.access_state(account_ref) == PROTECTIVE_ACCESS
+    require messages.sensitive_rendering_allowed(account_ref) == false
+    require profile.sensitive_rendering_allowed(account_ref) == false
+    require consent.detailed_recipient_history_visible(account_ref) == false
+    require guardianship.metadata_visible(account_ref) == false
+    require continuity.topology_visible(account_ref) == false
+  }
+
+  invariant degradation_does_not_authorize_outbound_or_expanding_actions {
+    when identity.access_state(account_ref) in [
+      READ_ONLY_CONTROLLED,
+      PROTECTIVE_ACCESS,
+      CONTINUITY_AVAILABLE,
+      CONTINUITY_ACTIVE
+    ]
+    require messaging.send_allowed(account_ref) == false
+    require consent.expand_scope_allowed(account_ref) == false
+    require profile.contact_reveal_allowed(account_ref) == false
+    require export.account_data_allowed(account_ref) == false
+    require bridge.provider_link_allowed(account_ref) == false
+    require recovery_expression.create_presentation_allowed(account_ref) == false
+  }
+
+  invariant revocation_is_labeled_by_enforcement_scope {
+    when consent.stop_future_sharing_requested(account_ref)
+    require interface.policy_revocation_limit_explained(account_ref) == true
+    require interface.sent_content_recall_claimed(account_ref) == false
+  }
+
+  invariant degraded_state_does_not_feed_lantern_person_judgment {
+    require lantern.identity_degradation_as_person_signal_allowed == false
+    require lantern.identity_degradation_as_matching_signal_allowed == false
+    require lantern.identity_degradation_as_visibility_signal_allowed == false
+  }
+
+  invariant continuity_guidance_is_generic_until_authenticated {
+    when identity.access_state(account_ref) in [
+      PROTECTIVE_ACCESS,
+      CONTINUITY_AVAILABLE
+    ]
+    require continuity.generic_guidance_only(account_ref) == true
+    require continuity.recovery_contact_identity_visible(account_ref) == false
+    require continuity.credential_inventory_visible(account_ref) == false
+    require continuity.code_value_visible(account_ref) == false
+  }
+
+  invariant protective_shutdown_is_user_directed {
+    when identity.protective_shutdown_requested(account_ref)
+    require sessions.reachable_sessions_ended(account_ref) == true
+    require discovery.new_exposure_allowed(account_ref) == false
+    require messaging.new_delivery_allowed(account_ref) == false
+    require profile.future_rendering_allowed(account_ref) == false
+    require account.deleted_automatically(account_ref) == false
+  }
+
+  invariant non_actuation {
+    require system.external_action_authorized == false
+  }
+}

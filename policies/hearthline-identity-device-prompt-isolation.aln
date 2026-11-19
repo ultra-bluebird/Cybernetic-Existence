@@ -1,0 +1,115 @@
+policy HearthlineIdentityDevicePromptIsolation version "2026-09-16" {
+
+  invariant identity_degradation_preserves_safety_controls {
+    when identity.access_state(account_ref) in [
+      LIMITED_ACCESS,
+      READ_ONLY_CONTROLLED,
+      PROTECTIVE_ACCESS,
+      CONTINUITY_AVAILABLE,
+      CONTINUITY_ACTIVE
+    ]
+    require capabilities.pause_available(account_ref) == true
+    require capabilities.stop_future_sharing_available(account_ref) == true
+    require capabilities.block_available(account_ref) == true
+    require capabilities.report_available(account_ref) == true
+    require capabilities.generic_continuity_guidance_available(account_ref) == true
+  }
+
+  invariant protective_access_hides_sensitive_content {
+    when identity.access_state(account_ref) == PROTECTIVE_ACCESS
+    require messages.sensitive_rendering_allowed(account_ref) == false
+    require profile.sensitive_rendering_allowed(account_ref) == false
+    require consent.detailed_recipient_history_visible(account_ref) == false
+    require continuity.device_topology_visible(account_ref) == false
+  }
+
+  invariant degraded_access_blocks_outbound_and_expanding_actions {
+    when identity.access_state(account_ref) in [
+      READ_ONLY_CONTROLLED,
+      PROTECTIVE_ACCESS,
+      CONTINUITY_AVAILABLE,
+      CONTINUITY_ACTIVE
+    ]
+    require messaging.send_allowed(account_ref) == false
+    require matching.express_interest_allowed(account_ref) == false
+    require consent.expand_scope_allowed(account_ref) == false
+    require profile.contact_reveal_allowed(account_ref) == false
+    require export.account_data_allowed(account_ref) == false
+    require bridge.provider_link_allowed(account_ref) == false
+    require recovery_expression.create_presentation_allowed(account_ref) == false
+  }
+
+  invariant prompt_policy_is_user_directed {
+    require prompt_load.user_selects_default_pace == true
+    require prompt_load.user_selects_today_pace == true
+    require prompt_load.user_can_quiet_optional_interruptions == true
+    require prompt_load.user_can_restore_optional_interruptions == true
+    require prompt_load.user_can_dismiss_deferred_items == true
+  }
+
+  invariant prompt_policy_uses_no_sensitive_or_inferred_inputs {
+    require prompt_load.uses_sleep_data == false
+    require prompt_load.uses_biometric_data == false
+    require prompt_load.uses_mood_data == false
+    require prompt_load.uses_recovery_status == false
+    require prompt_load.uses_recovery_duration == false
+    require prompt_load.uses_trauma_history == false
+    require prompt_load.uses_diagnosis == false
+    require prompt_load.uses_message_sentiment == false
+    require prompt_load.uses_typing_speed == false
+    require prompt_load.uses_response_latency == false
+    require prompt_load.uses_match_activity == false
+    require prompt_load.uses_social_graph == false
+    require prompt_load.uses_lantern_state == false
+    require prompt_load.uses_inferred_capacity == false
+  }
+
+  invariant prompt_policy_is_not_a_social_signal {
+    require matching.prompt_load_read_access == false
+    require ranking.prompt_load_read_access == false
+    require profile.prompt_load_read_access == false
+    require lantern.prompt_load_read_access == false
+    require bridge.prompt_load_read_access == false
+    require analytics.person_level_prompt_load_read_access == false
+  }
+
+  invariant device_group_is_private_to_identity_service {
+    require true_compass.device_group_read_access == false
+    require lantern.device_group_read_access == false
+    require hearthchat.device_group_read_access == false
+    require common_ground.device_group_read_access == false
+    require steady_path.device_group_read_access == false
+    require waypoint.device_group_read_access == false
+    require bridge.device_group_read_access == false
+    require recovery_expression.device_group_read_access == false
+    require recipient_persona.device_group_read_access == false
+    require matching.device_group_read_access == false
+    require profile.device_group_read_access == false
+    require analytics.person_level_device_group_read_access == false
+    require external_provider.device_group_read_access == false
+  }
+
+  invariant device_binding_is_explicit_and_nontracking {
+    require device.passive_fingerprint_storage_allowed == false
+    require device.cross_site_correlation_allowed == false
+    require device.advertising_identifier_storage_allowed == false
+    require device.location_history_storage_allowed == false
+    require device.raw_credential_identifier_storage_allowed == false
+    require device.raw_attestation_object_storage_allowed == false
+    require device.binding_requires_user_initiation == true
+  }
+
+  invariant shared_session_is_not_a_durable_personal_device {
+    when device.session_kind(session_ref) == SHARED_OR_TEMPORARY_SESSION
+    require device.durable_binding_allowed(session_ref) == false
+    require storage.durable_prompt_policy_sync_allowed(session_ref) == false
+    require storage.durable_draft_persistence_allowed(session_ref) == false
+    require bridge.long_lived_provider_token_allowed(session_ref) == false
+  }
+
+  invariant all_identity_components_are_non_actuating {
+    require identity.external_action_authorized == false
+    require device.external_action_authorized == false
+    require prompt_load.external_action_authorized == false
+  }
+}

@@ -1,0 +1,60 @@
+policy HearthlinePseudonymousIdentity version "2026-09-16" {
+
+  invariant pseudonym_is_bound_to_opaque_account_only {
+    require persona.legal_name_binding_allowed == false
+    require persona.external_identity_binding_allowed == false
+    require persona.account_binding_is_opaque == true
+  }
+
+  invariant recipients_cannot_link_personas {
+    require persona.cross_recipient_linkage_allowed == false
+    require persona.recipient_persona_lookup_allowed == false
+    require persona.public_persona_lookup_allowed == false
+    require persona.persona_graph_construction_allowed == false
+  }
+
+  invariant persona_has_no_recovery_or_health_context {
+    require persona.recovery_context_included == false
+    require persona.health_context_included == false
+    require persona.recovery_status_inference_allowed == false
+  }
+
+  invariant persona_is_not_a_matching_or_integrity_signal {
+    require matching.persona_state_input_allowed == false
+    require matching.persona_count_input_allowed == false
+    require lantern.persona_state_input_allowed == false
+    require lantern.persona_count_input_allowed == false
+    require analytics.person_level_persona_input_allowed == false
+  }
+
+  invariant accountability_is_account_scoped {
+    require consent.enforcement_uses_internal_account_ref == true
+    require lantern.action_controls_use_internal_account_ref == true
+    require rate_limits_use_internal_account_ref == true
+    require mutual_match_requirement_uses_internal_account_ref == true
+  }
+
+  invariant persona_render_requires_current_scope {
+    when persona.render_requested(account_ref, recipient_ref)
+    require consent.currently_permits_persona_render(
+      account_ref,
+      recipient_ref
+    ) == true
+  }
+
+  invariant revocation_stops_future_rendering {
+    when persona.revoked_by_user(persona_ref)
+    require persona.future_render_allowed(persona_ref) == false
+    require persona.recipient_linkage_notice_sent(persona_ref) == false
+  }
+
+  invariant pseudonymity_is_not_a_penalty {
+    require matching.pseudonym_use_rank_penalty == 0
+    require discovery.pseudonym_use_visibility_penalty == 0
+    require account.pseudonym_use_capability_penalty == 0
+  }
+
+  invariant non_actuation {
+    require persona.external_action_authorized == false
+  }
+}

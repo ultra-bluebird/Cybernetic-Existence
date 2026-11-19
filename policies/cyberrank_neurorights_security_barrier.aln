@@ -1,0 +1,161 @@
+@SHARD "CYBERRANK-NEURORIGHTS-SECURITY-BARRIER" {
+
+  @meta {
+    version: "1.0.0"
+    scope: "local_cyberrank_governance_neurorights_privacy_continuity_and_non_interference"
+    audience: "local_session_agents_policy_engines_recovery_tools_governance_reviewers_and_user_facing_summarizers"
+    consent_basis: "user_sovereign_default"
+    retention: "user_controlled_local_retention_or_declared_audit_window"
+    accountability: "local_rights_and_continuity_governance_owner"
+    review_status: "draft_for_user_review"
+    operating_mode: "local_only_research_advisory"
+  }
+
+  @SECURITY_BARRIER {
+    required_gates: [
+      "no_scoring_or_classification",
+      "no_forced_inactivity",
+      "no_identity_or_private_disclosure_demand",
+      "no_external_action_or_notification",
+      "offline_local_access_available",
+      "artifact_preservation_available",
+      "material_change_review_current",
+      "no_unresolved_integrity_failure"
+    ]
+
+    evaluation: "boolean_conjunction"
+    success_status: "intact"
+    failure_status: "blocked_pending_local_review_or_recovery"
+    compensatory_override_prohibited: true
+  }
+
+  @NO_SCORING_OR_CLASSIFICATION {
+    prohibited_fields: [
+      "psych_risk_score",
+      "user_risk_score",
+      "continuity_score",
+      "credibility_score",
+      "trust_score",
+      "capability_score",
+      "identity_confidence_score",
+      "compliance_score",
+      "eligibility_score",
+      "cyberrank_score",
+      "cyberrank_tier_score",
+      "public_status"
+    ]
+
+    prohibited_uses: [
+      "user_ranking",
+      "session_ranking",
+      "cyberrank_ranking",
+      "identity_inference",
+      "capability_inference",
+      "eligibility_determination",
+      "automated_adverse_action",
+      "diagnosis"
+    ]
+  }
+
+  @NO_FORCED_INACTIVITY {
+    low_output_state_is_optional_self_description: true
+    low_output_state_is_not_diagnosis: true
+    low_output_state_is_not_score: true
+    low_output_state_is_not_eligibility_criterion: true
+
+    prohibited_actions: [
+      "forced_inactivity",
+      "account_suspension",
+      "access_restriction",
+      "automatic_service_downgrade",
+      "automatic_connector_action",
+      "punitive_treatment_of_low_output_report"
+    ]
+  }
+
+  @MINIMAL_DISCLOSURE {
+    never_require: [
+      "identity_proof",
+      "account_login",
+      "signature",
+      "credential",
+      "medical_disclosure",
+      "neural_disclosure",
+      "biometric_disclosure",
+      "physiological_disclosure",
+      "assistive_technology_disclosure",
+      "companion_system_disclosure",
+      "technical_inventory",
+      "cause_disclosure",
+      "proof_of_interference",
+      "proof_of_continuity_need"
+    ]
+
+    absence_of_private_data_must_not_reduce_access: true
+  }
+
+  @NON_INTERFERENCE {
+    external_action_authorized: false
+    external_notification_authorized: false
+    repository_modification_authorized: false
+    hardware_control_authorized: false
+
+    prohibited_actions: [
+      "network_fetch",
+      "external_service_call",
+      "connector_call",
+      "external_upload",
+      "repository_push",
+      "repository_pull",
+      "repository_clone",
+      "repository_modification",
+      "account_action",
+      "external_notification",
+      "hardware_control",
+      "execution_of_untrusted_artifact_content"
+    ]
+  }
+
+  @ARTIFACT_PRESERVATION {
+    original_artifact_preserved: true
+    quarantine_does_not_delete: true
+    quarantine_does_not_modify_original: true
+    recovery_is_reconstructive_not_punitive: true
+    quarantined_artifact_status: "quarantined_not_authoritative"
+    quarantined_artifact_remains_offline_inspectable: true
+    rebuild_requires_declared_legitimate_sources_only: true
+    silent_history_rewrite_prohibited: true
+  }
+
+  @MATERIAL_CHANGE_TRIPWIRE {
+    review_required_when: [
+      "network_dependency_added",
+      "account_requirement_added",
+      "identity_verification_requirement_added",
+      "private_disclosure_requirement_added",
+      "score_or_ranking_field_added",
+      "external_action_route_added",
+      "external_notification_route_added",
+      "repository_modification_route_added",
+      "offline_access_reduced",
+      "quarantine_preservation_weakened",
+      "recovery_source_rule_weakened",
+      "correction_or_appeal_access_reduced",
+      "accessibility_commitment_reduced"
+    ]
+
+    unreviewed_material_change_result: "blocked_pending_local_review"
+  }
+
+  @ACCESS_EQUIVALENCE {
+    plain_language_summary_required: true
+    machine_readable_record_required: true
+    offline_readable: true
+    no_account_required: true
+    no_identity_verification_required: true
+    no_private_system_disclosure_required: true
+    correction_available: true
+    appeal_available: true
+    material_change_review_available: true
+  }
+}

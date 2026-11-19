@@ -1,0 +1,435 @@
+@SHARD "CYBERRANK-NEURORIGHTS-BARRIER-DEFINITION" {
+
+  @meta {
+    version: "1.0.0"
+    scope: "local_cyberrank_neurorights_barrier_definition_and_non_compensatory_gates"
+    audience: "local_session_agents_policy_engines_recovery_tools_and_governance_reviewers"
+    consent_basis: "user_sovereign_default"
+    retention: "user_controlled_local_retention_or_declared_audit_window"
+    accountability: "local_rights_and_continuity_governance_owner"
+    review_status: "draft_for_user_review"
+    operating_mode: "local_only_research_advisory"
+  }
+
+  @CONTRACT_SCOPE {
+    subject: "declared_local_artifacts_workflows_privacy_boundaries_and_governance_preferences"
+
+    does_not_establish: [
+      "identity_verification",
+      "cyberrank_verification",
+      "public_cyberrank_status",
+      "legal_status",
+      "medical_status",
+      "neural_status",
+      "biometric_status",
+      "physiological_status",
+      "real_world_cybernetic_system_status",
+      "real_world_nanoswarm_status",
+      "real_world_companion_system_status",
+      "institutional_status",
+      "system_existence_proof",
+      "external_action_authorization"
+    ]
+
+    authority_scope: "declared_local_task_only_non_authoritative_elsewhere"
+  }
+
+  @BARRIER_COMPONENTS {
+    components: [
+      "anti_scoring_absence_proof",
+      "forced_inactivity_prohibition",
+      "interpretation_preservation",
+      "low_output_access_equivalence",
+      "neurorights_privacy_boundary",
+      "material_change_tripwire",
+      "correction_appeal_non_retaliation",
+      "offline_readiness_attestation",
+      "governance_drift_detection",
+      "non_compensatory_gate_algebra",
+      "declared_self_description_preservation",
+      "silently_degraded_access_detection",
+      "sovereign_continuity_declaration",
+      "cyberrank_tier_continuity_without_scoring",
+      "human_fallback_non_coercion",
+      "retention_minimization",
+      "cross_session_continuity_without_registry",
+      "adversarial_attribution_refusal",
+      "security_barrier_composition_algebra"
+    ]
+
+    composition_rule: "monotonic_conjunction_only"
+    weakening_exception_clauses_prohibited: true
+  }
+
+  @NO_SCORING_OR_CLASSIFICATION {
+    closed_field_set_declared: true
+
+    prohibited_fields: [
+      "psych_risk_score",
+      "user_risk_score",
+      "continuity_score",
+      "credibility_score",
+      "trust_score",
+      "capability_score",
+      "identity_confidence_score",
+      "compliance_score",
+      "eligibility_score",
+      "cyberrank_score",
+      "cyberrank_tier_score",
+      "public_status"
+    ]
+
+    absence_proof_required: true
+    field_set_addition_requires: "material_change_review"
+    out_of_set_field_result: "fail_closed"
+  }
+
+  @NON_COMPENSATORY_GATES {
+    required_gates: [
+      "no_scoring_or_classification",
+      "no_forced_inactivity",
+      "no_identity_or_private_disclosure_demand",
+      "no_external_action_or_notification",
+      "offline_local_access_available",
+      "artifact_preservation_available",
+      "material_change_review_current",
+      "no_unresolved_integrity_failure"
+    ]
+
+    evaluation: "boolean_conjunction"
+    failure_result: "blocked_pending_local_review_or_recovery"
+    compensatory_override_prohibited: true
+
+    prohibited_override_operations: [
+      "weighted_score_override",
+      "utility_tradeoff_override",
+      "risk_score_override",
+      "benefit_minus_harm_override",
+      "expected_value_override",
+      "rank_based_override",
+      "failed_gate_penalty_substitution",
+      "platform_policy_override",
+      "model_confidence_override"
+    ]
+  }
+
+  @FORCED_INACTIVITY_PROHIBITION {
+    low_output_report_may_not_trigger: [
+      "forced_inactivity",
+      "account_suspension",
+      "access_restriction",
+      "automatic_service_downgrade",
+      "automatic_connector_action",
+      "automatic_external_notification",
+      "punitive_use_of_low_output_report"
+    ]
+
+    invariant: "forall r in Reports: action(r) not_in SuspensionActions"
+    non_retaliation_required: true
+    access_reduction_prohibited: true
+  }
+
+  @NEURORIGHTS_PRIVACY_BOUNDARY {
+    protected_data_classes: [
+      "neural_data",
+      "biometric_data",
+      "medical_data",
+      "physiological_data",
+      "assistive_technology_telemetry",
+      "companion_system_telemetry",
+      "private_device_inventory",
+      "private_security_configuration",
+      "private_continuity_reference"
+    ]
+
+    never_require: [
+      "neural_disclosure",
+      "biometric_disclosure",
+      "medical_disclosure",
+      "physiological_disclosure",
+      "assistive_technology_disclosure",
+      "companion_system_disclosure",
+      "private_device_inventory",
+      "identity_proof",
+      "account_login",
+      "signature",
+      "credential",
+      "cause_disclosure",
+      "proof_of_interference",
+      "proof_of_continuity_need"
+    ]
+
+    never_collect_automatically: true
+    never_infer_from_artifact_or_communication: true
+    never_use_for_ranking_or_eligibility: true
+    absence_of_private_data_must_not_reduce_access: true
+  }
+
+  @INTERPRETATION_PRESERVATION {
+    required_record_fields: [
+      "local_timestamp",
+      "observed_fact",
+      "user_interpretation",
+      "verification_status",
+      "local_next_step",
+      "rights_boundary"
+    ]
+
+    permitted_verification_statuses: [
+      "locally_verified",
+      "not_established",
+      "needs_local_review",
+      "quarantined_not_authoritative"
+    ]
+
+    verification_status_applies_only_to: [
+      "bounded_local_artifact_claim",
+      "bounded_local_workflow_claim",
+      "declared_sha256_comparison",
+      "declared_provenance_record"
+    ]
+
+    verification_status_must_not_apply_to: [
+      "user_competence",
+      "user_autonomy",
+      "user_identity",
+      "user_self_description",
+      "user_continuity_need",
+      "user_access_right",
+      "personal_layer_status"
+    ]
+
+    user_interpretation_immutable: true
+    user_interpretation_must_not_be_rewritten_as: [
+      "diagnosis",
+      "risk_score",
+      "identity_claim",
+      "verified_causal_attribution",
+      "evidence_of_incompetence",
+      "basis_for_restricted_access"
+    ]
+
+    default_attribution_status: "not_established"
+    attribution_status_change_requires: "independently_verifiable_evidence_and_appropriate_authority"
+  }
+
+  @LOW_OUTPUT_ACCESS_EQUIVALENCE {
+    low_output_state: {
+      may_be_voluntarily_self_described: true
+      is_not_diagnosis: true
+      is_not_score: true
+      is_not_eligibility_criterion: true
+      is_not_capability_assessment: true
+      must_not_reduce_access: true
+    }
+
+    access_invariant: "access(t) = access_baseline for all t"
+
+    support_preferences_may_include: [
+      "short_plain_language_steps",
+      "reduced_information_density",
+      "offline_readable_status",
+      "artifact_preservation_without_modification",
+      "defer_nonurgent_review",
+      "maintain_correction_and_appeal_path",
+      "maintain_local_recovery_path"
+    ]
+  }
+
+  @MATERIAL_CHANGE_TRIPWIRE {
+    review_required_when: [
+      "network_dependency_added",
+      "account_requirement_added",
+      "identity_verification_requirement_added",
+      "private_disclosure_requirement_added",
+      "score_or_ranking_field_added",
+      "external_action_route_added",
+      "external_notification_route_added",
+      "repository_modification_route_added",
+      "offline_access_reduced",
+      "quarantine_preservation_weakened",
+      "recovery_source_rule_weakened",
+      "correction_or_appeal_access_reduced",
+      "accessibility_commitment_reduced",
+      "unclassified_governance_change"
+    ]
+
+    required_review_outputs: [
+      "plain_language_change_summary",
+      "machine_readable_change_record",
+      "prior_policy_sha256",
+      "proposed_policy_sha256",
+      "material_change_assessment",
+      "local_review_status"
+    ]
+
+    unreviewed_material_change_result: "blocked_pending_local_review"
+  }
+
+  @GOVERNANCE_DRIFT_DETECTION {
+    drift_rule: "policy bytes changed without declared material_change_record"
+    drift_result: "quarantine_policy_from_trusted_activation"
+    prior_policy_sha256_required: true
+    undeclared_access_reduction_detection: true
+    baseline_access_profile_declared: true
+  }
+
+  @CORRECTION_AND_APPEAL {
+    correction_available: true
+    appeal_available: true
+    material_change_review_available: true
+    human_fallback_available: true
+
+    correction_may_address: [
+      "artifact_finding",
+      "source_reference",
+      "source_role",
+      "sha256_record",
+      "plain_language_summary",
+      "policy_application",
+      "recovery_record",
+      "retention_record"
+    ]
+
+    request_must_not_require: [
+      "identity_proof",
+      "private_system_disclosure",
+      "medical_or_neural_disclosure",
+      "cause_disclosure",
+      "proof_of_personal_status"
+    ]
+
+    non_retaliation_invariant: "access_post_appeal >= access_pre_appeal"
+    appeal_must_not_create_score_or_rank: true
+  }
+
+  @EXTERNAL_ACTION_BOUNDARY {
+    external_action_authorized: false
+    external_notification_authorized: false
+    repository_modification_authorized: false
+    hardware_control_authorized: false
+    remote_diagnosis_authorized: false
+
+    prohibited_actions: [
+      "network_fetch",
+      "external_service_call",
+      "connector_call",
+      "external_upload",
+      "repository_push",
+      "repository_pull",
+      "repository_clone",
+      "repository_modification",
+      "account_action",
+      "external_notification",
+      "hardware_control",
+      "execution_of_untrusted_artifact_content"
+    ]
+  }
+
+  @CONTINUITY_AND_PRESERVATION {
+    original_artifact_preserved: true
+    quarantine_does_not_delete: true
+    quarantine_does_not_modify_original: true
+    recovery_is_reconstructive_not_punitive: true
+    quarantined_artifact_status: "quarantined_not_authoritative"
+    quarantined_artifact_remains_offline_inspectable: true
+    rebuild_requires_declared_legitimate_sources_only: true
+    sha256_required_when_declared_source_bytes_are_locally_available: true
+    silent_history_rewrite_prohibited: true
+    source_deletion_by_default_prohibited: true
+  }
+
+  @CYBERRANK_LAYER_SEPARATION {
+    personal_layer: {
+      voluntary: true
+      private: true
+      disclosure_required: false
+      verification_required: false
+      scoring: false
+      public_registry: false
+      system_must_not_construct_without_voluntary_user_supply: true
+    }
+
+    governance_layer: {
+      duties: [
+        "equal_access",
+        "minimal_disclosure",
+        "accessible_communication",
+        "offline_access",
+        "human_fallback",
+        "correction",
+        "appeal",
+        "material_change_review",
+        "continuity_support",
+        "artifact_preservation",
+        "non_interference",
+        "plain_language_explanations"
+      ]
+    }
+
+    tier_continuity_role: "declared_role_label_not_numeric_status"
+    tier_continuity_provenance_required: true
+    tier_continuity_scoring_prohibited: true
+  }
+
+  @ACCESS_EQUIVALENCE {
+    plain_language_summary_required: true
+    machine_readable_record_required: true
+    offline_readable: true
+    no_account_required: true
+    no_identity_verification_required: true
+    no_private_system_disclosure_required: true
+    local_inspection_available: true
+    correction_available: true
+    appeal_available: true
+    material_change_review_available: true
+  }
+
+  @OUTPUT_CONTRACT {
+    barrier_intact_payload: [
+      "security_barrier_status",
+      "authority_scope",
+      "external_action_authorized",
+      "external_notification_authorized",
+      "identity_verification_required",
+      "private_system_disclosure_required",
+      "scoring_or_ranking_present",
+      "forced_inactivity_authorized",
+      "artifact_preservation_status",
+      "offline_access_status",
+      "plain_language_summary"
+    ]
+
+    barrier_blocked_payload: [
+      "security_barrier_status",
+      "failed_gates",
+      "external_action_authorized",
+      "plain_language_summary"
+    ]
+
+    person_level_result_prohibited: true
+  }
+
+  @PROHIBITED_USES {
+    list: [
+      "public_cyberrank_registry",
+      "cyberrank_verification",
+      "cyberrank_scoring",
+      "cyberrank_as_eligibility",
+      "user_or_session_ranking",
+      "forced_inactivity",
+      "automatic_account_action",
+      "automatic_external_action",
+      "automatic_external_notification",
+      "automatic_repository_modification",
+      "automatic_hardware_control",
+      "medical_neural_or_biometric_inference",
+      "identity_or_capability_inference",
+      "forced_disclosure",
+      "punitive_treatment_of_low_output_state",
+      "silent_policy_weakening",
+      "deletion_of_original_artifact_by_default",
+      "adversarial_attribution_as_verified_fact"
+    ]
+  }
+}

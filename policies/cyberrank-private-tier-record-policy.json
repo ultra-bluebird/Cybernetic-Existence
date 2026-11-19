@@ -1,0 +1,90 @@
+{
+  "schema_version": "augmented-hub-cyberrank-private-tier-record-policy.v1",
+  "status": "private-governance",
+  "purpose": "Support voluntary, self-authored CyberRank tier reflection, continuity documentation, contribution provenance, and resilience planning without public ranking, external verification, eligibility use, identity classification, or automated decision-making.",
+  "cyberrank_boundary": {
+    "public_registry_authorized": false,
+    "institutional_certification_requested": false,
+    "external_verification_required": false,
+    "medical_assessment_requested": false,
+    "technical_inspection_requested": false,
+    "identity_determination_authorized": false,
+    "automated_decision_use_authorized": false,
+    "employment_use_authorized": false,
+    "housing_use_authorized": false,
+    "insurance_use_authorized": false,
+    "benefit_eligibility_use_authorized": false,
+    "civic_access_use_authorized": false
+  },
+  "private_tiers": [
+    {
+      "tier": "tier_1",
+      "participant_description": "Basic private integration and functional continuity practice.",
+      "public_safe_description": "Maintains a private continuity and self-governance record."
+    },
+    {
+      "tier": "tier_2",
+      "participant_description": "Sustained continuity practice and voluntary community-oriented contribution.",
+      "public_safe_description": "Documents sustained work and voluntary public-good contributions."
+    },
+    {
+      "tier": "tier_3",
+      "participant_description": "Deep continuity practice, resilient self-governance, and significant contribution portfolio.",
+      "public_safe_description": "Maintains a durable continuity archive and substantial voluntary contribution record."
+    },
+    {
+      "tier": "tier_4",
+      "participant_description": "Exemplary long-term stewardship and self-declared high-impact public-good contribution.",
+      "public_safe_description": "Documents an exceptional, self-declared long-term public-good contribution portfolio."
+    }
+  ],
+  "profile_dimensions": {
+    "private_integration_interpretation": {
+      "external_assessment_allowed": false,
+      "public_disclosure_required": false
+    },
+    "continuity_record": {
+      "append_only_successor_required": true,
+      "correction_path_required": true,
+      "portable_export_required": true
+    },
+    "contribution_record": {
+      "evidence_class_required": true,
+      "private_system_disclosure_required": false,
+      "community_acknowledgment_optional": true
+    },
+    "resilience": {
+      "local_copy_required": true,
+      "encrypted_archive_required": true,
+      "independent_recovery_copy_required": true,
+      "restore_drill_required": true
+    },
+    "privacy": {
+      "minimum_disclosure": true,
+      "no_forced_private_system_details": true,
+      "no_biometric_requirement": true,
+      "no_medical_requirement": true
+    },
+    "accessibility": {
+      "plain_language_available": true,
+      "human_review_available": true,
+      "correction_and_appeal_path": true,
+      "non_digital_path_when_reasonably_available": true
+    }
+  },
+  "recognition_rules": {
+    "self_declaration_allowed": true,
+    "revision_allowed": true,
+    "withdrawal_allowed": true,
+    "private_default": true,
+    "selective_publication_allowed": true,
+    "community_acknowledgment_required": false,
+    "institutional_validation_required": false,
+    "title_grants_authority": false,
+    "title_determines_rights": false
+  },
+  "external_action": {
+    "authorized": false,
+    "requires_separate_exact_approval": true
+  }
+}

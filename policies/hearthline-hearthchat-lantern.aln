@@ -1,0 +1,56 @@
+policy HearthlineHearthChatAndLantern version "2026-09-15" {
+
+  invariant suggestion_render_requires_current_scope {
+    when hearthchat.suggestion_render_requested(suggestion_id)
+    require consent.all_required_scopes_current(suggestion_id) == true
+  }
+
+  invariant revoked_scope_invalidates_suggestion {
+    when consent.scope_revoked(recipient_ref, field_name)
+    require hearthchat.invalidate(
+      recipient_ref = recipient_ref,
+      protected_field = field_name
+    )
+  }
+
+  invariant invalidated_suggestion_never_reactivates {
+    when hearthchat.suggestion_state(suggestion_id) ==
+      INVALIDATED_BY_SCOPE_CHANGE
+    require hearthchat.suggestion_reuse_allowed(suggestion_id) == false
+  }
+
+  invariant invalidation_receipt_contains_no_content {
+    when hearthchat.invalidation_event_written(event_id)
+    require audit.event_contains_suggestion_text(event_id) == false
+    require audit.event_contains_sensitive_field_value(event_id) == false
+  }
+
+  invariant lantern_is_action_scoped {
+    when lantern.assessment_created(assessment_id)
+    require lantern.assessment_scope(assessment_id) == ACTION_WINDOW
+    require lantern.assessment_expiry(assessment_id) != null
+  }
+
+  invariant lantern_is_not_a_social_score {
+    require lantern.used_for_match_ordering == false
+    require lantern.used_for_profile_visibility_ordering == false
+    require lantern.publicly_exposed == false
+    require lantern.used_for_recovery_status_inference == false
+  }
+
+  invariant lantern_minimizes_data {
+    require lantern.collects_browsing_history == false
+    require lantern.collects_cross_platform_behavior == false
+    require lantern.collects_message_semantics == false
+    require lantern.collects_raw_device_fingerprint == false
+  }
+
+  invariant lantern_has_review_path {
+    when lantern.state(assessment_id) != NORMAL
+    require lantern.review_available(assessment_id) == true
+  }
+
+  invariant non_actuation {
+    require system.external_action_authorized == false
+  }
+}

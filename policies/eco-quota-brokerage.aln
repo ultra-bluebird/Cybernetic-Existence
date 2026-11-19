@@ -1,0 +1,78 @@
+policy: eco_quota_brokerage
+version: 2.0.0
+data_class: regional_compute_and_environmental_governance_policy
+purpose: permit only human-reviewed eco-quota transfers that preserve non-discrimination, do not shift water or thermal burden to more vulnerable communities, and maintain non-negative account balances
+consent_scope: aggregate_facility_environmental_capacity_and_trade_governance_data_only
+retention: retain_trade_request_review_ledger_and_fairness_assessment_records_for_configured_audit_period
+deletion: retain_minimal_double_entry_and_decision_provenance_after_raw_operational_data_retention_expiry
+accountability: double_entry_ledger_human_review_fairness_explanation_appeal_and_material_change_review
+review_status: required_when_water_stress_or_any_non_compensating_fairness_condition_is_active
+access_equivalence_safeguards: trades_must_not_reduce_critical_public_services_or_discriminate_by_identity_class
+external_action_approval: required_for_token_transfer_or_external_trade_execution
+
+decision:
+  default: deny
+
+fair_trade:
+  require:
+    - seller_and_buyer_identity_non_discrimination_check
+    - current_water_stress_stage_for_both_parties
+    - community_burden_delta_assessment
+    - thermal_burden_delta_assessment
+    - species_impact_check
+    - rights_and_accessibility_check
+    - non_negative_seller_balance
+    - human_reviewer
+    - accessible_explanation
+  prohibit:
+    - identity_based_exclusion
+    - burden_shift_to_water_stressed_community
+    - burden_shift_to_protected_or_vulnerable_group
+    - trade_when_species_impact_block_active
+    - trade_when_rights_or_accessibility_block_active
+    - use_of_financial_value_to_override_blocking_condition
+
+water_stress:
+  review_threshold: 2
+  rule:
+    when:
+      any:
+        - seller_water_stress_stage_at_or_above_threshold
+        - buyer_water_stress_stage_at_or_above_threshold
+    require:
+      - human_review
+      - documented_community_burden_assessment
+      - accessible_trade_explanation
+      - appeal_path
+    otherwise:
+      decision: deny
+
+rules:
+  - id: eco-quota-double-entry
+    when: trade_approved
+    require:
+      - one_seller_debit
+      - one_buyer_credit
+      - equal_token_amount
+      - atomic_posting
+      - non_negative_balance_after_posting
+    prohibit:
+      - unilateral_balance_change
+      - unreviewed_transfer
+      - cross-community_burden_externalization
+
+  - id: trade-fairness-non-compensation
+    when:
+      any:
+        - identity_discrimination_detected
+        - community_burden_increase_detected
+        - thermal_burden_increase_detected
+        - rights_or_accessibility_block_active
+        - species_impact_block_active
+    result:
+      decision: deny
+      explanation_code: ECO_QUOTA_TRADE_NON_COMPENSATING_FAIRNESS_BLOCK
+    prohibit:
+      - trade_approval
+      - scalar_offset_calculation
+      - automatic_exception

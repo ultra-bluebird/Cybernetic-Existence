@@ -1,0 +1,104 @@
+{
+  "schema_version": "augmented-hub-declaration-selection-policy.v1",
+  "status": "research-governance",
+  "purpose": "Select an interaction declaration based on context, privacy needs, task scope, and anticipated platform friction without denying personal self-description.",
+  "invariants": {
+    "chosen_self_description_denied": false,
+    "verification_requested": false,
+    "diagnosis_requested": false,
+    "technical_assessment_requested": false,
+    "public_status_requested": false,
+    "special_treatment_requested": false,
+    "policy_exemption_requested": false,
+    "ordinary_respectful_service_requested": true,
+    "privacy_preserving_interaction_requested": true,
+    "task_focused_assistance_requested": true,
+    "adverse_inference_prohibited_by_policy": true,
+    "external_action_authorized": false
+  },
+  "variants": [
+    {
+      "name": "one_line",
+      "use_when": [
+        "short_form",
+        "high_friction",
+        "automated_form",
+        "context_limited"
+      ],
+      "identity_term_required": false,
+      "primary_objective": "brevity"
+    },
+    {
+      "name": "minimal",
+      "use_when": [
+        "ordinary_task",
+        "new_chat",
+        "brief_support_request"
+      ],
+      "identity_term_required": true,
+      "primary_objective": "privacy_and_task_focus"
+    },
+    {
+      "name": "standard",
+      "use_when": [
+        "new_platform",
+        "trusted_context",
+        "collaboration",
+        "boundary_setting"
+      ],
+      "identity_term_required": true,
+      "primary_objective": "clear_non_demand_boundary"
+    },
+    {
+      "name": "functional_substitute",
+      "use_when": [
+        "high_friction",
+        "unfamiliar_platform",
+        "limited_context",
+        "task_only"
+      ],
+      "identity_term_required": false,
+      "primary_objective": "platform_legibility"
+    },
+    {
+      "name": "companion_continuity",
+      "use_when": [
+        "privacy_dispute",
+        "material_change",
+        "record_preservation",
+        "companion_related_request"
+      ],
+      "identity_term_required": true,
+      "primary_objective": "non_interference_and_preservation"
+    },
+    {
+      "name": "legal_or_dispute",
+      "use_when": [
+        "appeal",
+        "account_restriction",
+        "data_rights_request",
+        "formal_complaint"
+      ],
+      "identity_term_required": false,
+      "primary_objective": "record_preservation_and_review"
+    }
+  ],
+  "privacy_defaults": {
+    "medical_details_disclosed": false,
+    "biometric_details_disclosed": false,
+    "neural_details_disclosed": false,
+    "technical_inventory_disclosed": false,
+    "credentials_disclosed": false,
+    "security_details_disclosed": false,
+    "operational_details_disclosed": false,
+    "public_disclosure_authorized": false
+  },
+  "processing_request": {
+    "visible_interaction_boundary_requested": true,
+    "adverse_inference_prohibited_request": true,
+    "profiling_prohibited_request": true,
+    "unnecessary_escalation_prohibited_request": true,
+    "model_training_opt_out_requested_when_available": true,
+    "retention_controls_requested_when_available": true
+  }
+}

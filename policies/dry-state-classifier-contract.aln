@@ -1,0 +1,68 @@
+policy_name = "dry_state_classifier_contract"
+policy_version = "1.0"
+record_class = "dry_rewet_observation"
+purpose = "Classify dry-rewet observations conservatively and preserve uncertainty under noisy sensor conditions."
+consent_scope = "local_validation_and_non_actuating_research_only"
+retention = "bounded_by_repository_retention_policy"
+deletion = "remove_derived_test_records_when_no_longer_required"
+accountability = "sensor_quality_and_method_review"
+review_status = "required_when_observation_state_is_unknown"
+access_equivalence_safeguard = "plain_language_state_and_uncertainty_reason"
+external_action_approval = "prohibited"
+
+require observed_state in [
+    "WET",
+    "PARTIALLY_WET",
+    "DRY",
+    "UNKNOWN"
+]
+
+require routing_state in [
+    "WET_STATE",
+    "DRY_STATE",
+    "REWETTING_TRANSITION",
+    "INSUFFICIENT_EVIDENCE"
+]
+
+require sensor_quality_status in [
+    "CURRENT",
+    "STALE",
+    "FAILED",
+    "UNKNOWN"
+]
+
+require uncertainty_status in [
+    "BOUNDED",
+    "REVIEW_REQUIRED",
+    "UNBOUNDED",
+    "UNKNOWN"
+]
+
+when observed_state == "WET":
+    require routing_state == "WET_STATE"
+
+when observed_state == "DRY":
+    require routing_state == "DRY_STATE"
+
+when observed_state == "PARTIALLY_WET":
+    require routing_state in [
+        "WET_STATE",
+        "DRY_STATE",
+        "REWETTING_TRANSITION",
+        "INSUFFICIENT_EVIDENCE"
+    ]
+
+when observed_state == "UNKNOWN":
+    require routing_state == "INSUFFICIENT_EVIDENCE"
+
+when prior_observed_state == "DRY"
+    and observed_state in ["PARTIALLY_WET", "WET"]:
+    require routing_state == "REWETTING_TRANSITION"
+
+when sensor_quality_status in ["STALE", "FAILED", "UNKNOWN"]:
+    require routing_state == "INSUFFICIENT_EVIDENCE"
+
+when uncertainty_status in ["UNBOUNDED", "UNKNOWN"]:
+    require routing_state == "INSUFFICIENT_EVIDENCE"
+
+deny when external_action_authorized == true

@@ -1,0 +1,54 @@
+policy HearthlineMinimalRecoveryDisclosure version "2026-09-15" {
+
+  invariant disclosure_is_user_initiated {
+    when disclosure.presentation_requested(disclosure_ref)
+    require disclosure.user_initiated(disclosure_ref) == true
+  }
+
+  invariant none_is_equal_to_all_other_modes {
+    require disclosure.mode_affects_matching == false
+    require disclosure.mode_affects_ranking == false
+    require disclosure.mode_affects_visibility == false
+    require disclosure.mode_affects_capability_access == false
+    require disclosure.mode_affects_lantern_state == false
+  }
+
+  invariant self_commitment_is_not_truth_certification {
+    when disclosure.mode(disclosure_ref) == SELF_COMMITMENT_PROOF
+    require disclosure.predicate(disclosure_ref) ==
+      COMMITMENT_EXISTS_BEFORE_THRESHOLD
+    require disclosure.claim_truth_certified(disclosure_ref) == false
+  }
+
+  invariant attestation_is_optional {
+    when disclosure.mode(disclosure_ref) == ATTESTATION_PROOF
+    require disclosure.required_for_connection_access == false
+    require disclosure.required_for_matching == false
+    require disclosure.required_for_meeting_planning == false
+  }
+
+  invariant no_central_registry {
+    require disclosure.central_claim_registry_allowed == false
+    require disclosure.public_badge_allowed == false
+    require disclosure.issuer_ranking_allowed == false
+    require disclosure.holder_lookup_allowed == false
+  }
+
+  invariant proof_is_recipient_and_purpose_scoped {
+    when disclosure.presentation_created(disclosure_ref)
+    require disclosure.recipient_scope_present(disclosure_ref) == true
+    require disclosure.purpose_scope_present(disclosure_ref) == true
+    require disclosure.presentation_public(disclosure_ref) == false
+  }
+
+  invariant recovery_context_is_not_inferred {
+    require identity.recovery_stage_inference_allowed == false
+    require matching.recovery_context_inference_allowed == false
+    require lantern.recovery_context_inference_allowed == false
+    require true_compass.recovery_context_input_allowed == false
+  }
+
+  invariant disclosure_is_non_actuating {
+    require disclosure.external_action_authorized == false
+  }
+}

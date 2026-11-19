@@ -1,0 +1,76 @@
+policy fog_conformal_offline_pareto_imputation_v2 {
+  version = "2"
+  classification = "governance_policy"
+  advisory_only = true
+  non_actuating = true
+
+  conformal_prediction {
+    require calibration_set
+    require alpha
+    require finite_sample_quantile
+    require bounded_prediction_set_size
+    require exchangeability_assessment
+    require non_stationarity_assessment
+    require calibration_run_provenance
+    forbid certainty_claim_without_assumptions
+    forbid autonomous_decision
+    forbid individual_inference
+  }
+
+  offline_first {
+    require event_timestamp_utc
+    require expiry_timestamp_utc
+    require maximum_staleness_policy
+    require append_only_sync_events
+    require conflict_preservation
+    require human_conflict_review_path
+    require deletion_after_expiry
+    forbid stale_upload_after_expiry
+    forbid automatic_clear_on_reconnect
+    forbid silent_last_write_wins_for_human_review
+  }
+
+  aggregation_window_selection {
+    require false_withhold_rate
+    require miss_rate
+    require compute_energy_measurement
+    require pareto_front
+    require hard_constraints
+    require human_selected_weight_profile
+    require human_selection_record
+    forbid hidden_weights
+    forbid automatic_window_promotion
+  }
+
+  indirect_sensor_inference {
+    require derived_label
+    require model_version_reference
+    require validation_window
+    require mean_squared_error
+    require maximum_absolute_error
+    require drift_assessment
+    require explicit_uncertainty_reduction_approval
+    forbid direct_evidence_label
+    forbid regulatory_claim
+    forbid automatic_clear_of_high_risk_withhold
+    forbid personal_data_inference
+  }
+
+  privacy_and_retention {
+    require minimum_necessary_data
+    require opaque_spatial_scope
+    require documented_retention_boundary
+    forbid raw_coordinates
+    forbid personal_activity_history
+    forbid identity_health_or_augmentation_inference
+  }
+
+  accessibility_and_non_interference {
+    require plain_language_status
+    require human_review_path
+    require correction_path
+    forbid disclosure_pressure
+    forbid executable_instruction
+    forbid direct_control_output
+  }
+}

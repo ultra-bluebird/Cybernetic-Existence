@@ -1,0 +1,64 @@
+policy: datacenter_canal_heat_exchange
+version: 2.0.0
+data_class: ecological_thermal_exchange_governance_policy
+purpose: permit datacenter-to-canal thermal exchange only when current local ecological thresholds, water-quality protections, and reviewed net-benefit conditions are satisfied
+consent_scope: aggregate_environmental_and_operational_telemetry_only
+retention: retain_threshold_provenance_measurements_decisions_and_review_events_for_configured_environmental_audit_period
+deletion: retain_minimal_method_and_decision_provenance_after_raw_telemetry_retention_expiry
+accountability: ecological_threshold_visibility_human_review_incident_explanation_and_remediation_pathway
+review_status: required_before_exchange_and_after_any_threshold_or_benefit_failure
+access_equivalence_safeguards: canal_governance_must_not_reduce_public_accessibility_or_shift_environmental_burden_to_protected_communities
+external_action_approval: required_for_physical_heat_exchange_operation_or_discharge_change
+
+decision:
+  default: deny
+
+canal_heat_exchange:
+  permit_requires:
+    - approved_site_specific_temperature_delta
+    - current_upstream_and_downstream_temperature_measurements
+    - current_canal_flow_measurement
+    - current_dissolved_oxygen_measurement
+    - current_fish_or_ecological_activity_measurement
+    - approved_threshold_validity_window
+    - reviewed_net_ecological_benefit
+    - no_species_impact_threshold_exceedance
+    - no_rights_accessibility_or_consent_block
+    - qualified_human_review
+  prohibit:
+    - use_of_generic_temperature_threshold_without_local_basis
+    - operation_when_ecological_data_is_missing_or_expired
+    - operation_when_dissolved_oxygen_is_below_declared_minimum
+    - operation_when_temperature_delta_exceeds_site_threshold
+    - operation_when_flow_is_below_declared_minimum
+    - economic_or_operational_override_of_ecological_limit
+    - automatic_physical_actuation
+
+rules:
+  - id: net-ecological-benefit-required
+    when: canal_heat_exchange_requested
+    require:
+      - baseline_comparison
+      - uncertainty_reporting
+      - additionality_assessment
+      - species_impact_review
+      - human_review
+    otherwise:
+      permit_status: denied
+      explanation_code: CANAL_NET_ECOLOGICAL_BENEFIT_NOT_DEMONSTRATED
+
+  - id: ecological-threshold-failure
+    when:
+      any:
+        - temperature_delta_exceeded
+        - dissolved_oxygen_below_minimum
+        - flow_below_minimum
+        - fish_activity_below_minimum
+        - threshold_data_missing_or_expired
+    result:
+      permit_status: denied
+    require:
+      - incident_record
+      - human_review
+      - remediation_pathway
+      - follow_up_measurement

@@ -1,0 +1,64 @@
+policy HearthlinePrivateSafetyReadiness version "2026-09-15" {
+
+  invariant readiness_is_not_reputation {
+    require readiness.public_trust_score_created == false
+    require readiness.candidate_visible_trust_signal_created == false
+    require readiness.person_ranking_created == false
+    require readiness.profile_visibility_affected == false
+  }
+
+  invariant consent_is_not_a_streak {
+    require readiness.consent_honoring_streak_created == false
+    require readiness.consent_compliance_reward_created == false
+    require readiness.consent_compliance_penalty_created == false
+  }
+
+  invariant readiness_uses_only_direct_prerequisites {
+    require readiness.uses_active_passkey_count == true
+    require readiness.uses_backup_access_configuration == true
+    require readiness.uses_user_selected_pacing_configuration == true
+    require readiness.uses_waypoint_dual_confirmation == true
+    require readiness.uses_match_history == false
+    require readiness.uses_account_tenure == false
+    require readiness.uses_response_speed == false
+    require readiness.uses_profile_popularity == false
+  }
+
+  invariant sensitive_attributes_are_excluded {
+    require readiness.uses_recovery_status == false
+    require readiness.infers_recovery_status == false
+    require readiness.uses_health_information == false
+    require readiness.uses_lantern_state == false
+    require readiness.uses_accessibility_profile == false
+  }
+
+  invariant visibility_is_user_controlled {
+    when readiness.visibility_window_change_requested(subject_ref)
+    require pacing.user_explicitly_selected_window(subject_ref) == true
+    require readiness.prior_account_activity_required == false
+  }
+
+  invariant meeting_planning_requires_current_user_choices {
+    when readiness.meeting_planning_available(subject_ref, connection_ref)
+    require waypoint.each_participant_confirmed(
+      connection_ref,
+      OPTIONAL_MEETING_PLANNING
+    ) == true
+    require consent.currently_permits_transition(
+      connection_ref,
+      OPTIONAL_MEETING_PLANNING
+    ) == true
+  }
+
+  invariant readiness_output_is_private {
+    require readiness.visible_to_subject_only == true
+    require matching.read_access_to_readiness == false
+    require profile.read_access_to_readiness == false
+    require lantern.read_access_to_readiness == false
+    require bridge_adapters.read_access_to_readiness == false
+  }
+
+  invariant readiness_is_non_actuating {
+    require readiness.external_action_authorized == false
+  }
+}

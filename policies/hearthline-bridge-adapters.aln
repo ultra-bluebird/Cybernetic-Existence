@@ -1,0 +1,58 @@
+policy HearthlineBridgeAdapters version "2026-09-15" {
+
+  invariant authorization_code_pkce_is_required {
+    when bridge.adapter_registered(platform_id)
+    require bridge.authorization_code_flow_required(platform_id) == true
+    require bridge.pkce_required(platform_id) == true
+    require bridge.pkce_challenge_method(platform_id) == S256
+  }
+
+  invariant deprecated_grants_are_forbidden {
+    require bridge.implicit_grant_allowed == false
+    require bridge.password_grant_allowed == false
+  }
+
+  invariant redirect_uris_are_exactly_matched {
+    when bridge.authorization_response_received(platform_id, redirect_uri)
+    require bridge.redirect_uri_allowlisted_exactly(
+      platform_id,
+      redirect_uri
+    ) == true
+  }
+
+  invariant scopes_are_minimal_and_purpose_bound {
+    when bridge.scope_requested(platform_id, scope_name, purpose)
+    require bridge.scope_is_declared_minimal(
+      platform_id,
+      scope_name,
+      purpose
+    ) == true
+    require consent.user_approved_platform_scope(
+      platform_id,
+      scope_name,
+      purpose
+    ) == true
+  }
+
+  invariant refresh_token_replay_is_controlled {
+    when bridge.refresh_token_storage_enabled(platform_id)
+    require bridge.refresh_replay_protection(
+      platform_id
+    ) in [SENDER_CONSTRAINED, ROTATING]
+  }
+
+  invariant adapter_boundaries_are_isolated {
+    require bridge.cross_adapter_token_use_allowed == false
+    require bridge.cross_adapter_identity_linkage_allowed == false
+    require bridge.cross_adapter_data_sharing_allowed == false
+  }
+
+  invariant passwords_are_never_collected {
+    require bridge.platform_password_collection_allowed == false
+    require bridge.platform_password_storage_allowed == false
+  }
+
+  invariant external_actions_remain_user_initiated {
+    require bridge.external_action_authorized == false
+  }
+}

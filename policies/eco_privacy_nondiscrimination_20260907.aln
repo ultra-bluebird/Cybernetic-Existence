@@ -1,0 +1,116 @@
+aln_version 2
+particle EcoPrivacyNonDiscrimination20260907
+data_class ecological_optimization_and_rights_governance
+purpose [
+  eco_energy_pareto_analysis,
+  aggregate_acceptance_research,
+  fog_workflow_non_discrimination_assurance
+]
+mode advisory_only
+external_action_approval required
+review_status human_review_required
+
+governance {
+  human_fallback required
+  correction_path required
+  appeal_path required
+  material_change_review required
+  access_equivalence required
+  non_interference required
+  disability_non_discrimination required
+  cybernetic_host_non_discrimination required
+  augmented_citizen_non_discrimination required
+  identity_inference prohibited
+  eligibility_inference prohibited
+  public_status_assignment prohibited
+}
+
+eco_energy_optimization {
+  objective_energy "minimize modeled energy demand"
+  objective_ecological_benefit "maximize reviewed ecological benefit"
+  selection_method PARETO_FRONT
+  retain_full_non_dominated_front true
+  human_selected_weight_profile required
+  human_selection_rationale required
+  require safety_constraint_pass true
+  require public_access_constraint_pass true
+  require ecological_corridor_protection_pass true
+  require water_availability_constraint_pass true
+  require equipment_maintenance_constraint_pass true
+  forbid hidden_tradeoff
+  forbid automatic_schedule_application
+  forbid individual_energy_profile_input
+}
+
+aggregate_acceptance_research {
+  participation voluntary
+  collection_scope aggregate_research_only
+  response_value_range 0.0 1.0
+  release_method DIFFERENTIAL_PRIVACY
+  require approved_privacy_loss_epsilon true
+  require privacy_budget_accounting true
+  require minimum_publication_group_size true
+  require release_review true
+  forbid raw_response_release
+  forbid personal_identifier_collection
+  forbid device_identifier_collection
+  forbid precise_timestamp_retention
+  forbid precise_location_retention
+  forbid participation_tracking
+  forbid identity_verification
+  forbid reidentification_attempt
+  forbid rights_or_access_decision_from_acceptance_index
+  forbid proof_requirement_from_acceptance_index
+}
+
+fog_non_discrimination {
+  permitted_outputs [
+    ADVISORY,
+    REVIEW_REQUIRED,
+    BOUND_UNAVAILABLE,
+    RESOLUTION_MISMATCH
+  ]
+  forbid protected_attribute_input
+  forbid protected_attribute_proxy_input
+  forbid disability_status_input
+  forbid age_input
+  forbid race_input
+  forbid gender_input
+  forbid identity_input
+  forbid cybernetic_host_status_input
+  forbid species_classification_input
+  forbid individual_ranking
+  forbid community_ranking
+  forbid resource_allocation
+  forbid eligibility_determination
+  forbid enforcement_output
+  require human_review_for_material_interpretation true
+}
+
+privacy {
+  minimum_necessary_data required
+  purpose_limitation required
+  consent_required true
+  consent_revocable true
+  retention_bounded required
+  correction_record_required true
+  deletion_review_required true
+  no_personal_data_collection true
+  no_biometric_data_collection true
+  no_device_tracking true
+  no_reidentification true
+}
+
+invariants {
+  no_network_interface true
+  no_hardware_control true
+  no_actuator_interface true
+  no_credentials true
+  no_individual_ranking true
+  no_community_ranking true
+  no_automatic_clear true
+  no_regulatory_certainty_claim true
+  no_digital_twin true
+  advisory_output_is_not_operational_command true
+  ecological_harm_non_compensable true
+}

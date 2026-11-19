@@ -1,0 +1,142 @@
+policy fog_master_governance_v2 {
+  version = "2"
+  classification = "governance_policy"
+  advisory_only = true
+  non_actuating = true
+
+  data_class {
+    name = "fog_derived_governance_metadata"
+    purpose = "bounded evidence-quality assessment, review routing, correction, and provenance"
+    consent_scope = "derived non-personal FOG data only"
+    retention = "minimum necessary and policy-bounded"
+    deletion = "authorized expiry or documented retention process"
+  }
+
+  state_safety {
+    require explicit_state_transition
+    require strict_threshold_semantics
+    require human_signature_for_human_decision
+    require human_signature_for_review_completion
+    require no_automatic_clear
+    require no_timeout_as_approval
+    require fail_closed_local_capacity
+    require expiry_for_local_pending
+  }
+
+  liveness {
+    require review_due_time
+    require reminder_time
+    require escalation_time
+    require maximum_review_age
+    require overdue_retained_state
+    require accessible_human_review_path
+
+    ltl {
+      always "withhold implies eventually review_requested"
+      always "review_requested and not review_completed implies eventually escalated_review_required"
+      always "timeout_reached implies not automatic_clear"
+      always "review_overdue_retained implies withhold"
+    }
+  }
+
+  uncertainty {
+    require bounded_finite_values
+    require variance_provenance_for_probability_bound
+    require drift_assessment
+    require calibration_provenance
+    require conformal_set_size_at_most_two
+    require reconstruction_error_for_decomposition
+    forbid certainty_claim_without_assumptions
+    forbid certainty_claim_when_bound_unavailable
+  }
+
+  spatial_temporal_provenance {
+    require aggregation_window_id
+    require window_start_utc
+    require window_end_utc
+    require timezone_iana
+    require source_hex_resolution
+    require applied_hex_resolution
+    require opaque_spatial_scope
+    require half_open_window_semantics
+    forbid raw_coordinates
+    forbid parcel_identifier
+    forbid private_property_identifier
+    forbid personal_activity_history
+  }
+
+  offline_first {
+    require local_expiry_time
+    require maximum_staleness_policy
+    require append_only_sync_event
+    require conflict_preservation
+    require human_conflict_review
+    require deletion_after_expiry
+    forbid stale_payload_upload
+    forbid automatic_clear_on_reconnect
+    forbid silent_last_write_wins
+  }
+
+  accessibility {
+    require plain_language_status
+    require correction_path
+    require accessible_human_review_path
+    require keyboard_evaluation
+    require screen_reader_semantics_evaluation
+    require nonvisual_status_equivalence
+    require no_forced_time_limit
+    require offline_text_availability
+    require translation_review_for_non_default_locale
+    forbid personal_data_collection
+    forbid disability_inference
+    forbid literacy_inference
+    forbid assistive_device_tracking
+    forbid essential_access_failure_compensation
+  }
+
+  review_priority {
+    require explicit_weights
+    require weights_sum_to_one
+    require deterministic_tie_break
+    require aging_for_starvation_prevention
+    require human_review_required_state
+    forbid individual_ranking
+    forbid community_ranking
+    forbid demographic_inference
+    forbid resource_allocation
+    forbid priority_as_clearance
+  }
+
+  correction_lineage {
+    require append_only_correction_log
+    require correction_source_model_version
+    require data_reuse_consent
+    require candidate_model_validation
+    require human_approval_before_promotion
+    forbid retroactive_audit_rewrite
+    forbid automatic_model_promotion
+  }
+
+  integrity {
+    require hash_algorithm "SHA-256"
+    require domain_separation
+    require canonicalization_version
+    require previous_hash
+    require unique_nonce
+    require append_only_hash_log
+    require periodic_checkpoint
+    forbid raw_media_in_hash_event
+    forbid personal_data_in_hash_event
+    forbid raw_coordinates_in_hash_event
+    forbid reviewer_narrative_in_hash_event
+  }
+
+  decision_boundary {
+    forbid direct_actuation
+    forbid executable_instruction
+    forbid automatic_enforcement
+    forbid automatic_eligibility_decision
+    forbid automatic_regulatory_claim
+    forbid individual_or_community_resource_allocation
+  }
+}

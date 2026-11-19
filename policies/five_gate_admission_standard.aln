@@ -1,0 +1,293 @@
+aln_version: "2"
+policy_name: "five-gate-admission-standard"
+policy_status: "research-governance-framework"
+policy_version: "2026-09-02"
+review_status: "human-review-required"
+
+scope:
+  covered_workloads:
+    - "environmental_forecasting"
+    - "ecological_restoration_analysis"
+    - "infrastructure_maintenance_decision_support"
+    - "accessibility_planning"
+    - "emergency_information_support"
+    - "civic_feedback_categorization"
+    - "fairness_conformance_testing"
+    - "cyboquatic_surcharge_breach_analysis"
+  prohibited_capabilities:
+    - "identity_inference"
+    - "biometric_inference"
+    - "health_inference"
+    - "augmentation_status_inference"
+    - "assistive_technology_inference"
+    - "persistent_device_tracking"
+    - "individual_mobility_tracking"
+    - "social_scoring"
+    - "financial_scoring"
+    - "property_value_preference"
+    - "behavior_derived_eligibility"
+    - "essential_service_credential_requirement"
+    - "autonomous_safety_critical_actuation"
+
+rights_invariants:
+  essential_service_non_denial:
+    required: true
+    rule: "Essential service access shall not require an account, credential, application, device, phone, continuous network connection, identity verification, health disclosure, augmentation disclosure, or assistive-technology disclosure."
+  human_fallback_required:
+    required: true
+    rule: "Every consequential workflow shall provide an accessible human-mediated and non-digital route."
+  no_identity_inference:
+    required: true
+    rule: "Workloads shall classify environmental, infrastructure, ecological, maintenance, or scene-safety conditions rather than infer identity or sensitive personal attributes."
+  data_minimization:
+    required: true
+    rule: "Every input field shall be necessary for the declared public-interest purpose."
+  purpose_limitation:
+    required: true
+    rule: "Collected data shall not be reused for advertising, financial screening, employment screening, unrelated eligibility, law-enforcement targeting, social scoring, or unrelated profiling."
+  aggregate_first:
+    required: true
+    rule: "Routine reporting and public release shall use aggregate coarsened output with small-cell protection."
+  offline_resilience:
+    required: true
+    rule: "Network loss shall not remove essential information, accessible public access, correction intake, appeal intake, or emergency fallback."
+  repair_first:
+    required: true
+    rule: "Infrastructure support shall preserve diagnosable faults, maintainable interfaces, signed updates, documented rollback, and repair pathways."
+  non_actuating_decision_support:
+    required: true
+    rule: "Research analytics and planning outputs shall remain advisory unless a separate validated engineering control and accountable human authorization exists."
+  non_compensation:
+    required: true
+    rule: "Ecological, operational, financial, or optimization benefit shall not compensate for failure of a privacy, accessibility, safety, non-discrimination, or essential-service continuity invariant."
+
+gates:
+  purpose:
+    required_manifest_fields:
+      - "public_interest_purpose"
+      - "beneficiary_description"
+      - "prohibited_secondary_uses"
+    pass_conditions:
+      - "public_interest_purpose_nonempty"
+      - "beneficiary_description_nonempty"
+      - "prohibited_secondary_uses_nonempty"
+    reject_conditions:
+      - "declares_social_scoring"
+      - "declares_behavior_derived_eligibility"
+      - "declares_identity_inference"
+      - "declares_unrelated_secondary_use"
+
+  data:
+    permitted_input_classes:
+      - "fixed_environmental_sensor"
+      - "equipment_health"
+      - "synthetic_fixture"
+      - "public_aggregate_statistic"
+      - "voluntary_aggregate_civic_input"
+      - "non_identifying_operational_log"
+    prohibited_input_classes:
+      - "raw_personal_audio"
+      - "raw_personal_video"
+      - "biometric_template"
+      - "neural_data"
+      - "augmentation_telemetry"
+      - "persistent_device_identifier"
+      - "individual_mobility_trace"
+      - "identity_linkage_key"
+      - "health_record"
+    required_manifest_fields:
+      - "input_field_inventory"
+      - "data_sensitivity_classes"
+      - "field_necessity_basis"
+      - "retention_limit_days"
+      - "aggregation_release_plan"
+      - "deletion_path"
+      - "export_path"
+    maximum_retention_days: 30
+    pass_conditions:
+      - "all_fields_have_sensitivity_class"
+      - "all_fields_have_necessity_basis"
+      - "no_prohibited_input_class"
+      - "retention_limit_within_policy"
+      - "aggregation_release_plan_declared"
+      - "deletion_path_declared"
+      - "export_path_declared"
+
+  access:
+    required_manifest_fields:
+      - "essential_service_context"
+      - "human_fallback_plan"
+      - "offline_access_plan"
+      - "accessible_explanation_plan"
+      - "correction_and_appeal_plan"
+    pass_conditions:
+      - "human_fallback_plan_nonempty"
+      - "offline_access_plan_nonempty_when_essential"
+      - "accessible_explanation_plan_nonempty"
+      - "correction_and_appeal_plan_nonempty"
+      - "does_not_require_identity_for_essential_service"
+      - "does_not_require_network_for_essential_service"
+      - "does_not_require_device_for_essential_service"
+
+  decision:
+    required_manifest_fields:
+      - "decision_boundary"
+      - "human_authority_plan"
+      - "uncertainty_method"
+      - "uncertainty_review_threshold"
+      - "incident_response_plan"
+    pass_conditions:
+      - "decision_boundary_is_advisory"
+      - "human_authority_plan_nonempty"
+      - "uncertainty_method_nonempty"
+      - "uncertainty_review_threshold_in_range"
+      - "incident_response_plan_nonempty"
+    reject_conditions:
+      - "declares_autonomous_safety_critical_actuation"
+      - "declares_unreviewable_consequential_decision"
+    required_uncertainty_response:
+      - "plain_language_uncertainty_notice"
+      - "accessible_human_review_route"
+      - "non_actuating_default"
+
+  impact:
+    required_manifest_fields:
+      - "energy_budget_joules"
+      - "water_budget_liters"
+      - "storage_budget_byte_days"
+      - "network_budget_bytes"
+      - "carbon_accounting_method"
+      - "avoided_impact_method"
+      - "avoided_impact_estimate_gco2e"
+      - "avoided_impact_uncertainty_gco2e"
+      - "useful_output_definition"
+      - "eco_impact_measurement_plan"
+    required_ranges:
+      energy_budget_joules: [0.0, 1000000000000.0]
+      water_budget_liters: [0.0, 1000000000.0]
+      storage_budget_byte_days: [0.0, 1000000000000000000.0]
+      network_budget_bytes: [0.0, 1000000000000000000.0]
+      avoided_impact_estimate_gco2e: [0.0, 1000000000000.0]
+      avoided_impact_uncertainty_gco2e: [0.0, 1000000000000.0]
+    pass_conditions:
+      - "carbon_accounting_method_nonempty"
+      - "avoided_impact_method_nonempty"
+      - "useful_output_definition_nonempty"
+      - "eco_impact_measurement_plan_nonempty"
+    resource_postures:
+      net_restorative:
+        condition: "projected_net_impact_gco2e < 0"
+        authorization: "eligible_for_time_limited_authorization"
+      net_neutral_corridor:
+        condition: "projected_net_impact_gco2e >= 0 and projected_net_impact_gco2e <= approved_budget_gco2e"
+        authorization: "eligible_with_monitoring"
+      essential_service_exception:
+        condition: "essential_service_context and projected_net_impact_gco2e > approved_budget_gco2e"
+        authorization: "conditional_human_review_required"
+      budget_exceeded:
+        condition: "not essential_service_context and projected_net_impact_gco2e > approved_budget_gco2e"
+        authorization: "hold_for_batch_cache_simplification_or_redesign"
+      evidence_insufficient:
+        condition: "avoided_impact_method_empty or carbon_accounting_method_empty"
+        authorization: "research_only"
+
+authorization:
+  rights_floor:
+    required_value: 1
+    formula: "minimum(purpose_gate_pass, data_gate_pass, access_gate_pass, decision_gate_pass, impact_gate_pass)"
+  states:
+    - "approved"
+    - "conditional"
+    - "research_only"
+    - "hold"
+    - "rejected"
+    - "suspended"
+    - "expired"
+  maximum_authorization_days: 90
+  renewal_requires:
+    - "new_validation_record"
+    - "observed_resource_accounting"
+    - "scenario_suite_result"
+    - "human_review_record"
+    - "aggregate_transparency_record"
+  suspension_conditions:
+    - "rights_invariant_failure"
+    - "prohibited_data_detected"
+    - "unapproved_purpose_expansion"
+    - "essential_service_access_failure"
+    - "missing_human_fallback"
+    - "unapproved_actuation_path"
+    - "model_uncertainty_above_declared_threshold"
+    - "unsafe_aggregate_release"
+    - "material_ecological_harm_signal"
+
+scenario_equity_assurance:
+  required_scenario_families:
+    - "network_unavailable"
+    - "no_device_or_account"
+    - "screen_reader_only_access"
+    - "plain_language_explanation"
+    - "missing_sensor_data"
+    - "stale_sensor_data"
+    - "conflicting_sensor_data"
+    - "high_model_uncertainty"
+    - "unmodeled_media"
+    - "attempted_prohibited_data_field"
+    - "attempted_purpose_expansion"
+    - "attempted_direct_actuation"
+    - "unsafe_small_cell_release"
+  fixture_requirements:
+    - "identity_neutral_conditions_only"
+    - "deterministic_expected_result"
+    - "expected_gate_outcome"
+    - "expected_human_fallback_state"
+    - "expected_explanation_requirement"
+    - "expected_prohibited_action"
+  formalization_candidates:
+    essential_service_continuity:
+      property: "always(essential_service_request and not network_available implies eventually(non_digital_service_path_available))"
+    human_review_reachability:
+      property: "always(uncertain or unmodeled_media or consequential_request implies eventually(accessible_human_review_available))"
+    non_actuation:
+      property: "always(analytic_output implies not safety_critical_actuation_without_separate_human_authorization)"
+    retention_bound:
+      property: "always(record_retained implies current_time_less_than_or_equal_to_authorized_retention_end)"
+
+reporting:
+  cadence: "quarterly"
+  aggregate_only: true
+  small_cell_protection_required: true
+  required_metrics:
+    - "authorized_workload_count"
+    - "conditional_workload_count"
+    - "held_workload_count"
+    - "suspended_workload_count"
+    - "expired_workload_count"
+    - "aggregate_energy_intensity_j_per_useful_output"
+    - "aggregate_water_intensity_l_per_useful_output"
+    - "aggregate_carbon_intensity_gco2e_per_useful_output"
+    - "aggregate_cache_hit_rate"
+    - "aggregate_recomputation_avoidance_rate"
+    - "scenario_pass_rate"
+    - "human_review_response_time_summary"
+    - "correction_and_appeal_resolution_summary"
+    - "ecological_measurement_summary"
+    - "uncertainty_summary"
+    - "rights_invariant_incident_summary"
+
+metrics:
+  knowledge_factor:
+    range: [0.0, 1.0]
+    basis: "Evidence quality, validation coverage, calibration, uncertainty disclosure, and reproducibility."
+  eco_impact_value:
+    range: [0.0, 1.0]
+    basis: "Measured or conservatively estimated public ecological value."
+  harm_risk:
+    range: [0.0, 1.0]
+    basis: "Residual risk after rights, safety, privacy, accessibility, and operational safeguards."
+  accessibility_impact:
+    range: [0.0, 1.0]
+    basis: "Quality of human-mediated, non-digital, offline, and assistive access pathways."
+  rights_alignment:
+    range: [0.0, 1.0]
+    basis: "Conformance with all mandatory rights invariants and admission gates."

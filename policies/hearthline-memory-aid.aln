@@ -1,0 +1,35 @@
+policy HearthlineMemoryAid version "2026-09-15" {
+
+  invariant reminders_never_contain_credentials {
+    require memory_aid.notification_contains_password == false
+    require memory_aid.notification_contains_passkey_material == false
+    require memory_aid.notification_contains_recovery_code == false
+    require memory_aid.notification_contains_oauth_token == false
+    require memory_aid.notification_contains_credential_identifier == false
+  }
+
+  invariant reminders_never_contain_recovery_topology {
+    require memory_aid.notification_contains_contact_identity == false
+    require memory_aid.notification_contains_recovery_share == false
+    require memory_aid.notification_contains_threshold_information == false
+  }
+
+  invariant reminders_never_expose_relationship_context {
+    require memory_aid.notification_contains_recipient_identity == false
+    require memory_aid.notification_contains_match_state == false
+    require memory_aid.notification_contains_sensitive_consent_field == false
+  }
+
+  invariant guidance_requires_user_initiation_for_sensitive_context {
+    when memory_aid.guidance_requires_sensitive_context(reminder_ref)
+    require session.reauthentication_complete(subject_ref) == true
+  }
+
+  invariant memory_aid_does_not_hold_recovery_material {
+    require memory_aid.recovery_shard_storage_allowed == false
+  }
+
+  invariant memory_aid_is_non_actuating {
+    require memory_aid.external_action_authorized == false
+  }
+}

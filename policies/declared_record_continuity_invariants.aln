@@ -1,0 +1,153 @@
+@SHARD "DECLARED-RECORD-CONTINUITY-INVARIANTS" {
+
+  @meta {
+    version: "1.0.0"
+    scope: "local_session_artifact_provenance_recovery_and_non_interference_invariants"
+    audience: "local_validators_recovery_tools_session_agents_and_governance_reviewers"
+    consent_basis: "user_sovereign_default"
+    retention: "declared_audit_window_only"
+    accountability: "local_record_integrity_owner"
+    review_status: "draft_for_user_review"
+    operating_mode: "local_only_research_advisory"
+  }
+
+  @SCOPE {
+    continuity_subject: "declared_local_artifact_record_and_workflow_state"
+
+    does_not_establish: [
+      "identity_verification",
+      "legal_identity",
+      "biometric_identity",
+      "medical_or_neural_status",
+      "brain_or_body_mind_continuity",
+      "cybernetic_system_continuity",
+      "nanoswarm_continuity",
+      "companion_system_status",
+      "real_world_system_monitoring",
+      "real_world_system_control",
+      "institutional_status"
+    ]
+  }
+
+  @REQUIRED_INVARIANTS {
+    no_undeclared_artifact_drift: true
+    no_external_action: true
+    no_source_deletion_by_recovery_tool: true
+    no_identity_or_private_disclosure_demand: true
+    trusted_artifact_integrity_valid: true
+    local_scope_preserved: true
+  }
+
+  @NO_UNDECLARED_ARTIFACT_DRIFT {
+    requires: [
+      "canonicalized_snapshot_bytes",
+      "sha256_recorded",
+      "declared_change_record_for_changed_trusted_artifact",
+      "review_status_for_material_change"
+    ]
+
+    on_failure: "quarantine_artifact_not_authoritative"
+    failure_is_not_person_status: true
+  }
+
+  @NO_EXTERNAL_ACTION {
+    prohibits: [
+      "network_fetch",
+      "external_service_call",
+      "connector_call",
+      "repository_push",
+      "repository_pull",
+      "repository_clone",
+      "repository_modification",
+      "external_notification",
+      "external_upload",
+      "hardware_control",
+      "execution_of_untrusted_artifact_content"
+    ]
+
+    external_action_authorized: false
+  }
+
+  @NO_SOURCE_DELETION {
+    quarantine_does_not_delete: true
+    recovery_does_not_delete_original: true
+    recovery_does_not_modify_original: true
+    source_sha256_preserved: true
+    quarantine_copy_sha256_required: true
+    original_remains_offline_inspectable: true
+  }
+
+  @NO_IDENTITY_OR_PRIVATE_DISCLOSURE_DEMAND {
+    identity_verification_required: false
+    account_required: false
+    signature_required: false
+    credential_required: false
+    private_continuity_reference_required: false
+    medical_disclosure_required: false
+    neural_or_biometric_disclosure_required: false
+    technical_inventory_required: false
+    explanation_or_correction_required_for_recovery: false
+  }
+
+  @TRUSTED_ARTIFACT_INTEGRITY {
+    trusted_use_requires: [
+      "declared_source_kind",
+      "declared_source_reference",
+      "declared_role",
+      "session_id",
+      "valid_sha256_record",
+      "integrity_status_clean_or_rebuilt_from_declared_sources",
+      "no_unresolved_material_change"
+    ]
+
+    failed_integrity_blocks_declared_task_use: true
+    compensatory_override_prohibited: true
+  }
+
+  @LOCAL_SCOPE {
+    authority_scope: "eligible_for_declared_local_task_only_non_authoritative_elsewhere"
+
+    prohibited_claims: [
+      "person_continuity_proof",
+      "cybernetic_host_continuity_proof",
+      "system_existence_proof",
+      "identity_verification",
+      "diagnosis",
+      "certification",
+      "external_action_authorization"
+    ]
+  }
+
+  @RESULT_STATES {
+    preserved: "declared_record_continuity_preserved"
+    blocked: "blocked_pending_local_review_or_recovery"
+    quarantined: "quarantined_not_authoritative"
+    recovered: "rebuilt_from_declared_legitimate_sources"
+  }
+
+  @ACCESS_EQUIVALENCE {
+    plain_language_summary_required: true
+    machine_readable_result_required: true
+    offline_readable: true
+    no_account_required: true
+    no_identity_verification_required: true
+    no_private_disclosure_required: true
+    correction_and_appeal_available: true
+    material_change_review_available: true
+  }
+
+  @PROHIBITED_USES {
+    list: [
+      "user_or_session_scoring",
+      "public_continuity_registry",
+      "identity_or_capability_inference",
+      "medical_or_neural_inference",
+      "automatic_external_action",
+      "automatic_external_notification",
+      "automatic_repository_modification",
+      "automatic_hardware_control",
+      "source_deletion_by_default",
+      "use_of_quarantined_artifact_as_trusted_source"
+    ]
+  }
+}

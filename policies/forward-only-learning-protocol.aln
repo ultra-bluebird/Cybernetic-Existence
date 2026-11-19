@@ -1,0 +1,86 @@
+policy_name = "forward_only_learning_protocol"
+policy_version = "1.0"
+record_class = "forward_learning_candidate"
+purpose = "Prevent duplicate object adoption while allowing linked, reviewable refinements that preserve privacy, non-interference, access equivalence, continuity protections, and non-actuation."
+consent_scope = "local_repository_governance_only"
+retention = "retain_predecessors_and_adoption_lineage_under_repository_retention_policy"
+deletion = "do_not_delete_predecessor_for_refinement_or_supersession"
+accountability = "content_hash_semantic_review_invariant_check_and_adoption_record"
+review_status = "required_before_new_object_adoption"
+access_equivalence_safeguard = "no_identity_inference_no_access_eligibility_and_plain_language_review_reason"
+external_action_approval = "prohibited"
+
+require external_action_authorized == false
+
+require novelty_state in [
+    "EXACT_DUPLICATE",
+    "NEAR_DUPLICATE_REVIEW_REQUIRED",
+    "POTENTIAL_REFINEMENT_REVIEW_REQUIRED",
+    "NOVELTY_NOT_BLOCKED",
+    "LEGITIMATE_REFINEMENT",
+    "RELATED_BUT_DISTINCT",
+    "NEW_OBJECT"
+]
+
+require invariant_check_state in [
+    "PENDING",
+    "PRESERVED",
+    "WEAKENING_DETECTED",
+    "METHOD_REVIEW_REQUIRED"
+]
+
+require adoption_state in [
+    "PENDING_REVIEW",
+    "ADOPTED",
+    "REJECTED_DUPLICATE",
+    "REJECTED_INVARIANT_WEAKENING",
+    "SUPERSEDED_WITH_LINEAGE"
+]
+
+require candidate_content_digest is_not_null
+require semantic_registry_version is_not_null
+require invariant_baseline_digest is_not_null
+require review_rationale_digest is_not_null
+
+when novelty_state == "EXACT_DUPLICATE":
+    require adoption_state == "REJECTED_DUPLICATE"
+    require predecessor_record_id is_not_null
+
+when novelty_state in [
+    "NEAR_DUPLICATE_REVIEW_REQUIRED",
+    "POTENTIAL_REFINEMENT_REVIEW_REQUIRED"
+]:
+    require adoption_state == "PENDING_REVIEW"
+    require nearest_prior_record_id is_not_null
+    require semantic_similarity_score is_not_null
+
+when novelty_state == "LEGITIMATE_REFINEMENT":
+    require predecessor_record_id is_not_null
+    require refinement_delta_digest is_not_null
+    require invariant_check_state == "PRESERVED"
+
+when invariant_check_state == "WEAKENING_DETECTED":
+    require adoption_state == "REJECTED_INVARIANT_WEAKENING"
+
+when adoption_state == "ADOPTED":
+    require invariant_check_state == "PRESERVED"
+    require novelty_state in [
+        "LEGITIMATE_REFINEMENT",
+        "RELATED_BUT_DISTINCT",
+        "NEW_OBJECT",
+        "NOVELTY_NOT_BLOCKED"
+    ]
+
+deny when external_action_authorized == true
+deny when adoption_state == "ADOPTED"
+    and identity_disclosure_surface_increased == true
+deny when adoption_state == "ADOPTED"
+    and privacy_protection_decreased == true
+deny when adoption_state == "ADOPTED"
+    and noninterference_protection_decreased == true
+deny when adoption_state == "ADOPTED"
+    and access_equivalence_protection_decreased == true
+deny when adoption_state == "ADOPTED"
+    and continuity_protection_decreased == true
+deny when adoption_state == "ADOPTED"
+    and automated_eligibility_or_ranking_added == true

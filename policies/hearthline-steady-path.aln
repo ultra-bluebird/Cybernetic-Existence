@@ -1,0 +1,39 @@
+policy HearthlineSteadyPath version "2026-09-15" {
+
+  invariant pause_has_no_social_penalty {
+    when pacing.state(subject_ref, connection_ref) == PAUSED
+    require matching.rank_penalty(subject_ref) == 0
+    require matching.visibility_penalty(subject_ref) == 0
+    require analytics.inactivity_label(subject_ref) == null
+  }
+
+  invariant pause_stops_new_pressure {
+    when pacing.state(subject_ref, connection_ref) == PAUSED
+    require messaging.new_inbound_requests_allowed(subject_ref) == false
+    require notifications.urgency_prompts_allowed(subject_ref) == false
+    require notifications.streak_prompts_allowed(subject_ref) == false
+  }
+
+  invariant pacing_never_discloses_private_reason {
+    require pacing.pause_reason_stored == false
+    require pacing.low_energy_reason_stored == false
+    require profile.pause_reason_visible_to_other_users == false
+  }
+
+  invariant expansion_requires_independent_confirmation {
+    when pacing.transition_requested(
+      connection_ref,
+      USER_CONFIRMED_EXPANSION
+    )
+    require connection.each_participant_confirmed_expansion(connection_ref) == true
+  }
+
+  invariant limited_conversation_is_not_contact_disclosure {
+    when pacing.state(subject_ref, connection_ref) == LIMITED_CONVERSATION
+    require consent.contact_information_disclosed(subject_ref, connection_ref) == false
+  }
+
+  invariant all_components_remain_non_actuating {
+    require system.external_action_authorized == false
+  }
+}

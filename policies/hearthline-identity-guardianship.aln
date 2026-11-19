@@ -1,0 +1,70 @@
+policy HearthlineIdentityGuardianship version "2026-09-16" {
+
+  invariant guardianship_is_optional {
+    require guardianship.required_for_account_access == false
+    require guardianship.required_for_matching == false
+    require guardianship.required_for_pacing == false
+    require guardianship.required_for_credential_continuity == false
+  }
+
+  invariant guardian_relationship_requires_dual_consent {
+    when guardianship.state(relationship_ref) == ACTIVE
+    require guardianship.user_consent_present(relationship_ref) == true
+    require guardianship.guardian_consent_present(relationship_ref) == true
+  }
+
+  invariant guardian_capabilities_are_enumerated {
+    require guardianship.capability in [
+      NOTIFY_ON_CREDENTIAL_CONTINUITY_EVENT,
+      CO_SIGN_CREDENTIAL_CONTINUITY,
+      RECEIVE_SAFETY_PLAN_CHECKIN,
+      RECEIVE_ACCOUNT_SAFETY_NOTICE,
+      WITHDRAW_GUARDIAN_CONSENT
+    ]
+  }
+
+  invariant guardian_has_no_surveillance_access {
+    require guardianship.profile_access_allowed == false
+    require guardianship.message_access_allowed == false
+    require guardianship.match_access_allowed == false
+    require guardianship.consent_scope_access_allowed == false
+    require guardianship.recovery_context_access_allowed == false
+    require guardianship.health_context_access_allowed == false
+    require guardianship.account_history_access_allowed == false
+    require guardianship.security_history_access_allowed == false
+    require guardianship.location_tracking_allowed == false
+  }
+
+  invariant guardian_has_no_account_authority {
+    require guardianship.credential_material_access_allowed == false
+    require guardianship.passkey_binding_allowed == false
+    require guardianship.passkey_removal_allowed == false
+    require guardianship.profile_change_allowed == false
+    require guardianship.message_send_allowed == false
+    require guardianship.provider_link_allowed == false
+    require guardianship.account_export_allowed == false
+    require guardianship.external_action_authorized == false
+  }
+
+  invariant guardian_cosign_is_never_sufficient_alone {
+    when identity.continuity_completed(subject_ref)
+    require guardianship.cosign_is_only_recovery_factor(subject_ref) == false
+    require identity.user_binds_new_passkey_with_user_verification(subject_ref) == true
+  }
+
+  invariant revocation_is_immediate {
+    when guardianship.user_revoked(relationship_ref)
+    require guardianship.active_capabilities(relationship_ref) == []
+  }
+
+  invariant guardian_withdrawal_has_no_user_penalty {
+    when guardianship.guardian_withdrew(relationship_ref)
+    require matching.rank_penalty(subject_ref) == 0
+    require discovery.visibility_penalty(subject_ref) == 0
+    require identity.account_access_reduced(subject_ref) == false
+  }
+
+  invariant guardianship_is_non_actuating {
+    require system.external_action_authorized == false
+  }
+}
