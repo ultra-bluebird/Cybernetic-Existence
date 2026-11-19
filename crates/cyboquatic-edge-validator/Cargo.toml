@@ -1,0 +1,26 @@
+[package]
+name = "cyboquatic-edge-validator"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.85"
+description = "Privacy-preserving edge validation and aggregation for Cyboquatic environmental telemetry."
+repository = "https://github.com/mk-bluebird/Augmented-Hub"
+readme = "README.md"
+keywords = ["environmental", "telemetry", "privacy", "validation", "cyboquatic"]
+categories = ["science", "embedded", "data-structures"]
+
+[lib]
+name = "cyboquatic_edge_validator"
+path = "src/lib.rs"
+
+[dependencies]
+serde = { version = "1.0", default-features = false, features = ["derive"] }
+
+[dev-dependencies]
+serde_json = "1.0"
+
+[profile.release]
+codegen-units = 1
+lto = true
+panic = "abort"
+strip = "symbols"

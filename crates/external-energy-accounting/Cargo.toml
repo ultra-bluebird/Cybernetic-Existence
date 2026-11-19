@@ -1,0 +1,20 @@
+[package]
+name = "external-energy-accounting"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.85"
+description = "Online accounting for externally characterized energy-harvesting experiments."
+license = "MIT OR Apache-2.0"
+publish = false
+
+[lib]
+name = "external_energy_accounting"
+path = "src/lib.rs"
+
+[lints.rust]
+unsafe_code = "forbid"
+missing_docs = "warn"
+
+[lints.clippy]
+all = "warn"
+pedantic = "warn"

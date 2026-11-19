@@ -1,0 +1,22 @@
+[package]
+name = "cybernano-uv-physio"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.85"
+license = "MIT OR Apache-2.0"
+description = "UV and solar exposure fusion for nanoswarm physio and RoH guards (host-bound, Phoenix-compatible)."
+repository = "https://github.com/mk-bluebird/nanorobotics.git"
+
+[lib]
+name = "cybernano_uv_physio"
+path = "src/lib.rs"
+
+[features]
+default = []
+kani = ["dep:kani"]
+
+[dependencies]
+cybernano-physio = { path = "../cybernano-physio" }
+
+[dev-dependencies]
+kani = { version = "0.50.0", optional = true }

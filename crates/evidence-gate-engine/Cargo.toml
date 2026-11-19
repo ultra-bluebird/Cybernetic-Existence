@@ -1,0 +1,20 @@
+[package]
+name = "evidence-gate-engine"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.85"
+description = "Evaluation of supplied evidence-gate records against declared gate criteria."
+license = "MIT OR Apache-2.0"
+publish = false
+
+[lib]
+name = "evidence_gate_engine"
+path = "src/lib.rs"
+
+[lints.rust]
+unsafe_code = "forbid"
+missing_docs = "warn"
+
+[lints.clippy]
+all = "warn"
+pedantic = "warn"

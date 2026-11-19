@@ -1,0 +1,48 @@
+[package]
+name = "cyboquatic-wasm-invariants"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.85"
+description = "Privacy-preserving environmental invariant validation for Cyboquatic edge computation."
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/mk-bluebird/Augmented-Hub"
+readme = "README.md"
+keywords = [
+  "cyboquatic",
+  "environmental",
+  "privacy",
+  "telemetry",
+  "wasm",
+]
+categories = [
+  "embedded",
+  "science",
+  "wasm",
+]
+
+[lib]
+name = "cyboquatic_wasm_invariants"
+path = "src/lib.rs"
+crate-type = [
+  "rlib",
+  "cdylib",
+]
+
+[features]
+default = []
+wasm = [
+  "dep:wasm-bindgen",
+]
+
+[dependencies]
+serde = { version = "1.0", default-features = false, features = ["derive"] }
+wasm-bindgen = { version = "0.2", optional = true }
+
+[dev-dependencies]
+serde_json = "1.0"
+
+[profile.release]
+codegen-units = 1
+lto = true
+panic = "abort"
+strip = "symbols"

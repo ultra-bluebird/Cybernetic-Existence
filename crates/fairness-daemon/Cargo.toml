@@ -1,0 +1,15 @@
+[package]
+name = "fairness-daemon"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+tokio = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+anyhow = { workspace = true }
+tracing = { workspace = true }
+tracing-subscriber = { workspace = true }
+clap = { workspace = true }
+sovereign-identity = { path = "../sovereign-identity" }
+secure-session = { path = "../secure-session" }
