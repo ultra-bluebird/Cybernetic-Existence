@@ -1,0 +1,7 @@
+"Action class","Examples","Agent role","Required control"
+"Informational","Explain a metric, summarize evidence, identify uncertainty","May perform","Source and version disclosure"
+"Analytical","Calculate a planning index locally, detect a conflict, run a scenario","May perform","Schema validation, evidence checks, audit record"
+"Advisory","Suggest a shade route study, flag maintenance for review","May perform","Advisory-only label, accessible explanation, uncertainty statement"
+"Governance-sensitive","Change threshold, change policy classification, select conflict outcome","May prepare but not finalize","Human review and versioned approval"
+"Privacy-sensitive","Export sensitive data, release aggregate data, change release class","May prepare but not finalize","Purpose-specific authorization and privacy review"
+"Consequential","Deny service, make binding eligibility determination, actuate infrastructure","Must not perform autonomously","Human authority, lawful process, public accountability"

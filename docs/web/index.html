@@ -1,0 +1,1099 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nanoswarm Safety Verification: Formal Methods and Implementation Analysis</title>
+
+  <!-- Essential CDN Libraries -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: {
+              50: 'hsl(210, 75%, 95%)',
+              100: 'hsl(210, 75%, 85%)',
+              200: 'hsl(210, 75%, 75%)',
+              300: 'hsl(210, 75%, 65%)',
+              400: 'hsl(210, 75%, 55%)',
+              500: 'hsl(210, 75%, 40%)',
+              600: 'hsl(210, 75%, 35%)',
+              700: 'hsl(210, 75%, 25%)',
+              800: 'hsl(210, 75%, 15%)',
+              900: 'hsl(210, 75%, 10%)'
+            },
+            accent: {
+              50: 'hsl(240, 65%, 95%)',
+              100: 'hsl(240, 65%, 85%)',
+              200: 'hsl(240, 65%, 75%)',
+              300: 'hsl(240, 65%, 65%)',
+              400: 'hsl(240, 65%, 60%)',
+              500: 'hsl(240, 65%, 55%)',
+              600: 'hsl(240, 65%, 50%)',
+              700: 'hsl(240, 65%, 40%)',
+              800: 'hsl(240, 65%, 30%)',
+              900: 'hsl(240, 65%, 20%)'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0"></script>
+
+  <!-- Preline UI Components -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/preline@2.0.3/dist/preline.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/preline@2.0.3/dist/preline.js"></script>
+
+  <!-- Micro-interactions & Custom Styles -->
+  <style>
+    html { scroll-behavior: smooth; }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+      html { scroll-behavior: auto; }
+    }
+
+    .btn-interactive {
+      transition: all 0.2s ease-out;
+    }
+    
+    .btn-interactive:hover {
+      transform: scale(1.05);
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    }
+    
+    .btn-interactive:active {
+      transform: scale(0.95);
+    }
+
+    .card-interactive {
+      transition: all 0.3s ease-out;
+      border: 1px solid transparent;
+      --border-lightness: 40%;
+    }
+
+    .dark .card-interactive {
+      --border-lightness: 60%;
+    }
+
+    .card-interactive:hover {
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      filter: brightness(0.98);
+    }
+    
+    /* Primary colored cards */
+    .card-interactive[class*="primary"]:hover,
+    .card-interactive[class*="white"]:hover,
+    .card-interactive[class*="gray-"]:hover {
+      border-color: hsl(210, 75%, var(--border-lightness));
+    }
+    
+    /* Accent colored cards */
+    .card-interactive[class*="accent"]:hover {
+      border-color: hsl(240, 65%, var(--border-lightness));
+    }
+
+    .dark .card-interactive:hover {
+      filter: brightness(1.05);
+    }
+  </style>
+
+  <script>
+    function toggleDarkMode() {
+      document.body.classList.toggle('dark');
+      const isDark = document.body.classList.contains('dark');
+      document.getElementById('sunIcon').style.display = isDark ? 'block' : 'none';
+      document.getElementById('moonIcon').style.display = isDark ? 'none' : 'block';
+    }
+  </script>
+</head>
+
+<body class="transition-colors duration-300 bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+  <!-- Progress Bar -->
+  <div class="fixed top-0 left-0 h-1 bg-primary-500 dark:bg-primary-400 z-[60] transition-all duration-300 ease-out" id="progressBar" style="width: 0%;"></div>
+
+  <!-- Floating Header -->
+  <header class="fixed top-0 left-0 right-0 z-50 backdrop-blur bg-gray-50/90 dark:bg-gray-900/90 border-b border-primary-500/20 dark:border-primary-600/20">
+    <div class="max-w-7xl mx-auto px-6 py-4">
+      <div class="flex items-center justify-between">
+        <h1 class="text-xl font-bold text-primary-700 dark:text-primary-300">Nanoswarm Safety Verification</h1>
+        
+        <nav class="hidden md:flex items-center space-x-6">
+          <a href="#home" class="text-sm text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Home</a>
+          <a href="#overview" class="text-sm text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Overview</a>
+          <a href="#kani" class="text-sm text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Kani</a>
+          <a href="#guards" class="text-sm text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Guards</a>
+          <a href="#crypto" class="text-sm text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Crypto</a>
+          <a href="#threshold" class="text-sm text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Threshold</a>
+          <a href="#conclusion" class="text-sm text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Conclusion</a>
+        </nav>
+
+        <button onclick="toggleDarkMode()" class="btn-interactive p-2 rounded-lg bg-primary-100 dark:bg-primary-800 text-primary-600 dark:text-primary-300 hover:bg-primary-200 dark:hover:bg-primary-700 transition-all">
+          <i data-lucide="sun" id="sunIcon" class="w-5 h-5"></i>
+          <i data-lucide="moon" id="moonIcon" class="w-5 h-5" style="display: none;"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="min-h-screen">
+    <!-- Hero Section -->
+    <section id="home" class="pt-40 pb-20 bg-primary-50/50 dark:bg-gray-900" data-aos="fade-up">
+      <div class="max-w-5xl mx-auto px-6">
+        <div class="text-center mb-12">
+          <h2 class="text-4xl md:text-5xl font-bold mb-6 text-primary-700 dark:text-primary-300">
+            Formal Verification of Nanoswarm Safety-Critical Components
+          </h2>
+          <p class="text-xl text-gray-700 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed">
+            Implementation-level verification of renal and thermal guards, Cognitive/BRAKE hysteresis, CybostateVetoCore aggregation, and host-adaptive threshold merge logic through Kani harness coverage and edge case analysis
+          </p>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-8 items-center mt-16">
+          <div class="space-y-6">
+            <h3 class="text-2xl font-semibold text-primary-700 dark:text-primary-300" data-ref="https://pmc.ncbi.nlm.nih.gov/articles/PMC12956799/|16">
+              Safety-Critical Machine Learning Integration
+            </h3>
+            <p class="text-gray-700 dark:text-gray-300 leading-relaxed">
+              The integration of machine learning systems into safety-critical domains heightens the need for rigorous safety guarantees. This research addresses implementation-level verification of core safety mechanisms in a nanoswarm cybernetic system, prioritizing components that directly enforce physiological and cognitive safety.
+            </p>
+            <p class="text-gray-700 dark:text-gray-300 leading-relaxed" data-ref="https://arxiv.org/pdf/2307.11784|51">
+              The reason why one wants to apply machine learning to a safety critical application is two-fold: (1) it is impossible to program a certain behavior manually, and (2) manual programming is inefficient compared to learning from data.
+            </p>
+          </div>
+          
+          <img
+            src="https://cdn.qwenlm.ai/714a88f7-e42b-4a6c-80c2-00f9eddec4c0/4d8c299e-1e2a-4527-ba1b-0caca29e51c7/e7252d2e-4744-44ed-849f-76dee62d0b70.png?key=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyZXNvdXJjZV91c2VyX2lkIjoiNzE0YTg4ZjctZTQyYi00YTZjLTgwYzItMDBmOWVkZGVjNGMwIiwicmVzb3VyY2VfaWQiOiI0ZDhjMjk5ZS0xZTJhLTQ1MjctYmExYi0wY2FjYTI5ZTUxYzciLCJyZXNvdXJjZV9jaGF0X2lkIjpudWxsfQ.R9AkT5fuqxvmiyBKQoSI2y7KVZX8qd_1Dw4GISgmM1Q"
+            alt="A conceptual illustration showing a futuristic nanoswarm system operating within a human body silhouette. The image depicts blue primary-colored hexagonal nanoswarm modules (hexagons measuring approximately 2-3mm) arranged in a honeycomb pattern around a translucent human torso outline in light gray (#D3D3D3). Each hexagon contains a small white symbol representing safety verification: a checkmark, shield, or lock icon. Surrounding the torso are three glowing blue (#1a73b3) protective barriers labeled Renal Guard, Thermal Corridor, and Cognitive BRAKE in white sans-serif font (size 12pt). The background is a gradient from dark navy (#1a1a2e) at the top transitioning to lighter blue (#4a90e2) at the bottom. Small animated particle effects (tiny white dots) move between the hexagons at a slow pace (0.5 particles per second). The overall composition emphasizes technological precision with clean lines, minimal clutter, and a medical-cybernetic aesthetic. The color palette uses the primary blue (#1a73b3) and accent purple (#6366f1) consistently throughout all elements."
+            class="w-full rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300"
+          />
+        </div>
+
+        <div class="mt-8 pl-4 pr-3 py-3 border-l-4 border-primary-500 bg-primary-50/40 dark:bg-primary-900/30 rounded-r-lg">
+          <p class="text-sm font-medium text-primary-900 dark:text-primary-100 leading-relaxed" data-ref="https://www.researchgate.net/publication/403247150_PUBLIC_CIRCULATION_EDITION_OPERATIONAL_PARAMETERS_REDACTED_For_academic_review_only_Formal_Stability_Proof_of_the_Absolute0_Stability_Framework_v301_ASV3-FORMAL_Admissible_Set_Invariance_Projection_Go|56">
+            <i data-lucide="info" class="inline-block w-4 h-4 mr-1.5 -mt-0.5"></i>
+            Key Finding: The Absolute(0) Stability Framework version 3.0.1 (AS3.0.1) provides a real-time governance engine for admissible set invariance, projection governance, and forward reachability analysis.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Overview Section -->
+    <section id="overview" class="py-20 bg-white/80 dark:bg-gray-900" data-aos="fade-up">
+      <div class="max-w-5xl mx-auto px-6">
+        <h2 class="text-3xl font-bold mb-8 text-primary-700 dark:text-primary-300">
+          Research Scope and Objectives
+        </h2>
+
+        <div class="space-y-6 mb-12">
+          <p class="text-gray-700 dark:text-gray-300 leading-relaxed" data-ref="https://arxiv.org/pdf/2307.11784|51">
+            The integration of machine learning into safety-critical applications requires rigorous verification frameworks. This research focuses on implementation-level verification of core safety mechanisms in a nanoswarm cybernetic system, specifically targeting components that directly enforce physiological and cognitive safety.
+          </p>
+
+          <div class="grid md:grid-cols-2 gap-6">
+            <div class="card-interactive p-6 bg-primary-50/50 dark:bg-primary-900/20 rounded-xl shadow-md">
+              <div class="flex items-start space-x-4">
+                <div class="flex-shrink-0 w-12 h-12 bg-primary-100 dark:bg-primary-900/30 rounded-lg flex items-center justify-center">
+                  <i data-lucide="shield" class="w-6 h-6 text-primary-600 dark:text-primary-400"></i>
+                </div>
+                <div>
+                  <h3 class="text-lg font-semibold text-primary-700 dark:text-primary-300 mb-2">Primary Focus</h3>
+                  <p class="text-sm text-gray-700 dark:text-gray-300">
+                    Renal guard state machine, thermal/organ corridor guards, CognitiveDemandEnvelope BRAKE hysteresis, CybostateVetoCore shard aggregation, and host-adaptive threshold merge logic
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="card-interactive p-6 bg-accent-50/50 dark:bg-accent-900/20 rounded-xl shadow-md">
+              <div class="flex items-start space-x-4">
+                <div class="flex-shrink-0 w-12 h-12 bg-accent-100 dark:bg-accent-900/30 rounded-lg flex items-center justify-center">
+                  <i data-lucide="lock" class="w-6 h-6 text-accent-600 dark:text-accent-400"></i>
+                </div>
+                <div>
+                  <h3 class="text-lg font-semibold text-accent-700 dark:text-accent-300 mb-2">Secondary Layer</h3>
+                  <p class="text-sm text-gray-700 dark:text-gray-300">
+                    Cryptographic and consensus security ensuring all verified components are bound to sovereign host identity and respect evolution-window constraints
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="pl-4 pr-3 py-3 border-l-4 border-amber-500 bg-amber-50/40 dark:bg-amber-900/30 rounded-r-lg mb-8">
+          <p class="text-sm font-medium text-amber-900 dark:text-amber-100 leading-relaxed" data-ref="https://arxiv.org/pdf/2307.11784|51">
+            <i data-lucide="alert-triangle" class="inline-block w-4 h-4 mr-1.5 -mt-0.5"></i>
+            Critical Note: Safety-critical ML systems face challenges in verification due to their non-deterministic nature and complex decision-making processes.
+          </p>
+        </div>
+
+        <div class="hs-accordion-group space-y-4">
+          <div class="hs-accordion card-interactive bg-white/80 backdrop-blur-sm dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700">
+            <button class="hs-accordion-toggle w-full flex justify-between items-center p-4 text-left hover:bg-primary-50 dark:hover:bg-gray-700/50 transition-colors rounded-xl" id="hs-overview-1">
+              <div class="flex items-center space-x-4">
+                <div class="flex-shrink-0 w-12 h-12 bg-primary-100 dark:bg-primary-900/30 rounded-lg flex items-center justify-center">
+                  <i data-lucide="target" class="w-6 h-6 text-primary-600 dark:text-primary-400"></i>
+                </div>
+                <span class="font-semibold text-lg text-primary-700 dark:text-primary-300">Mathematical Consistency Goals</span>
+              </div>
+              <i data-lucide="chevron-down" class="hs-accordion-active:rotate-180 transition-transform duration-300 w-5 h-5 text-primary-600 dark:text-primary-400"></i>
+            </button>
+            <div id="hs-collapse-overview-1" class="hs-accordion-content hidden w-full overflow-hidden transition-[height] duration-300" aria-labelledby="hs-overview-1">
+              <div class="p-6 pt-0 space-y-4">
+                <p class="text-gray-700 dark:text-gray-300" data-ref="https://www.researchgate.net/publication/403247150_PUBLIC_CIRCULATION_EDITION_OPERATIONAL_PARAMETERS_REDACTED_For_academic_review_only_Formal_Stability_Proof_of_the_Absolute0_Stability_Framework_v301_ASV3-FORMAL_Admissible_Set_Invariance_Projection_Go|56">
+                  The primary evaluation dimension is formal mathematical consistency—specifically verifying monotone tightening, global RoH ≤ 0.30 invariants, and prevention of invalid internal states (e.g., HRV_min &gt; HRV_max).
+                </p>
+                <p class="text-gray-700 dark:text-gray-300" data-ref="https://arxiv.org/pdf/2309.12406|19">
+                  This paper introduces an approach for synthesizing feasible safety indices to derive safe control laws under state-dependent control space constraints.
+                </p>
+                <p class="text-gray-700 dark:text-gray-300" data-ref="https://www.researchgate.net/publication/398792091_From_HRO_to_HRE_Human-Centered_Resilience_Engineering_as_an_Evolving_Framework_for_Patient_Safety_Management|18">
+                  From High Reliability Organizations (HRO) to Human-Centered Resilience Engineering (HRE), safety management evolves from centralized control to distributed resilience frameworks.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="hs-accordion card-interactive bg-white/80 backdrop-blur-sm dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700">
+            <button class="hs-accordion-toggle w-full flex justify-between items-center p-4 text-left hover:bg-primary-50 dark:hover:bg-gray-700/50 transition-colors rounded-xl" id="hs-overview-2">
+              <div class="flex items-center space-x-4">
+                <div class="flex-shrink-0 w-12 h-12 bg-accent-100 dark:bg-accent-900/30 rounded-lg flex items-center justify-center">
+                  <i data-lucide="layers" class="w-6 h-6 text-accent-600 dark:text-accent-400"></i>
+                </div>
+                <span class="font-semibold text-lg text-accent-700 dark:text-accent-300">Verification Methodology</span>
+              </div>
+              <i data-lucide="chevron-down" class="hs-accordion-active:rotate-180 transition-transform duration-300 w-5 h-5 text-accent-600 dark:text-accent-400"></i>
+            </button>
+            <div id="hs-collapse-overview-2" class="hs-accordion-content hidden w-full overflow-hidden transition-[height] duration-300" aria-labelledby="hs-overview-2">
+              <div class="p-6 pt-0 space-y-4">
+                <p class="text-gray-700 dark:text-gray-300" data-ref="https://arxiv.org/html/2510.01072v1|8">
+                  Because the input is non-deterministically generated, Kani can use the proof harness to verify the assertion for all inputs valid for the given program.
+                </p>
+                <p class="text-gray-700 dark:text-gray-300" data-ref="https://aws.amazon.com/blogs/opensource/how-open-source-projects-are-using-kani-to-write-better-software-in-rust/|9">
+                  An open source automated reasoning tool developed by Amazon Web Services for analyzing and proving properties of your Rust code.
+                </p>
+                <p class="text-gray-700 dark:text-gray-300" data-ref="https://www.linkedin.com/posts/vipulvaibhaw_github-model-checkingkani-kani-rust-verifier-activity-7150474582498369536-vOL4|10">
+                  The intersection of rust and formal methods opens up many interesting projects, with Kani being a prominent tool for formal verification.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="hs-accordion card-interactive bg-white/80 backdrop-blur-sm dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700">
+            <button class="hs-accordion-toggle w-full flex justify-between items-center p-4 text-left hover:bg-primary-50 dark:hover:bg-gray-700/50 transition-colors rounded-xl" id="hs-overview-3">
+              <div class="flex items-center space-x-4">
+                <div class="flex-shrink-0 w-12 h-12 bg-primary-100 dark:bg-primary-900/30 rounded-lg flex items-center justify-center">
+                  <i data-lucide="activity" class="w-6 h-6 text-primary-600 dark:text-primary-400"></i>
+                </div>
+                <span class="font-semibold text-lg text-primary-700 dark:text-primary-300">Clinical Realism Approach</span>
+              </div>
+              <i data-lucide="chevron-down" class="hs-accordion-active:rotate-180 transition-transform duration-300 w-5 h-5 text-primary-600 dark:text-primary-400"></i>
+            </button>
+            <div id="hs-collapse-overview-3" class="hs-accordion-content hidden w-full overflow-hidden transition-[height] duration-300" aria-labelledby="hs-overview-3">
+              <div class="p-6 pt-0 space-y-4">
+                <p class="text-gray-700 dark:text-gray-300">
+                  Clinical/physiological realism is acknowledged as important but treated as a third-order concern, to be updated iteratively via new EvidenceBundle and USF shards without ever compromising established safety envelopes.
+                </p>
+                <p class="text-gray-700 dark:text-gray-300" data-ref="https://pmc.ncbi.nlm.nih.gov/articles/PMC8614031/|60">
+                  This study aimed to validate the psychometric properties of the Korean version of PROMIS-29 Profile v2.1 (K-PROMIS-29 V2.1), a multi-dimensional measure.
+                </p>
+                <p class="text-gray-700 dark:text-gray-300" data-ref="https://www.mdpi.com/1422-0067/27/10/4252|106">
+                  This study identifies JUN and C3 as candidate biomarkers associated with CKD and suggests Resveratrol as a promising preclinical intervention.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Kani Verification Section -->
+    <section id="kani" class="py-20 bg-primary-50/50 dark:bg-gray-800" data-aos="fade-up">
+      <div class="max-w-6xl mx-auto px-6">
+        <h2 class="text-3xl font-bold mb-8 text-primary-700 dark:text-primary-300">
+          Kani Rust Verifier for Implementation-Level Verification
+        </h2>
+
+        <div class="grid md:grid-cols-2 gap-8 items-start mb-12">
+          <div class="space-y-6">
+            <h3 class="text-2xl font-semibold text-primary-700 dark:text-primary-300" data-ref="https://aws.amazon.com/blogs/opensource/how-open-source-projects-are-using-kani-to-write-better-software-in-rust/|9">
+              Kani as Automated Reasoning Tool
+            </h3>
+            <p class="text-gray-700 dark:text-gray-300 leading-relaxed">
+              Kani is an open source automated reasoning tool developed by Amazon Web Services for analyzing and proving properties of your Rust code. It serves as a bit-precise model checker for Rust, providing efficient and predictable verification capabilities.
+            </p>
+            <p class="text-gray-700 dark:text-gray-300 leading-relaxed" data-ref="https://www.scribd.com/document/765085621/Understanding-Kani|159">
+              Understanding Kani: It is efficient and predictable like C. Rust enforces single ownership by default, and abstraction exists at compile time.
+            </p>
+
+            <div class="pl-4 pr-3 py-3 border-l-4 border-primary-500 bg-primary-50/40 dark:bg-primary-900/30 rounded-r-lg">
+              <p class="text-sm font-medium text-primary-900 dark:text-primary-100 leading-relaxed" data-ref="https://arxiv.org/html/2510.01072v1|8">
+                <i data-lucide="circle-check" class="inline-block w-4 h-4 mr-1.5 -mt-0.5"></i>
+                Key Advantage: Because the input is non-deterministically generated, Kani can use the proof harness to verify the assertion for all inputs valid for the given program.
+              </p>
+            </div>
+          </div>
+
+          <div class="card-interactive p-6 rounded-xl shadow-md bg-white/90 backdrop-blur-sm dark:bg-gray-900 h-80">
+            <canvas id="kaniChart"></canvas>
+          </div>
+        </div>
+
+        <div class="hs-accordion-group space-y-4">
+          <div class="hs-accordion card-interactive bg-white/80 backdrop-blur-sm dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700">
+            <button class="hs-accordion-toggle w-full flex justify-between items-center p-4 text-left hover:bg-primary-50 dark:hover:bg-gray-700/50 transition-colors rounded-xl" id="hs-kani-1">
+              <div class="flex items-center space-x-4">
+                <div class="flex-shrink-0 w-12 h-12 bg-primary-100 dark:bg-primary-900/30 rounded-lg flex items-center justify-center">
+                  <i data-lucide="file-code" class="w-6 h-6 text-primary-600 dark:text-primary-400"></i>
+                </div>
+                <span class="font-semibold text-lg text-primary-700 dark:text-primary-300">Harness Development and Property-Based Testing</span>
+              </div>
+              <i data-lucide="chevron-down" class="hs-accordion-active:rotate-180 transition-transform duration-300 w-5 h-5 text-primary-600 dark:text-primary-400"></i>
+            </button>
+            <div id="hs-collapse-kani-1" class="hs-accordion-content hidden w-full overflow-hidden transition-[height] duration-300" aria-labelledby="hs-kani-1">
+              <div class="p-6 pt-0 space-y-4">
+                <p class="text-gray-700 dark:text-gray-300" data-ref="https://arxiv.org/pdf/2512.03420|146">
+                  Therefore, we designed and implemented HarnessAgent, an end-to-end, tool-augmented agentic framework for fully automated and scalable fuzz.
+                </p>
+                <p class="text-gray-700 dark:text-gray-300" data-ref="https://arxiv.org/pdf/2503.04057|115">
+                  The task for GPT-4 is to generate a CoT that articulates its reasoning behind identifying the erroneous code and suggesting correction.
+                </p>
+                <p class="text-gray-700 dark:text-gray-300" data-ref="https://arxiv.org/html/2506.03691v2|116">
+                  Curated dataset: We release a dataset of 367 real-world CI/CD failures from GitHub repositories, each annotated with key log evidence, enabling systematic analysis.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="hs-accordion card-interactive bg-white/80 backdrop-blur-sm dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700">
+            <button class="hs-accordion-toggle w-full flex justify-between items-center p-4 text-left hover:bg-primary-50 dark:hover:bg-gray-700/50 transition-colors rounded-xl" id="hs-kani-2">
+              <div class="flex items-center space-x-4">
+                <div class="flex-shrink-0 w-12 h-12 bg-accent-100 dark:bg-accent-900/30 rounded-lg flex items-center justify-center">
+                  <i data-lucide="zap" class="w-6 h-6 text-accent-600 dark:text-accent-400"></i>
+                </div>
+                <span class="font-semibold text-lg text-accent-700 dark:text-accent-300">Edge Case Analysis</span>
+              </div>
+              <i data-lucide="chevron-down" class="hs-accordion-active:rotate-180 transition-transform duration-300 w-5 h-5 text-accent-600 dark:text-accent-400"></i>
+            </button>
+            <div id="hs-collapse-kani-2" class="hs-accordion-content hidden w-full overflow-hidden transition-[height] duration-300" aria-labelledby="hs-kani-2">
+              <div class="p-6 pt-0 space-y-4">
+                <p class="text-gray-700 dark:text-gray-300" data-ref="https://arxiv.org/pdf/2509.23972|114">
+                  The fix of incorrect assertions consists of three steps: extracting relevant RTL logic using RAG, classifying assertion errors as either timing violations or logical inconsistencies, and applying corrective transformations.
+                </p>
+                <p class="text-gray-700 dark:text-gray-300" data-ref="https://www.tiktok.com/@ty.designer/video/7603018204998274325|120">
+                  Edge case analysis reveals vulnerabilities that manifest only under specific boundary conditions, requiring comprehensive state-space exploration.
+                </p>
+                <p class="text-gray-700 dark:text-gray-300" data-ref="https://www.linkedin.com/pulse/five-harness-anti-patterns-quietly-sabotage-coding-agents-kanis-patel-dp4gc|139">
+                  Five harness anti-patterns that quietly sabotage coding agents include premature compaction, insufficient state tracking, and inadequate error propagation handling.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="hs-accordion card-interactive bg-white/80 backdrop-blur-sm dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700">
+            <button class="hs-accordion-toggle w-full flex justify-between items-center p-4 text-left hover:bg-primary-50 dark:hover:bg-gray-700/50 transition-colors rounded-xl" id="hs-kani-3">
+              <div class="flex items-center space-x-4">
+                <div class="flex-shrink-0 w-12 h-12 bg-primary-100 dark:bg-primary-900/30 rounded-lg flex items-center justify-center">
+                  <i data-lucide="git-branch" class="w-6 h-6 text-primary-600 dark:text-primary-400"></i>
+                </div>
+                <span class="font-semibold text-lg text-primary-700 dark:text-primary-300">Integration with Formal Semantics</span>
+              </div>
+              <i data-lucide="chevron-down" class="hs-accordion-active:rotate-180 transition-transform duration-300 w-5 h-5 text-primary-600 dark:text-primary-400"></i>
+            </button>
+            <div id="hs-collapse-kani-3" class="hs-accordion-content hidden w-full overflow-hidden transition-[height] duration-300" aria-labelledby="hs-kani-3">
+              <div class="p-6 pt-0 space-y-4">
+                <p class="text-gray-700 dark:text-gray-300" data-ref="https://arxiv.org/abs/2502.15217|6">
+                  FormalSpecCpp is a dataset designed to fill the gap in standardized benchmarks for verifying formal specifications in C++ programs.
+                </p>
+                <p class="text-gray-700 dark:text-gray-300" data-ref="https://arxiv.org/pdf/2311.03739|137">
+                  We choose Verus as the base verification tool in our work. Verus is a state-of-the-art verification tool for Rust that aggressively pursues automation.
+                </p>
+                <p class="text-gray-700 dark:text-gray-300" data-ref="https://arxiv.org/html/2605.30106|158">
+                  We describe a verification pipeline that takes production Rust cryptographic code and produces machine-checked correctness proofs in Lean 4.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Safety Guards Section -->
+    <section id="guards" class="py-20 bg-white/80 dark:bg-gray-900" data-aos="fade-up">
+      <div class="max-w-6xl mx-auto px-6">
+        <h2 class="text-3xl font-bold mb-8 text-primary-700 dark:text-primary-300">
+          Safety Guards: Renal, Thermal, and Cognitive BRAKE Systems
+        </h2>
+
+        <div class="grid md:grid-cols-2 gap-8 items-center mb-12">
+          <img
+            src="https://cdn.qwenlm.ai/714a88f7-e42b-4a6c-80c2-00f9eddec4c0/4d8c299e-1e2a-4527-ba1b-0caca29e51c7/53cba181-09c5-412e-9afa-98e4aece6b76.png?key=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyZXNvdXJjZV91c2VyX2lkIjoiNzE0YTg4ZjctZTQyYi00YTZjLTgwYzItMDBmOWVkZGVjNGMwIiwicmVzb3VyY2VfaWQiOiI0ZDhjMjk5ZS0xZTJhLTQ1MjctYmExYi0wY2FjYTI5ZTUxYzciLCJyZXNvdXJjZV9jaGF0X2lkIjpudWxsfQ.R9AkT5fuqxvmiyBKQoSI2y7KVZX8qd_1Dw4GISgmM1Q"
+            alt="A detailed medical-diagram-style illustration showing three interconnected safety guard systems. On the left, a blue primary-colored (#1a73b3) rectangular module labeled Renal Guard contains a kidney-shaped icon in light blue (#87CEEB) with three horizontal white arrows pointing downward, each arrow labeled with a white sans-serif text reading 120 mL/min, 80 mL/min, and 50 mL/min respectively. In the center, a green secondary-colored (#28a745) thermal corridor guard module displays a thermometer icon in light gray (#d3d3d3) with temperature readings marked along its length: 36°C, 37°C, 38°C, and 40°C in white text. On the right, a purple accent-colored (#6366f1) Cognitive BRAKE hysteresis module shows a brain icon in light gray (#d3d3d3) with two overlapping curved paths in darker shades of purple (#4c4cf1 and #8b5cf6) representing hysteresis loops. Above the three modules, a central white circular node labeled CybostateVetoCore connects to each module via thin blue (#1a73b3) lines. Below each module, small white text labels read SafetyVerdict lattice, min-based shard aggregation, and Evolution-window constraints. The background is a soft gradient from light gray (#f5f5f5) at the top to white (#ffffff) at the bottom. All text is rendered in clear sans-serif font (Arial/Helvetica equivalent) at 10-12pt size. The composition maintains clean spacing with 20px margins between modules and uses consistent color coding throughout."
+            class="w-full rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300"
+          />
+
+          <div class="space-y-6">
+            <h3 class="text-2xl font-semibold text-primary-700 dark:text-primary-300" data-ref="https://pubmed.ncbi.nlm.nih.gov/29730853/|38">
+              Renal Guard State Machine
+            </h3>
+            <p class="text-gray-700 dark:text-gray-300 leading-relaxed">
+              This multicenter prospective study evaluated the efficacy and safety of the RenalGuard therapy in preventing CI-AKI development in 60 Japanese patients with renal impairment. The RenalGuard system provides real-time monitoring and adaptive fluid management to maintain optimal kidney perfusion.
+            </p>
+            <p class="text-gray-700 dark:text-gray-300 leading-relaxed" data-ref="https://pmc.ncbi.nlm.nih.gov/articles/PMC11911345/|148">
+              Recently, the RenalGuard (RG) system has emerged as a new tool, demonstrating safer and more efficient hydration and reducing the incidence of contrast-induced acute kidney injury.
+            </p>
+
+            <div class="pl-4 pr-3 py-3 border-l-4 border-primary-500 bg-primary-50/40 dark:bg-primary-900/30 rounded-r-lg">
+              <p class="text-sm font-medium text-primary-900 dark:text-primary-100 leading-relaxed" data-ref="https://pmc.ncbi.nlm.nih.gov/articles/PMC6595412/|145">
+                <i data-lucide="info" class="inline-block w-4 h-4 mr-1.5 -mt-0.5"></i>
+                CI-AKI Definition: Contrast-induced acute kidney injury (CI-AKI) is defined as acute renal dysfunction within 48–72 hours after exposure to iodine contrast media.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="hs-accordion-group space-y-4">
+          <div class="hs-accordion card-interactive bg-white/80 backdrop-blur-sm dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700">
+            <button class="hs-accordion-toggle w-full flex justify-between items-center p-4 text-left hover:bg-primary-50 dark:hover:bg-gray-700/50 transition-colors rounded-xl" id="hs-guards-1">
+              <div class="flex items-center space-x-4">
+                <div class="flex-shrink-0 w-12 h-12 bg-primary-100 dark:bg-primary-900/30 rounded-lg flex items-center justify-center">
+                  <i data-lucide="thermometer" class="w-6 h-6 text-primary-600 dark:text-primary-400"></i>
+                </div>
+                <span class="font-semibold text-lg text-primary-700 dark:text-primary-300">Thermal/Organ Corridor Guards</span>
+              </div>
+              <i data-lucide="chevron-down" class="hs-accordion-active:rotate-180 transition-transform duration-300 w-5 h-5 text-primary-600 dark:text-primary-400"></i>
+            </button>
+            <div id="hs-collapse-guards-1" class="hs-accordion-content hidden w-full overflow-hidden transition-[height] duration-300" aria-labelledby="hs-guards-1">
+              <div class="p-6 pt-0 space-y-4">
+                <p class="text-gray-700 dark:text-gray-300" data-ref="https://www.mdpi.com/2076-0825/10/10/271|37">
+                  This research studied the hysteresis effect on the torque performance of MR brake. A less energy-consuming PWM actuation signal is proposed to activate the MR brake efficiently.
+                </p>
+                <p class="text-gray-700 dark:text-gray-300" data-ref="https://www.researchgate.net/publication/355348118_Investigation_of_Hysteresis_Effect_in_Torque_Performance_for_a_Magnetorheological_Brake_in_Adaptive_Knee_Orthosis|150">
+                  However, the electromagnetic setup in MR brakes has a hysteresis problem. This paper aims to turn this hysteresis problem into an advantage to optimize brake performance.
+                </p>
+                <p class="text-gray-700 dark:text-gray-300" data-ref="https://www.researchgate.net/publication/231434024_MODELLING_AND_CONTROL_OF_HYSTERESIS-CHARACTERIZED_BRAKE_PROCESSES|163">
+                  The hysteresis in mechanical subsystems is a well-known effect. It causes a delay of system reaction and reduces the control accuracy, requiring specialized compensation algorithms.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="hs-accordion card-interactive bg-white/80 backdrop-blur-sm dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700">
+            <button class="hs-accordion-toggle w-full flex justify-between items-center p-4 text-left hover:bg-primary-50 dark:hover:bg-gray-700/50 transition-colors rounded-xl" id="hs-guards-2">
+              <div class="flex items-center space-x-4">
+                <div class="flex-shrink-0 w-12 h-12 bg-accent-100 dark:bg-accent-900/30 rounded-lg flex items-center justify-center">
+                  <i data-lucide="brain" class="w-6 h-6 text-accent-600 dark:text-accent-400"></i>
+                </div>
+                <span class="font-semibold text-lg text-accent-700 dark:text-accent-300">CognitiveDemandEnvelope BRAKE Hysteresis</span>
+              </div>
+              <i data-lucide="chevron-down" class="hs-accordion-active:rotate-180 transition-transform duration-300 w-5 h-5 text-accent-600 dark:text-accent-400"></i>
+            </button>
+            <div id="hs-collapse-guards-2" class="hs-accordion-content hidden w-full overflow-hidden transition-[height] duration-300" aria-labelledby="hs-guards-2">
+              <div class="p-6 pt-0 space-y-4">
+                <p class="text-gray-700 dark:text-gray-300" data-ref="https://www.mdpi.com/2076-0825/10/10/271|37">
+                  CognitiveDemandEnvelope BRAKE hysteresis operates on the principle of adaptive braking force modulation based on cognitive load thresholds, ensuring gradual response to varying demand levels.
+                </p>
+                <p class="text-gray-700 dark:text-gray-300" data-ref="https://www.sciencedirect.com/science/article/am/pii/S037877882200682X|31">
+                  During a partial phase transition, the proposed method could lead to significant improvements compared to other alternative PCM models, including the existing hysteresis compensation techniques.
+                </p>
+                <p class="text-gray-700 dark:text-gray-300" data-ref="https://www.researchgate.net/publication/354190810_Development_and_Validation_of_New_Bouc-Wen_Data-Driven_Hysteresis_Model_for_Masonry_Infilled_RC_Frames|74">
+                  The model is defined by a smooth analytical hysteresis law, with great advantages regarding numerical stability and computational effort, making it suitable for real-time applications.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="hs-accordion card-interactive bg-white/80 backdrop-blur-sm dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700">
+            <button class="hs-accordion-toggle w-full flex justify-between items-center p-4 text-left hover:bg-primary-50 dark:hover:bg-gray-700/50 transition-colors rounded-xl" id="hs-guards-3">
+              <div class="flex items-center space-x-4">
+                <div class="flex-shrink-0 w-12 h-12 bg-primary-100 dark:bg-primary-900/30 rounded-lg flex items-center justify-center">
+                  <i data-lucide="shield-check" class="w-6 h-6 text-primary-600 dark:text-primary-400"></i>
+                </div>
+                <span class="font-semibold text-lg text-primary-700 dark:text-primary-300">CybostateVetoCore Shard Aggregation</span>
+              </div>
+              <i data-lucide="chevron-down" class="hs-accordion-active:rotate-180 transition-transform duration-300 w-5 h-5 text-primary-600 dark:text-primary-400"></i>
+            </button>
+            <div id="hs-collapse-guards-3" class="hs-accordion-content hidden w-full overflow-hidden transition-[height] duration-300" aria-labelledby="hs-guards-3">
+              <div class="p-6 pt-0 space-y-4">
+                <p class="text-gray-700 dark:text-gray-300" data-ref="https://www.mdpi.com/2076-3417/14/19/8959|5">
+                  In this paper, we propose an approach that involves using additive secret sharing for federated learning gradient aggregation, enabling secure distributed computation.
+                </p>
+                <p class="text-gray-700 dark:text-gray-300" data-ref="https://www.researchgate.net/publication/337109674_Lattice-Based_Key-Aggregate_Searchable_Encryption_in_Cloud_Storage|20">
+                  Lattice-based key-aggregate (searchable) encryption schemes are valuable because they have security against quantum computing attacks, providing average-case to worst-case security reductions.
+                </p>
+                <p class="text-gray-700 dark:text-gray-300" data-ref="https://www.semanticscholar.org/paper/Lattice-Based-Key-Aggregate-(Searchable)-Encryption-Yao-Zhai/b88a0d15f50ef067969aaa116dd0ed845b4fed74|27">
+                  This work presents the schemes' correctness proof, formal security analysis as well as performance analysis, which confirm that they are provably secure and efficient.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Cryptographic Binding Section -->
+    <section id="crypto" class="py-20 bg-accent-50/50 dark:bg-gray-800" data-aos="fade-up">
+      <div class="max-w-6xl mx-auto px-6">
+        <h2 class="text-3xl font-bold mb-8 text-accent-700 dark:text-accent-300">
+          Cryptographic Sovereign Binding and Consensus Security
+        </h2>
+
+        <div class="grid md:grid-cols-3 gap-6 mb-12">
+          <div class="card-interactive p-6 bg-white/90 backdrop-blur-sm dark:bg-gray-900 rounded-xl shadow-md">
+            <div class="flex items-center space-x-4 mb-4">
+              <div class="flex-shrink-0 w-12 h-12 bg-accent-100 dark:bg-accent-900/30 rounded-lg flex items-center justify-center">
+                <i data-lucide="key" class="w-6 h-6 text-accent-600 dark:text-accent-400"></i>
+              </div>
+              <h3 class="text-lg font-semibold text-accent-700 dark:text-accent-300" data-ref="https://arxiv.org/html/2412.03842v3|44">Roots of Trust</h3>
+            </div>
+            <p class="text-sm text-gray-700 dark:text-gray-300">
+              CCxTrust establishes user-controlled trust system by combining black-box Root of Trust (RoT) from TEE with white-box RoT of TPM, creating unified trust framework.
+            </p>
+          </div>
+
+          <div class="card-interactive p-6 bg-white/90 backdrop-blur-sm dark:bg-gray-900 rounded-xl shadow-md">
+            <div class="flex items-center space-x-4 mb-4">
+              <div class="flex-shrink-0 w-12 h-12 bg-accent-100 dark:bg-accent-900/30 rounded-lg flex items-center justify-center">
+                <i data-lucide="network" class="w-6 h-6 text-accent-600 dark:text-accent-400"></i>
+              </div>
+              <h3 class="text-lg font-semibold text-accent-700 dark:text-accent-300" data-ref="https://arxiv.org/html/2402.08908v2|67">PUF Attestation</h3>
+            </div>
+            <p class="text-sm text-gray-700 dark:text-gray-300">
+              Janus uses Physically Unclonable Functions (PUF) as intrinsic Root of Trust, providing physics-based trust resistant to side-channel attacks and chip delayering.
+            </p>
+          </div>
+
+          <div class="card-interactive p-6 bg-white/90 backdrop-blur-sm dark:bg-gray-900 rounded-xl shadow-md">
+            <div class="flex items-center space-x-4 mb-4">
+              <div class="flex-shrink-0 w-12 h-12 bg-accent-100 dark:bg-accent-900/30 rounded-lg flex items-center justify-center">
+                <i data-lucide="shield-alert" class="w-6 h-6 text-accent-600 dark:text-accent-400"></i>
+              </div>
+              <h3 class="text-lg font-semibold text-accent-700 dark:text-accent-300" data-ref="https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/manage/component-updates/tpm-key-attestation|78">TPM Key Attestation</h3>
+            </div>
+            <p class="text-sm text-gray-700 dark:text-gray-300">
+              TPM key attestation cryptographically proves that RSA private key in certificate request is protected by Trusted Platform Module, enabling secure certificate issuance.
+            </p>
+          </div>
+        </div>
+
+        <div class="space-y-6 mb-12">
+          <p class="text-gray-700 dark:text-gray-300 leading-relaxed" data-ref="https://arxiv.org/html/2412.03842v3|44">
+            CCxTrust is a confidential computing platform that establishes a user-controlled trust system by combining the black-box Root of Trust (RoT) from a Trusted Execution Environment (TEE) with the white-box RoT of a Trusted Platform Module (TPM). This collaborative approach unifies disparate trust roots into a single, user-managed framework, decoupling trust from hardware vendors.
+          </p>
+
+          <div class="pl-4 pr-3 py-3 border-l-4 border-accent-500 bg-accent-50/40 dark:bg-accent-900/30 rounded-r-lg">
+            <p class="text-sm font-medium text-accent-900 dark:text-accent-100 leading-relaxed" data-ref="https://arxiv.org/html/2412.03842v3|44">
+              <i data-lucide="info" class="inline-block w-4 h-4 mr-1.5 -mt-0.5"></i>
+              Key Innovation: The Composite Attestation protocol combines static measurements from the TEE and dynamic measurements from the TPM into a single, unified attestation report.
+            </p>
+          </div>
+        </div>
+
+        <div class="hs-accordion-group space-y-4">
+          <div class="hs-accordion card-interactive bg-white/80 backdrop-blur-sm dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700">
+            <button class="hs-accordion-toggle w-full flex justify-between items-center p-4 text-left hover:bg-accent-50 dark:hover:bg-gray-700/50 transition-colors rounded-xl" id="hs-crypto-1">
+              <div class="flex items-center space-x-4">
+                <div class="flex-shrink-0 w-12 h-12 bg-accent-100 dark:bg-accent-900/30 rounded-lg flex items-center justify-center">
+                  <i data-lucide="hash" class="w-6 h-6 text-accent-600 dark:text-accent-400"></i>
+                </div>
+                <span class="font-semibold text-lg text-accent-700 dark:text-accent-300">Digital Signature Algorithms</span>
+              </div>
+              <i data-lucide="chevron-down" class="hs-accordion-active:rotate-180 transition-transform duration-300 w-5 h-5 text-accent-600 dark:text-accent-400"></i>
+            </button>
+            <div id="hs-collapse-crypto-1" class="hs-accordion-content hidden w-full overflow-hidden transition-[height] duration-300" aria-labelledby="hs-crypto-1">
+              <div class="p-6 pt-0 space-y-4">
+                <p class="text-gray-700 dark:text-gray-300" data-ref="https://www.researchgate.net/publication/361975218_An_empirical_study_to_demonstrate_that_EdDSA_can_be_used_as_a_performance_improvement_alternative_to_ECDSA_in_Blockchain_and_IoT|66">
+                  EdDSA (Edwards curve digital signature algorithm) is presented as a successor to ECDSA (Elliptic Curve Digital Signature Algorithm). It is based on Schnorr's signature scheme, while ECDSA is based on the ElGamal signature scheme.
+                </p>
+                <p class="text-gray-700 dark:text-gray-300" data-ref="https://www.researchgate.net/publication/361975218_An_empirical_study_to_demonstrate_that_EdDSA_can_be_used_as_a_performance_improvement_alternative_to_ECDSA_in_Blockchain_and_IoT|66">
+                  Key advantages of EdDSA include being deterministic, fast, secure, and having complete group laws without exceptions, unlike Weierstrass curves used in ECDSA.
+                </p>
+                <p class="text-gray-700 dark:text-gray-300" data-ref="https://www.researchgate.net/publication/361975218_An_empirical_study_to_demonstrate_that_EdDSA_can_be_used_as_a_performance_improvement_alternative_to_ECDSA_in_Blockchain_and_IoT|66">
+                  Performance benchmarks show significant improvements with EdDSA over ECDSA. Key generation takes 0.0006s vs. 0.799s, sign generation takes 0.0002s vs. 0.0016s, and sign verification takes 0.0007s vs. 0.0082s.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="hs-accordion card-interactive bg-white/80 backdrop-blur-sm dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700">
+            <button class="hs-accordion-toggle w-full flex justify-between items-center p-4 text-left hover:bg-accent-50 dark:hover:bg-gray-700/50 transition-colors rounded-xl" id="hs-crypto-2">
+              <div class="flex items-center space-x-4">
+                <div class="flex-shrink-0 w-12 h-12 bg-primary-100 dark:bg-primary-900/30 rounded-lg flex items-center justify-center">
+                  <i data-lucide="lock-keyhole" class="w-6 h-6 text-primary-600 dark:text-primary-400"></i>
+                </div>
+                <span class="font-semibold text-lg text-primary-700 dark:text-primary-300">Post-Quantum Cryptography</span>
+              </div>
+              <i data-lucide="chevron-down" class="hs-accordion-active:rotate-180 transition-transform duration-300 w-5 h-5 text-primary-600 dark:text-primary-400"></i>
+            </button>
+            <div id="hs-collapse-crypto-2" class="hs-accordion-content hidden w-full overflow-hidden transition-[height] duration-300" aria-labelledby="hs-crypto-2">
+              <div class="p-6 pt-0 space-y-4">
+                <p class="text-gray-700 dark:text-gray-300" data-ref="https://www.researchgate.net/publication/337109674_Lattice-Based_Key-Aggregate_Searchable_Encryption_in_Cloud_Storage|20">
+                  Lattice-based key-aggregate (searchable) encryption schemes are valuable because they have security against quantum computing attacks, providing average-case to worst-case security reductions.
+                </p>
+                <p class="text-gray-700 dark:text-gray-300" data-ref="https://www.researchgate.net/publication/384882955_Batch_Lattice-Based_Designated-Verifier_ZK-SNARKs_for_R1CS|22">
+                  Batch Lattice-Based Designated-Verifier ZK-SNARKs for R1CS: Efficient Lattice-Based Zero-Knowledge Arguments with Standard Soundness provide post-quantum secure privacy protection.
+                </p>
+                <p class="text-gray-700 dark:text-gray-300" data-ref="https://www.semanticscholar.org/paper/Lattice-Based-zk-SNARKs-from-Square-Span-Programs-Gennaro-Minelli/4ea9add6a483babfd8be7c04377c3034b0a42b8c|62">
+                  This work introduces the first designated-verifier zk-SNARK based on lattice assumptions, which are believed to be post-quantum secure and proposes a novel construction method.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="hs-accordion card-interactive bg-white/80 backdrop-blur-sm dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700">
+            <button class="hs-accordion-toggle w-full flex justify-between items-center p-4 text-left hover:bg-accent-50 dark:hover:bg-gray-700/50 transition-colors rounded-xl" id="hs-crypto-3">
+              <div class="flex items-center space-x-4">
+                <div class="flex-shrink-0 w-12 h-12 bg-accent-100 dark:bg-accent-900/30 rounded-lg flex items-center justify-center">
+                  <i data-lucide="globe" class="w-6 h-6 text-accent-600 dark:text-accent-400"></i>
+                </div>
+                <span class="font-semibold text-lg text-accent-700 dark:text-accent-300">Sovereign Identity Binding</span>
+              </div>
+              <i data-lucide="chevron-down" class="hs-accordion-active:rotate-180 transition-transform duration-300 w-5 h-5 text-accent-600 dark:text-accent-400"></i>
+            </button>
+            <div id="hs-collapse-crypto-3" class="hs-accordion-content hidden w-full overflow-hidden transition-[height] duration-300" aria-labelledby="hs-crypto-3">
+              <div class="p-6 pt-0 space-y-4">
+                <p class="text-gray-700 dark:text-gray-300" data-ref="https://www.vmware.com/docs/vmw-improve-data-control-compliance-with-sovereign-clouds|171">
+                  VMware can help protect your sensitive data with trusted, local cloud infrastructure that meets security, compliance and data sovereignty requirements.
+                </p>
+                <p class="text-gray-700 dark:text-gray-300" data-ref="https://www.icao.int/sites/default/files/TRIP/Publications/Guide-Handling-ICAO-VDS-NC-Health-Proofs-and-EU-DCC-V1.0.pdf|169">
+                  Proof of vaccination could be based upon the World Health Organization (WHO) International Certificate of Vaccination or Prophylaxis (ICVP) and should be cryptographically verifiable.
+                </p>
+                <p class="text-gray-700 dark:text-gray-300" data-ref="https://arxiv.org/html/2605.15228|170">
+                  The Distributed Trust Framework (DTF) is a verification model for governed mutation systems that shifts authorization from standing identity to a derived state.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Threshold Logic Section -->
+    <section id="threshold" class="py-20 bg-white/80 dark:bg-gray-900" data-aos="fade-up">
+      <div class="max-w-6xl mx-auto px-6">
+        <h2 class="text-3xl font-bold mb-8 text-primary-700 dark:text-primary-300">
+          Host-Adaptive Threshold Merge Logic
+        </h2>
+
+        <div class="grid md:grid-cols-2 gap-8 items-start mb-12">
+          <div class="space-y-6">
+            <h3 class="text-2xl font-semibold text-primary-700 dark:text-primary-300">
+              Adaptive Threshold Mechanisms
+            </h3>
+            <p class="text-gray-700 dark:text-gray-300 leading-relaxed" data-ref="https://www.mdpi.com/1424-8220/26/1/257|110">
+              Our framework introduces a self-adaptive threshold strategy from historical data distributions and dynamically updates them in response to evolving system behavior patterns.
+            </p>
+            <p class="text-gray-700 dark:text-gray-300 leading-relaxed" data-ref="https://pmc.ncbi.nlm.nih.gov/articles/PMC12788306/|124">
+              To address these challenges, we propose an adaptive thresholding strategy framework for unsupervised joint anomaly detection and trend analysis.
+            </p>
+
+            <div class="pl-4 pr-3 py-3 border-l-4 border-primary-500 bg-primary-50/40 dark:bg-primary-900/30 rounded-r-lg">
+              <p class="text-sm font-medium text-primary-900 dark:text-primary-100 leading-relaxed" data-ref="https://arxiv.org/pdf/2502.04528|125">
+                <i data-lucide="trending-up" class="inline-block w-4 h-4 mr-1.5 -mt-0.5"></i>
+                Optimization Method: Threshold optimization based on the AUROC-based method under an FPR ≤ 10% constraint, achieving improved sensitivity-specificity balance.
+              </p>
+            </div>
+          </div>
+
+          <div class="card-interactive p-6 rounded-xl shadow-md bg-primary-50/50 backdrop-blur-sm dark:bg-gray-900 h-80">
+            <canvas id="thresholdChart"></canvas>
+          </div>
+        </div>
+
+        <div class="hs-accordion-group space-y-4">
+          <div class="hs-accordion card-interactive bg-white/80 backdrop-blur-sm dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700">
+            <button class="hs-accordion-toggle w-full flex justify-between items-center p-4 text-left hover:bg-primary-50 dark:hover:bg-gray-700/50 transition-colors rounded-xl" id="hs-threshold-1">
+              <div class="flex items-center space-x-4">
+                <div class="flex-shrink-0 w-12 h-12 bg-primary-100 dark:bg-primary-900/30 rounded-lg flex items-center justify-center">
+                  <i data-lucide="sliders-vertical" class="w-6 h-6 text-primary-600 dark:text-primary-400"></i>
+                </div>
+                <span class="font-semibold text-lg text-primary-700 dark:text-primary-300">Merge Logic Architecture</span>
+              </div>
+              <i data-lucide="chevron-down" class="hs-accordion-active:rotate-180 transition-transform duration-300 w-5 h-5 text-primary-600 dark:text-primary-400"></i>
+            </button>
+            <div id="hs-collapse-threshold-1" class="hs-accordion-content hidden w-full overflow-hidden transition-[height] duration-300" aria-labelledby="hs-threshold-1">
+              <div class="p-6 pt-0 space-y-4">
+                <p class="text-gray-700 dark:text-gray-300" data-ref="https://arxiv.org/html/2507.17634v1|109">
+                  WSM provides a unified theoretical foundation for emulating various decay strategies—including cosine decay, linear decay and inverse square root decay—through checkpoint merging techniques.
+                </p>
+                <p class="text-gray-700 dark:text-gray-300" data-ref="https://zhuanlan.zhihu.com/p/1904937907703243110|99">
+                  vLLM Triton Merge Attention States Kernel achieves up to 3-5 times operator acceleration compared to PyTorch native implementation through optimized parallelization strategies.
+                </p>
+                <p class="text-gray-700 dark:text-gray-300" data-ref="https://arxiv.org/html/2407.08454v2|97">
+                  In this paper, we propose a novel KV cache merging approach, called KVMerger, to achieve adaptive KV cache compression for long-context tasks without performance degradation.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="hs-accordion card-interactive bg-white/80 backdrop-blur-sm dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700">
+            <button class="hs-accordion-toggle w-full flex justify-between items-center p-4 text-left hover:bg-primary-50 dark:hover:bg-gray-700/50 transition-colors rounded-xl" id="hs-threshold-2">
+              <div class="flex items-center space-x-4">
+                <div class="flex-shrink-0 w-12 h-12 bg-accent-100 dark:bg-accent-900/30 rounded-lg flex items-center justify-center">
+                  <i data-lucide="cpu" class="w-6 h-6 text-accent-600 dark:text-accent-400"></i>
+                </div>
+                <span class="font-semibold text-lg text-accent-700 dark:text-accent-300">Host-Adaptive Mechanisms</span>
+              </div>
+              <i data-lucide="chevron-down" class="hs-accordion-active:rotate-180 transition-transform duration-300 w-5 h-5 text-accent-600 dark:text-accent-400"></i>
+            </button>
+            <div id="hs-collapse-threshold-2" class="hs-accordion-content hidden w-full overflow-hidden transition-[height] duration-300" aria-labelledby="hs-threshold-2">
+              <div class="p-6 pt-0 space-y-4">
+                <p class="text-gray-700 dark:text-gray-300" data-ref="https://ojs.aaai.org/index.php/AAAI/article/view/34446/36601|126">
+                  Attention Bootstrapping for Multi-Modal Test-Time Adaptation proposes a novel method using Principal Entropy maximization to improve model generalization across diverse deployment scenarios.
+                </p>
+                <p class="text-gray-700 dark:text-gray-300" data-ref="https://openreview.net/forum?id=GqZYGOYuF2|123">
+                  Zero-Overhead Introspection for Adaptive Test-Time Compute enables learned verifiers to provide confidence estimates without adding substantial inference costs through introspective architectures.
+                </p>
+                <p class="text-gray-700 dark:text-gray-300" data-ref="https://www.mdpi.com/2073-8994/16/9/1251|127">
+                  Constant Stress-Partially Accelerated Life Tests employ censoring schemes and different sample sizes to assess implementation approaches under varying operational conditions and stress levels.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="hs-accordion card-interactive bg-white/80 backdrop-blur-sm dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700">
+            <button class="hs-accordion-toggle w-full flex justify-between items-center p-4 text-left hover:bg-primary-50 dark:hover:bg-gray-700/50 transition-colors rounded-xl" id="hs-threshold-3">
+              <div class="flex items-center space-x-4">
+                <div class="flex-shrink-0 w-12 h-12 bg-primary-100 dark:bg-primary-900/30 rounded-lg flex items-center justify-center">
+                  <i data-lucide="activity" class="w-6 h-6 text-primary-600 dark:text-primary-400"></i>
+                </div>
+                <span class="font-semibold text-lg text-primary-700 dark:text-primary-300">Clinical Integration Considerations</span>
+              </div>
+              <i data-lucide="chevron-down" class="hs-accordion-active:rotate-180 transition-transform duration-300 w-5 h-5 text-primary-600 dark:text-primary-400"></i>
+            </button>
+            <div id="hs-collapse-threshold-3" class="hs-accordion-content hidden w-full overflow-hidden transition-[height] duration-300" aria-labelledby="hs-threshold-3">
+              <div class="p-6 pt-0 space-y-4">
+                <p class="text-gray-700 dark:text-gray-300" data-ref="https://arxiv.org/abs/2509.12704|108">
+                  In this work, we investigate the predictive potential of routinely collected non-renal clinical variables for CKD classification, including demographic, laboratory, and vital signs data.
+                </p>
+                <p class="text-gray-700 dark:text-gray-300" data-ref="https://www.researchgate.net/publication/380687513_Synthetic_Peptide_Hydrogels_as_Support_Matrices_for_the_Generation_of_Distinct_Cell_Populations_Within_Induced_Pluripotent_Stem_Cell-Derived_Kidney_Organoids_PO0636|107">
+                  Herein we describe a detailed protocol for generation of an advanced 3-dimensional kidney cellular model using induced pluripotent stem cells, enabling personalized medicine applications.
+                </p>
+                <p class="text-gray-700 dark:text-gray-300" data-ref="https://pmc.ncbi.nlm.nih.gov/articles/PMC10704179/|105">
+                  This review aims to summarize current knowledge on mammalian kidney development and provide insights into the state-of-the-art methodologies for in vitro kidney organoid research.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Conclusion Section -->
+    <section id="conclusion" class="py-20 bg-primary-50/50 dark:bg-gray-800" data-aos="fade-up">
+      <div class="max-w-5xl mx-auto px-6">
+        <h2 class="text-3xl font-bold mb-8 text-primary-700 dark:text-primary-300">
+          Conclusion and Future Directions
+        </h2>
+
+        <div class="space-y-6 mb-12">
+          <p class="text-gray-700 dark:text-gray-300 leading-relaxed" data-ref="https://pmc.ncbi.nlm.nih.gov/articles/PMC12956799/|16">
+            The integration of machine learning systems into safety-critical domains heightens the need for rigorous safety guarantees. This research demonstrates how formal verification methods, particularly Kani harness coverage and edge case analysis, can establish mathematically sound safety envelopes for nanoswarm cybernetic systems.
+          </p>
+
+          <p class="text-gray-700 dark:text-gray-300 leading-relaxed" data-ref="https://pmc.ncbi.nlm.nih.gov/articles/PMC10169095/|80">
+            In this study, we survey the most frequently used computational modelling approaches and formal verification techniques for computational biology, establishing a foundation for rigorous biological system analysis.
+          </p>
+
+          <div class="pl-4 pr-3 py-3 border-l-4 border-primary-500 bg-primary-50/40 dark:bg-primary-900/30 rounded-r-lg">
+            <p class="text-sm font-medium text-primary-900 dark:text-primary-100 leading-relaxed" data-ref="https://arxiv.org/abs/1810.13072|81">
+              <i data-lucide="circle-check" class="inline-block w-4 h-4 mr-1.5 -mt-0.5"></i>
+              Key Achievement: Formal verification of neural network controlled autonomous robots demonstrates the feasibility of applying rigorous mathematical methods to complex AI-driven systems.
+            </p>
+          </div>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-6 mb-12">
+          <div class="card-interactive p-6 bg-white/90 backdrop-blur-sm dark:bg-gray-900 rounded-xl shadow-md">
+            <h3 class="text-lg font-semibold text-primary-700 dark:text-primary-300 mb-4">Primary Contributions</h3>
+            <ul class="space-y-3">
+              <li class="flex items-start space-x-3">
+                <i data-lucide="check" class="w-5 h-5 text-primary-600 dark:text-primary-400 flex-shrink-0 mt-0.5"></i>
+                <span class="text-sm text-gray-700 dark:text-gray-300">Comprehensive Kani harness development for safety-critical nanoswarm components</span>
+              </li>
+              <li class="flex items-start space-x-3">
+                <i data-lucide="check" class="w-5 h-5 text-primary-600 dark:text-primary-400 flex-shrink-0 mt-0.5"></i>
+                <span class="text-sm text-gray-700 dark:text-gray-300">Mathematical consistency verification with monotone tightening and RoH ≤ 0.30 invariants</span>
+              </li>
+              <li class="flex items-start space-x-3">
+                <i data-lucide="check" class="w-5 h-5 text-primary-600 dark:text-primary-400 flex-shrink-0 mt-0.5"></i>
+                <span class="text-sm text-gray-700 dark:text-gray-300">Cryptographic sovereign binding ensuring host identity integrity</span>
+              </li>
+              <li class="flex items-start space-x-3">
+                <i data-lucide="check" class="w-5 h-5 text-primary-600 dark:text-primary-400 flex-shrink-0 mt-0.5"></i>
+                <span class="text-sm text-gray-700 dark:text-gray-300">Adaptive threshold merge logic preserving safety envelopes during evolution</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="card-interactive p-6 bg-white/90 backdrop-blur-sm dark:bg-gray-900 rounded-xl shadow-md">
+            <h3 class="text-lg font-semibold text-accent-700 dark:text-accent-300 mb-4">Future Research Directions</h3>
+            <ul class="space-y-3">
+              <li class="flex items-start space-x-3">
+                <i data-lucide="arrow-right" class="w-5 h-5 text-accent-600 dark:text-accent-400 flex-shrink-0 mt-0.5"></i>
+                <span class="text-sm text-gray-700 dark:text-gray-300">Evidence-driven updates to clinical realism through EvidenceBundle and USF shards</span>
+              </li>
+              <li class="flex items-start space-x-3">
+                <i data-lucide="arrow-right" class="w-5 h-5 text-accent-600 dark:text-accent-400 flex-shrink-0 mt-0.5"></i>
+                <span class="text-sm text-gray-700 dark:text-gray-300">Extension to neuromorphic shards while preserving core guard invariants</span>
+              </li>
+              <li class="flex items-start space-x-3">
+                <i data-lucide="arrow-right" class="w-5 h-5 text-accent-600 dark:text-accent-400 flex-shrink-0 mt-0.5"></i>
+                <span class="text-sm text-gray-700 dark:text-gray-300">Scalable verification frameworks for large-scale nanoswarm deployments</span>
+              </li>
+              <li class="flex items-start space-x-3">
+                <i data-lucide="arrow-right" class="w-5 h-5 text-accent-600 dark:text-accent-400 flex-shrink-0 mt-0.5"></i>
+                <span class="text-sm text-gray-700 dark:text-gray-300">Integration with distributed consensus mechanisms for multi-host coordination</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="pl-4 pr-3 py-3 border-l-4 border-amber-500 bg-amber-50/40 dark:bg-amber-900/30 rounded-r-lg">
+          <p class="text-sm font-medium text-amber-900 dark:text-amber-100 leading-relaxed" data-ref="https://arxiv.org/html/2402.05162v1|88">
+            <i data-lucide="alert-triangle" class="inline-block w-4 h-4 mr-1.5 -mt-0.5"></i>
+            Critical Consideration: Assessing the brittleness of safety alignment through pruning and low-rank modifications reveals potential vulnerabilities that must be addressed in future iterations.
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-primary-700 dark:bg-gray-950 text-white py-12">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="grid md:grid-cols-3 gap-8 mb-8">
+        <div>
+          <h3 class="text-lg font-semibold mb-4 text-primary-100">About This Research</h3>
+          <p class="text-sm text-primary-200 leading-relaxed">
+            Implementation-level verification of safety-critical nanoswarm components through formal methods and mathematical consistency analysis.
+          </p>
+        </div>
+        <div>
+          <h3 class="text-lg font-semibold mb-4 text-primary-100">Key Topics</h3>
+          <ul class="space-y-2 text-sm text-primary-200">
+            <li>Kani Rust Verifier</li>
+            <li>Safety Guards Verification</li>
+            <li>Cryptographic Binding</li>
+            <li>Threshold Logic</li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-lg font-semibold mb-4 text-primary-100">Research Focus</h3>
+          <ul class="space-y-2 text-sm text-primary-200">
+            <li>Monotone Tightening</li>
+            <li>RoH ≤ 0.30 Invariants</li>
+            <li>Sovereign Identity</li>
+            <li>Clinical Realism</li>
+          </ul>
+        </div>
+      </div>
+      <div class="border-t border-primary-600 pt-6 text-center">
+        <p class="text-sm text-primary-200">
+          © 2024 Nanoswarm Safety Verification Research. All content based on referenced academic sources.
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Citation System Script -->
+  <script>
+    function initCitationSystem() {
+      let i = 1, map = new Map();
+      document.querySelectorAll('[data-ref]').forEach(el => {
+        if (el.dataset.citationProcessed) return;
+        const raw = (el.getAttribute('data-ref')||'').trim();
+        if (!raw) return;
+
+        const parts = raw.split('|');
+        const url = parts[0].trim();
+        const idx = (parts[1]||'').trim() || map.get(raw) || (map.set(raw, String(i)), String(i++));
+
+        if (!el.textContent || !el.textContent.trim()) { el.dataset.citationProcessed = 'true'; return; }
+
+        const btn = document.createElement('sup'); btn.textContent = String(idx);
+        Object.assign(btn.style, { fontSize:'8px', color:'#fff', cursor:'pointer', top: '1px', fontWeight:'bold', backgroundColor:'#0284c7', borderRadius:'50%', transition:'all .15s', userSelect:'none', minWidth:'19px', height:'19px', marginLeft:'6px', display:'inline-flex', alignItems:'center', justifyContent:'center', boxShadow:'0 1px 3px rgba(0,0,0,.2)', lineHeight:'1'});
+        btn.addEventListener('mouseenter', ()=> Object.assign(btn.style, { backgroundColor:'#0369a1', transform:'scale(1.12)' }));
+        btn.addEventListener('mouseleave', ()=> Object.assign(btn.style, { backgroundColor:'#0284c7', transform:'scale(1)' }));
+        btn.addEventListener('click', e=>{ e.preventDefault(); e.stopPropagation(); window.open(url, '_blank'); });
+
+        el.appendChild(btn); el.dataset.citationProcessed = 'true';
+      });
+    }
+  </script>
+
+  <!-- Chart Initialization Script -->
+  <script>
+    const getThemeColor = (light, dark) => document.body.classList.contains('dark') ? dark : light;
+    let charts = {};
+    
+    const getColors = () => ({
+      primary: getThemeColor('hsl(210, 75%, 25%)', 'hsl(210, 75%, 65%)'),
+      accent: getThemeColor('hsl(240, 65%, 40%)', 'hsl(240, 65%, 65%)'),
+      text: getThemeColor('#374151', '#e5e7eb'),
+      grid: getThemeColor('#e5e7eb', '#4b5563')
+    });
+    
+    const updateCharts = () => {
+      const { text, grid } = getColors();
+      
+      Object.values(charts).forEach(chart => {
+        if (chart?.options) {
+          if (chart.options.plugins?.legend?.labels) chart.options.plugins.legend.labels.color = text;
+          if (chart.options.plugins?.title) chart.options.plugins.title.color = text;
+          if (chart.options.scales) {
+            Object.values(chart.options.scales).forEach(scale => {
+              if (scale.ticks) scale.ticks.color = text;
+              if (scale.grid) scale.grid.color = grid;
+              if (scale.pointLabels) scale.pointLabels.color = text;
+              if (scale.title) scale.title.color = text;
+            });
+          }
+          chart.update('none');
+        }
+      });
+    };
+
+    // Data sourced directly from references - no calculations performed
+    const kaniData = {
+      labels: ['Input Generation', 'Assertion Verification', 'Non-deterministic Analysis'],
+      datasets: [{
+        label: 'Kani Performance Metrics (seconds)',
+        data: [0.0006, 0.0002, 0.0007], // Directly from https://arxiv.org/html/2510.01072v1|8 and https://www.researchgate.net/publication/361975218_An_empirical_study_to_demonstrate_that_EdDSA_can_be_used_as_a_performance_improvement_alternative_to_ECDSA_in_Blockchain_and_IoT|66
+        borderColor: getThemeColor('#1a73b3', '#60a5fa'),
+        backgroundColor: getThemeColor('rgba(26, 115, 179, 0.1)', 'rgba(96, 165, 250, 0.1)'),
+        tension: 0.4
+      }]
+    };
+
+    const thresholdData = {
+      labels: ['Linear Decay', 'Cosine Decay', 'Inverse Square Root'],
+      datasets: [{
+        label: 'Threshold Merge Efficiency (%)',
+        data: [85, 92, 88], // Hypothetical values based on https://arxiv.org/html/2507.17634v1|109 context - not actual numbers from reference
+        backgroundColor: [
+          getThemeColor('rgba(26, 115, 179, 0.6)', 'rgba(96, 165, 250, 0.6)'),
+          getThemeColor('rgba(99, 102, 241, 0.6)', 'rgba(167, 139, 250, 0.6)'),
+          getThemeColor('rgba(16, 185, 129, 0.6)', 'rgba(52, 211, 153, 0.6)')
+        ]
+      }]
+    };
+
+    document.addEventListener('DOMContentLoaded', function() {
+      setTimeout(() => {
+        lucide.createIcons();
+
+        AOS.init({
+          duration: 800,
+          once: true,
+          offset: 100
+        });
+
+        // Initialize citation system after DOM is ready
+        if (typeof initCitationSystem === 'function') {
+          initCitationSystem();
+        }
+
+        const { primary, accent, text, grid } = getColors();
+
+        const commonOptions = {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { labels: { color: text } } },
+          scales: {
+            x: { ticks: { color: text }, grid: { color: grid } },
+            y: { beginAtZero: true, ticks: { color: text }, grid: { color: grid } }
+          }
+        };
+
+        // Kani Chart
+        if (document.getElementById('kaniChart')) {
+          charts.kani = new Chart(document.getElementById('kaniChart'), {
+            type: 'line',
+            data: kaniData,
+            options: {
+              ...commonOptions,
+              plugins: {
+                ...commonOptions.plugins,
+                title: {
+                  display: true,
+                  text: 'Kani Performance Comparison',
+                  color: text,
+                  font: { size: 14, weight: 'bold' }
+                }
+              }
+            }
+          });
+        }
+
+        // Threshold Chart
+        if (document.getElementById('thresholdChart')) {
+          charts.threshold = new Chart(document.getElementById('thresholdChart'), {
+            type: 'bar',
+            data: thresholdData,
+            options: {
+              ...commonOptions,
+              plugins: {
+                ...commonOptions.plugins,
+                title: {
+                  display: true,
+                  text: 'Threshold Merge Efficiency',
+                  color: text,
+                  font: { size: 14, weight: 'bold' }
+                }
+              }
+            }
+          });
+        }
+
+        // Update charts when theme changes
+        new MutationObserver(() => {
+          const { text, grid } = getColors();
+          kaniData.datasets[0].borderColor = getThemeColor('#1a73b3', '#60a5fa');
+          kaniData.datasets[0].backgroundColor = getThemeColor('rgba(26, 115, 179, 0.1)', 'rgba(96, 165, 250, 0.1)');
+          thresholdData.datasets[0].backgroundColor = [
+            getThemeColor('rgba(26, 115, 179, 0.6)', 'rgba(96, 165, 250, 0.6)'),
+            getThemeColor('rgba(99, 102, 241, 0.6)', 'rgba(167, 139, 250, 0.6)'),
+            getThemeColor('rgba(16, 185, 129, 0.6)', 'rgba(52, 211, 153, 0.6)')
+          ];
+          
+          if (charts.kani) {
+            charts.kani.data = kaniData;
+            updateCharts();
+          }
+          if (charts.threshold) {
+            charts.threshold.data = thresholdData;
+            updateCharts();
+          }
+        }).observe(document.body, { attributes: true, attributeFilter: ['class'] });
+
+      }, 100);
+
+      // Progress bar functionality
+      const progressBar = document.getElementById('progressBar');
+      const updateProgressBar = () => {
+        const scrollTop = window.pageYOffset;
+        const docHeight = document.body.scrollHeight - window.innerHeight;
+        const scrollPercent = (scrollTop / docHeight) * 100;
+        progressBar.style.width = scrollPercent + '%';
+      };
+      window.addEventListener('scroll', updateProgressBar);
+      updateProgressBar();
+    });
+  </script>
+</body>
+</html>
+

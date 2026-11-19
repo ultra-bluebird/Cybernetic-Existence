@@ -1,0 +1,8 @@
+"Artifact class","Purpose","Example","Required from"
+"exploration_artifact","States what the prototype is trying to learn.","Hypothesis, smallest-safe-prototype statement, research question.","T0"
+"boundary_artifact","Defines what the prototype must not do.","Data boundary, prohibited actions, no-ranking constraint.","T0/T1"
+"evidence_artifact","Demonstrates a control works.","Synthetic test report, network-isolation test, keyboard test, schema scan.","T1 onward"
+"accountability_artifact","Names authority, review, disagreement, and revisit procedures.","Halt owner, review cadence, dissent record, appeal route.","T1 onward"
+"participant-protection_artifact","Protects people in a human study.","Study consent, withdrawal path, grievance process, accessibility plan.","T3 onward"
+"operational-release_artifact","Demonstrates limited live deployment controls.","Production retention test, human review/appeal readiness, release decision.","T4 onward"
+"systemic-review_artifact","Evaluates cross-feature and aggregate risk.","Data-flow interaction map, ranking-void scan, feature-composition review.","T2 onward"

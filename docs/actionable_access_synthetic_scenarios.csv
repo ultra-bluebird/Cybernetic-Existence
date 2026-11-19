@@ -1,0 +1,5 @@
+scenario,structural_possible,every_world_has_route,actionable
+complementary_no_cue,True,True,False
+complementary_permitted_distinguishing_cue,True,True,True
+complementary_prohibited_cue_only,True,True,False
+complementary_over_budget_cue_only,True,True,False

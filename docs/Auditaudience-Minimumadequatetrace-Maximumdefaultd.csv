@@ -1,0 +1,6 @@
+"Audit audience","Minimum adequate trace","Maximum default disclosure"
+"Individual","Decision reason, policy version, personal record lifecycle status, correction/appeal path","Only the individual’s own authorized local records"
+"Community","Aggregated evidence classes, planning scope, uncertainty, rule and outcome summary","No individual, household, precise route, sensitive-species, or identity-linked data"
+"Public","Policy, metric, result class, broad location/time, aggregate uncertainty, remedy status","No raw evidence or sensitive record commitments that invite linkage"
+"Authorized reviewer","Evidence commitments, method, gate vector, authorized proof path, local audit references","Minimum data necessary under purpose, consent, release, and review rules"
+"Technical maintainer","Schema, compiler/runtime version, deterministic function version, test fixture digest","No operational raw sensitive data unless separately authorized"

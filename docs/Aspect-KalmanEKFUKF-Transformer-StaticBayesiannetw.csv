@@ -1,0 +1,7 @@
+"Aspect","Kalman / EKF / UKF","Transformer","Static Bayesian network"
+"Temporal dynamics","Native continuous‑time state‑space modeling.dd73404a-50a9-4a19-9544-69feb0a90f02.md","Good sequence modeling but data‑hungry.4bf18c28-1228-4468-9027-4c23aa154cf5.md","Needs dynamic extension for trajectories.dd73404a-50a9-4a19-9544-69feb0a90f02.md"
+"Uncertainty (variance)","Built‑in covariance, easy confidence bounds.dd73404a-50a9-4a19-9544-69feb0a90f02.md","Often implicit; requires extra calibration.4bf18c28-1228-4468-9027-4c23aa154cf5.md","Requires extra modeling for continuous noise.dd73404a-50a9-4a19-9544-69feb0a90f02.md"
+"Explainability","Clear process/measurement equations.dd73404a-50a9-4a19-9544-69feb0a90f02.md","Opaque attention patterns, harder to audit.4bf18c28-1228-4468-9027-4c23aa154cf5.md","Clear conditional graph; complex when large.dd73404a-50a9-4a19-9544-69feb0a90f02.md"
+"ALN/Kani integration","Well‑suited for formal proofs on equations.8a3a126b-cd6b-4b6e-9c72-9e2cad31f1f0.md","Harder to verify monotone safety properties.4bf18c28-1228-4468-9027-4c23aa154cf5.md","Proofs possible but intricate.dd73404a-50a9-4a19-9544-69feb0a90f02.md"
+"Data requirements","Moderate, aligned with wound/burn datasets.dd73404a-50a9-4a19-9544-69feb0a90f02.md","High; needs large labeled corpora.4bf18c28-1228-4468-9027-4c23aa154cf5.md","Moderate but requires detailed structure.dd73404a-50a9-4a19-9544-69feb0a90f02.md"
+"Best for healing_phase","Yes: preferred choice","No: secondary for later pattern mining","Partial: good as a prior, not the main core"

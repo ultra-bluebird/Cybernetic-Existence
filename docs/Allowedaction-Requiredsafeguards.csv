@@ -1,0 +1,7 @@
+"Allowed action","Required safeguards"
+"Accept a self-asserted identity for respectful communication","No credential, diagnosis, biometric, device ID, or telemetry requirement"
+"Offer an accessibility or privacy support pathway","Voluntary disclosure, purpose limitation, minimization, explanation"
+"Collect aggregate institutional feedback for SAI","Accessible participation, privacy-preserving aggregation, public methodology"
+"Flag a potentially adverse decision for review","Block automation, show explanation, provide correction and appeal"
+"Track institution-level response capacity","No individual identity ranking or “acceptance” score"
+"Use optional DID support","User-controlled, selective disclosure, never compulsory for essential access"
