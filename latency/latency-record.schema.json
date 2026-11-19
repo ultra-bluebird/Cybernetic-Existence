@@ -1,0 +1,192 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://augmented-hub.example/research/latency/latency-record.schema.json",
+  "title": "BCI Latency Record",
+  "description": "Proposed project-level record for source-located timing quantities in BCI research. Not a community-adopted standard.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "documentVersion",
+    "attributionAnchor",
+    "canonicalStudy",
+    "sourceVersion",
+    "sourceLocation",
+    "quantityCategory",
+    "evidenceBasis",
+    "taskCondition",
+    "onlineOrOffline",
+    "implementationLocation",
+    "startEvent",
+    "endEvent",
+    "endpointStatus",
+    "reportedStatistic",
+    "uncertaintyDefinition",
+    "reportedValue",
+    "unit",
+    "missingInformation",
+    "interpretationLimit"
+  ],
+  "properties": {
+    "documentVersion": { "const": "0.1.0" },
+    "attributionAnchor": {
+      "const": "bostrom18sd2ujv24ual9c9pshtxys6j8knh6xaead9ye7"
+    },
+    "canonicalStudy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["authors", "year", "journal", "title"],
+      "properties": {
+        "authors": { "type": "string", "minLength": 1 },
+        "year": { "type": "integer", "minimum": 1900 },
+        "journal": { "type": "string", "minLength": 1 },
+        "title": { "type": "string", "minLength": 1 }
+      }
+    },
+    "sourceVersion": {
+      "enum": [
+        "final_published_article",
+        "preprint_identified_version",
+        "supplementary_information",
+        "extended_data",
+        "secondary_review"
+      ]
+    },
+    "sourceLocation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["sectionIdentifier", "supportingTextStatus"],
+      "properties": {
+        "sectionIdentifier": { "type": "string", "minLength": 1 },
+        "pageOrFigure": { "type": ["string", "null"] },
+        "supportingTextStatus": {
+          "enum": [
+            "verbatim_supplied",
+            "paraphrase_supplied",
+            "not_extracted"
+          ]
+        },
+        "verbatimText": { "type": ["string", "null"] }
+      }
+    },
+    "quantityCategory": {
+      "enum": [
+        "decoder_output_increment",
+        "processing_execution_duration",
+        "feature_window_duration",
+        "command_update_interval",
+        "communication_delay",
+        "adjustment_latency",
+        "decoder_latency",
+        "output_onset_latency",
+        "output_completion_latency",
+        "model_parameter_update_interval",
+        "stimulation_state_dwell_duration",
+        "stimulation_energy_comparison",
+        "operating_timescale",
+        "ramp_rate",
+        "ambiguous_quantity"
+      ]
+    },
+    "evidenceBasis": {
+      "enum": [
+        "primary_reported_measurement",
+        "primary_reported_schedule",
+        "primary_reported_model_result",
+        "secondary_source_report",
+        "analyst_calculation",
+        "unresolved_source_passage"
+      ]
+    },
+    "taskCondition": { "type": "string", "minLength": 1 },
+    "onlineOrOffline": {
+      "enum": ["online", "offline", "not_applicable", "unreported"]
+    },
+    "implementationLocation": {
+      "enum": [
+        "embedded_in_device",
+        "external_computer",
+        "distributed",
+        "not_applicable",
+        "unreported"
+      ]
+    },
+    "startEvent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["description", "definitionStatus"],
+      "properties": {
+        "description": { "type": "string", "minLength": 1 },
+        "definitionStatus": {
+          "enum": [
+            "explicit_in_source",
+            "partially_defined",
+            "not_reported",
+            "not_applicable"
+          ]
+        }
+      }
+    },
+    "endEvent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["description", "definitionStatus"],
+      "properties": {
+        "description": { "type": "string", "minLength": 1 },
+        "definitionStatus": {
+          "enum": [
+            "explicit_in_source",
+            "partially_defined",
+            "not_reported",
+            "not_applicable"
+          ]
+        }
+      }
+    },
+    "endpointStatus": {
+      "enum": [
+        "fully_defined",
+        "partially_defined",
+        "not_reported_in_reviewed_material",
+        "source_location_unresolved"
+      ]
+    },
+    "reportedStatistic": {
+      "enum": [
+        "mean",
+        "median",
+        "percentile",
+        "as_low_as",
+        "about",
+        "scheduled_value",
+        "parameter_setting",
+        "unreported"
+      ]
+    },
+    "uncertaintyDefinition": {
+      "enum": [
+        "sem",
+        "sd",
+        "confidence_interval",
+        "plus_minus_unspecified",
+        "none_reported"
+      ]
+    },
+    "reportedValue": {
+      "type": ["number", "array"],
+      "items": { "type": "number" }
+    },
+    "unit": {
+      "enum": ["s", "ms", "h", "mA_per_s", "percent_relative"]
+    },
+    "missingInformation": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "interpretationLimit": { "type": "string", "minLength": 1 },
+    "extraFields": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  }
+}

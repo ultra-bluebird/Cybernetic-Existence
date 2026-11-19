@@ -1,0 +1,246 @@
+document_version: "1.0.0"
+kind: latency-claims-disposition-ledger
+date_created: "2026-11-01"
+status: final_for_current_session
+
+attribution:
+  anchor: "bostrom18sd2ujv24ual9c9pshtxys6j8knh6xaead9ye7"
+  scope: [credit_metadata, workstream_metadata]
+  propagation: preserve_anchor_and_scope_statement
+  attestation_claim: none
+  execution_evidence_claim: none
+
+disposition_vocabulary:
+  confirmed: direct primary evidence supports the claim as stated
+  confirmed_with_scope_qualification: primary evidence supports a narrower or conditional version
+  qualified: partial support; additional evidence required for the strong form
+  unsupported: the proposed version conflicts with or exceeds the evidence
+  unresolved: source passage or required evidence not yet available
+  withdrawn: the claim was project-specific and is not supported by any anchor study
+
+ledger:
+
+  - id: L-LT-01
+    claim: >
+      Littlejohn 2025 neural decoding operates in 80-ms increments.
+    disposition: confirmed
+    evidence: primary abstract
+    note: >
+      Increment size; not end-to-end latency and not per-step execution time.
+
+  - id: L-LT-02
+    claim: >
+      Littlejohn 2025 end-to-end onset latency is approximately 1.1 s.
+    disposition: unresolved
+    reason: >
+      Values 1.12 / 1.17 s appear only in secondary reviews or in
+      passages whose statistic type is inconsistent between the review
+      table and the narrative.
+    required: exact_primary_passage_and_endpoint_definition
+
+  - id: L-LT-03
+    claim: >
+      Littlejohn 2025 GO-cue-to-last-sound latency is 1.67 s.
+    disposition: unresolved
+    reason: >
+      Endpoint (first output vs. utterance completion) is not verified
+      from primary text in the reviewed material.
+    required: primary_end_event_definition
+
+  - id: L-LT-04
+    claim: >
+      Littlejohn 2025 internal inference totals approximately 11.2 ms.
+    disposition: qualified
+    reason: >
+      Arithmetic correction: 5.8 + 3.4 + 1.0 = 10.2 ms. The component
+      values themselves require exact supplementary-source verification.
+    required: exact_location_and_uncertainty_definition
+
+  - id: L-LT-05
+    claim: >
+      Most Littlejohn latency is external to the decoder.
+    disposition: withdrawn
+    reason: >
+      No matched stage-budget evidence establishes the residual partition.
+      The absence of decomposition is a reporting gap, not a demonstrable
+      allocation.
+
+  - id: L-LR-01
+    claim: >
+      Lorach 2023 decoder latency is 1.1 s ± 0.15 s SEM for the seven-state
+      configuration.
+    disposition: confirmed_with_scope_qualification
+    evidence: primary full text, "Adaptive online calibration of the BSI"
+    note: >
+      The paper's wording is "as low as 1.1 s (± 0.15 s s.e.m.) for the
+      seven states". Wall-clock endpoints are not fully specified in the
+      extractable text.
+
+  - id: L-LR-02
+    claim: >
+      Lorach 2023 command delivery interval is 300 ms.
+    disposition: confirmed_with_scope_qualification
+    evidence: primary full text, "Adaptive online calibration of the BSI"
+    note: >
+      A scheduled interval, not a measured latency. Receiver acknowledgment
+      latency is not reported.
+
+  - id: L-LR-03
+    claim: >
+      Lorach 2023 adjustment latency is approximately 100 ms.
+    disposition: confirmed_with_scope_qualification
+    evidence: primary full text, "Digital bridge from brain to spinal cord"
+    note: >
+      Exact actuator-completion endpoint (waveform start, waveform change,
+      or completed amplitude transition) is not specified in extractable text.
+
+  - id: L-LR-04
+    claim: >
+      Lorach 2023 model coefficients are updated every 15 s via REW-MSLM.
+    disposition: unresolved
+    reason: >
+      Requires exact methods passage and algorithm-specific quotation.
+    required: methods_location_verified
+
+  - id: L-LR-05
+    claim: >
+      Total Lorach loop latency equals 1.1 s + 100 ms.
+    disposition: unsupported
+    reason: >
+      Sequential addition of overlapping stages is not established by
+      matched-event evidence. The composite value has no primary-source basis.
+
+  - id: L-OE-01
+    claim: >
+      Oehrn 2024 final article reports high-amplitude state dwell of
+      1.2 ± 0.58 h and low-amplitude state dwell of 0.60 ± 0.39 h.
+    disposition: confirmed
+    evidence: final article, Results — "Secondary outcomes: algorithm performance"
+    note: >
+      These are stimulation-state dwell durations, not physiological
+      response delays. Dispersion label must be verified per passage.
+
+  - id: L-OE-02
+    claim: >
+      Oehrn 2024 final article reports awake-hours TEED change of
+      +15.4 ± 18.8% with increase in 5 of 6 hemispheres.
+    disposition: confirmed
+    evidence: final article, Figure 6f
+    note: >
+      Stimulation-energy measure, not total device energy. Preprint figure
+      of +15.1 ± 20.4% belongs to the 2023 three-participant dataset.
+
+  - id: L-OE-03
+    claim: >
+      Oehrn 2024 update interval is 10 s.
+    disposition: unresolved
+    reason: >
+      Exact methods passage not yet extracted. Whether this is feature
+      averaging, detector update, or control-decision scheduling is not
+      established from reviewed material.
+    required: methods_passage_verified_and_semantics_declared
+
+  - id: L-OE-04
+    claim: >
+      Oehrn 2024 ramp rate is 1 mA/s.
+    disposition: unresolved
+    reason: >
+      Exact methods passage not yet extracted. Applicability to the
+      finalized configuration is not established.
+
+  - id: L-OE-05
+    claim: >
+      aDBS reduces total energy consumption.
+    disposition: unsupported
+    reason: >
+      Final-article awake-hours TEED increased in 5 of 6 hemispheres,
+      and TEED does not measure total device energy.
+
+  - id: L-OE-06
+    claim: >
+      aDBS continuously infers the person's private intention.
+    disposition: withdrawn
+    reason: >
+      The controller uses selected neural features associated with
+      dopaminergic and residual motor states. It does not require a
+      voluntarily attempted command as its timing reference.
+
+  - id: L-XC-01
+    claim: >
+      The three anchor studies form a comparable end-to-end latency budget.
+    disposition: unsupported
+    reason: >
+      The reported quantities are different timing objects. No matched
+      stage-resolved budget exists across the three studies.
+
+  - id: L-XC-02
+    claim: >
+      Three anchor studies establish a field-wide absence of standards.
+    disposition: qualified
+    reason: >
+      Three selected studies demonstrate definitional heterogeneity.
+      They do not, on their own, establish universal field-wide absence
+      of standards.
+
+  - id: L-XC-03
+    claim: >
+      The proposed reporting contract is a community-adopted standard.
+    disposition: withdrawn
+    reason: >
+      The contract is a project-level research artifact. Adoption
+      requires independent review, pilot application, and community
+      acceptance, none of which are established here.
+
+  - id: L-EC-01
+    claim: >
+      Resource cost equals direct medical payments.
+    disposition: withdrawn
+    reason: >
+      Resource use and payment are different accounting dimensions.
+      Unpaid support time is a resource without a payment.
+
+  - id: L-EC-02
+    claim: >
+      The 0%/3%/5% discount grid is a method established by the anchor
+      studies.
+    disposition: withdrawn
+    reason: >
+      The grid is a proposed project-level sensitivity design. It is
+      not a method established by any of the three experimental anchors.
+
+  - id: L-EC-03
+    claim: >
+      PREMs and narrative accounts are subdivisions of PROs.
+    disposition: withdrawn
+    reason: >
+      PRO, PREM, and narrative accounts are distinct evidence categories.
+      Conflating them misclassifies the measurement target.
+
+release_readiness:
+  primary_matrix_supported_rows_publishable: true
+  pending_ledger_must_accompany_primary_matrix: true
+  claims_ledger_must_accompany_primary_matrix: true
+  field_wide_conclusions_require_additional_studies: true
+  community_standard_claims: prohibited_at_current_stage
+
+assessment:
+  rubric: >
+    0.25 documented requirements; 0.50 prototype implemented;
+    0.75 executed supporting evidence; 1.00 sustained independent validation.
+  knowledge_factor:
+    value: 0.50
+    basis: >
+      Source-supported primary matrix produced, schema specified,
+      validator and fixtures proposed.
+  eco_impact_value:
+    value: 0.00
+    basis: no environmental effect measured
+  harm_risk:
+    value: 0.25
+    basis: offline artifact; interpretation risk remains
+  accessibility_impact:
+    value: 0.25
+    basis: accessibility not evaluated in this artifact
+  rights_alignment:
+    value: 0.25
+    basis: boundaries declared; enforcement unvalidated

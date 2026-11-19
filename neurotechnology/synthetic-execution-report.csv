@@ -1,0 +1,10 @@
+test_family,cases,result,detail,evidence_scope
+lua_runtime_attempt,0,not_executed,No compatible Lua runtime; no Lua conformance claim,same_author_synthetic_reference_execution
+python_reference_envelope_domain,20736,passed,145152 comparisons against explicit field decision table,same_author_synthetic_reference_execution
+python_reference_indicator_domain,27,passed,Baseline display mapping only; not hardware fidelity,same_author_synthetic_reference_execution
+unknown_as_inactive,14175,detected,Number of finite-domain cases exposing this same-author mutant,same_author_synthetic_reference_execution
+review_erases_mismatch,9696,detected,Number of finite-domain cases exposing this same-author mutant,same_author_synthetic_reference_execution
+first_field_only,11024,detected,Number of finite-domain cases exposing this same-author mutant,same_author_synthetic_reference_execution
+permission_hides_activity,12,detected,Number of finite-domain cases exposing this same-author mutant,same_author_synthetic_reference_execution
+unknown_means_inactive,9,detected,Number of finite-domain cases exposing this same-author mutant,same_author_synthetic_reference_execution
+channels_conflated,18,detected,Number of finite-domain cases exposing this same-author mutant,same_author_synthetic_reference_execution

@@ -1,0 +1,147 @@
+document_version: "1.0.0"
+kind: source_version_and_claim_correction_ledger
+date_created: "2026-11-01"
+status: final_article_results_checked_methods_parameters_pending
+
+attribution:
+  anchor: "bostrom18sd2ujv24ual9c9pshtxys6j8knh6xaead9ye7"
+  scope: [credit_metadata, workstream_metadata]
+  propagation: preserve_anchor_and_scope_statement
+  attestation_claim: none
+
+sources:
+  preprint:
+    title: >
+      Personalized chronic adaptive deep brain stimulation outperforms
+      conventional stimulation in Parkinson's disease
+    publication: medRxiv
+    year: 2023
+    version: 1
+    location: "https://pmc.ncbi.nlm.nih.gov/articles/PMC10463549/"
+    participants: 3
+    hemispheres: 5
+
+  final_article:
+    title: >
+      Chronic adaptive deep brain stimulation versus conventional
+      stimulation in Parkinson's disease: a blinded randomized
+      feasibility trial
+    publication: Nature Medicine
+    year: 2024
+    location: "https://pmc.ncbi.nlm.nih.gov/articles/PMC11826929/"
+    participants: 4
+    hemispheres: 6
+
+version_specific_results:
+  preprint:
+    high_state_hours:
+      central_value: 1.5
+      reported_plus_minus: 0.27
+    low_state_hours:
+      central_value: 0.65
+      reported_plus_minus: 0.48
+    awake_TEED_percent_change:
+      central_value: 15.1
+      reported_plus_minus: 20.4
+
+  final_article:
+    source_section: "Results: Secondary outcomes: algorithm performance"
+    figure: "Figure 6"
+    high_state_hours:
+      central_value: 1.2
+      reported_plus_minus: 0.58
+      category: stimulation_state_dwell_duration
+    low_state_hours:
+      central_value: 0.60
+      reported_plus_minus: 0.39
+      category: stimulation_state_dwell_duration
+    awake_TEED_percent_change:
+      central_value: 15.4
+      reported_plus_minus: 18.8
+      category: stimulation_energy_comparison
+      increased_hemispheres: 5
+      evaluated_hemispheres: 6
+
+  dispersion_policy:
+    infer_same_statistic_for_all_plus_minus_values: prohibited
+    check_passage_caption_and_aggregation: required
+
+pending_methods_claims:
+  - claim: update_interval_10_seconds
+    status: exact_primary_methods_passage_required
+    required:
+      - exact_location
+      - supporting_quotation
+      - updated_quantity
+      - averaging_and_update_distinction
+      - embedded_or_distributed
+      - applicable_configuration
+
+  - claim: ramp_rate_1_mA_per_second
+    status: exact_primary_methods_passage_required
+    required:
+      - exact_location
+      - initial_or_final_setting
+      - applicable_configuration
+      - direction_or_asymmetry_if_any
+    infer_one_second_transition: prohibited
+
+interpretation:
+  biomarker_estimates_private_intention: false
+  biomarker_role: associated_state_feedback
+  dwell_duration_is_physiological_response_delay: false
+  TEED_is_total_device_energy: false
+  TEED_is_power: false
+  operating_timescale_is_one_end_to_end_latency: false
+
+cross_study_corrections:
+  five_domain_review_is_measured_sequential_pipeline: false
+  chronic_validation_is_per_output_processing_stage: false
+  missing_decomposition_invalidates_all_total_latency_comparisons: false
+  three_anchor_sample_proves_field_wide_absence_of_standards: false
+  proposed_contract_is_adopted_community_standard: false
+
+schema_requirements:
+  required_even_if_unavailable:
+    - canonical_study
+    - source_version
+    - exact_source_location
+    - task_condition
+    - implementation_location
+    - online_or_offline
+    - quantity_category
+    - evidence_basis
+    - reported_statistic
+    - uncertainty_definition
+    - start_event
+    - end_event
+    - missing_information
+  endpoint_status:
+    - known
+    - partially_defined
+    - not_reported_in_reviewed_material
+    - source_location_unresolved
+  event_definition_invented_to_fill_required_field: prohibited
+
+release_gates:
+  - final_article_and_preprint_values_not_mixed
+  - dwell_rows_not_labeled_response_delay
+  - pending_methods_values_not_marked_confirmed
+  - original_claim_disposition_matches_original_proposition
+  - Littlejohn_arithmetic_and_endpoint_issues_remain_visible
+  - Lorach_total_latency_not_invented
+  - three_study_matrix_presented_explicitly_not_implicitly
+  - field_wide_conclusions_limited_to_available_evidence
+
+assessment:
+  rubric: >
+    0.25 documented requirements; 0.50 prototype implementation;
+    0.75 executed supporting evidence; 1.00 sustained independent validation.
+  knowledge_factor: 0.25
+  eco_impact_value: 0.00
+  harm_risk: 0.25
+  accessibility_impact: 0.25
+  rights_alignment: 0.25
+  basis: >
+    Version differences and result categories checked; controller-method
+    parameters and the complete cross-study extraction remain outstanding.

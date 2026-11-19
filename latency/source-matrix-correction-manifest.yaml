@@ -1,0 +1,199 @@
+document_version: "0.1.0"
+kind: latency-source-matrix-correction-manifest
+date_created: "2026-11-01"
+status: pending_primary_passage_verification
+
+attribution:
+  anchor: "bostrom18sd2ujv24ual9c9pshtxys6j8knh6xaead9ye7"
+  scope: [credit_metadata, workstream_metadata]
+  propagation: preserve_anchor_and_scope_statement
+  attestation_claim: none
+  execution_evidence_claim: none
+
+report_scope:
+  declared_anchor_count: 3
+  substantive_sections_supplied:
+    - Littlejohn_2025
+    - Lorach_2023
+  Oehrn_section_required_for_three_study_title: true
+  current_release_label: partial_extraction_under_review
+
+evidence_axes:
+  quantity_type:
+    - decoder_increment
+    - processing_execution_duration
+    - feature_window_duration
+    - update_interval
+    - communication_delay
+    - output_onset_latency
+    - output_completion_latency
+    - model_update_interval
+    - state_dwell_duration
+    - ramp_rate
+    - ambiguous_quantity
+
+  evidence_basis:
+    - primary_reported_measurement
+    - primary_reported_schedule
+    - primary_reported_model_result
+    - secondary_source_report
+    - analyst_calculation
+    - unresolved_source_passage
+
+row_contract:
+  required_fields:
+    - canonical_study
+    - publication_version
+    - source_type
+    - exact_section_figure_table_or_page
+    - supporting_text
+    - text_is_verbatim
+    - task_and_configuration
+    - online_or_offline
+    - quantity_type
+    - evidence_basis
+    - reported_value_and_unit
+    - summary_statistic
+    - uncertainty_type
+    - start_event
+    - end_event
+    - endpoint_definition_status
+    - interpretation_limit
+
+  missing_information:
+    representation: explicit_unavailable_reason
+    silently_infer_endpoint: prohibited
+
+  quotation_rules:
+    paraphrase_inside_quotation_marks: prohibited
+    review_quotation_labeled_primary_main_text: prohibited
+    unrelated_paper_supporting_anchor_numeric_row: prohibited
+
+Littlejohn:
+  retained:
+    - claim: neural_decoding_in_80_ms_increments
+      evidence: primary_abstract
+      end_to_end_latency_claim: false
+
+  pending:
+    - claim: speech_1_12_s_and_text_1_01_s
+      current_basis: secondary_review_table
+      required: primary_passage_and_endpoint_definition
+    - claim: onset_1_17_s_with_99_percent_interval
+      issue: narrative_median_conflicts_with_table_mean
+      required: primary_statistic_and_event_definitions
+    - claim: GO_cue_1_67_s_with_99_percent_interval
+      issue: utterance_completion_endpoint_not_verified
+      required: primary_end_event_definition
+    - claim: component_execution_times_5_8_3_4_1_0_ms
+      required:
+        - exact_primary_location
+        - timed_operations
+        - hardware
+        - repetitions
+        - uncertainty_definition
+
+  arithmetic:
+    supplied_component_sum_ms: 10.2
+    prior_11_2_ms_sum: incorrect
+    sum_is_measured_pipeline_latency: false
+
+  withdrawn_inference:
+    claim: majority_of_delay_is_external_to_decoder
+    reason: no_matched_stage_budget_established
+
+  condition_controls:
+    online_and_offline_results_separate: true
+    implicit_detection_deployment_condition_verified: required
+    input_chunk_duration_is_execution_time: false
+
+Lorach:
+  primary_supported_rows:
+    - quantity: adjustment_latency
+      value_ms: 100
+      qualifier: about
+      location: Digital_bridge_from_brain_to_spinal_cord
+      exact_actuator_completion_endpoint_known: false
+
+    - quantity: command_delivery_interval
+      value_ms: 300
+      location: Adaptive_online_calibration_of_the_BSI
+      receiving_acknowledgment_latency_known: false
+
+    - quantity: source_labeled_decoder_latency
+      value_seconds: 1.1
+      uncertainty_seconds: 0.15
+      uncertainty_type: SEM
+      qualifier: as_low_as
+      configuration: seven_states
+      location: Adaptive_online_calibration_of_the_BSI
+      operational_endpoints_verified: false
+
+  pending_rows:
+    - quantity: model_coefficient_update_interval
+      proposed_value_seconds: 15
+      required: exact_methods_location_and_algorithm_specific_text
+
+  rejected_cross_source_bindings:
+    - arm_and_hand_digital_bridge_as_Lorach_latency_source
+    - Facebook_loop_300_ms_as_primary_system_measurement
+    - secondary_document_as_proof_of_IPG_acceptance_timestamp
+
+  prohibited_derivations:
+    - decoder_plus_adjustment_sum_as_measured_total
+    - decoder_latency_as_per_window_compute_time_without_methods
+    - adjustment_latency_as_completed_amplitude_ramp_without_evidence
+
+Oehrn:
+  canonical_publication: Nature_Medicine_2024
+  section_status: not_supplied_in_current_report
+  required_extraction:
+    - biomarker_and_configuration
+    - embedded_or_distributed_implementation
+    - feature_window
+    - detector_or_controller_update
+    - blanking
+    - ramp_rate_if_reported
+    - dwell_duration
+  dwell_duration_is_onset_latency: false
+  adjacent_DBS_study_substitution: prohibited
+
+comparison_policy:
+  total_only_measurement_automatically_invalid: false
+  assess_separately:
+    - endpoint_comparability
+    - task_comparability
+    - implementation_condition
+    - clock_information
+    - statistical_reporting
+    - stage_decomposition
+  sum_stage_percentiles: prohibited
+  infer_missing_stage_delay_from_residual: prohibited
+  SEM_to_percentile_conversion: prohibited
+
+release_gates:
+  - name: canonical_source_binding
+    pass_when: every_numeric_row_points_to_the_correct_study_and_version
+  - name: quotation_fidelity
+    pass_when: every_quotation_matches_its_actual_source_location
+  - name: timing_semantics
+    pass_when: no_increment_or_schedule_is_relabelled_as_measured_latency
+  - name: statistical_consistency
+    pass_when: mean_median_uncertainty_and_qualifiers_match_the_source
+  - name: endpoint_audit
+    pass_when: all_missing_or_inferred_endpoints_are_explicitly_marked
+  - name: title_scope_match
+    pass_when: three_anchor_title_has_three_completed_extraction_sections
+
+assessment:
+  rubric: >
+    0.25 documented requirements; 0.50 prototype implementation;
+    0.75 executed supporting evidence; 1.00 sustained independent validation.
+  knowledge_factor: 0.25
+  eco_impact_value: 0.00
+  harm_risk: 0.25
+  accessibility_impact: 0.25
+  rights_alignment: 0.25
+  basis: >
+    Correction requirements and source-supported rows are documented;
+    the full three-study extraction is not complete.
