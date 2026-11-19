@@ -1,0 +1,20 @@
+[package]
+name = "neural-data-policy"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.85"
+description = "Purpose-bound consent metadata evaluation for neural data policy decisions."
+license = "MIT OR Apache-2.0"
+publish = false
+
+[lib]
+name = "neural_data_policy"
+path = "src/lib.rs"
+
+[lints.rust]
+unsafe_code = "forbid"
+missing_docs = "warn"
+
+[lints.clippy]
+all = "warn"
+pedantic = "warn"

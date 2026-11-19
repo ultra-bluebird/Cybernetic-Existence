@@ -1,0 +1,52 @@
+[package]
+name = "popmath-cli"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.86"
+description = "Local command-line scenario runner for Population.Math."
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/mk-bluebird/Augmented-Hub"
+readme = "README.md"
+keywords = [
+    "civic",
+    "ecology",
+    "scenario",
+    "reproducibility",
+    "continuity"
+]
+categories = [
+    "command-line-utilities",
+    "mathematics",
+    "science"
+]
+publish = false
+
+[lib]
+name = "popmath_cli"
+path = "src/lib.rs"
+
+[[bin]]
+name = "popmath-cli"
+path = "src/main.rs"
+
+[dependencies]
+popmath = {
+    path = "../popmath",
+    features = ["serde"]
+}
+serde = {
+    version = "1",
+    default-features = false,
+    features = ["derive"]
+}
+serde_json = "1"
+sha2 = "0.10"
+
+[lints.rust]
+unsafe_code = "forbid"
+
+[lints.clippy]
+all = "warn"
+cargo = "warn"
+pedantic = "warn"
+nursery = "warn"

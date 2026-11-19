@@ -1,0 +1,19 @@
+[package]
+name = "nanoswarm-telemetry"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.85"
+license = "MIT OR Apache-2.0"
+authors = ["mk-bluebird <host@cybercore>"]
+description = "Host-local nanoswarm telemetry tables integrating AFM control and DNA-origami structures."
+repository = "https://github.com/mk-bluebird/nanorobotics.git"
+
+[dependencies]
+serde = { version = "1.0.203", features = ["derive"] }
+serde_json = { version = "1.0.120" }
+anyhow = "1.0.86"
+afm-control = { path = "../afm-control" }
+dna-origami = { path = "../dna-origami" }
+
+[dev-dependencies]
+kani = { version = "0.56.0" }

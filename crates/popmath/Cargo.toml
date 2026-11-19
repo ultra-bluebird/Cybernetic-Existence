@@ -1,0 +1,65 @@
+[package]
+name = "popmath"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.86"
+description = "Deterministic, rights-centered mathematical primitives for aggregate civic, ecological, infrastructure, and public-service scenarios."
+license = "Apache-2.0 OR MIT"
+repository = "https://github.com/mk-bluebird/Augmented-Hub"
+readme = "README.md"
+keywords = [
+    "civic",
+    "ecology",
+    "continuity",
+    "optimization",
+    "simulation",
+]
+categories = [
+    "mathematics",
+    "science",
+    "simulation",
+]
+include = [
+    "Cargo.toml",
+    "LICENSE-APACHE",
+    "LICENSE-MIT",
+    "README.md",
+    "docs/**",
+    "src/**",
+    "tests/**",
+    "examples/**",
+]
+publish = false
+
+[features]
+default = []
+std = [
+    "serde?/std",
+    "sha2?/std",
+]
+serde = [
+    "dep:serde",
+    "serde/alloc",
+]
+wasm = []
+sha2 = [
+    "dep:sha2",
+]
+reproducibility-digest = [
+    "sha2",
+]
+
+[dependencies]
+serde = { version = "1", default-features = false, features = ["derive"], optional = true }
+sha2 = { version = "0.10", default-features = false, optional = true }
+
+[dev-dependencies]
+
+[lints.rust]
+unsafe_code = "forbid"
+
+[lints.clippy]
+all = "deny"
+cargo = "deny"
+nursery = "deny"
+pedantic = "deny"

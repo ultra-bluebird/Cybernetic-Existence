@@ -1,0 +1,73 @@
+# filename: crates/nanoswarm-stl-futures/Cargo.toml
+
+[package]
+name = "nanoswarm-stl-futures"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.85"
+license = "MIT OR Apache-2.0"
+authors = ["Augmented Host <bostrom18sd2ujv24ual9c9pshtxys6j8knh6xaead9ye7>"]
+description = "Continuous-time STL monitors compiled to Rust futures for nanoswarm OTA missions under NanoswarmCareEnvelope and RoH 0.30 corridors."
+repository = "https://github.com/mk-bluebird/nanorobotics"
+categories = ["embedded", "science", "simulation"]
+keywords = ["nanoswarm", "stl", "runtime-monitoring", "cybercore", "roh"]
+readme = "README.md"
+
+[lib]
+name = "nanoswarm_stl_futures"
+# Rust 2024 default is src/lib.rs; explicit for clarity and tooling.
+path = "src/lib.rs"
+crate-type = ["rlib"]
+
+[features]
+# Default: std + serde support, for host-side use inside Cybercore.
+default = ["std", "serde"]
+
+# Use with host-side stacks that depend on alloc and std (most Cybercore crates).
+std = []
+
+# Pure nostd + alloc monitor, for deeply embedded nanoswarm endpoints.
+# When using this, ensure upstream deps (e.g. cybernano-physio) also support no_std.
+no-std = []
+
+# Enable serde Serialize/Deserialize for specs, snapshots, and mission bundles.
+serde = ["dep:serde"]
+
+# Enable Kani verification harnesses for STL robustness and bounded veto time.
+kani = ["dep:kani"]
+
+[dependencies]
+# Alloc-aware serialization (for STL specs and telemetry snapshots).
+serde = { version = "1.0.203", default-features = false, features = ["derive"], optional = true }
+
+# Core Cybercore/Nanorobotics crates, already present in the workspace.
+#
+# PhysioState, PhysioCaps, and corridor math for RoH and 6D BioState.
+cybernano-physio = { path = "../cybernano-physio", default-features = false }
+
+# Host-level care envelope; provides NanoswarmCareEnvelope, GuardVerdict, RoH ceiling.
+cybercore-brain = { path = "../cybercore-brain", default-features = false }
+
+# Shared guard semantics (Deny / AllowWithBrake / Allow), reused by RealityWindow.
+safety-core = { path = "../safety-core", default-features = false }
+
+# Kani model checker for formal verification (never optional per Space; gated by feature).
+kani = { version = "0.56.0", optional = true }
+
+[dev-dependencies]
+# Kani again for test/harness builds; this keeps harness crate-local.
+kani = { version = "0.56.0" }
+
+[package.metadata.aln]
+# Bind this crate to Cybercore authority and host identity, for sovereign OTA updates.
+host_did = "did.aln.bostrom-organic-host"
+bostrom_address = "bostrom18sd2ujv24ual9c9pshtxys6j8knh6xaead9ye7"
+authority = "ALN.MIGRATION.CYBERCOREAUTHORITY.v1"
+
+# This crate is part of the nanoswarm OTA evolution spine; forward-only, no rollbacks.
+forward_only = true
+
+[package.metadata.docs]
+# Internal documentation hooks; you can point mkdocs or Rustdoc aggregators here.
+module = "nanoswarm-stl-futures"
+summary = "Compile STL mission formulas over PhysioState into Rust futures with bounded time-to-veto under NanoswarmCareEnvelope."
