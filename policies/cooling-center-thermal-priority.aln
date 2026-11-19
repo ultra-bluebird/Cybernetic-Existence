@@ -1,0 +1,63 @@
+policy: cooling_center_thermal_priority
+version: 2.0.0
+data_class: critical_public_service_governance_policy
+purpose: protect cooling-center cooling, potable-water, accessible-entry, and heat-safety service from interruption by flexible workloads or thermal optimization
+consent_scope: aggregate_service_reliability_and_thermal_delivery_data_only
+retention: retain_minimal_service_delivery_incident_backup_activation_and_review_events_for_configured_safety_audit_period
+deletion: delete_raw_operational_telemetry_after_retention_expiry_subject_to_minimal_service_reliability_provenance
+accountability: accessible_service_status_human_review_incident_explanation_and_remedy_pathway
+review_status: required_for_any_cooling_supply_shortfall_or_heat_emergency_degradation
+access_equivalence_safeguards: cooling_center_access_must_not_require_identity_verification_payment_account_registration_or_unrelated_data_processing
+external_action_approval: required_for_remote_thermal_routing_or_facility_control
+
+critical_public_service:
+  name: cooling_center_supply
+  priority: highest
+  required_service_elements:
+    - cooled_indoor_space_or_safe_equivalent
+    - potable_water
+    - accessible_entry
+    - restroom_or_referral
+    - plain_language_heat_safety_information
+    - independent_backup_cooling_path
+
+rules:
+  - id: cooling-center-over-flexible-workloads
+    when: cooling_center_required_cooling_not_met
+    result:
+      flexible_workload_status: denied_or_deferred
+    require:
+      - maintain_or_restore_cooling_center_supply
+      - activate_independent_backup_when_available
+      - human_review_when_supply_is_insufficient
+      - accessible_public_status_information
+    prohibit:
+      - flexible_workload_execution_that_reduces_cooling_center_supply
+      - thermal_optimization_override
+      - cost_optimization_override
+
+  - id: heat-emergency-public-service-priority
+    when: heat_emergency_active
+    require:
+      - extended_service_reliability_review
+      - cooling_center_supply_priority
+      - potable_water_continuity
+      - accessible_entry_continuity
+      - human_incident_response_for_shortfall
+    prohibit:
+      - reduced_service_due_to_flexible_workload
+      - identity_gate
+      - fee_gate
+      - abandonment_without_alternative_referral
+
+  - id: thermal-reuse-boundary
+    when: recovered_datacenter_heat_used_for_public_service
+    require:
+      - hydraulic_isolation
+      - qualified_engineering_review
+      - safety_interlocks
+      - independent_backup_capacity
+      - material_change_review
+    prohibit:
+      - treating_recovered_heat_as_guaranteed_sole_cooling_source
+      - automatic_unreviewed_control_change

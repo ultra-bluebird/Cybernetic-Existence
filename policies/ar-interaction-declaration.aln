@@ -1,0 +1,62 @@
+policy ArInteractionDeclaration version "2026-09-17" {
+
+  purpose {
+    data_class = SESSION_LOCAL_AUGMENTED_REALITY
+    permitted_use = USER_INITIATED_LOCAL_AR_INTERACTION
+    prohibited_use = SILENT_SENSOR_ACTIVATION
+    prohibited_use = PERSISTENT_SPATIAL_SURVEILLANCE
+    prohibited_use = BYSTANDER_PROFILING
+    prohibited_use = IDENTITY_INFERENCE
+    prohibited_use = EXTERNAL_ACTION
+  }
+
+  invariant activation_requires_visible_declaration {
+    require ar.user_initiated == true
+    require ar.object_type_present == true
+    require ar.purpose_present == true
+    require ar.camera_use_declared == true
+    require ar.microphone_use_declared == true
+    require ar.sensor_use_declared == true
+    require ar.visibility_scope_declared == true
+    require ar.storage_duration_declared == true
+    require ar.bystander_handling_declared == true
+    require ar.fallback_declared == true
+  }
+
+  invariant sensor_use_is_never_silent {
+    require sensor.user_visible_indicator_required == true
+    require sensor.visible_stop_control_required == true
+    require sensor.immediate_stop_control_required == true
+    require sensor.background_activation_allowed == false
+    require sensor.activation_before_user_initiation_allowed == false
+  }
+
+  invariant default_processing_is_local_and_ephemeral {
+    require ar.local_only_default == true
+    require ar.current_session_only_default == true
+    require ar.persistent_recording_allowed == false
+    require ar.persistent_spatial_map_allowed == false
+    require ar.cross_session_state_allowed == false
+  }
+
+  invariant bystander_handling_is_non_identifying {
+    require bystander.face_detection_allowed == false
+    require bystander.face_recognition_allowed == false
+    require bystander.identity_inference_allowed == false
+    require bystander.profile_creation_allowed == false
+    require bystander.local_privacy_redaction_without_identity_allowed == true
+  }
+
+  invariant transfer_requires_separate_consent {
+    when ar.external_transfer_requested(transfer_ref)
+    require transfer.separate_explicit_consent(transfer_ref) == true
+    require transfer.destination_declared(transfer_ref) == true
+    require transfer.data_class_declared(transfer_ref) == true
+    require transfer.retention_declared(transfer_ref) == true
+    require transfer.revocation_path_available(transfer_ref) == true
+  }
+
+  invariant ar_is_non_actuating {
+    require ar.external_action_authorized == false
+  }
+}

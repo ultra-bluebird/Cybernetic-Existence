@@ -1,0 +1,48 @@
+module HeatReliefClosingTransition
+
+type Scalar = Float
+
+record ClosingContext {
+  site_id: Text
+  dangerous_heat_condition: Boolean
+  verified_alternative_available: Boolean
+  accessibility_support_available: Boolean
+  medical_escalation_requested: Boolean
+  transition_state: Text
+  contains_personal_data: Boolean
+  human_supervisor_status: Text
+}
+
+invariant ValidClosingState(context: ClosingContext) =
+  context.site_id != "" and
+  context.transition_state in [
+    "open",
+    "closing_notice",
+    "transition_support",
+    "supervisor_escalation",
+    "closed_with_alternatives",
+    "closed_service_gap"
+  ] and
+  not context.contains_personal_data
+
+invariant DangerousHeatRequiresEscalation(context: ClosingContext) =
+  context.dangerous_heat_condition and
+  not context.verified_alternative_available implies
+  context.transition_state != "closed_with_alternatives"
+
+invariant MedicalConcernIsNotConductIssue(context: ClosingContext) =
+  context.medical_escalation_requested implies
+  context.transition_state in [
+    "transition_support",
+    "supervisor_escalation"
+  ]
+
+invariant AccessibleTransitionRequired(context: ClosingContext) =
+  context.transition_state = "closed_with_alternatives" implies
+  context.accessibility_support_available
+
+invariant NoCoerciveClosure =
+  closing_policy_forces_removal = false and
+  closing_policy_uses_identity_verification = false and
+  closing_policy_uses_homelessness_status = false and
+  closing_policy_uses_automated_police_dispatch = false

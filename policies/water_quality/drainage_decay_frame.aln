@@ -1,0 +1,54 @@
+module DrainageDecayFrame
+
+type Scalar = Float
+type UnitInterval = Float
+
+record DrainageState {
+  bod_mg_l: Scalar
+  tss_mg_l: Scalar
+  dissolved_oxygen_mg_l: Scalar
+  sediment_cec_cmolc_kg: Scalar
+  water_volume_m3: Scalar
+  data_quality: UnitInterval
+  mass_balance_error: UnitInterval
+}
+
+record MetalPartitionEstimate {
+  metal_code: Text
+  dissolved_concentration_mg_l: Scalar
+  sediment_associated_mass_mg_kg: Scalar
+  partition_model_version: Text
+  uncertainty: UnitInterval
+  review_status: Text
+}
+
+invariant ValidDrainageState(state: DrainageState) =
+  state.bod_mg_l >= 0.0 and
+  state.tss_mg_l >= 0.0 and
+  state.dissolved_oxygen_mg_l >= 0.0 and
+  state.sediment_cec_cmolc_kg >= 0.0 and
+  state.water_volume_m3 > 0.0 and
+  state.data_quality >= 0.90 and
+  state.mass_balance_error <= approved_mass_balance_error
+
+invariant ValidMetalEstimate(estimate: MetalPartitionEstimate) =
+  estimate.metal_code != "" and
+  estimate.dissolved_concentration_mg_l >= 0.0 and
+  estimate.sediment_associated_mass_mg_kg >= 0.0 and
+  estimate.partition_model_version != "" and
+  estimate.uncertainty >= 0.0 and
+  estimate.uncertainty <= 1.0 and
+  estimate.review_status in ["approved", "qualified"]
+
+invariant CECIsNotSoleMetalMobilityBasis =
+  metal_mobility_model_includes_pH and
+  metal_mobility_model_includes_DOC and
+  metal_mobility_model_includes_redox_or_uncertainty_gate
+
+invariant WaterQualityModelIsDecisionSupportOnly =
+  drainage_model_action in [
+    "monitor",
+    "sample",
+    "request_qualified_review",
+    "hold_for_field_validation"
+  ]

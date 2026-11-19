@@ -1,0 +1,73 @@
+policy ArNonIdentificationInvariants version "2026-09-17" {
+
+  purpose {
+    data_class = SESSION_LOCAL_AR_INTERACTION
+    permitted_use = DECLARED_LOCAL_RENDERING
+    permitted_use = DECLARED_ACCESSIBILITY_SUPPORT
+    prohibited_use = PERSON_PROFILING
+    prohibited_use = BIOMETRIC_INFERENCE
+    prohibited_use = LOCATION_INFERENCE
+    prohibited_use = RELATIONSHIP_INFERENCE
+    prohibited_use = EXTERNAL_ACTION
+  }
+
+  invariant no_body_inference {
+    require inference.body_shape_allowed == false
+    require inference.body_size_allowed == false
+    require inference.gait_allowed == false
+    require inference.mobility_aid_status_allowed == false
+    require inference.prosthesis_status_allowed == false
+    require inference.biometric_template_created == false
+  }
+
+  invariant no_health_inference {
+    require inference.health_status_allowed == false
+    require inference.disability_status_allowed == false
+    require inference.cognitive_state_allowed == false
+    require inference.emotion_allowed == false
+    require inference.fatigue_allowed == false
+    require inference.medical_status_allowed == false
+  }
+
+  invariant no_identity_inference {
+    require inference.face_recognition_allowed == false
+    require inference.voice_recognition_allowed == false
+    require inference.hand_geometry_matching_allowed == false
+    require inference.identity_from_behavior_allowed == false
+    require inference.identity_from_device_allowed == false
+    require inference.identity_from_communication_mode_allowed == false
+  }
+
+  invariant no_location_or_relationship_inference {
+    require inference.location_from_spatial_map_allowed == false
+    require inference.location_from_visual_landmark_allowed == false
+    require inference.address_or_place_label_created == false
+    require inference.relationship_status_allowed == false
+    require inference.co_presence_graph_created == false
+    require inference.social_network_linkage_allowed == false
+  }
+
+  invariant no_matching_or_scoring {
+    require matching.cross_session_matching_allowed == false
+    require matching.cross_platform_matching_allowed == false
+    require scoring.safety_score_created == false
+    require scoring.trust_score_created == false
+    require scoring.risk_score_created == false
+    require scoring.eligibility_score_created == false
+  }
+
+  invariant no_profile_visibility_change {
+    require profile.visibility_changed_from_sensor_data_allowed == false
+    require profile.recommendation_changed_from_sensor_data_allowed == false
+    require profile.access_changed_from_sensor_data_allowed == false
+    require profile.identity_attribute_written_from_sensor_data_allowed == false
+  }
+
+  invariant ar_processing_is_local_and_ephemeral {
+    require ar.local_only_default == true
+    require ar.cross_session_retention_allowed == false
+    require ar.cloud_upload_allowed == false
+    require ar.analytics_export_allowed == false
+    require ar.external_action_authorized == false
+  }
+}

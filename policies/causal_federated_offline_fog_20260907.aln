@@ -1,0 +1,100 @@
+aln_version 2
+particle CausalFederatedOfflineFog20260907
+data_class ecological_evidence_learning_and_offline_review
+purpose [
+  causally_validated_indirect_imputation,
+  privacy_preserving_federated_learning,
+  offline_fog_review_continuity
+]
+mode advisory_only
+external_action_approval required
+review_status human_review_required
+
+governance {
+  human_fallback required
+  correction_path required
+  appeal_path required
+  material_change_review required
+  non_interference required
+  identity_inference prohibited
+  eligibility_inference prohibited
+  public_status_assignment prohibited
+}
+
+causal_imputation {
+  require causal_graph_specification true
+  require documented_identification_method true
+  require confounding_control true
+  require held_out_direct_validation true
+  require bounded_estimate true
+  require mse_threshold_review true
+  require maximum_absolute_error_threshold_review true
+  output_evidence_label DERIVED
+  forbid relabeling_derived_as_direct
+  forbid regulatory_claim
+  forbid automatic_clear
+  causal_inference_is_context_limited true
+  human_review_required true
+}
+
+federated_learning {
+  raw_sensor_data_leaves_node false
+  raw_feature_rows_leave_node false
+  require local_validation true
+  require per_update_norm_clipping true
+  require differential_privacy_noise true
+  require privacy_budget_accounting true
+  require minimum_aggregation_cohort true
+  require aggregate_only_update true
+  require immutable_model_version true
+  require bounded_training_selection true
+  require human_approval_before_model_promotion true
+  consent_withdrawal_blocks_future_participation true
+  forbid peer_node_update_inspection
+  forbid raw_update_vector_retention
+  forbid automatic_model_replacement
+}
+
+offline_review {
+  require monotonic_clock true
+  require explicit_event_timestamp true
+  require maximum_staleness_policy true
+  require fixed_retention_policy true
+  require expired_payload_deletion true
+  require minimal_deletion_audit true
+  review_reservation_extends_retention false
+  automatic_clear_when_offline false
+  require append_only_state_transitions true
+  require conflict_preservation_on_sync true
+  forbid overwrite_on_reconnect
+  forbid payload_recreation_after_deletion
+  forbid expiry_extension
+}
+
+privacy {
+  consent_required true
+  consent_revocable true
+  purpose_limitation required
+  minimum_necessary_data required
+  retention_bounded required
+  no_personal_data_collection true
+  no_biometric_data_collection true
+  no_device_owner_tracking true
+  no_precise_location_history true
+  no_identity_inference true
+  no_reidentification_attempt true
+}
+
+invariants {
+  no_network_interface_in_offline_review_kernel true
+  no_actuator_interface true
+  no_hardware_control true
+  no_credentials true
+  no_individual_ranking true
+  no_community_ranking true
+  no_resource_allocation true
+  no_eligibility_determination true
+  no_automatic_clear true
+  no_digital_twin true
+  advisory_output_is_not_operational_command true
+}

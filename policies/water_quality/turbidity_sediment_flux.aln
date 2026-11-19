@@ -1,0 +1,41 @@
+module TurbiditySedimentFlux
+
+type Scalar = Float
+type UnitInterval = Float
+
+record FluxObservation {
+  sensor_id: Text
+  flow_m3_s: Scalar
+  turbidity_value: Scalar
+  particle_size_diversity: Scalar
+  estimated_ssc_mg_l: Scalar
+  estimated_flux_kg_s: Scalar
+  lower_flux_kg_s: Scalar
+  upper_flux_kg_s: Scalar
+  sensor_quality: UnitInterval
+  model_status: Text
+}
+
+invariant ValidFluxObservation(observation: FluxObservation) =
+  observation.sensor_id != "" and
+  observation.flow_m3_s >= 0.0 and
+  observation.turbidity_value >= 0.0 and
+  observation.particle_size_diversity >= 0.0 and
+  observation.estimated_ssc_mg_l >= 0.0 and
+  observation.estimated_flux_kg_s >= 0.0 and
+  observation.lower_flux_kg_s >= 0.0 and
+  observation.upper_flux_kg_s >= observation.lower_flux_kg_s and
+  observation.sensor_quality >= 0.90 and
+  observation.model_status = "approved"
+
+invariant FluxHasPhysicalRelation(observation: FluxObservation) =
+  observation.flow_m3_s = 0.0 implies
+  observation.estimated_flux_kg_s = 0.0
+
+invariant EstimateIsNotDirectMeasurement =
+  estimated_flux_labeled_as_model_output = true
+
+invariant NoAutomaticCanalActuation =
+  turbidity_flux_output_controls_gate = false and
+  turbidity_flux_output_controls_pump = false and
+  turbidity_flux_output_controls_dredging = false

@@ -1,0 +1,82 @@
+policy: automatic_door_accessibility_priority
+version: 2.0.0
+data_class: facility_access_governance_policy
+purpose: preserve accessible entry and emergency egress while allowing bounded thermal and air-quality optimization
+consent_scope: no_identity_or_profile_data_required_for_door_operation
+retention: retain_minimal_safety_and_accessibility_violation_events_for_configured_review_period
+deletion: delete_operational_telemetry_after_retention_expiry_except_minimal_safety_audit_commitments
+accountability: human_review_accessible_correction_path_incident_explanation_and_maintenance_record
+review_status: required_before_operational_deployment
+access_equivalence_safeguards: accessibility_requests_override_thermal_optimization
+external_action_approval: required_for_remote_configuration_or_external_telemetry_export
+
+definitions:
+  ordinary_eco_gate:
+    all:
+      - thermal_containment_ok
+      - air_quality_ok
+      - occupancy_ok
+  priority_conditions:
+    - accessibility_request
+    - emergency_egress
+  sensor_failure_states:
+    - missing
+    - contradictory
+  active_emergency:
+    description: facility-declared emergency state governed by a documented emergency response plan
+
+rules:
+  - id: emergency-egress-priority
+    when: emergency_egress
+    require:
+      - open_or_hold_open
+      - immediate_human_escalation_if_mechanical_operation_fails
+    prohibit:
+      - thermal_optimization_denial
+      - occupancy_optimization_denial
+      - air_quality_optimization_denial
+
+  - id: accessibility-unconditional-priority
+    when: accessibility_request
+    require:
+      - open_or_hold_open
+      - accessible_alternative_route_if_primary_door_is_physically_unavailable
+      - plain_language_status_information
+    prohibit:
+      - thermal_containment_denial
+      - occupancy_optimization_denial
+      - air_quality_optimization_denial
+      - identity_verification_requirement
+      - certification_requirement
+      - delay_for_non_safety_optimization
+
+  - id: active-emergency-boundary
+    when: accessibility_request_and_active_emergency
+    require:
+      - follow_documented_emergency_response_plan
+      - provide_safest_available_accessible_route
+      - immediate_human_review
+      - incident_record
+    prohibit:
+      - silent_denial
+      - abandonment_without_alternative_route
+
+  - id: sensor-failure-fail-open
+    when:
+      any:
+        - sensor_data_missing
+        - sensor_data_contradictory
+    require:
+      - open_or_hold_open_for_safe_pedestrian_egress
+      - human_maintenance_alert
+      - sensor_fault_record
+    prohibit:
+      - deny_accessibility_request_based_on_sensor_failure
+
+  - id: accessibility-denial-violation
+    when: accessibility_request_denied_while_operational_and_not_active_emergency
+    result:
+      violation: ACCESSIBILITY_REQUEST_DENIED_WHILE_OPERATIONAL
+      human_review_required: true
+      correction_path_required: true
+      audit_event_required: true

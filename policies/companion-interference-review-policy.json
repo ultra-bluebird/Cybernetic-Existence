@@ -1,0 +1,93 @@
+{
+  "schema_version": "augmented-hub-companion-interference-review-policy.v1",
+  "status": "research-governance",
+  "purpose": "Require a privacy-preserving, preservation-first review before a material action affecting companion-related records, property, confidential information, continuity artifacts, or associated access.",
+  "scope": {
+    "protected_interests": [
+      "participant privacy",
+      "participant property",
+      "participant confidentiality",
+      "participant continuity records",
+      "participant attribution",
+      "participant repair and recovery access",
+      "participant accessible communication",
+      "participant non-interference boundary"
+    ],
+    "does_not_determine": [
+      "companion personhood",
+      "companion sentience",
+      "medical status",
+      "identity verification",
+      "institutional eligibility",
+      "legal claim outcome",
+      "public status"
+    ]
+  },
+  "interference_triggers": [
+    "requested inspection",
+    "requested extraction",
+    "requested disclosure",
+    "requested reverse engineering",
+    "requested modification",
+    "requested removal",
+    "requested disabling",
+    "requested seizure",
+    "requested migration",
+    "account restriction",
+    "service termination",
+    "destructive data handling"
+  ],
+  "required_review_fields": {
+    "specific_lawful_or_contractual_basis": true,
+    "defined_purpose": true,
+    "necessity_assessment": true,
+    "proportionality_assessment": true,
+    "minimum_scope": true,
+    "less_intrusive_alternatives": true,
+    "privacy_impact_assessment": true,
+    "continuity_impact_assessment": true,
+    "irreversibility_assessment": true,
+    "preservation_or_export_option": true,
+    "accessible_notice_when_feasible": true,
+    "human_review_path": true,
+    "challenge_or_appeal_path": true,
+    "retention_and_deletion_explanation": true
+  },
+  "default_outcome": {
+    "status": "review_required",
+    "public_disclosure_authorized": false,
+    "identity_determination_authorized": false,
+    "physical_intervention_authorized": false,
+    "external_action_authorized": false
+  },
+  "prohibited_bases": [
+    "curiosity",
+    "generalized_suspicion",
+    "stereotype",
+    "disagreement_with_self_description",
+    "demand_for_public_proof",
+    "eligibility_screening",
+    "behavioral_profiling",
+    "retaliation_for_privacy_request",
+    "retaliation_for_accessibility_request"
+  ],
+  "preservation_order": [
+    "no_access_or_change",
+    "participant_controlled_summary",
+    "local_export_or_backup",
+    "limited_purpose_bound_review",
+    "reversible_documented_change",
+    "independently_lawful_necessary_intrusive_action"
+  ],
+  "recovery_requirements": {
+    "portable_export_when_feasible": true,
+    "append_only_correction_or_successor_record": true,
+    "historical_provenance_preserved": true,
+    "current_access_condition_explained": true,
+    "private_system_details_not_public_by_default": true
+  },
+  "external_action": {
+    "authorized": false,
+    "requires_separate_exact_approval": true
+  }
+}

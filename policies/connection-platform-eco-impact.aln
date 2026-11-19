@@ -1,0 +1,53 @@
+policy ConnectionPlatformEcoImpact version "2026-09-17" {
+
+  purpose {
+    data_class = ECOLOGICAL_ACCOUNTING
+    permitted_use = OPERATIONAL_EMISSIONS_MEASUREMENT
+    permitted_use = COMMUNITY_RESILIENCE_RESEARCH
+    prohibited_use = PERSON_PROFILING
+    prohibited_use = INDIVIDUAL_CONSUMPTION_SCORING
+    prohibited_use = UNSUPPORTED_AVOIDED_EMISSIONS_CLAIM
+  }
+
+  invariant operational_emissions_have_accounting_context {
+    require emissions.energy_source_documented == true
+    require emissions.electricity_emissions_factor_documented == true
+    require emissions.factor_time_period_documented == true
+    require emissions.factor_geographic_scope_documented == true
+    require emissions.energy_measurement_method_documented == true
+    require emissions.uncertainty_statement_present == true
+    require emissions.provenance_reference_present == true
+  }
+
+  invariant connection_benefit_claims_are_evidence_limited {
+    require impact.counterfactual_method_documented == true
+    require impact.baseline_period_documented == true
+    require impact.intervention_period_documented == true
+    require impact.confounds_assessed == true
+    require impact.causal_claim_without_evidence_allowed == false
+    require impact.avoided_emissions_claim_without_factor_allowed == false
+    require impact.prediction_presented_as_guarantee_allowed == false
+  }
+
+  invariant platform_measurement_does_not_profile_people {
+    require impact.named_person_input_allowed == false
+    require impact.device_identifier_correlation_allowed == false
+    require impact.identity_inference_allowed == false
+    require impact.health_inference_allowed == false
+    require impact.augmentation_inference_allowed == false
+    require impact.individual_consumption_score_created == false
+    require impact.individual_resilience_score_created == false
+  }
+
+  invariant community_resilience_is_context_level {
+    require resilience.unit_of_analysis_is_context_or_service == true
+    require resilience.person_level_rank_created == false
+    require resilience.person_level_eligibility_effect_allowed == false
+    require resilience.participation_is_voluntary == true
+    require resilience.small_group_reporting_allowed == false
+  }
+
+  invariant eco_reporting_is_non_actuating {
+    require eco_impact.external_action_authorized == false
+  }
+}

@@ -1,0 +1,54 @@
+policy CommunityResilienceMediation version "2026-09-17" {
+
+  purpose {
+    data_class = COMMUNITY_RESOURCE_NAVIGATION
+    permitted_use = SOURCE_GROUNDED_RESOURCE_DISCOVERY
+    permitted_use = ACCESSIBLE_PREPAREDNESS_INFORMATION
+    permitted_use = VOLUNTARY_CIVIC_PARTICIPATION_SUPPORT
+    prohibited_use = SOCIAL_SCORING
+    prohibited_use = VULNERABILITY_PROFILING
+    prohibited_use = RELATIONSHIP_MANIPULATION
+  }
+
+  invariant mediation_is_resource_navigation_not_person_assessment {
+    require mediation.person_resilience_score_created == false
+    require mediation.person_social_capital_score_created == false
+    require mediation.person_isolation_score_created == false
+    require mediation.person_vulnerability_classifier_created == false
+    require mediation.relationship_quality_assessment_allowed == false
+    require mediation.identity_inference_allowed == false
+  }
+
+  invariant resource_information_is_source_grounded {
+    require resource.source_provenance_present == true
+    require resource.jurisdiction_or_service_scope_present == true
+    require resource.last_review_date_present == true
+    require resource.accessibility_information_present == true
+    require resource.human_contact_route_present_when_available == true
+    require resource.expired_information_labeled == true
+  }
+
+  invariant participation_is_voluntary_and_low_disclosure {
+    require participation.identity_disclosure_required == false
+    require participation.health_disclosure_required == false
+    require participation.augmentation_disclosure_required == false
+    require participation.refusal_access_penalty_allowed == false
+    require participation.anonymous_or_low_disclosure_path_available == true
+  }
+
+  invariant mediation_preserves_autonomy {
+    require mediation.manipulative_engagement_optimization_allowed == false
+    require mediation.recommendation_explanation_available == true
+    require mediation.user_controlled_preference_change_available == true
+    require mediation.correction_path_available == true
+    require mediation.human_fallback_available == true
+  }
+
+  invariant outcomes_are_context_level {
+    require outcome.resource_discoverability_measured == true
+    require outcome.accessibility_path_availability_measured == true
+    require outcome.source_currency_measured == true
+    require outcome.person_level_behavior_tracking_allowed == false
+    require outcome.external_action_authorized == false
+  }
+}

@@ -1,0 +1,47 @@
+policy_name = "canal_gp_kernel_selection"
+policy_version = "1.0"
+record_class = "canal_gp_model_review"
+purpose = "Select a spatial-temporal Gaussian-process kernel using physically justified candidates and blocked held-out predictive validation."
+consent_scope = "local_validation_and_non_actuating_research_only"
+retention = "bounded_by_repository_retention_policy"
+deletion = "remove_derived_model_review_records_when_no_longer_required"
+accountability = "method_review_and_evidence_review"
+review_status = "required_before_causal_or_design_promotion"
+access_equivalence_safeguard = "plain_language_kernel_limitations_and_blocked_validation_summary"
+external_action_approval = "prohibited"
+
+require external_action_authorized == false
+
+require kernel_class in [
+    "MATERN_3_2_EUCLIDEAN",
+    "MATERN_5_2_EUCLIDEAN",
+    "MATERN_3_2_NETWORK",
+    "MATERN_3_2_ADVECTION_AWARE",
+    "NONSTATIONARY_CHANGE_POINT"
+]
+
+require validation_state in [
+    "CANDIDATE",
+    "HELDOUT_VALIDATED",
+    "HELDOUT_INADEQUATE",
+    "OUT_OF_DOMAIN",
+    "METHOD_REVIEW_REQUIRED"
+]
+
+require blocked_validation_types contains "SPATIAL"
+require blocked_validation_types contains "TEMPORAL"
+require blocked_validation_types contains "SPATIOTEMPORAL"
+
+when kernel_class == "MATERN_3_2_NETWORK":
+    require canal_graph_digest is_not_null
+    require graph_connectivity_review_passed == true
+
+when kernel_class == "MATERN_3_2_ADVECTION_AWARE":
+    require transport_time_model_digest is_not_null
+    require flow_regime_support_review_passed == true
+
+when validation_state != "HELDOUT_VALIDATED":
+    require causal_effect_promotion_allowed == false
+    require design_evidence_promotion_allowed == false
+
+deny when external_action_authorized == true

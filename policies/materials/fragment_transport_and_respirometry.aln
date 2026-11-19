@@ -1,0 +1,58 @@
+module FragmentTransportAndRespirometry
+
+type Scalar = Float
+type UnitInterval = Float
+
+record FragmentMassBalance {
+  reach_id: Text
+  stored_mass_kg: Scalar
+  inflow_mass_kg: Scalar
+  outflow_mass_kg: Scalar
+  source_mass_kg: Scalar
+  mineralized_mass_kg: Scalar
+  sediment_mass_kg: Scalar
+  unresolved_mass_kg: Scalar
+  closure_error: UnitInterval
+}
+
+record RespirometryResult {
+  batch_id: Text
+  net_bod_mg_o2_g: Scalar
+  theoretical_oxygen_demand_mg_o2_g: Scalar
+  biodegradation_percent_thod: Scalar
+  direct_co2_measurement_available: Boolean
+  carbon_mineralization_fraction: UnitInterval
+  method_acceptance_status: Text
+}
+
+invariant ValidFragmentMassBalance(balance: FragmentMassBalance) =
+  balance.reach_id != "" and
+  balance.stored_mass_kg >= 0.0 and
+  balance.inflow_mass_kg >= 0.0 and
+  balance.outflow_mass_kg >= 0.0 and
+  balance.source_mass_kg >= 0.0 and
+  balance.mineralized_mass_kg >= 0.0 and
+  balance.sediment_mass_kg >= 0.0 and
+  balance.unresolved_mass_kg >= 0.0 and
+  balance.closure_error <= approved_mass_closure_error
+
+invariant ValidRespirometryResult(result: RespirometryResult) =
+  result.batch_id != "" and
+  result.net_bod_mg_o2_g >= 0.0 and
+  result.theoretical_oxygen_demand_mg_o2_g > 0.0 and
+  result.biodegradation_percent_thod >= 0.0 and
+  result.method_acceptance_status = "accepted"
+
+invariant CarbonMineralizationRequiresDirectCarbonEvidence(
+  result: RespirometryResult
+) =
+  result.carbon_mineralization_fraction > 0.0 implies
+  result.direct_co2_measurement_available
+
+invariant NoFragmentationAsMineralization =
+  visible_fragment_loss_is_not_reported_as_mineralization
+
+invariant EnvironmentalReleaseRequiresIndependentReview =
+  environmental_release_status = "approved_under_specific_permit" implies
+  independent_ecotoxicology_review = "approved" and
+  hydrologic_review = "approved"

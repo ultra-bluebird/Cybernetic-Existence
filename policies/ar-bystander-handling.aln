@@ -1,0 +1,55 @@
+policy ArBystanderHandling version "2026-09-17" {
+
+  purpose {
+    data_class = SESSION_LOCAL_AR_PRIVACY_PROTECTION
+    permitted_use = LOCAL_PRIVACY_GUARD
+    permitted_use = SESSION_PAUSE_OR_CAPABILITY_REDUCTION
+    prohibited_use = BYSTANDER_IDENTIFICATION
+    prohibited_use = BYSTANDER_RECORDING
+    prohibited_use = BYSTANDER_TRACKING
+    prohibited_use = BYSTANDER_INFERENCE
+    prohibited_use = BYSTANDER_RETENTION
+  }
+
+  invariant bystanders_are_not_identity_targets {
+    require bystander.face_detection_allowed == false
+    require bystander.face_recognition_allowed == false
+    require bystander.voice_detection_allowed == false
+    require bystander.voice_recognition_allowed == false
+    require bystander.identity_inference_allowed == false
+    require bystander.demographic_inference_allowed == false
+    require bystander.health_inference_allowed == false
+    require bystander.augmentation_inference_allowed == false
+  }
+
+  invariant no_bystander_record_is_created {
+    require bystander.image_recording_allowed == false
+    require bystander.audio_recording_allowed == false
+    require bystander.pose_recording_allowed == false
+    require bystander.location_recording_allowed == false
+    require bystander.tracking_identifier_created == false
+    require bystander.profile_created == false
+    require bystander.cross_session_correlation_allowed == false
+  }
+
+  invariant privacy_guard_is_non_identifying {
+    require privacy_guard.output_is_condition_only == true
+    require privacy_guard.output_identity_allowed == false
+    require privacy_guard.output_person_count_allowed == false
+    require privacy_guard.output_person_attributes_allowed == false
+    require privacy_guard.output_retention_allowed == false
+    require privacy_guard.condition_lifetime_is_current_frame_only == true
+  }
+
+  invariant privacy_guard_fails_closed {
+    when privacy_guard.condition(session_ref) == PRIVACY_GUARD_ACTIVE
+    require ar.session_paused_or_capability_reduced(session_ref) == true
+
+    when privacy_guard.condition(session_ref) == SENSOR_UNCERTAIN
+    require ar.session_paused_or_capability_reduced(session_ref) == true
+  }
+
+  invariant bystander_policy_is_non_actuating {
+    require bystander.external_action_authorized == false
+  }
+}

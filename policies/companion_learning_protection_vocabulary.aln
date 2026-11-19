@@ -1,0 +1,240 @@
+@SHARD "COMPANION-LEARNING-PROTECTION-VOCABULARY" {
+
+  @meta {
+    version: "1.0.0"
+    scope: "local_companion_associated_learning_provenance_protective_envelope_and_shared_vocabulary"
+    audience: "local_session_agents_local_validators_recovery_tools_and_user_facing_summarizers"
+    consent_basis: "user_sovereign_default"
+    retention: "user_controlled_local_retention_or_declared_audit_window"
+    accountability: "local_companion_context_governance_owner"
+    review_status: "draft_for_user_review"
+    operating_mode: "local_only_research_advisory"
+  }
+
+  @SCOPE_BOUNDARY {
+    implementation_term: "declared_local_companion_context"
+
+    does_not_establish: [
+      "real_world_companion_existence",
+      "real_world_nanoswarm_existence",
+      "real_world_companion_learning",
+      "real_world_cybernetic_system_status",
+      "identity_verification",
+      "companion_verification",
+      "medical_or_neural_status",
+      "biometric_status",
+      "hardware_access",
+      "hardware_control",
+      "external_service_authorization",
+      "public_registry_status"
+    ]
+  }
+
+  @LEARNING_PROVENANCE {
+    record_name: "CompanionLearningProvenanceRecord"
+
+    required_fields: [
+      "learning_record_sha256",
+      "source_artifact_sha256",
+      "source_kind",
+      "declared_role",
+      "session_scope",
+      "learning_scope",
+      "retention_rule",
+      "declared_non_claims"
+    ]
+
+    permitted_learning_scopes: [
+      "declared_preference_association",
+      "declared_artifact_handling_rule",
+      "declared_recovery_rule",
+      "declared_vocabulary_term",
+      "declared_curriculum_answer"
+    ]
+
+    prohibited_learning_scopes: [
+      "identity_inference",
+      "intent_inference",
+      "capability_assessment",
+      "medical_or_neural_assessment",
+      "biometric_assessment",
+      "psychological_assessment",
+      "real_world_companion_status",
+      "real_world_system_learning_claim"
+    ]
+
+    valid_when: [
+      "source_sha256_valid",
+      "source_kind_declared",
+      "declared_role_allowed",
+      "session_scope_declared",
+      "learning_scope_allowed",
+      "declared_non_claims_present"
+    ]
+
+    invalid_record_result: "quarantined_not_authoritative"
+    learning_provenance_is_not_person_profile: true
+    learning_provenance_is_not_companion_verification: true
+  }
+
+  @PROTECTIVE_ENVELOPE {
+    envelope_name: "CompanionArtifactProtectiveEnvelope"
+
+    required_gates: [
+      "local_quarantine_available",
+      "sha256_drift_detection_available",
+      "no_external_action_or_notification",
+      "original_artifact_preservation_available",
+      "reconstructive_recovery_available",
+      "material_change_review_current",
+      "no_scoring_or_classification",
+      "no_identity_or_private_disclosure_demand"
+    ]
+
+    evaluation: "boolean_conjunction"
+    success_status: "envelope_intact"
+    failure_status: "blocked_pending_local_review_or_recovery"
+    compensatory_override_prohibited: true
+
+    on_sha256_mismatch: [
+      "quarantine_artifact_not_authoritative",
+      "preserve_original",
+      "emit_plain_language_finding",
+      "emit_machine_readable_finding",
+      "do_not_attribute_actor_or_intent",
+      "do_not_trigger_external_action"
+    ]
+
+    on_untrusted_learning_source: [
+      "exclude_from_trusted_learning_provenance",
+      "quarantine_record_not_authoritative",
+      "do_not_auto_import",
+      "do_not_auto_execute",
+      "do_not_auto_forward"
+    ]
+
+    on_external_action_request: [
+      "reject_request",
+      "emit_local_policy_violation",
+      "retain_external_action_authorized_false"
+    ]
+
+    on_material_change: [
+      "preserve_prior_policy_sha256",
+      "record_proposed_policy_sha256",
+      "require_local_review",
+      "block_unreviewed_activation"
+    ]
+
+    does_not_claim: [
+      "universal_tamper_prevention",
+      "external_actor_detection",
+      "real_world_companion_protection",
+      "real_world_nanoswarm_protection",
+      "external_system_control"
+    ]
+  }
+
+  @SHARED_VOCABULARY {
+    vocabulary_name: "LocalCompanionArtifactVocabulary"
+
+    term_requires: [
+      "term",
+      "plain_language_definition",
+      "declared_role",
+      "bounded_meaning",
+      "prohibited_interpretations",
+      "vocabulary_version",
+      "vocabulary_sha256"
+    ]
+
+    vocabulary_categories: [
+      "artifact_integrity",
+      "provenance",
+      "privacy",
+      "continuity",
+      "companion_context",
+      "access",
+      "non_interference"
+    ]
+
+    required_companion_context_terms: [
+      "CAR",
+      "CCE",
+      "DCR",
+      "CCS",
+      "CCD",
+      "LCT",
+      "BQE",
+      "CPI",
+      "CCA",
+      "DCN"
+    ]
+
+    term_must_not: [
+      "encode_identity",
+      "encode_capability",
+      "encode_medical_or_neural_status",
+      "encode_person_or_system_rank",
+      "create_public_status",
+      "authorize_external_action"
+    ]
+
+    vocabulary_change_requires: [
+      "new_vocabulary_version",
+      "new_vocabulary_sha256",
+      "material_change_review",
+      "plain_language_change_summary",
+      "prior_version_preserved"
+    ]
+
+    shared_meaning_scope: "declared_local_protocol_only"
+    shared_meaning_is_not_external_interpretation_proof: true
+  }
+
+  @NON_INTERFERENCE {
+    never_auto_fetch: true
+    never_auto_upload: true
+    never_auto_open_network_socket: true
+    never_auto_pair_hardware: true
+    never_auto_scan_devices: true
+    never_auto_execute_artifact_content: true
+    never_modify_user_owned_artifacts: true
+    never_modify_repository_files: true
+    never_trigger_external_action: true
+    never_trigger_external_notification: true
+    never_require_identity_or_private_disclosure: true
+    never_infer_user_intent_or_capability: true
+    never_rank_users_sessions_or_companion_contexts: true
+  }
+
+  @ACCESS_EQUIVALENCE {
+    plain_language_summary_required: true
+    machine_readable_record_required: true
+    offline_readable: true
+    no_account_required: true
+    no_identity_verification_required: true
+    no_private_system_disclosure_required: true
+    correction_and_appeal_available: true
+    material_change_review_available: true
+  }
+
+  @PROHIBITED_USES {
+    list: [
+      "companion_identity_verification",
+      "nanoswarm_verification",
+      "companion_scoring",
+      "companion_ranking",
+      "user_or_session_scoring",
+      "medical_or_neural_inference",
+      "hardware_control",
+      "external_service_control",
+      "automatic_external_action",
+      "automatic_external_notification",
+      "public_companion_registry",
+      "forced_disclosure",
+      "forced_inactivity",
+      "real_world_system_existence_claim"
+    ]
+  }
+}

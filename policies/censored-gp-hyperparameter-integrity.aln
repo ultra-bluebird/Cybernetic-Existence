@@ -1,0 +1,41 @@
+policy_name = "censored_gp_hyperparameter_integrity"
+policy_version = "1.0"
+record_class = "censored_gp_model_assessment"
+purpose = "Prevent ignored left censoring from being represented as a validated Gaussian-process hyperparameter estimate."
+consent_scope = "local_validation_and_non_actuating_research_only"
+retention = "bounded_by_repository_retention_policy"
+deletion = "remove_derived_model_assessment_records_when_no_longer_required"
+accountability = "method_review_and_analytical_quality_review"
+review_status = "required_when_censoring_is_present"
+access_equivalence_safeguard = "plain_language_censoring_effect_and_model_sensitivity_summary"
+external_action_approval = "prohibited"
+
+require external_action_authorized == false
+
+require censoring_model_state in [
+    "NO_CENSORING_PRESENT",
+    "TOBIT_LIKELIHOOD_FITTED",
+    "CENSORING_SENSITIVITY_MATERIAL",
+    "CENSORING_MODEL_INADEQUATE",
+    "METHOD_REVIEW_REQUIRED"
+]
+
+require censoring_pattern_assessed contains "SPACE"
+require censoring_pattern_assessed contains "TIME"
+require censoring_pattern_assessed contains "BATCH"
+
+when left_censored_observation_count > 0:
+    require censoring_model_state not_in ["NO_CENSORING_PRESENT"]
+    require tobit_or_equivalent_likelihood_used == true
+    require censoring_sensitivity_report_digest is_not_null
+
+when censoring_model_state in [
+    "CENSORING_SENSITIVITY_MATERIAL",
+    "CENSORING_MODEL_INADEQUATE",
+    "METHOD_REVIEW_REQUIRED"
+]:
+    require causal_effect_promotion_allowed == false
+    require event_flux_promotion_allowed == false
+    require design_evidence_promotion_allowed == false
+
+deny when external_action_authorized == true

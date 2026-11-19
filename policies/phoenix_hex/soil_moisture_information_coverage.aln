@@ -1,0 +1,52 @@
+module SoilMoistureInformationCoverage
+
+type Scalar = Float
+type UnitInterval = Float
+
+record CandidateSensor {
+  sensor_id: Text
+  hex_id: Text
+  installation_cost: Scalar
+  annual_maintenance_cost: Scalar
+  estimated_information_gain: Scalar
+  information_confidence_lower: Scalar
+  calibration_status: Text
+  ecological_review_status: Text
+  installation_permission_status: Text
+  coordinate_precision_class: Text
+}
+
+record CoverageRequirement {
+  stratum_id: Text
+  minimum_sensor_count: Integer
+  selected_sensor_count: Integer
+}
+
+invariant ValidCandidateSensor(sensor: CandidateSensor) =
+  sensor.sensor_id != "" and
+  sensor.hex_id != "" and
+  sensor.installation_cost >= 0.0 and
+  sensor.annual_maintenance_cost >= 0.0 and
+  sensor.estimated_information_gain >= 0.0 and
+  sensor.information_confidence_lower >= 0.0 and
+  sensor.calibration_status = "approved" and
+  sensor.ecological_review_status = "approved" and
+  sensor.installation_permission_status = "approved"
+
+invariant InformationValueRequiresConfidence(sensor: CandidateSensor) =
+  sensor.estimated_information_gain > 0.0 implies
+  sensor.information_confidence_lower > approved_information_minimum
+
+invariant CoverageFloor(requirement: CoverageRequirement) =
+  requirement.selected_sensor_count >= requirement.minimum_sensor_count
+
+invariant SensitiveLocationMinimization(sensor: CandidateSensor) =
+  sensor.coordinate_precision_class in [
+    "public_generalized",
+    "restricted_exact"
+  ]
+
+invariant NoIndividualProfiling =
+  sensor_selection_uses_personal_identity = false and
+  sensor_selection_uses_health_data = false and
+  sensor_selection_uses_biometric_data = false

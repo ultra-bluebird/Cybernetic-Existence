@@ -1,0 +1,67 @@
+module HexShadeDeficitTargets
+
+type Scalar = Float
+type UnitInterval = Float
+
+record ShadeDeficitResult {
+  hex_id: Text
+  surface_id: Text
+  direct_irradiance_weighted_shade_fraction: UnitInterval
+  shade_deficit_index: UnitInterval
+  result_quality: UnitInterval
+  solar_geometry_method_version: Text
+  accessibility_review_status: Text
+  public_access_verified: Boolean
+}
+
+record ShadePlanningCandidate {
+  hex_id: Text
+  peak_window_sdi: UnitInterval
+  shade_target_sdi: UnitInterval
+  water_access_review_status: Text
+  seating_access_review_status: Text
+  maintenance_capacity_status: Text
+  ecological_review_status: Text
+  planning_status: Text
+}
+
+invariant ValidShadeDeficit(result: ShadeDeficitResult) =
+  result.hex_id != "" and
+  result.surface_id != "" and
+  result.direct_irradiance_weighted_shade_fraction >= 0.0 and
+  result.direct_irradiance_weighted_shade_fraction <= 1.0 and
+  result.shade_deficit_index >= 0.0 and
+  result.shade_deficit_index <= 1.0 and
+  result.result_quality >= 0.90 and
+  result.solar_geometry_method_version != ""
+
+invariant ShadeDeficitComplementarity(result: ShadeDeficitResult) =
+  abs(
+    result.shade_deficit_index +
+    result.direct_irradiance_weighted_shade_fraction -
+    1.0
+  ) <= 0.000001
+
+invariant PlanningRequiresAccessiblePublicBenefit(
+  result: ShadeDeficitResult,
+  candidate: ShadePlanningCandidate
+) =
+  candidate.planning_status = "approved_for_planning" implies
+  result.public_access_verified and
+  result.accessibility_review_status = "approved" and
+  candidate.water_access_review_status = "approved" and
+  candidate.seating_access_review_status = "approved" and
+  candidate.maintenance_capacity_status = "approved" and
+  candidate.ecological_review_status = "approved"
+
+invariant SDIIsNotServiceEligibility =
+  shade_deficit_used_for_service_eligibility = false and
+  shade_deficit_used_for_public_space_exclusion = false
+
+invariant ShadeTargetIsPlanningOnly =
+  shade_target_exceedance_action in [
+    "collect_field_validation",
+    "request_accessibility_review",
+    "request_public_works_review",
+    "consider_shade_intervention"
+  ]

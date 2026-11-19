@@ -1,0 +1,263 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hearthline.example/policies/access-parity-gate-and-ranking-void-policy.json",
+  "title": "HearthlineAccessParityGateAndRankingVoidPolicy",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "policyId",
+    "version",
+    "publishedAt",
+    "accessParityGate",
+    "rankingVoidProtocol",
+    "discoveryOrdering",
+    "localOnlyBoundary",
+    "externalActionAuthorized"
+  ],
+  "properties": {
+    "policyId": {
+      "type": "string",
+      "const": "hearthline-access-parity-gate-and-ranking-void-policy"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^v[0-9]+$"
+    },
+    "publishedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "accessParityGate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "requiredForEveryFeature",
+        "criticalOutcomes",
+        "requiredParityDimensions",
+        "individualHarmOverridesAggregateClaim",
+        "releaseBlockedOnFailure"
+      ],
+      "properties": {
+        "requiredForEveryFeature": {
+          "type": "boolean",
+          "const": true
+        },
+        "criticalOutcomes": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "enum": [
+              "consent_withdrawal",
+              "privacy_control",
+              "safety_report",
+              "appeal",
+              "accessibility_preference",
+              "account_recovery"
+            ]
+          }
+        },
+        "requiredParityDimensions": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "enum": [
+              "capability",
+              "interaction",
+              "process",
+              "burden",
+              "privacy_risk",
+              "safety_risk",
+              "dignity",
+              "outcome_opportunity"
+            ]
+          }
+        },
+        "individualHarmOverridesAggregateClaim": {
+          "type": "boolean",
+          "const": true
+        },
+        "releaseBlockedOnFailure": {
+          "type": "boolean",
+          "const": true
+        }
+      }
+    },
+    "rankingVoidProtocol": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "persistentPersonLevelRankProhibited",
+        "persistentPersonLevelScoreProhibited",
+        "reputationProhibited",
+        "contextualOrderingOnly",
+        "prohibitedConcepts",
+        "prohibitedInputs"
+      ],
+      "properties": {
+        "persistentPersonLevelRankProhibited": {
+          "type": "boolean",
+          "const": true
+        },
+        "persistentPersonLevelScoreProhibited": {
+          "type": "boolean",
+          "const": true
+        },
+        "reputationProhibited": {
+          "type": "boolean",
+          "const": true
+        },
+        "contextualOrderingOnly": {
+          "type": "boolean",
+          "const": true
+        },
+        "prohibitedConcepts": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "enum": [
+              "desirability",
+              "popularity",
+              "trust",
+              "safety_score",
+              "risk_score",
+              "commercial_risk",
+              "compatibility_score",
+              "legal_risk",
+              "morality_score",
+              "attention_score",
+              "response_likelihood",
+              "profile_quality",
+              "eligibility_score",
+              "visibility_weight",
+              "priority_coefficient",
+              "engagement_index"
+            ]
+          }
+        },
+        "prohibitedInputs": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "enum": [
+              "response_speed",
+              "presence_state",
+              "read_receipt",
+              "typing_state",
+              "profile_clicks",
+              "photo_quality",
+              "engagement_metric",
+              "payment_status",
+              "private_message",
+              "private_intimacy_data",
+              "health",
+              "recovery",
+              "financial_status",
+              "identity_inference",
+              "device_data",
+              "precise_location",
+              "vulnerability_inference"
+            ]
+          }
+        }
+      }
+    },
+    "discoveryOrdering": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "eligibilityPrecedesOrdering",
+        "orderingCannotChangeEligibility",
+        "userInspectable",
+        "responseExpiring",
+        "persistentSortHistoryProhibited",
+        "surfaceCapsRequired",
+        "paidVisibilityProhibited",
+        "aperturePopulationThresholdRequired"
+      ],
+      "properties": {
+        "eligibilityPrecedesOrdering": {
+          "type": "boolean",
+          "const": true
+        },
+        "orderingCannotChangeEligibility": {
+          "type": "boolean",
+          "const": true
+        },
+        "userInspectable": {
+          "type": "boolean",
+          "const": true
+        },
+        "responseExpiring": {
+          "type": "boolean",
+          "const": true
+        },
+        "persistentSortHistoryProhibited": {
+          "type": "boolean",
+          "const": true
+        },
+        "surfaceCapsRequired": {
+          "type": "boolean",
+          "const": true
+        },
+        "paidVisibilityProhibited": {
+          "type": "boolean",
+          "const": true
+        },
+        "aperturePopulationThresholdRequired": {
+          "type": "boolean",
+          "const": true
+        }
+      }
+    },
+    "localOnlyBoundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "networkTransmissionProhibited",
+        "analyticsProhibited",
+        "serviceWorkerSyncProhibited",
+        "thirdPartyScriptsProhibited",
+        "counterpartLinkageProhibited",
+        "syntheticDataTestsRequired"
+      ],
+      "properties": {
+        "networkTransmissionProhibited": {
+          "type": "boolean",
+          "const": true
+        },
+        "analyticsProhibited": {
+          "type": "boolean",
+          "const": true
+        },
+        "serviceWorkerSyncProhibited": {
+          "type": "boolean",
+          "const": true
+        },
+        "thirdPartyScriptsProhibited": {
+          "type": "boolean",
+          "const": true
+        },
+        "counterpartLinkageProhibited": {
+          "type": "boolean",
+          "const": true
+        },
+        "syntheticDataTestsRequired": {
+          "type": "boolean",
+          "const": true
+        }
+      }
+    },
+    "externalActionAuthorized": {
+      "type": "boolean",
+      "const": false
+    }
+  }
+}

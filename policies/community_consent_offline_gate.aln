@@ -1,0 +1,73 @@
+policy CommunityConsentOfflineGate version 1
+
+scope:
+  applies_to: community_affecting_environmental_system
+  requires_offline_access: true
+  prohibits_required_proprietary_account: true
+  prohibits_required_biometric_identity: true
+
+indicators:
+  prior_consultation: required
+  informed_comprehension: required
+  revocability_mechanism: required
+  accessible_alternatives: required
+  independent_review: required
+  grievance_resolution: required
+  data_transparency: required
+  benefit_distribution_equity: required
+
+evidence_requirements:
+  prior_consultation:
+    - dated_public_notice
+    - accessible_agenda
+    - meeting_record
+    - response_to_comment_register
+  informed_comprehension:
+    - plain_language_packet
+    - accessible_format_packet
+    - teach_back_record
+  revocability_mechanism:
+    - printed_withdrawal_form
+    - in_person_withdrawal_route
+    - withdrawal_register
+  accessible_alternatives:
+    - printed_alternatives_matrix
+    - physical_wayfinding
+    - non_digital_access_instructions
+  independent_review:
+    - reviewer_charter
+    - conflict_declaration
+    - signed_review_finding
+  grievance_resolution:
+    - paper_grievance_form
+    - secure_intake_route
+    - grievance_case_register
+    - appeal_path
+  data_transparency:
+    - printed_data_inventory
+    - retention_register
+    - offline_read_only_kiosk
+    - removable_media_export
+  benefit_distribution_equity:
+    - public_allocation_rubric
+    - benefit_distribution_ledger
+    - accessibility_impact_assessment
+
+gate:
+  consent_allowed:
+    all:
+      - prior_consultation
+      - informed_comprehension
+      - revocability_mechanism
+      - accessible_alternatives
+      - independent_review
+      - grievance_resolution
+      - data_transparency
+      - benefit_distribution_equity
+
+invariants:
+  missing_evidence_blocks_operation: true
+  revoked_consent_blocks_affected_scope: true
+  material_scope_change_requires_new_consultation: true
+  essential_service_access_requires_no_optional_telemetry: true
+  audit_export_available_without_network: true

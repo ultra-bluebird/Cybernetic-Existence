@@ -1,0 +1,78 @@
+policy ArAccessibilityPatterns version "2026-09-17" {
+
+  purpose {
+    data_class = ACCESSIBLE_SESSION_LOCAL_AR_INTERACTION
+    permitted_use = MULTIMODAL_AR_PRESENTATION
+    permitted_use = ACCESSIBLE_AR_CONTROL
+    prohibited_use = REQUIRED_BODILY_MOVEMENT
+    prohibited_use = REQUIRED_SPEECH
+    prohibited_use = REQUIRED_VISION
+    prohibited_use = REQUIRED_HEARING
+    prohibited_use = IDENTITY_INFERENCE
+  }
+
+  invariant every_object_has_a_comparable_non_ar_path {
+    require accessibility.non_ar_equivalent_available == true
+    require accessibility.equivalent_purpose_preserved == true
+    require accessibility.core_service_requires_ar_allowed == false
+    require accessibility.core_service_requires_camera_allowed == false
+    require accessibility.core_service_requires_headset_allowed == false
+  }
+
+  invariant output_is_multimodal_and_configurable {
+    require output.audio_description_available == true
+    require output.text_equivalent_available == true
+    require output.haptic_feedback_available == true
+    require output.visual_contrast_adaptive_available == true
+    require output.motion_reduction_available == true
+    require output.user_selected_output_preference_supported == true
+    require output.visual_only_critical_information_allowed == false
+    require output.audio_only_critical_information_allowed == false
+  }
+
+  invariant input_is_motion_agnostic {
+    require input.touch_path_available == true
+    require input.keyboard_or_switch_path_available == true
+    require input.non_motion_path_available == true
+    require input.voice_path_optional == true
+    require input.gesture_path_optional == true
+    require input.camera_tracking_required == false
+    require input.hand_tracking_required == false
+    require input.eye_tracking_required == false
+    require input.head_movement_required == false
+    require input.speech_required == false
+  }
+
+  invariant cognitive_load_is_bounded {
+    require cognition.plain_language_mode_available == true
+    require cognition.pacing_control_available == true
+    require cognition.pause_control_available == true
+    require cognition.replay_or_repeat_available == true
+    require cognition.time_pressure_required == false
+    require cognition.unexplained_auto_advance_allowed == false
+    require cognition.critical_instruction_chunking_available == true
+  }
+
+  invariant controls_remain_accessible {
+    require control.stop_control_always_visible == true
+    require control.stop_control_keyboard_or_switch_available == true
+    require control.stop_control_immediate == true
+    require control.stop_control_confirmation_required == false
+    require control.stop_control_penalty_allowed == false
+  }
+
+  invariant accessibility_preferences_remain_private {
+    require preference.user_selected_scope_only == true
+    require preference.identity_inference_allowed == false
+    require preference.health_inference_allowed == false
+    require preference.disability_inference_allowed == false
+    require preference.augmentation_inference_allowed == false
+    require preference.used_for_scoring_allowed == false
+    require preference.used_for_eligibility_allowed == false
+    require preference.cross_session_retention_allowed == false
+  }
+
+  invariant ar_accessibility_is_non_actuating {
+    require accessibility.external_action_authorized == false
+  }
+}

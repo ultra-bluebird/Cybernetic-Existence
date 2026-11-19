@@ -1,0 +1,151 @@
+policy CommunityEcoMonitoringGovernance version "1.0.0" {
+  purpose "Validate community ecological observations while protecting contributor privacy, autonomy, accessibility, and scientific integrity."
+
+  data_class observation_record {
+    sensitivity "sensitive"
+    allowed_fields [
+      "category",
+      "coarse_time",
+      "privacy_transformed_location",
+      "measurement",
+      "calibration_evidence",
+      "consent_receipt",
+      "encrypted_audit_commitment"
+    ]
+    prohibited_fields [
+      "civil_identity",
+      "biometric_data",
+      "neural_data",
+      "augmentation_status",
+      "health_data",
+      "device_advertising_identifier",
+      "ip_address_in_public_export",
+      "exact_location_in_public_export",
+      "demographic_inference"
+    ]
+    retention {
+      default_days 730
+      deletion_on_withdrawal true
+      preserve_only_aggregate_audit_evidence true
+    }
+  }
+
+  consent contribution_consent {
+    required true
+    explicit true
+    informed true
+    specific true
+    revocable true
+    accessible_explanation_required true
+    offline_submission_equivalence_required true
+    scope [
+      "receive_observation",
+      "perform_quality_assessment",
+      "issue_requested_credential",
+      "publish_approved_aggregate_data"
+    ]
+  }
+
+  credential contribution_credential {
+    issuer_must_be_authorized true
+    holder_identifier "pairwise_or_blinded"
+    allow_unlinkable_presentation true
+    forbid_identity_claims true
+    forbid_exact_location_claims true
+    forbid_demographic_claims true
+    status_check_required true
+    expiration_required true
+    revocation_for [
+      "proven_fraud",
+      "material_measurement_contamination",
+      "holder_requested_withdrawal",
+      "credential_issuance_error"
+    ]
+  }
+
+  assessment credibility_assessment {
+    basis [
+      "corroboration",
+      "calibration",
+      "independent_review",
+      "measurement_completeness",
+      "documented_uncertainty"
+    ]
+    forbidden_basis [
+      "identity",
+      "age",
+      "disability",
+      "cybernetic_host_status",
+      "race",
+      "ethnicity",
+      "gender",
+      "income",
+      "neighborhood_residency",
+      "credential_wallet_count"
+    ]
+    explanation_required true
+    appeal_available true
+    human_review_available true
+  }
+
+  verification sampling {
+    minimum_random_audit_rate 0.05
+    adaptive_escalation_inputs [
+      "uncertainty",
+      "ecological_harm_risk",
+      "novelty",
+      "cross_source_disagreement"
+    ]
+    stratification_required [
+      "contribution_class",
+      "instrument_class",
+      "risk_tier",
+      "verification_pathway"
+    ]
+    silent_deprioritization_forbidden true
+  }
+
+  incentives community_support {
+    permitted [
+      "accessible_kiosk_deployment",
+      "loaner_equipment",
+      "calibration_resources",
+      "multilingual_training",
+      "community_stewardship_grants",
+      "verified_learning_recognition"
+    ]
+    prohibited [
+      "essential_service_conditioning",
+      "cash_equivalent_per_observation",
+      "rare_species_bounty",
+      "identity_linked_social_score",
+      "unbounded_submission_rewards",
+      "public_contributor_ranking"
+    ]
+    appeal_available true
+  }
+
+  audit {
+    append_only_hash_chain true
+    raw_records_encrypted true
+    public_output [
+      "policy_version",
+      "aggregate_quality_metrics",
+      "verification_method_counts",
+      "appeal_outcomes_aggregated",
+      "environmental_impact_summary"
+    ]
+    public_output_must_not_include [
+      "holder_identifier",
+      "exact_location",
+      "raw_media",
+      "identity_linkage"
+    ]
+  }
+
+  external_action {
+    credential_issuance_requires_approval "automated_policy_and_authorized_issuer"
+    public_data_release_requires_approval "privacy_review_and_community_governance"
+    reward_disbursement_requires_approval "published_program_rules_and_accessible_appeal_path"
+  }
+}

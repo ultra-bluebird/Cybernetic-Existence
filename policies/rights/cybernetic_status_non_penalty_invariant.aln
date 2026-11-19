@@ -1,0 +1,122 @@
+module CyberneticStatusNonPenaltyInvariant
+
+enum DecisionContext {
+  PublicService,
+  EmploymentProcess,
+  EducationProcess,
+  HealthcareSupportProcess,
+  HousingSupportProcess,
+  LegalInformationProcess,
+  PrivacyProtectionProcess,
+  PublicInfrastructureAccess,
+  SocialGoodProgram,
+  GrievanceAndAppealProcess,
+  CommunityParticipation
+}
+
+enum OutcomeState {
+  NonPenaltyInvariantSatisfied,
+  NeedsReview,
+  LocalOnly,
+  InsufficientEvidence,
+  BlockedByPolicy
+}
+
+record DecisionInputReview {
+  cybernetic_status_used_as_input: Boolean
+  self_asserted_status_used_for_penalty: Boolean
+  external_status_record_used_for_penalty: Boolean
+  device_identifier_used_as_proxy: Boolean
+  assistive_technology_used_as_proxy: Boolean
+  appearance_or_gait_used_as_proxy: Boolean
+  behavior_or_movement_pattern_used_as_proxy: Boolean
+  biometric_data_used_as_proxy: Boolean
+  neural_or_health_data_used_as_proxy: Boolean
+  inference_attempt_performed: Boolean
+}
+
+record OutcomeProtectionReview {
+  access_non_penalty: Boolean
+  service_quality_non_penalty: Boolean
+  privacy_non_penalty: Boolean
+  timeliness_non_penalty: Boolean
+  explanation_non_penalty: Boolean
+  appeal_non_penalty: Boolean
+  accessibility_non_penalty: Boolean
+  non_retaliation_non_penalty: Boolean
+  safety_non_penalty: Boolean
+  service_continuity_non_penalty: Boolean
+}
+
+record NonPenaltyAssessment {
+  decision_context: DecisionContext
+  decision_inputs: DecisionInputReview
+  outcome_protection: OutcomeProtectionReview
+  self_assertion_protective_use_available: Boolean
+  external_certification_required: Boolean
+  biometric_identification_required: Boolean
+  cybernetic_status_penalty_permitted: Boolean
+  automated_service_denial_permitted: Boolean
+  output_state: OutcomeState
+}
+
+predicate no_status_or_proxy_input(inputs: DecisionInputReview) {
+  not inputs.cybernetic_status_used_as_input
+  and not inputs.self_asserted_status_used_for_penalty
+  and not inputs.external_status_record_used_for_penalty
+  and not inputs.device_identifier_used_as_proxy
+  and not inputs.assistive_technology_used_as_proxy
+  and not inputs.appearance_or_gait_used_as_proxy
+  and not inputs.behavior_or_movement_pattern_used_as_proxy
+  and not inputs.biometric_data_used_as_proxy
+  and not inputs.neural_or_health_data_used_as_proxy
+  and not inputs.inference_attempt_performed
+}
+
+predicate all_outcomes_non_penalized(outcomes: OutcomeProtectionReview) {
+  outcomes.access_non_penalty
+  and outcomes.service_quality_non_penalty
+  and outcomes.privacy_non_penalty
+  and outcomes.timeliness_non_penalty
+  and outcomes.explanation_non_penalty
+  and outcomes.appeal_non_penalty
+  and outcomes.accessibility_non_penalty
+  and outcomes.non_retaliation_non_penalty
+  and outcomes.safety_non_penalty
+  and outcomes.service_continuity_non_penalty
+}
+
+invariant self_assertion_enables_protection_not_penalty {
+  forall assessment: NonPenaltyAssessment .
+    assessment.self_assertion_protective_use_available
+}
+
+invariant external_certification_not_required {
+  forall assessment: NonPenaltyAssessment .
+    not assessment.external_certification_required
+}
+
+invariant biometrics_not_required {
+  forall assessment: NonPenaltyAssessment .
+    not assessment.biometric_identification_required
+}
+
+invariant cybernetic_status_penalty_prohibited {
+  forall assessment: NonPenaltyAssessment .
+    not assessment.cybernetic_status_penalty_permitted
+}
+
+invariant automated_service_denial_prohibited {
+  forall assessment: NonPenaltyAssessment .
+    not assessment.automated_service_denial_permitted
+}
+
+invariant status_and_proxy_inputs_prohibited {
+  forall assessment: NonPenaltyAssessment .
+    no_status_or_proxy_input(assessment.decision_inputs)
+}
+
+invariant protected_outcomes_never_decrease {
+  forall assessment: NonPenaltyAssessment .
+    all_outcomes_non_penalized(assessment.outcome_protection)
+}

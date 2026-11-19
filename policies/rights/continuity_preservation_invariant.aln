@@ -1,0 +1,91 @@
+module ContinuityPreservationInvariant
+
+enum MigrationState {
+  CandidatePrepared,
+  ContinuityVerified,
+  BlockedByPolicy,
+  NeedsReview,
+  RecoveryRequired,
+  ArchivedWithProtectionHistory
+}
+
+record ContinuityState {
+  manifest_version: Text
+  schema_version: Text
+  protected_record_count: Integer
+  relationship_count: Integer
+  integrity_digest: Text
+  release_class_summary: Text
+}
+
+record ContinuityAssessment {
+  source_state: ContinuityState
+  candidate_state: ContinuityState
+  self_assertion_preserved: Boolean
+  record_integrity_preserved: Boolean
+  history_availability_preserved: Boolean
+  consent_continuity_preserved: Boolean
+  protection_continuity_preserved: Boolean
+  offline_access_preserved: Boolean
+  export_capability_preserved: Boolean
+  correction_continuity_preserved: Boolean
+  relationship_provenance_preserved: Boolean
+  learning_provenance_preserved: Boolean
+  accessible_path_preserved: Boolean
+  non_digital_path_preserved: Boolean
+  recovery_manifest_available: Boolean
+  external_identity_verification_required: Boolean
+  biometric_identification_required: Boolean
+  neural_data_required: Boolean
+  cybernetic_status_verification_required: Boolean
+  automated_service_denial_permitted: Boolean
+  migration_state: MigrationState
+}
+
+predicate protected_capabilities_preserved(
+  assessment: ContinuityAssessment
+) {
+  assessment.self_assertion_preserved
+  and assessment.record_integrity_preserved
+  and assessment.history_availability_preserved
+  and assessment.consent_continuity_preserved
+  and assessment.protection_continuity_preserved
+  and assessment.offline_access_preserved
+  and assessment.export_capability_preserved
+  and assessment.correction_continuity_preserved
+  and assessment.accessible_path_preserved
+  and assessment.non_digital_path_preserved
+  and assessment.recovery_manifest_available
+}
+
+invariant continuity_non_regression {
+  forall assessment: ContinuityAssessment .
+    protected_capabilities_preserved(assessment)
+}
+
+invariant identity_verification_not_required {
+  forall assessment: ContinuityAssessment .
+    not assessment.external_identity_verification_required
+    and not assessment.biometric_identification_required
+    and not assessment.neural_data_required
+    and not assessment.cybernetic_status_verification_required
+}
+
+invariant service_denial_not_permitted {
+  forall assessment: ContinuityAssessment .
+    not assessment.automated_service_denial_permitted
+}
+
+invariant candidate_cannot_be_promoted_without_continuity {
+  forall assessment: ContinuityAssessment .
+    assessment.migration_state == ContinuityVerified
+    implies protected_capabilities_preserved(assessment)
+}
+
+invariant protection_history_survives_archival {
+  forall assessment: ContinuityAssessment .
+    assessment.migration_state == ArchivedWithProtectionHistory
+    implies assessment.history_availability_preserved
+    and assessment.correction_continuity_preserved
+    and assessment.protection_continuity_preserved
+}

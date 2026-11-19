@@ -1,0 +1,65 @@
+policy: accessible_explanation_requirement
+version: 2.0.0
+data_class: accessibility_and_public_explanation_governance_policy
+purpose: require plain-language, multilingual, and alternative-format explanations for technical decisions, KER states, corridor outcomes, public-service status, and eco-benefit claims
+consent_scope: no_personal_data_required_for_standard_explanation_access
+retention: retain_explanation_content_versions_and_aggregate_coverage_records_for_configured_accessibility_review_period
+deletion: delete_nonessential_delivery_events_after_retention_expiry_without_user_linkage
+accountability: explanation_version_review_accessible_feedback_human_help_route_and_coverage_audit
+review_status: approved_explanation_required_before_designated_delivery_status
+access_equivalence_safeguards: explanations_must_be_available_without_identity_verification_account_requirement_or_device_tracking
+external_action_approval: required_before_external_export_of_non_public_feedback_or_content
+
+explanation_required:
+  applies_to:
+    - ker_status
+    - corridor_decision
+    - workload_denial
+    - water_stress_state
+    - heat_alert_state
+    - cooling_center_service_status
+    - eco_benefit_claim_status
+    - public_reserve_decision
+    - appeal_path
+  mandatory: true
+  minimum_requirements:
+    - machine_readable_explanation_code
+    - plain_language_text
+    - short_summary
+    - language_selection
+    - screen_reader_optimized_format
+    - large_print_or_scalable_text
+    - human_help_route
+  preferred_alternatives:
+    - audio
+    - symbol_supported_format
+    - easy_read_version
+  prohibit:
+    - explanation_omission
+    - explanation_only_in_technical_language
+    - identity_gate_for_explanation
+    - fee_gate_for_explanation
+    - visual_only_explanation
+
+rules:
+  - id: missing-accessible-explanation
+    when: explanation_required_for_decision_and_no_approved_mapping_exists
+    result:
+      decision_presentation_status: withheld_or_human_help_route_required
+      explanation_code: ACCESSIBLE_EXPLANATION_MAPPING_MISSING
+    require:
+      - human_help_route
+      - accessible_feedback_path
+      - mapping_creation_review
+    prohibit:
+      - presenting_unexplained_adverse_decision_as_final
+
+  - id: fallback-explanation
+    when: exact_explanation_mapping_not_available
+    require:
+      - approved_generic_plain_language_fallback
+      - state_that_more_detail_is_available_through_human_help_route
+      - no_user_identity_collection
+    prohibit:
+      - technical_jargon_only_response
+      - silence

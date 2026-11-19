@@ -1,0 +1,121 @@
+aln_version 2
+particle AccessibilityMultilingualEnergy20260907
+data_class accessibility_template_energy_measurement_governance
+purpose [
+  simulated_accessibility_validation,
+  community_reviewed_multilingual_correction_templates,
+  energy_telemetry_for_pareto_window_selection
+]
+mode advisory_only
+external_action_approval required
+review_status human_review_required
+
+governance {
+  human_fallback required
+  correction_path required
+  appeal_path required
+  material_change_review required
+  access_equivalence required
+  cybernetic_host_non_discrimination required
+  disability_non_discrimination required
+  identity_inference prohibited
+  disability_inference prohibited
+  eligibility_inference prohibited
+}
+
+accessibility_simulation {
+  test_subject template_variant_and_static_fixture_only
+  require accessibility_tree_snapshot true
+  require heading_hierarchy_check true
+  require label_association_check true
+  require keyboard_flow_check true
+  require no_keyboard_trap_check true
+  require focus_order_check true
+  require magnification_layout_check true
+  require no_time_pressure_check true
+  require screen_reader_semantic_check true
+  require no_personal_data_check true
+  non_compensation_required true
+  forbid real_user_session_collection
+  forbid device_identifier_collection
+  forbid browser_fingerprint_collection
+  forbid keystroke_stream_collection
+  forbid assistive_technology_user_profiling
+  forbid disability_inference
+}
+
+multilingual_templates {
+  language_tag_standard BCP_47
+  closed_template_engine required
+  automatic_translation_as_final_public_copy prohibited
+  require community_review_before_publication true
+  require accessibility_review_before_publication true
+  require plain_language_review_before_publication true
+  require correction_path_available true
+  missing_locale_result LANGUAGE_VARIANT_REVIEW_REQUIRED
+  require human_assistance_available true
+  allowed_statuses [
+    DRAFT,
+    REVIEW_PENDING,
+    COMMUNITY_REVIEWED,
+    ACCESSIBILITY_REVIEWED,
+    APPROVED_FOR_PUBLICATION,
+    RETIRED
+  ]
+  forbid personal_data_in_template
+  forbid urls
+  forbid commands
+  forbid hidden_thresholds
+  forbid system_internal_details
+  forbid proof_requirement
+}
+
+energy_telemetry {
+  energy_unit J
+  require software_boundary_description true
+  require functional_unit_description true
+  require measurement_method true
+  allowed_measurement_methods [
+    DEVICE_TELEMETRY,
+    HOST_ENERGY_ESTIMATE,
+    LAB_MEASUREMENT,
+    MODELED_ESTIMATE
+  ]
+  require method_review true
+  require dataset_size_positive true
+  require uncertainty_absolute_j true
+  require uncertainty_ratio true
+  require telemetry_or_estimate_revision true
+  energy_per_record_formula "energy_j / dataset_record_count"
+  energy_per_second_formula "energy_j / elapsed_seconds"
+  missing_energy_result PARETO_ENERGY_OBJECTIVE_UNAVAILABLE
+  unknown_energy_is_zero prohibited
+  pareto_full_non_dominated_front_required true
+  human_selected_weights_required true
+}
+
+privacy {
+  minimum_necessary_data required
+  purpose_limitation required
+  retention_bounded required
+  no_personal_data_collection true
+  no_biometric_data_collection true
+  no_device_tracking true
+  no_browser_fingerprinting true
+  no_identity_inference true
+  no_disability_inference true
+}
+
+invariants {
+  no_network_interface_in_test_kernel true
+  no_hardware_control true
+  no_actuator_interface true
+  no_credentials true
+  no_individual_ranking true
+  no_community_ranking true
+  no_resource_allocation true
+  no_eligibility_determination true
+  no_automatic_clear true
+  no_digital_twin true
+  advisory_output_is_not_operational_command true
+}

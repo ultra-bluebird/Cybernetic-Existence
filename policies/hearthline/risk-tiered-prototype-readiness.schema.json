@@ -1,0 +1,183 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hearthline.example/policies/risk-tiered-prototype-readiness.schema.json",
+  "title": "HearthlineRiskTieredPrototypeReadiness",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "policyId",
+    "version",
+    "publishedAt",
+    "readinessStatement",
+    "riskTiers",
+    "artifactClasses",
+    "reviewRoles",
+    "externalActionAuthorized"
+  ],
+  "properties": {
+    "policyId": {
+      "type": "string",
+      "const": "hearthline-risk-tiered-prototype-readiness"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^v[0-9]+$"
+    },
+    "publishedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "readinessStatement": {
+      "type": "string",
+      "minLength": 120,
+      "maxLength": 2400
+    },
+    "riskTiers": {
+      "type": "array",
+      "minItems": 5,
+      "maxItems": 5,
+      "items": {
+        "$ref": "#/$defs/riskTier"
+      }
+    },
+    "artifactClasses": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "enum": [
+          "exploration_artifact",
+          "boundary_artifact",
+          "evidence_artifact",
+          "accountability_artifact",
+          "participant_protection_artifact",
+          "operational_release_artifact",
+          "systemic_review_artifact"
+        ]
+      }
+    },
+    "reviewRoles": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "enum": [
+          "feature_owner",
+          "halt_authority",
+          "privacy_security_reviewer",
+          "accessibility_reviewer",
+          "legal_policy_reviewer",
+          "participant_protection_reviewer",
+          "governance_decision_reviewer"
+        ]
+      }
+    },
+    "externalActionAuthorized": {
+      "type": "boolean",
+      "const": false
+    }
+  },
+  "$defs": {
+    "riskTier": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "permittedScope",
+        "prohibitedScope",
+        "minimumArtifacts",
+        "requiredReviewRoles",
+        "authorizationMeaning"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "enum": [
+            "T0",
+            "T1",
+            "T2",
+            "T3",
+            "T4"
+          ]
+        },
+        "name": {
+          "type": "string",
+          "enum": [
+            "concept_or_static_mockup",
+            "synthetic_local_prototype",
+            "restricted_synthetic_service_prototype",
+            "restricted_human_study",
+            "limited_operational_prototype"
+          ]
+        },
+        "permittedScope": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 16,
+            "maxLength": 1000
+          }
+        },
+        "prohibitedScope": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 16,
+            "maxLength": 1000
+          }
+        },
+        "minimumArtifacts": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "enum": [
+              "testable_hypothesis",
+              "smallest_safe_prototype_statement",
+              "provisional_threat_model",
+              "proposed_data_boundary",
+              "minimum_viable_consent_contract",
+              "accessibility_principles",
+              "accessibility_test_harness",
+              "retention_deletion_hypothesis",
+              "observable_stop_conditions",
+              "synthetic_scenarios",
+              "human_study_protocol",
+              "data_flow_diagram",
+              "systemic_interaction_review",
+              "claim_to_evidence_matrix",
+              "production_retention_deletion_evidence",
+              "access_parity_evidence"
+            ]
+          }
+        },
+        "requiredReviewRoles": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "enum": [
+              "feature_owner",
+              "halt_authority",
+              "privacy_security_reviewer",
+              "accessibility_reviewer",
+              "legal_policy_reviewer",
+              "participant_protection_reviewer",
+              "governance_decision_reviewer"
+            ]
+          }
+        },
+        "authorizationMeaning": {
+          "type": "string",
+          "minLength": 32,
+          "maxLength": 1200
+        }
+      }
+    }
+  }
+}

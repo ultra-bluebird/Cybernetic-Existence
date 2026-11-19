@@ -1,0 +1,115 @@
+aln_version 2
+particle CivicAccessEcologicalEquity20260907
+data_class civic_access_and_ecological_condition_information
+purpose [
+  accessible_path_condition_information,
+  objective_facility_accessibility_information,
+  anonymous_heat_resource_procedure
+]
+mode advisory_only
+external_action_approval required
+review_status human_review_required
+
+governance {
+  human_fallback required
+  correction_path required
+  appeal_path required
+  material_change_review required
+  access_equivalence required
+  non_interference required
+  cybernetic_host_non_discrimination required
+  disability_non_discrimination required
+  identity_inference prohibited
+  eligibility_inference prohibited
+}
+
+accessible_path_planning {
+  purpose "route_condition_comparison"
+  path_cost_formula "sum_over_edges(weight_risk * edge_risk + weight_uncertainty * fog_uncertainty)"
+  edge_risk_range 0.0 1.0
+  fog_uncertainty_range 0.0 1.0
+  require reviewed_policy_weights true
+  require human_review_for_high_uncertainty true
+  outputs [
+    ROUTE_WITH_LOWER_RECORDED_RISK,
+    ROUTE_REQUIRES_CONDITION_REVIEW,
+    NO_ROUTE_WITH_SUFFICIENT_EVIDENCE
+  ]
+  forbid individual_mobility_inference
+  forbid disability_inference
+  forbid augmented_status_inference
+  forbid proof_requirement
+  forbid automatic_clear
+}
+
+facility_accessibility_information {
+  purpose "objective_physical_feature_information"
+  feature_values_range 0.0 1.0
+  feature_weights_transparent true
+  fog_evidence_quality_range 0.0 1.0
+  require essential_feature_non_compensation true
+  require community_review true
+  forbid customer_surveillance
+  forbid employee_surveillance
+  forbid individual_rating
+  forbid community_rating
+  forbid legal_compliance_claim_without_independent_review
+}
+
+heat_resource_procedure {
+  purpose "anonymous_shared_resource_availability"
+  allowed_resource_types [
+    SEATING,
+    SHADE,
+    WATER
+  ]
+  permitted_allocation_methods [
+    EQUAL_LOTTERY_FOR_CURRENT_REQUEST_WINDOW,
+    FIRST_COME_WITH_SHORT_FIXED_SERVICE_WINDOW
+  ]
+  require published_method_before_demand_event true
+  require same_rule_for_all true
+  require human_fallback_available true
+  require aggregate_operational_counts_only true
+  forbid personal_data_collection
+  forbid disability_status_collection
+  forbid medical_data_collection
+  forbid augmented_status_collection
+  forbid individual_ranking
+  forbid community_ranking
+  forbid identity_based_priority
+}
+
+privacy {
+  minimum_necessary_data required
+  no_personal_identifier_collection true
+  no_contact_data_collection true
+  no_biometric_data_collection true
+  no_device_identifier_collection true
+  no_precise_location_history true
+  no_individual_behavioral_profile true
+  retention_bounded required
+  correction_record_required true
+  deletion_review_required true
+}
+
+fog {
+  uncertainty_range 0.0 1.0
+  require explicit_uncertainty true
+  require human_review_when_high_uncertainty true
+  uncertainty_must_not_be_silently_suppressed true
+}
+
+invariants {
+  no_network_interface true
+  no_hardware_control true
+  no_actuator_interface true
+  no_credentials true
+  no_identity_inference true
+  no_individual_ranking true
+  no_community_ranking true
+  no_eligibility_determination true
+  no_automatic_clear true
+  no_regulatory_certainty_claim true
+  advisory_output_is_not_operational_command true
+}

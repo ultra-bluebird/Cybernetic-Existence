@@ -1,0 +1,69 @@
+policy: assistance_panel_privacy_and_equal_access
+version: 2.0.0
+data_class: public_interface_governance_policy
+purpose: provide public-service information and requests without identity verification, profiling, or persistent visitor tracking
+consent_scope: no_identity_data_required_for_standard_panel_use
+retention: retain_minimal_non_linkable_session_outcome_records_for_configured_operations_period
+deletion: delete_session_outcome_records_after_retention_expiry_without_cross_visit_linkage
+accountability: plain_language_privacy_notice_accessibility_feedback_path_and_human_service_route
+review_status: required_before_public_deployment
+access_equivalence_safeguards: equivalent_walk_up_access_for_people_with_or_without_identity_documents_accounts_devices_or_disclosure
+external_action_approval: required_before_any_external_export_of_panel_operational_records
+
+requirements:
+  public_access:
+    require:
+      - no_account_requirement
+      - no_identity_verification
+      - no_device_requirement
+      - no_network_requirement_for_core_information
+      - local_accessible_alternatives
+      - plain_language_explanations
+      - human_help_route
+    prohibit:
+      - facial_capture
+      - voiceprint_collection
+      - ip_address_logging
+      - mac_address_logging
+      - device_fingerprinting
+      - cross_visit_tracking
+      - behavioral_targeting
+      - identity_based_service_denial
+
+  cybernetic_host_access:
+    when: person_self_describes_as_cybernetic_host_or_augmented_citizen
+    require:
+      - accept_self_declaration_without_challenge
+      - preserve_requested_terminology_when_relevant
+      - no_certification_requirement
+      - no_public_record_requirement
+      - no_credibility_inference
+      - equal_access_to_panel_services
+    prohibit:
+      - identity_verification_requirement
+      - service_restriction_based_on_identity_class
+      - forced_disclosure
+      - profile_creation_without_explicit_request_and_consent
+
+  session_logging:
+    require:
+      - one_random_session_identifier_per_interaction
+      - no_reusable_visitor_identifier
+      - no_linkage_across_visits
+      - log_only_panel_timestamp_interaction_type_and_service_outcome
+    prohibit:
+      - user_content_logging
+      - search_query_logging
+      - persistent_accessibility_profile
+      - identity_class_logging
+      - network_identifier_logging
+
+  accessibility:
+    require:
+      - touch_keyboard_and_alternative_input_access
+      - visible_focus
+      - readable_text_scaling
+      - high_contrast_option
+      - non_audio_equivalent_for_audio_content
+      - non_visual_equivalent_for_visual_content
+      - session_reset_control

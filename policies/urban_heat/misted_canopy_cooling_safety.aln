@@ -1,0 +1,50 @@
+module MistedCanopyCoolingSafety
+
+type Scalar = Float
+type UnitInterval = Float
+
+record MistingCondition {
+  canopy_id: Text
+  water_mass_flow_kg_s: Scalar
+  evaporation_fraction: UnitInterval
+  latent_cooling_potential_w: Scalar
+  parasitic_power_w: Scalar
+  drift_risk: UnitInterval
+  water_quality_status: Text
+  drainage_status: Text
+  maintenance_status: Text
+  accessibility_status: Text
+  measurement_quality: UnitInterval
+}
+
+invariant ValidMistingCondition(condition: MistingCondition) =
+  condition.canopy_id != "" and
+  condition.water_mass_flow_kg_s >= 0.0 and
+  condition.evaporation_fraction >= 0.0 and
+  condition.evaporation_fraction <= 1.0 and
+  condition.latent_cooling_potential_w >= 0.0 and
+  condition.parasitic_power_w >= 0.0 and
+  condition.drift_risk >= 0.0 and
+  condition.drift_risk <= 1.0 and
+  condition.measurement_quality >= 0.90
+
+invariant QualifiedMistingRequiresWaterSafety(condition: MistingCondition) =
+  misting_operational_status = "qualified" implies
+  condition.water_quality_status = "approved" and
+  condition.drainage_status = "approved" and
+  condition.maintenance_status = "approved" and
+  condition.accessibility_status = "approved"
+
+invariant CoolingClaimBounded =
+  cooling_claim_scope in [
+    "evaporation_potential_only",
+    "field_validated_local_cooling",
+    "no_public_claim"
+  ]
+
+invariant MistingIsNotIndoorCoolingReplacement =
+  misting_claimed_as_indoor_cooling_equivalent = false
+
+invariant NoAutomaticInfrastructureActuation =
+  model_output_controls_misters = false and
+  model_output_controls_public_water = false

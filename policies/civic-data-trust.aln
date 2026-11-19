@@ -1,0 +1,73 @@
+policy: civic_data_trust
+version: 2.0.0
+data_class: civic_environmental_data_governance_policy
+purpose: steward datacenter-generated environmental data as a public good through rights-preserving, privacy-minimizing, non-discriminatory, purpose-limited access
+consent_scope: environmental_data_and_minimum_necessary_access_governance_metadata_only
+retention: retain_catalog_provenance_access_decisions_risk_assessments_and_appeal_records_for_configured_trust_governance_period
+deletion: delete_or_aggregate_sensitive_data_after_retention_expiry_and_revoke_access_when_purpose_or_risk_conditions_change
+accountability: independent_stewardship_public_catalog_accessible_explanations_human_review_appeal_and_public_reporting
+review_status: required_for_restricted_access_requests_dataset_releases_and_detected_misuse
+access_equivalence_safeguards: public_interest_access_must_not_depend_on_ability_to_pay_identity_certification_or_persistent_behavioral_tracking
+external_action_approval: required_for_external_dataset_release_cross_service_transfer_or_access_grant
+
+social_goods:
+  civic_data_trust:
+    status: public_good_governance_commitment_not_a_marketplace_or_utility_status_claim
+    public_benefit_uses:
+      - environmental_research
+      - restoration_monitoring
+      - public_heat_and_water_information
+      - accessibility_tooling
+      - civic_data_analysis
+    require:
+      - independent_or_community_accountable_stewardship
+      - clear_public_benefit_purpose
+      - documented_access_rules
+      - privacy_review
+      - data_quality_provenance
+      - accessible_explanations
+      - correction_and_appeal_path
+      - aggregate_public_accountability_reports
+    prohibit:
+      - pay_to_access_basic_public_information
+      - data_sale_for_advertising
+      - individualized_surveillance
+      - biometric_processing
+      - identity_profiling
+      - discriminatory_use
+      - employment_housing_credit_or_insurance_scoring
+      - enforcement_use_without_separate_lawful_governance_basis
+
+rules:
+  - id: surveillance-and-discrimination-access-block
+    when:
+      any:
+        - surveillance_risk_detected
+        - discrimination_risk_detected
+        - identity_profiling_risk_detected
+        - public_benefit_not_demonstrated
+    result:
+      access_status: denied
+      explanation_code: CIVIC_DATA_TRUST_ACCESS_RISK_BLOCK
+    require:
+      - human_review
+      - accessible_explanation
+      - appeal_path
+      - misuse_risk_record
+    prohibit:
+      - dataset_release
+      - external_export
+      - automated_access_grant
+
+  - id: public-good-access
+    when: public_aggregate_environmental_data_requested
+    require:
+      - no_fee_access
+      - no_identity_verification_requirement
+      - no_device_fingerprinting
+      - no_behavioral_tracking
+      - accessible_format
+    prohibit:
+      - ability_to_pay_gate
+      - identity_based_access_denial
+      - undisclosed_data_brokerage

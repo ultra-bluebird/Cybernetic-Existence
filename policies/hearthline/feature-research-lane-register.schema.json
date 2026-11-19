@@ -1,0 +1,323 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hearthline.example/policies/feature-research-lane-register.schema.json",
+  "title": "HearthlineFeatureResearchLaneRegister",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "registerId",
+    "version",
+    "publishedAt",
+    "globalInvariants",
+    "features",
+    "externalActionAuthorized"
+  ],
+  "properties": {
+    "registerId": {
+      "type": "string",
+      "const": "hearthline-feature-research-lane-register"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^v[0-9]+$"
+    },
+    "publishedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "globalInvariants": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "adultOnlyBoundary",
+        "noValueForIntimacyWorkflow",
+        "noLegalAdviceOrCertification",
+        "noConsentCertification",
+        "noPersonLevelRanking",
+        "noSensitiveAttributeInference",
+        "noContinuousPrivateMessageScanning",
+        "noRawQueryRetention",
+        "noExternalActionWithoutApproval",
+        "syntheticFirstRequired"
+      ],
+      "properties": {
+        "adultOnlyBoundary": {
+          "type": "boolean",
+          "const": true
+        },
+        "noValueForIntimacyWorkflow": {
+          "type": "boolean",
+          "const": true
+        },
+        "noLegalAdviceOrCertification": {
+          "type": "boolean",
+          "const": true
+        },
+        "noConsentCertification": {
+          "type": "boolean",
+          "const": true
+        },
+        "noPersonLevelRanking": {
+          "type": "boolean",
+          "const": true
+        },
+        "noSensitiveAttributeInference": {
+          "type": "boolean",
+          "const": true
+        },
+        "noContinuousPrivateMessageScanning": {
+          "type": "boolean",
+          "const": true
+        },
+        "noRawQueryRetention": {
+          "type": "boolean",
+          "const": true
+        },
+        "noExternalActionWithoutApproval": {
+          "type": "boolean",
+          "const": true
+        },
+        "syntheticFirstRequired": {
+          "type": "boolean",
+          "const": true
+        }
+      }
+    },
+    "features": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/feature"
+      }
+    },
+    "externalActionAuthorized": {
+      "type": "boolean",
+      "const": false
+    }
+  },
+  "$defs": {
+    "feature": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "featureId",
+        "version",
+        "primaryPromise",
+        "currentLane",
+        "riskDomains",
+        "dataClasses",
+        "requiredGates",
+        "requiredEvidence",
+        "stopConditions",
+        "ownerRole",
+        "reviewDueAt",
+        "decisionHistory"
+      ],
+      "properties": {
+        "featureId": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_.-]{2,119}$"
+        },
+        "version": {
+          "type": "string",
+          "pattern": "^v[0-9]+$"
+        },
+        "primaryPromise": {
+          "type": "string",
+          "minLength": 32,
+          "maxLength": 1600
+        },
+        "currentLane": {
+          "type": "string",
+          "enum": [
+            "concept_draft",
+            "research_design_only",
+            "restricted_synthetic_prototype",
+            "restricted_human_study",
+            "prototype_limited",
+            "operationally_available",
+            "deferred_pending_review",
+            "requires_redesign",
+            "do_not_build",
+            "withdrawn_on_stop_condition"
+          ]
+        },
+        "riskDomains": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "enum": [
+              "adult_access",
+              "noncommercial_integrity",
+              "consent",
+              "privacy",
+              "retention",
+              "ranking",
+              "accessibility",
+              "noninterference",
+              "human_review",
+              "security",
+              "legal_orientation",
+              "location_context",
+              "local_only"
+            ]
+          }
+        },
+        "dataClasses": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "enum": [
+              "none",
+              "public_profile",
+              "user_declared_interest",
+              "coarse_region",
+              "coarse_time_context",
+              "meeting_plan",
+              "private_message_report_excerpt",
+              "recipient_scoped_private_data",
+              "local_only_reflection",
+              "aggregate_research_evidence",
+              "governance_metadata"
+            ]
+          }
+        },
+        "requiredGates": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "enum": [
+              "adult_access_gate",
+              "noncommercial_integrity_gate",
+              "consent_scope_gate",
+              "privacy_minimization_gate",
+              "retention_deletion_gate",
+              "no_ranking_gate",
+              "access_parity_gate",
+              "noninterference_gate",
+              "human_review_gate",
+              "research_stop_gate",
+              "local_only_gate",
+              "truthful_claims_gate"
+            ]
+          }
+        },
+        "requiredEvidence": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "enum": [
+              "threat_model",
+              "data_flow_diagram",
+              "data_inventory",
+              "synthetic_test_report",
+              "accessibility_test_report",
+              "retention_deletion_test_report",
+              "schema_and_query_scan",
+              "network_isolation_test_report",
+              "human_review_and_appeal_plan",
+              "qualified_local_counsel_review",
+              "security_protocol_review",
+              "claim_to_evidence_matrix"
+            ]
+          }
+        },
+        "stopConditions": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "enum": [
+              "value_linked_to_intimacy",
+              "legal_advice_or_certification_claim",
+              "consent_certification_claim",
+              "person_level_rank_or_score",
+              "private_data_reused_for_discovery",
+              "continuous_private_message_scanning",
+              "raw_query_retained",
+              "local_only_data_transmitted",
+              "coarse_context_exposes_routine",
+              "accessibility_critical_path_failure",
+              "forced_disclosure_or_pressure",
+              "human_review_or_appeal_unavailable",
+              "individual_harm_dismissed_by_aggregate_metric",
+              "claim_exceeds_verified_capability"
+            ]
+          }
+        },
+        "ownerRole": {
+          "type": "string",
+          "enum": [
+            "product_governance",
+            "privacy_security",
+            "accessibility",
+            "legal_policy",
+            "research",
+            "human_review_operations"
+          ]
+        },
+        "reviewDueAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "decisionHistory": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/decision"
+          }
+        }
+      }
+    },
+    "decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "recordedAt",
+        "fromLane",
+        "toLane",
+        "rationale",
+        "evidenceReferences"
+      ],
+      "properties": {
+        "recordedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "fromLane": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "toLane": {
+          "type": "string"
+        },
+        "rationale": {
+          "type": "string",
+          "minLength": 24,
+          "maxLength": 1600
+        },
+        "evidenceReferences": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 240
+          }
+        }
+      }
+    }
+  }
+}

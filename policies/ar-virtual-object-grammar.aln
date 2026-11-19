@@ -1,0 +1,66 @@
+policy ArVirtualObjectGrammar version "2026-09-17" {
+
+  purpose {
+    data_class = INSPECTABLE_SESSION_LOCAL_AR_OBJECT
+    permitted_use = DECLARED_LOCAL_RENDERING
+    permitted_use = ACCESSIBLE_AR_INTERACTION
+    prohibited_use = UNDECLARED_SENSOR_PROCESSING
+    prohibited_use = PROFILE_MODIFICATION
+    prohibited_use = EXTERNAL_ACTION
+  }
+
+  invariant every_object_has_a_complete_declaration {
+    require object.type_present == true
+    require object.action_present == true
+    require object.purpose_present == true
+    require object.consent_scope_present == true
+    require object.sensor_use_declared == true
+    require object.data_read_declared == true
+    require object.data_written_declared == true
+    require object.recipient_effect_declared == true
+    require object.reversibility_declared == true
+    require object.external_action_declared == true
+    require object.fallback_declared == true
+  }
+
+  invariant objects_are_visible_and_inspectable {
+    require object.user_visible_declaration_available == true
+    require object.accessible_text_description_available == true
+    require object.keyboard_inspection_available == true
+    require object.screen_reader_inspection_available == true
+    require object.inspectable_before_activation == true
+  }
+
+  invariant consent_is_session_bound {
+    require object.user_initiated_current_session_required == true
+    require object.background_activation_allowed == false
+    require object.cross_session_consent_reuse_allowed == false
+    require object.persistent_spatial_state_allowed == false
+    require object.local_only_default == true
+  }
+
+  invariant object_data_is_minimized {
+    require object.undeclared_sensor_use_allowed == false
+    require object.undeclared_data_read_allowed == false
+    require object.undeclared_data_write_allowed == false
+    require object.cloud_transfer_allowed == false
+    require object.analytics_export_allowed == false
+    require object.cross_session_retention_allowed == false
+  }
+
+  invariant object_effect_is_non_actuating {
+    require object.external_action_authorized == false
+    require object.recipient_profile_change_allowed == false
+    require object.recipient_access_change_allowed == false
+    require object.recipient_eligibility_change_allowed == false
+    require object.recipient_reputation_change_allowed == false
+  }
+
+  invariant every_object_has_accessible_fallback {
+    require object.non_ar_fallback_available == true
+    require object.stop_control_available == true
+    require object.stop_control_requires_camera_tracking == false
+    require object.stop_control_requires_voice_recognition == false
+    require object.stop_control_requires_eye_tracking == false
+  }
+}

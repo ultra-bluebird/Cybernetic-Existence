@@ -1,0 +1,155 @@
+module PhoenixEcoRestorationCompositionalPetriNet
+
+type Scalar = Float
+type UnitInterval = Float
+
+record GovernanceToken {
+  particle_id: Text
+  steward_did: Text
+  evidence_provenance_digest: Text
+  review_status: Text
+  appeal_status: Text
+  purpose: Text
+}
+
+record HeatReliefToken {
+  site_id: Text
+  operational_status: Text
+  potable_water_status: Text
+  drainage_status: Text
+  accessibility_status: Text
+  alternative_relief_verified: Boolean
+  supervisor_status: Text
+}
+
+record ComputeToken {
+  node_id: Text
+  battery_health_status: Text
+  battery_reserve: UnitInterval
+  telemetry_quality: UnitInterval
+  workload_class: Text
+  operator_approval_status: Text
+}
+
+record HydraulicToken {
+  canal_node_id: Text
+  flow_state: Text
+  water_quality_status: Text
+  telemetry_quality: UnitInterval
+  operator_review_status: Text
+}
+
+record MonitoringToken {
+  source_id: Text
+  calibration_status: Text
+  uncertainty_status: Text
+  location_precision_class: Text
+}
+
+record PetriTransitionRequest {
+  transition_id: Text
+  subsystem: Text
+  requested_action: Text
+  human_approval_status: Text
+  physical_actuation_authority: Boolean
+}
+
+invariant ValidGovernanceToken(token: GovernanceToken) =
+  token.particle_id != "" and
+  token.steward_did =
+    "bostrom18sd2ujv24ual9c9pshtxys6j8knh6xaead9ye7" and
+  token.evidence_provenance_digest != "" and
+  token.review_status in [
+    "draft",
+    "under_review",
+    "approved",
+    "qualified",
+    "rejected",
+    "retired"
+  ] and
+  token.appeal_status in [
+    "not_requested",
+    "open",
+    "resolved"
+  ] and
+  token.purpose != ""
+
+invariant ValidHeatReliefToken(token: HeatReliefToken) =
+  token.site_id != "" and
+  token.operational_status in [
+    "open",
+    "closing_notice",
+    "transition_support",
+    "closed_with_alternatives",
+    "supervisor_escalation"
+  ] and
+  token.potable_water_status in ["approved", "hold", "unknown"] and
+  token.drainage_status in ["approved", "hold", "unknown"] and
+  token.accessibility_status in ["approved", "qualified", "hold"] and
+  token.supervisor_status in ["available", "required", "unavailable"]
+
+invariant ValidComputeToken(token: ComputeToken) =
+  token.node_id != "" and
+  token.battery_health_status in [
+    "within_reference_envelope",
+    "maintenance_inspection_required",
+    "unknown"
+  ] and
+  token.battery_reserve >= 0.0 and
+  token.battery_reserve <= 1.0 and
+  token.telemetry_quality >= 0.0 and
+  token.telemetry_quality <= 1.0 and
+  token.workload_class in [
+    "nonessential_deferrable",
+    "essential",
+    "unknown"
+  ] and
+  token.operator_approval_status in [
+    "approved",
+    "pending",
+    "rejected"
+  ]
+
+invariant ValidHydraulicToken(token: HydraulicToken) =
+  token.canal_node_id != "" and
+  token.flow_state in ["normal", "reduced", "none", "unknown"] and
+  token.water_quality_status in ["approved", "qualified", "hold", "unknown"] and
+  token.telemetry_quality >= 0.0 and
+  token.telemetry_quality <= 1.0 and
+  token.operator_review_status in ["approved", "pending", "rejected"]
+
+invariant ValidMonitoringToken(token: MonitoringToken) =
+  token.source_id != "" and
+  token.calibration_status in ["approved", "qualified", "expired", "failed"] and
+  token.uncertainty_status in ["low", "moderate", "high", "unknown"] and
+  token.location_precision_class in ["public_generalized", "restricted_exact"]
+
+invariant TransitionRequiresHumanApproval(request: PetriTransitionRequest) =
+  request.requested_action in [
+    "queue_for_operator_review",
+    "request_ecological_assessment",
+    "request_accessibility_assessment",
+    "request_hydraulic_assessment",
+    "hold_safe_state"
+  ] and
+  request.physical_actuation_authority = false
+
+invariant NoAutonomousInfrastructureControl =
+  petri_net_controls_gate = false and
+  petri_net_controls_pump = false and
+  petri_net_controls_aerator = false and
+  petri_net_controls_canopy_closure = false
+
+invariant EssentialServicesCannotBeConsumed =
+  compute_transition_consumes_heat_relief_access = false and
+  financial_transition_consumes_water_access = false and
+  monitoring_transition_consumes_accessibility_support = false
+
+invariant GovernanceLifecycleConservation =
+  governance_case_has_exactly_one_lifecycle_state = true
+
+invariant SensitiveDataExcluded =
+  net_contains_biometric_data = false and
+  net_contains_health_data = false and
+  net_contains_neural_data = false and
+  net_contains_behavioral_profile = false

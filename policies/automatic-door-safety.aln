@@ -1,0 +1,52 @@
+policy AutomaticDoorSafety version "2026-09-17" {
+
+  purpose {
+    data_class = LOCAL_PHYSICAL_SAFETY_CONTROL
+    permitted_use = DOORWAY_CLEARANCE_PROTECTION
+    prohibited_use = PERSON_IDENTIFICATION
+    prohibited_use = BIOMETRIC_INFERENCE
+    prohibited_use = ACCESS_ELIGIBILITY
+    prohibited_use = REMOTE_AUTONOMOUS_ACTUATION
+  }
+
+  invariant safety_decision_is_identity_blind {
+    require door.face_recognition_allowed == false
+    require door.voice_recognition_allowed == false
+    require door.identity_inference_allowed == false
+    require door.disability_inference_allowed == false
+    require door.augmentation_inference_allowed == false
+    require door.service_animal_identification_required == false
+    require door.movement_pattern_profile_created == false
+  }
+
+  invariant clearance_has_priority_over_throughput {
+    require door.close_only_when_clearance_confirmed == true
+    require door.obstruction_detected_requires_hold_open_or_reopen == true
+    require door.sensor_health_required_for_normal_close == true
+    require door.unknown_sensor_state_requires_safe_state == true
+    require door.time_pressure_override_allowed == false
+  }
+
+  invariant accessible_operation_is_available {
+    require door.manual_accessible_fallback_required == true
+    require door.accessible_activation_path_required == true
+    require door.clear_opening_verified_in_power_on_mode == true
+    require door.clear_opening_verified_in_power_off_mode == true
+    require door.denial_based_on_movement_pattern_allowed == false
+  }
+
+  invariant adaptive_timing_is_bounded {
+    require door.adaptive_timing_may_reduce_safety_margin == false
+    require door.adaptive_timing_requires_documented_bounds == true
+    require door.adaptive_timing_requires_local_override == true
+    require door.energy_optimization_overrides_safety_allowed == false
+    require door.energy_optimization_overrides_accessibility_allowed == false
+  }
+
+  invariant controller_operates_with_safe_local_limits {
+    require door.remote_identity_signal_input_allowed == false
+    require door.cloud_prediction_required_for_safe_operation == false
+    require door.controller_change_requires_review == true
+    require door.incident_review_path_available == true
+  }
+}

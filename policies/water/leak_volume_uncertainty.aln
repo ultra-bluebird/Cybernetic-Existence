@@ -1,0 +1,57 @@
+module LeakVolumeUncertainty
+
+type Scalar = Float
+type UnitInterval = Float
+
+record LeakEvidence {
+  leak_report_id: Text
+  acoustic_detection_probability: UnitInterval
+  telemetry_quality: UnitInterval
+  model_calibration_status: Text
+  human_review_status: Text
+}
+
+record LeakEstimate {
+  conditional_flow_m3_s: Scalar
+  conditional_volume_m3: Scalar
+  standard_uncertainty_m3: Scalar
+  lower_interval_m3: Scalar
+  upper_interval_m3: Scalar
+  expected_probabilistic_loss_m3: Scalar
+  covariance_model_status: Text
+  planning_only: Boolean
+}
+
+invariant ValidLeakEvidence(evidence: LeakEvidence) =
+  evidence.leak_report_id != "" and
+  evidence.acoustic_detection_probability >= 0.0 and
+  evidence.acoustic_detection_probability <= 1.0 and
+  evidence.telemetry_quality >= 0.90 and
+  evidence.model_calibration_status in ["approved", "qualified"] and
+  evidence.human_review_status in ["approved", "qualified"]
+
+invariant ValidLeakEstimate(estimate: LeakEstimate) =
+  estimate.conditional_flow_m3_s >= 0.0 and
+  estimate.conditional_volume_m3 >= 0.0 and
+  estimate.standard_uncertainty_m3 >= 0.0 and
+  estimate.lower_interval_m3 >= 0.0 and
+  estimate.upper_interval_m3 >= estimate.lower_interval_m3 and
+  estimate.expected_probabilistic_loss_m3 >= 0.0 and
+  estimate.covariance_model_status in [
+    "independent_assumption",
+    "included",
+    "unknown"
+  ] and
+  estimate.planning_only
+
+invariant DetectionProbabilitySeparateFromConditionalVolume =
+  acoustic_probability_not_reported_as_measured_volume = true
+
+invariant NoBillingOrEnforcementUse =
+  leak_estimate_controls_billing = false and
+  leak_estimate_assigns_responsibility = false and
+  leak_estimate_triggers_enforcement = false
+
+invariant InspectionPriorityRequiresHumanReview =
+  inspection_priority_generated implies
+  human_review_status in ["approved", "qualified"]

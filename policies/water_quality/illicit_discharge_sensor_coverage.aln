@@ -1,0 +1,68 @@
+module IllicitDischargeSensorCoverage
+
+type Scalar = Float
+type UnitInterval = Float
+
+record DetectionScenario {
+  scenario_id: Text
+  scenario_type: Text
+  environmental_priority_weight: Scalar
+  evidence_quality: UnitInterval
+  contains_personal_data: Boolean
+}
+
+record SensorCandidate {
+  site_id: Text
+  installation_cost: Scalar
+  annual_maintenance_cost: Scalar
+  detection_probability: UnitInterval
+  validation_quality: UnitInterval
+  ecological_review_status: Text
+  access_review_status: Text
+}
+
+record PlacementResult {
+  placement_run_id: Text
+  site_id: Text
+  marginal_coverage_gain: Scalar
+  approval_status: Text
+}
+
+invariant ValidDetectionScenario(scenario: DetectionScenario) =
+  scenario.scenario_id != "" and
+  scenario.scenario_type != "" and
+  scenario.environmental_priority_weight > 0.0 and
+  scenario.evidence_quality >= 0.70 and
+  not scenario.contains_personal_data
+
+invariant ValidSensorCandidate(candidate: SensorCandidate) =
+  candidate.site_id != "" and
+  candidate.installation_cost >= 0.0 and
+  candidate.annual_maintenance_cost >= 0.0 and
+  candidate.detection_probability >= 0.0 and
+  candidate.detection_probability <= 1.0 and
+  candidate.validation_quality >= 0.70 and
+  candidate.ecological_review_status = "approved" and
+  candidate.access_review_status = "approved"
+
+invariant PlacementRequiresPublicInterestScope(result: PlacementResult) =
+  result.placement_run_id != "" and
+  result.site_id != "" and
+  result.marginal_coverage_gain >= 0.0 and
+  result.approval_status in [
+    "review_required",
+    "approved_for_planning"
+  ]
+
+invariant NoPunitiveAutomation =
+  sensor_detection_triggers_automatic_penalty = false and
+  sensor_detection_triggers_public_accusation = false and
+  sensor_detection_triggers_service_restriction = false
+
+invariant DetectionRequiresVerification =
+  sensor_anomaly_action in [
+    "quality_control_check",
+    "field_sampling",
+    "qualified_review",
+    "maintenance_investigation"
+  ]

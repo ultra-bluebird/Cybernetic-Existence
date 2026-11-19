@@ -1,0 +1,50 @@
+policy AccessiblePathVerification version "2026-09-17" {
+
+  purpose {
+    data_class = ACCESSIBLE_INFRASTRUCTURE_CONDITION
+    permitted_use = BARRIER_DETECTION
+    permitted_use = MAINTENANCE_PRIORITY_RECOMMENDATION
+    prohibited_use = PERSON_TRACKING
+    prohibited_use = ACCESS_DENIAL
+    prohibited_use = AUTOMATED_ENFORCEMENT
+  }
+
+  invariant route_measurements_are_explicit_and_traceable {
+    require path.measurement_unit_present == true
+    require path.measurement_timestamp_present == true
+    require path.sensor_uncertainty_present == true
+    require path.measurement_provenance_present == true
+    require path.route_segment_reference_present == true
+  }
+
+  invariant barrier_detection_is_not_person_profiling {
+    require path.named_person_input_allowed == false
+    require path.face_image_input_allowed == false
+    require path.device_identifier_input_allowed == false
+    require path.mobility_aid_identity_inference_allowed == false
+    require path.disability_inference_allowed == false
+    require path.augmentation_inference_allowed == false
+  }
+
+  invariant findings_require_evidence_and_review {
+    require path.obstruction_finding_has_evidence == true
+    require path.surface_damage_finding_has_evidence == true
+    require path.gradient_finding_has_uncertainty == true
+    require path.high_impact_finding_requires_human_review == true
+    require path.unverified_finding_claimed_as_legal_noncompliance == false
+  }
+
+  invariant access_continuity_is_prioritized {
+    when path.work_zone_blocks_accessible_route(segment_ref)
+    require path.accessible_detour_verified(segment_ref) == true
+    require path.barrier_notice_available(segment_ref) == true
+    require path.human_assistance_route_available(segment_ref) == true
+  }
+
+  invariant repair_recommendations_are_non_actuating {
+    require path.automatic_route_closure_allowed == false
+    require path.automatic_citation_allowed == false
+    require path.automatic_dispatch_allowed == false
+    require path.external_action_authorized == false
+  }
+}

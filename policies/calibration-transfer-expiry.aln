@@ -1,0 +1,53 @@
+policy_name = "calibration_transfer_expiry"
+policy_version = "1.0"
+record_class = "sensor_calibration_transfer"
+purpose = "Require parameter-specific, uncertainty-bounded expiry for calibration transfers."
+consent_scope = "local_validation_and_non_actuating_research_only"
+retention = "bounded_by_repository_retention_policy"
+deletion = "remove_derived_test_records_when_no_longer_required"
+accountability = "method_review_and_calibration_review"
+review_status = "required_when_transfer_is_due_expired_or_out_of_domain"
+access_equivalence_safeguard = "plain_language_transfer_state_and_reason"
+external_action_approval = "prohibited"
+
+require transfer_state in [
+    "TRANSFER_VALID",
+    "TRANSFER_VALID_WITH_LIMITATIONS",
+    "TRANSFER_RECHECK_DUE",
+    "TRANSFER_EXPIRED",
+    "TRANSFER_OUT_OF_DOMAIN",
+    "TRANSFER_AMBIGUOUS_DRIFT_OR_ENVIRONMENT"
+]
+
+require parameter_name is_not_null
+require verified_at_utc is_not_null
+require transfer_valid_until_utc is_not_null
+require colocation_quality is_not_null
+require tolerable_bias is_not_null
+require drift_rate_prior is_not_null
+require transfer_uncertainty is_not_null
+
+when observed_at_utc > transfer_valid_until_utc:
+    require transfer_state == "TRANSFER_EXPIRED"
+    require promotion_allowed == false
+
+when colocation_quality < minimum_colocation_quality:
+    require transfer_state in [
+        "TRANSFER_VALID_WITH_LIMITATIONS",
+        "TRANSFER_OUT_OF_DOMAIN",
+        "TRANSFER_AMBIGUOUS_DRIFT_OR_ENVIRONMENT"
+    ]
+
+when transfer_uncertainty > maximum_transfer_uncertainty:
+    require transfer_state in [
+        "TRANSFER_RECHECK_DUE",
+        "TRANSFER_EXPIRED",
+        "TRANSFER_OUT_OF_DOMAIN",
+        "TRANSFER_AMBIGUOUS_DRIFT_OR_ENVIRONMENT"
+    ]
+    require promotion_allowed == false
+
+deny when transfer_state == "TRANSFER_EXPIRED"
+    and evidence_state == "ACCEPTED_FOR_DESIGN_NON_ACTUATING"
+
+deny when external_action_authorized == true

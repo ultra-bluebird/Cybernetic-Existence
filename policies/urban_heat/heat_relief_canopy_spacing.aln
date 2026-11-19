@@ -1,0 +1,65 @@
+module HeatReliefCanopySpacing
+
+type Scalar = Float
+
+record VariogramModel {
+  variogram_model_id: Text
+  thermal_variable: Text
+  covariance_family: Text
+  correlation_length_m: Scalar
+  practical_range_m: Scalar
+  spatial_cross_validation_error: Scalar
+  model_status: Text
+}
+
+record CanopySpacingCandidate {
+  candidate_id: Text
+  variogram_model_id: Text
+  spacing_min_m: Scalar
+  spacing_max_m: Scalar
+  accessibility_review_status: Text
+  public_access_review_status: Text
+  ecological_review_status: Text
+  planning_status: Text
+}
+
+invariant ValidVariogramModel(model: VariogramModel) =
+  model.variogram_model_id != "" and
+  model.thermal_variable in [
+    "land_surface_temperature_c",
+    "air_temperature_2m_c",
+    "mean_radiant_temperature_c",
+    "wbgt_c"
+  ] and
+  model.covariance_family in [
+    "exponential",
+    "spherical",
+    "matern",
+    "nugget_only"
+  ] and
+  model.correlation_length_m > 0.0 and
+  model.practical_range_m > 0.0 and
+  model.spatial_cross_validation_error >= 0.0 and
+  model.model_status in ["approved", "qualified"]
+
+invariant ValidSpacingCandidate(candidate: CanopySpacingCandidate) =
+  candidate.candidate_id != "" and
+  candidate.variogram_model_id != "" and
+  candidate.spacing_min_m > 0.0 and
+  candidate.spacing_max_m >= candidate.spacing_min_m
+
+invariant CanopyPlacementRequiresAccessReview(candidate: CanopySpacingCandidate) =
+  candidate.planning_status = "approved_for_planning" implies
+  candidate.accessibility_review_status = "approved" and
+  candidate.public_access_review_status = "approved" and
+  candidate.ecological_review_status = "approved"
+
+invariant CorrelationIsNotSoleSitingCriterion =
+  canopy_siting_uses_heat_need and
+  canopy_siting_uses_accessible_route and
+  canopy_siting_uses_water_availability and
+  canopy_siting_uses_maintenance_capacity
+
+invariant NoEligibilityUse =
+  spacing_model_used_for_service_eligibility = false and
+  spacing_model_used_for_public_space_exclusion = false

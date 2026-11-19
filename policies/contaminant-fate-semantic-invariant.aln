@@ -1,0 +1,33 @@
+policy contaminant_fate_semantic_invariant {
+  version = "1.0"
+  data_class = "environmental_measurement_governance"
+  purpose = "preserve analytical_qc_and_environmental_fate_semantic_separation"
+  consent_scope = "not_applicable_to_personal_data"
+  retention = "governed_by_environmental_evidence_schedule"
+  deletion = "append_only_correction_with_provenance"
+  accountability = "independent_method_and_mass_balance_review"
+  review_status = "research_specification"
+  access_equivalence = "plain_language_and_machine_readable_explanations_required"
+  external_action_approval = "required_for_any_field_intervention"
+
+  type analytical_isotope_dilution_recovery = analytical_qc_fraction
+  type environmental_fate_mass_balance = environmental_mass_balance
+  type removal_claim = environmental_fate_claim
+  type destruction_claim = environmental_fate_claim
+
+  forbid cast analytical_isotope_dilution_recovery -> removal_claim
+  forbid cast analytical_isotope_dilution_recovery -> destruction_claim
+
+  require removal_claim {
+    fate_mass_balance_present
+    closure_within_uncertainty
+    destination_resolved
+  }
+
+  require destruction_claim {
+    fate_mass_balance_present
+    closure_within_uncertainty
+    destruction_evidence_present
+    transformation_products_accounted_for
+  }
+}

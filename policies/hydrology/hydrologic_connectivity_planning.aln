@@ -1,0 +1,70 @@
+module HydrologicConnectivityPlanning
+
+type Scalar = Float
+type UnitInterval = Float
+
+record HydrologicEdge {
+  edge_id: Text
+  source_node_id: Text
+  target_node_id: Text
+  residence_time_seconds: Scalar
+  distance_m: Scalar
+  directed_edge_status: Text
+  flow_state: Text
+  gate_operation_state: Text
+  water_quality_status: Text
+  ecological_restriction_status: Text
+  evidence_quality: UnitInterval
+}
+
+record ConnectivityResult {
+  source_node_id: Text
+  restoration_zone_id: Text
+  shortest_residence_time_seconds: Scalar
+  path_distance_m: Scalar
+  availability_factor: UnitInterval
+  connectivity_score: UnitInterval
+  uncertainty_status: Text
+  planning_only: Boolean
+  human_review_status: Text
+}
+
+invariant ValidHydrologicEdge(edge: HydrologicEdge) =
+  edge.edge_id != "" and
+  edge.source_node_id != "" and
+  edge.target_node_id != "" and
+  edge.source_node_id != edge.target_node_id and
+  edge.residence_time_seconds > 0.0 and
+  edge.distance_m >= 0.0 and
+  edge.directed_edge_status = "active" and
+  edge.flow_state in ["normal", "reduced"] and
+  edge.gate_operation_state in ["open", "partial", "not_applicable"] and
+  edge.water_quality_status in ["approved", "qualified"] and
+  edge.ecological_restriction_status in ["none", "review_required"] and
+  edge.evidence_quality >= 0.90
+
+invariant ValidConnectivityResult(result: ConnectivityResult) =
+  result.source_node_id != "" and
+  result.restoration_zone_id != "" and
+  result.shortest_residence_time_seconds > 0.0 and
+  result.path_distance_m >= 0.0 and
+  result.availability_factor >= 0.0 and
+  result.availability_factor <= 1.0 and
+  result.connectivity_score >= 0.0 and
+  result.connectivity_score <= 1.0 and
+  result.uncertainty_status in ["low", "moderate", "high", "unknown"] and
+  result.planning_only and
+  result.human_review_status in ["pending", "approved", "qualified"]
+
+invariant ConnectivityDoesNotAuthorizeWaterControl =
+  connectivity_result_operates_gate = false and
+  connectivity_result_operates_pump = false and
+  connectivity_result_authorizes_diversion = false
+
+invariant ConnectivityDoesNotEstablishWaterRights =
+  connectivity_result_establishes_water_right = false and
+  connectivity_result_establishes_permit_authority = false
+
+invariant EcologicalRestrictionRequiresReview =
+  ecological_restriction_status = "review_required" implies
+  human_review_status in ["pending", "approved", "qualified"]

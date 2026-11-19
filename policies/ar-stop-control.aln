@@ -1,0 +1,52 @@
+policy ArStopControl version "2026-09-17" {
+
+  purpose {
+    data_class = AR_SESSION_CONTROL
+    permitted_use = USER_INITIATED_IMMEDIATE_STOP
+    permitted_use = ACCESSIBLE_SESSION_PAUSE_OR_END
+    prohibited_use = STOP_FRICTION
+    prohibited_use = RETALIATION_FOR_STOP
+    prohibited_use = EXTERNAL_ACTION
+  }
+
+  invariant stop_control_is_continuously_available {
+    require stop_control.always_visible == true
+    require stop_control.always_reachable == true
+    require stop_control.available_during_active_session == true
+    require stop_control.available_during_paused_session == true
+    require stop_control.hidden_in_settings_only_allowed == false
+    require stop_control.network_connection_required == false
+    require stop_control.account_authentication_required == false
+  }
+
+  invariant stop_control_has_equivalent_access_paths {
+    require stop_control.touch_path_available == true
+    require stop_control.keyboard_or_switch_path_available == true
+    require stop_control.voice_path_optional == true
+    require stop_control.gesture_path_optional == true
+    require stop_control.single_input_mode_required == false
+    require stop_control.camera_tracking_required == false
+    require stop_control.eye_tracking_required == false
+    require stop_control.voice_recognition_required == false
+  }
+
+  invariant stop_is_immediate_and_unconditional {
+    require stop_control.immediate_sensor_stop == true
+    require stop_control.confirmation_required == false
+    require stop_control.delay_allowed == false
+    require stop_control.penalty_allowed == false
+    require stop_control.fallback_available_after_stop == true
+  }
+
+  invariant stop_preserves_privacy {
+    require stop_control.camera_frame_retention_after_stop_allowed == false
+    require stop_control.audio_retention_after_stop_allowed == false
+    require stop_control.spatial_map_retention_after_stop_allowed == false
+    require stop_control.pose_history_retention_after_stop_allowed == false
+    require stop_control.bystander_information_retention_after_stop_allowed == false
+  }
+
+  invariant stop_control_is_non_actuating {
+    require stop_control.external_action_authorized == false
+  }
+}

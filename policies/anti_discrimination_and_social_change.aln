@@ -1,0 +1,143 @@
+policy anti_discrimination_and_social_change_v1 {
+  policy_type "rights_constraint_and_aggregate_impact_measurement"
+  review_status "candidate_for_review"
+
+  accountability {
+    owner_role "Augmented-Hub governance reviewer"
+    human_review_required true
+    accessible_appeal_path "accessible-grievance-protocol"
+    policy_change_requires_versioned_review true
+    audit_receipts_required true
+  }
+
+  anti_discrimination_invariant {
+    applies_to [
+      "environmental_service",
+      "civic_service",
+      "repair_service",
+      "transit_service",
+      "accessibility_service",
+      "planning_priority",
+      "ecological_impact_score",
+      "maintenance_scheduler",
+      "governance_review",
+      "appeal_process",
+      "technical_system_integration"
+    ]
+
+    prohibited_decision_inputs [
+      "identity_status",
+      "claimed_identity",
+      "augmentation_status",
+      "cybernetic_host_status",
+      "assistive_technology_status",
+      "biometric_information",
+      "neural_information",
+      "health_information",
+      "disability_related_information",
+      "private_learning_continuity_information",
+      "absence_of_optional_telemetry",
+      "absence_of_external_identity_verification"
+    ]
+
+    prohibited_outputs [
+      "reduced_service_access",
+      "reduced_priority",
+      "reduced_credibility",
+      "negative_reputation_score",
+      "eligibility_denial",
+      "ecological_score_adjustment",
+      "civic_participation_restriction",
+      "appeal_access_restriction"
+    ]
+
+    violation_response {
+      action "deny_request"
+      create_policy_receipt true
+      receipt_fields [
+        "policy_version",
+        "attempted_decision_type",
+        "prohibited_input_category",
+        "timestamp_utc",
+        "plain_language_explanation",
+        "appeal_or_correction_path"
+      ]
+    }
+  }
+
+  affirmative_accommodation {
+    allowed true
+    voluntary true
+    self_asserted_preference_only true
+
+    permitted_adaptations [
+      "accessible_interface",
+      "alternate_input_method",
+      "alternate_output_format",
+      "text_to_speech",
+      "captioning",
+      "simplified_language",
+      "pacing_preference",
+      "offline_synchronization",
+      "accessible_authentication_alternative",
+      "accessible_review_format"
+    ]
+
+    prohibited_uses [
+      "eligibility_determination",
+      "environmental_evidence_weighting",
+      "ecological_impact_scoring",
+      "service_priority_reduction",
+      "credibility_scoring",
+      "identity_inference",
+      "behavioral_profiling"
+    ]
+
+    retention "user_controlled_or_short_operational_retention"
+    revocation "available_without_loss_of_essential_service_access"
+  }
+
+  social_change_measurement {
+    permitted_data_classes [
+      "aggregated_service_outcomes",
+      "aggregate_accessibility_metrics",
+      "voluntary_nonidentifying_feedback",
+      "aggregate_civic_participation_statistics",
+      "aggregate_ecological_contribution_metrics",
+      "aggregate_grievance_resolution_statistics"
+    ]
+
+    prohibited_data_classes [
+      "identity_roster",
+      "individual_dignity_score",
+      "individual_belonging_score",
+      "individual_social_influence_score",
+      "identity_linked_telemetry",
+      "behavioral_surveillance",
+      "biometric_or_neural_information"
+    ]
+
+    dimensions [
+      "dignity",
+      "autonomy",
+      "participation",
+      "contribution",
+      "belonging"
+    ]
+
+    publication {
+      minimum_aggregation_count 20
+      require_voluntary_evidence_for_feedback true
+      require_uncertainty_statement true
+      require_methodology_version true
+      require_plain_language_explanation true
+      require_accessible_review_path true
+    }
+
+    decision_boundary {
+      purpose "program improvement and accountable public-interest planning"
+      automatic_individual_decision_prohibited true
+      external_action_status "requires_separate_approval"
+    }
+  }
+}

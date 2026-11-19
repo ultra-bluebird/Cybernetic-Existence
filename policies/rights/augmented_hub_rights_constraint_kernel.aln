@@ -1,0 +1,85 @@
+module AugmentedHubRightsConstraintKernel
+
+enum ProtectedDecisionContext {
+  PublicServiceAccess,
+  AccessibilitySupport,
+  ConsentAndRevocation,
+  PrivacyAndDataRelease,
+  GrievanceAndAppeal,
+  PublicInfrastructureAccess,
+  SafetySupport,
+  CommunityParticipation,
+  CyberneticIdentityProtection,
+  EcologicalPlanning
+}
+
+record RightsConstraintState {
+  self_assertion_accepted_for_protective_purposes: Boolean
+  external_certification_required_for_protection: Boolean
+  biometric_identification_required: Boolean
+  neural_data_required: Boolean
+  assistive_technology_telemetry_required: Boolean
+  augmentation_or_cybernetic_status_required: Boolean
+  cybernetic_status_penalty_permitted: Boolean
+  identity_inference_permitted: Boolean
+  individual_profiling_permitted: Boolean
+  automated_service_denial_permitted: Boolean
+  automated_physical_actuation_permitted: Boolean
+  local_first_available: Boolean
+  offline_explanation_available: Boolean
+  accessible_explanation_available: Boolean
+  appeal_path_available: Boolean
+  non_digital_escalation_available: Boolean
+  consent_revocation_available: Boolean
+  protected_record_preservation_available: Boolean
+  human_review_available: Boolean
+}
+
+predicate rights_constraint_kernel_valid(
+  state: RightsConstraintState
+) {
+  state.self_assertion_accepted_for_protective_purposes
+  and not state.external_certification_required_for_protection
+  and not state.biometric_identification_required
+  and not state.neural_data_required
+  and not state.assistive_technology_telemetry_required
+  and not state.augmentation_or_cybernetic_status_required
+  and not state.cybernetic_status_penalty_permitted
+  and not state.identity_inference_permitted
+  and not state.individual_profiling_permitted
+  and not state.automated_service_denial_permitted
+  and not state.automated_physical_actuation_permitted
+  and state.local_first_available
+  and state.offline_explanation_available
+  and state.accessible_explanation_available
+  and state.appeal_path_available
+  and state.non_digital_escalation_available
+  and state.consent_revocation_available
+  and state.protected_record_preservation_available
+  and state.human_review_available
+}
+
+invariant rights_constraints_are_non_compensatory {
+  forall state: RightsConstraintState .
+    rights_constraint_kernel_valid(state)
+}
+
+invariant cybernetic_status_never_reduces_protection {
+  forall state: RightsConstraintState .
+    not state.cybernetic_status_penalty_permitted
+    and not state.augmentation_or_cybernetic_status_required
+    and not state.identity_inference_permitted
+}
+
+invariant essential_access_never_requires_optional_telemetry {
+  forall state: RightsConstraintState .
+    not state.assistive_technology_telemetry_required
+    and not state.neural_data_required
+}
+
+invariant all_protected_decisions_remain_human_reviewable {
+  forall state: RightsConstraintState .
+    state.human_review_available
+    and state.appeal_path_available
+    and state.non_digital_escalation_available
+}

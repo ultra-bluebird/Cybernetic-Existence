@@ -1,0 +1,59 @@
+policy CircularSmartCityInfrastructure version "2026-09-17" {
+
+  purpose {
+    data_class = INFRASTRUCTURE_MATERIAL_LIFECYCLE_GOVERNANCE
+    permitted_use = REUSE_REPAIR_RECYCLE_PLANNING
+    permitted_use = MATERIAL_FLOW_ANALYSIS
+    permitted_use = LIFECYCLE_SCENARIO_COMPARISON
+    prohibited_use = PERSON_TRACKING
+    prohibited_use = EMPLOYEE_SURVEILLANCE
+    prohibited_use = AUTOMATED_PROCUREMENT_AWARD
+    prohibited_use = UNSUPPORTED_SUSTAINABILITY_CLAIM
+  }
+
+  invariant asset_records_are_technical_and_nonpersonal {
+    require asset.asset_reference_present == true
+    require asset.component_reference_present == true
+    require asset.material_composition_evidence_present == true
+    require asset.maintenance_history_is_nonpersonal == true
+    require asset.named_person_data_allowed == false
+    require asset.worker_productivity_profile_allowed == false
+    require asset.user_identity_linkage_allowed == false
+    require asset.device_owner_identity_inference_allowed == false
+  }
+
+  invariant repairability_is_designed_and_documented {
+    require asset.repair_instructions_available == true
+    require asset.replaceable_component_list_available == true
+    require asset.standard_fastener_or_interface_documented == true
+    require asset.disassembly_sequence_documented == true
+    require asset.firmware_or_software_support_period_documented == true
+    require asset.repair_restriction_rationale_documented == true
+  }
+
+  invariant end_of_life_is_planned_before_procurement {
+    require asset.reuse_path_assessed == true
+    require asset.refurbishment_path_assessed == true
+    require asset.recycling_path_assessed == true
+    require asset.hazardous_material_handling_path_assessed == true
+    require asset.take_back_or_stewardship_option_assessed == true
+    require asset.disposal_as_default_path_allowed == false
+  }
+
+  invariant lifecycle_comparison_is_evidence_limited {
+    require lifecycle.functional_unit_documented == true
+    require lifecycle.system_boundary_documented == true
+    require lifecycle.data_quality_statement_present == true
+    require lifecycle.impact_categories_documented == true
+    require lifecycle.uncertainty_statement_present == true
+    require lifecycle.comparative_claim_without_review_allowed == false
+  }
+
+  invariant circularity_is_not_a_hidden_procurement_decision {
+    require circularity.weight_rationale_published == true
+    require circularity.sensitivity_analysis_completed == true
+    require circularity.human_procurement_review_required == true
+    require circularity.automatic_procurement_award_allowed == false
+    require circularity.external_action_authorized == false
+  }
+}

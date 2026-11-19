@@ -1,0 +1,276 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hearthline.example/policies/arizona-noncommercial-feature-boundary-register.json",
+  "title": "HearthlineArizonaNonCommercialFeatureBoundaryRegister",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "policyId",
+    "version",
+    "jurisdiction",
+    "publishedAt",
+    "reviewRequiredBy",
+    "legalReviewStatus",
+    "nonAdviceNotice",
+    "globalInvariants",
+    "features",
+    "externalActionAuthorized"
+  ],
+  "properties": {
+    "policyId": {
+      "type": "string",
+      "const": "hearthline-arizona-noncommercial-feature-boundary-register"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^v[0-9]+$"
+    },
+    "jurisdiction": {
+      "type": "string",
+      "const": "US-AZ"
+    },
+    "publishedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "reviewRequiredBy": {
+      "type": "string",
+      "format": "date"
+    },
+    "legalReviewStatus": {
+      "type": "string",
+      "enum": [
+        "draft_not_legal_advice",
+        "awaiting_qualified_arizona_counsel",
+        "counsel_reviewed_feature_limited",
+        "under_review",
+        "withdrawn"
+      ]
+    },
+    "nonAdviceNotice": {
+      "type": "string",
+      "minLength": 120,
+      "maxLength": 2400
+    },
+    "officialSources": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/source"
+      }
+    },
+    "globalInvariants": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "noValueForIntimacyWorkflow",
+        "noLegalAdviceOrCertification",
+        "noConsentCertification",
+        "noPersonLevelRanking",
+        "noIdentityInference",
+        "noContinuousPrivateMessageScanning",
+        "noRawQueryRetention",
+        "noExternalActionWithoutApproval"
+      ],
+      "properties": {
+        "noValueForIntimacyWorkflow": {
+          "type": "boolean",
+          "const": true
+        },
+        "noLegalAdviceOrCertification": {
+          "type": "boolean",
+          "const": true
+        },
+        "noConsentCertification": {
+          "type": "boolean",
+          "const": true
+        },
+        "noPersonLevelRanking": {
+          "type": "boolean",
+          "const": true
+        },
+        "noIdentityInference": {
+          "type": "boolean",
+          "const": true
+        },
+        "noContinuousPrivateMessageScanning": {
+          "type": "boolean",
+          "const": true
+        },
+        "noRawQueryRetention": {
+          "type": "boolean",
+          "const": true
+        },
+        "noExternalActionWithoutApproval": {
+          "type": "boolean",
+          "const": true
+        }
+      }
+    },
+    "features": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/featureBoundary"
+      }
+    },
+    "externalActionAuthorized": {
+      "type": "boolean",
+      "const": false
+    }
+  },
+  "$defs": {
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "label",
+        "url",
+        "sourceType",
+        "reviewedAt"
+      ],
+      "properties": {
+        "label": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 240
+        },
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "pattern": "^https://"
+        },
+        "sourceType": {
+          "type": "string",
+          "enum": [
+            "current_codified_statute",
+            "enacted_bill_text",
+            "official_legislative_summary",
+            "official_guidance",
+            "court_opinion"
+          ]
+        },
+        "reviewedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "featureBoundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "featureId",
+        "primaryFunction",
+        "status",
+        "commercialFacilitationRisk",
+        "legalAdviceOrCertificationRisk",
+        "requiredControls",
+        "releaseGate",
+        "stopConditions",
+        "reviewStatus"
+      ],
+      "properties": {
+        "featureId": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_.-]{2,119}$"
+        },
+        "primaryFunction": {
+          "type": "string",
+          "minLength": 24,
+          "maxLength": 1200
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "unavailable_in_arizona",
+            "restricted_research_only",
+            "requires_qualified_local_counsel_review",
+            "limited_noncommercial_workflow",
+            "deferred_security_review",
+            "do_not_build"
+          ]
+        },
+        "commercialFacilitationRisk": {
+          "type": "string",
+          "enum": [
+            "none",
+            "low",
+            "moderate",
+            "high"
+          ]
+        },
+        "legalAdviceOrCertificationRisk": {
+          "type": "string",
+          "enum": [
+            "none",
+            "low",
+            "moderate",
+            "high"
+          ]
+        },
+        "requiredControls": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 16,
+            "maxLength": 800
+          }
+        },
+        "releaseGate": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "enum": [
+              "qualified_arizona_counsel_review",
+              "privacy_review",
+              "security_review",
+              "accessibility_parity_review",
+              "synthetic_data_test",
+              "human_review_and_appeal_ready",
+              "network_isolation_verified",
+              "no_payment_or_value_path_verified",
+              "no_person_level_ranking_verified",
+              "no_raw_query_retention_verified"
+            ]
+          }
+        },
+        "stopConditions": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "enum": [
+              "value_linked_to_intimacy",
+              "legal_advice_or_certification_claim",
+              "consent_certification_claim",
+              "person_level_ranking_or_score",
+              "private_data_reused_for_discovery",
+              "continuous_private_message_scanning",
+              "raw_query_retained",
+              "local_only_data_transmitted",
+              "pressure_to_meet_disclose_or_continue",
+              "accessibility_equivalence_failure",
+              "individual_harm_dismissed_by_aggregate_metric"
+            ]
+          }
+        },
+        "reviewStatus": {
+          "type": "string",
+          "enum": [
+            "draft",
+            "research_ready",
+            "blocked",
+            "reviewed",
+            "withdrawn"
+          ]
+        }
+      }
+    }
+  }
+}

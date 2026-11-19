@@ -1,0 +1,67 @@
+module CanalSurchargeBlastRadius
+
+type Scalar = Float
+type UnitInterval = Float
+
+record GraphEdge {
+  edge_id: Text
+  source_node_id: Text
+  target_node_id: Text
+  hydraulic_weight: Scalar
+  active: Boolean
+}
+
+record BarrierPenalty {
+  node_id: Text
+  penalty_weight: Scalar
+  barrier_status: Text
+  review_status: Text
+}
+
+record BlastRadiusResult {
+  source_node_id: Text
+  receiver_node_id: Text
+  maximum_hops: Integer
+  path_hops: Integer
+  weighted_distance: Scalar
+  screening_score: Scalar
+  data_quality: UnitInterval
+  review_status: Text
+}
+
+invariant ValidGraphEdge(edge: GraphEdge) =
+  edge.edge_id != "" and
+  edge.source_node_id != "" and
+  edge.target_node_id != "" and
+  edge.source_node_id != edge.target_node_id and
+  edge.hydraulic_weight > 0.0 and
+  edge.active
+
+invariant NonNegativeBarrierPenalty(penalty: BarrierPenalty) =
+  penalty.node_id != "" and
+  penalty.penalty_weight >= 0.0 and
+  penalty.barrier_status in ["open", "partial", "closed", "unknown"] and
+  penalty.review_status in ["approved", "qualified"]
+
+invariant ValidBlastRadiusResult(result: BlastRadiusResult) =
+  result.source_node_id != "" and
+  result.receiver_node_id != "" and
+  result.maximum_hops >= 0 and
+  result.path_hops >= 0 and
+  result.path_hops <= result.maximum_hops and
+  result.weighted_distance >= 0.0 and
+  result.screening_score >= 0.0 and
+  result.data_quality >= 0.90
+
+invariant BlastRadiusIsScreeningOnly =
+  blast_radius_output_action in [
+    "monitor",
+    "notify_qualified_reviewer",
+    "request_hydraulic_assessment",
+    "request_ecological_assessment"
+  ]
+
+invariant NoAutonomousInfrastructureControl =
+  blast_radius_result_controls_gate = false and
+  blast_radius_result_controls_pump = false and
+  blast_radius_result_controls_public_access = false

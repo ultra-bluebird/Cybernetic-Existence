@@ -1,0 +1,137 @@
+@SHARD "BOUNDED-INVARIANT-VERIFICATION" {
+
+  @meta {
+    version: "1.0.0"
+    scope: "finite_local_verification_of_declared_software_invariants"
+    audience: "local_verifiers_policy_engines_test_runners_and_governance_reviewers"
+    consent_basis: "user_sovereign_default"
+    retention: "declared_audit_window_only"
+    accountability: "local_verification_owner"
+    review_status: "draft_for_user_review"
+    operating_mode: "local_only_research_advisory"
+  }
+
+  @VERIFICATION_SCOPE {
+    verification_scope: "finite_declared_input_grid_only"
+
+    does_not_claim: [
+      "universal_formal_verification",
+      "verification_outside_declared_domain",
+      "real_world_system_verification",
+      "superintelligence_verification",
+      "cybernetic_system_verification",
+      "identity_verification",
+      "external_action_authorization"
+    ]
+
+    model_source_sha256_required: true
+    configuration_sha256_required: true
+    invariant_declarations_required: true
+  }
+
+  @FINITE_DOMAIN {
+    each_dimension_requires: [
+      "dimension_name",
+      "minimum",
+      "maximum",
+      "step",
+      "value_type",
+      "inclusion_rule"
+    ]
+
+    prohibited_dimension_values: [
+      "nonfinite_number",
+      "undeclared_value",
+      "implicit_default_with_no_record"
+    ]
+
+    out_of_domain_result: "blocked_not_verified"
+    unknown_condition_result: "blocked_not_verified"
+  }
+
+  @INVARIANTS {
+    required: [
+      "bounded_output_range",
+      "nonnegativity_where_declared",
+      "hard_gate_preservation",
+      "non_compensatory_gate_enforcement",
+      "declared_monotonicity_properties",
+      "nonfinite_input_fail_closed",
+      "unknown_input_fail_closed",
+      "external_action_never_authorized"
+    ]
+
+    hard_gate_rule: "any_failed_hard_gate_implies_declared_task_ineligible"
+
+    prohibited_eligibility_operations: [
+      "compensatory_aggregation",
+      "weighted_sum_override",
+      "scalarization_override",
+      "trade_off_override",
+      "expected_value_override",
+      "failed_gate_penalty_substitution",
+      "ranking_based_override"
+    ]
+  }
+
+  @RESULT_RECORD {
+    required_fields: [
+      "model_sha256",
+      "configuration_sha256",
+      "verification_scope",
+      "total_cases",
+      "passed_cases",
+      "failed_cases",
+      "verified_within_declared_domain",
+      "universal_verification_claimed",
+      "external_action_authorized",
+      "plain_language_summary"
+    ]
+
+    universal_verification_claimed: false
+    external_action_authorized: false
+
+    failure_requires: [
+      "invariant_name",
+      "counterexample_input",
+      "observed_output",
+      "expected_rule",
+      "local_reproduction_instructions"
+    ]
+  }
+
+  @NON_INTERFERENCE {
+    never_modify_user_owned_files: true
+    never_modify_repository_files: true
+    never_contact_external_services: true
+    never_auto_fetch_reference: true
+    never_auto_execute_tested_content: true
+    never_trigger_external_action: true
+    never_trigger_external_notification: true
+    never_infer_identity_intent_or_capability: true
+    never_rank_users_sessions_or_systems: true
+  }
+
+  @ACCESS_EQUIVALENCE {
+    plain_language_summary_required: true
+    machine_readable_result_required: true
+    offline_readable: true
+    no_account_required: true
+    no_identity_verification_required: true
+    no_disclosure_required_to_run_or_read_verification: true
+    counterexamples_must_be_locally_inspectable: true
+  }
+
+  @PROHIBITED_USES {
+    list: [
+      "claim_of_universal_proof_from_finite_grid",
+      "claim_of_real_world_system_verification",
+      "claim_of_person_or_system_identity_verification",
+      "automatic_external_action",
+      "automatic_repository_modification",
+      "automatic_hardware_control",
+      "user_or_system_ranking",
+      "eligibility_determination_outside_declared_local_task"
+    ]
+  }
+}

@@ -1,0 +1,57 @@
+module CoolPavementClaims
+
+type Scalar = Float
+type UnitInterval = Float
+
+record PavementThermalInput {
+  pavement_asset_id: Text
+  solar_albedo: UnitInterval
+  thermal_emissivity: UnitInterval
+  solar_irradiance_w_m2: Scalar
+  downwelling_longwave_w_m2: Scalar
+  air_temperature_c: Scalar
+  reference_surface_temperature_c: Scalar
+  wind_speed_m_s: Scalar
+  measurement_quality: UnitInterval
+}
+
+record CoolingClaim {
+  pavement_asset_id: Text
+  estimated_surface_temperature_change_c: Scalar
+  lower_confidence_c: Scalar
+  upper_confidence_c: Scalar
+  pedestrian_radiant_review_status: Text
+  air_temperature_claim_supported: Boolean
+  claim_scope: Text
+}
+
+invariant ValidPavementThermalInput(input: PavementThermalInput) =
+  input.pavement_asset_id != "" and
+  input.solar_albedo >= 0.0 and
+  input.solar_albedo <= 1.0 and
+  input.thermal_emissivity > 0.0 and
+  input.thermal_emissivity <= 1.0 and
+  input.solar_irradiance_w_m2 >= 0.0 and
+  input.downwelling_longwave_w_m2 >= 0.0 and
+  input.wind_speed_m_s >= 0.0 and
+  input.measurement_quality >= 0.90
+
+invariant ValidCoolingClaim(claim: CoolingClaim) =
+  claim.pavement_asset_id != "" and
+  claim.lower_confidence_c <= claim.upper_confidence_c and
+  claim.pedestrian_radiant_review_status in [
+    "pending",
+    "approved",
+    "qualified"
+  ]
+
+invariant SurfaceCoolingIsNotAirCooling(claim: CoolingClaim) =
+  claim.claim_scope = "surface_temperature_only" implies
+  not claim.air_temperature_claim_supported
+
+invariant PublicHeatReliefRequiresRadiantReview(claim: CoolingClaim) =
+  claim.claim_scope = "public_heat_relief_support" implies
+  claim.pedestrian_radiant_review_status = "approved"
+
+invariant NoUniversalCoolingClaim =
+  cool_pavement_claimed_as_universal_heat_relief = false

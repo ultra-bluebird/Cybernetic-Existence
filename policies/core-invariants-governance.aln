@@ -1,0 +1,65 @@
+aln_version: "2"
+policy_class: "core_invariants_governance"
+purpose_scope:
+  allow:
+    - ecological_decision_support
+    - interaction_integrity
+    - model_assurance
+    - evidence_provenance
+    - accessibility_assurance
+  deny:
+    - unsupported_real_world_control_claim
+    - public_identity_or_credibility_ranking
+    - identity_inference_from_language_or_metadata
+    - cyberrank_as_status_eligibility_or_decision_criterion
+    - automatic_high_consequence_action
+    - automatic_relaxation_of_hard_planes
+    - unnecessary_reclarification
+model_control_boundary:
+  model_request_must_not_imply:
+    - operation
+    - actuation
+    - real_world_monitoring_claim
+    - repair
+    - calibration
+    - protection_claim
+    - certification
+  category_error_requires_rewrite: true
+corridor:
+  risk_coordinates_must_be_bounded: true
+  weights_must_be_nonnegative: true
+  nonoffsettable_plane_failure_prohibits_proceed: true
+  uncertainty_increase_without_validated_evidence_requires_derate: true
+model_assurance:
+  code_verification_required: true
+  solution_verification_required: true
+  calibration_required: true
+  held_out_validation_required: true
+  uncertainty_coverage_required: true
+  domain_check_required: true
+  reproducibility_required: true
+  false_safe_result_prohibits_proceed: true
+  material_change_expires_advisory: true
+interaction:
+  scope_persistence_required: true
+  identity_marker_non_inference_required: true
+  explicit_accessibility_preference_changes_presentation_only: true
+  correction_acknowledgment_maximum: 1
+  correction_must_update_scope_and_resume: true
+continuity:
+  privacy_boundary_respect_required: true
+  equivalent_fallback_required: true
+  continuity_reduction_requires_review: true
+  disclosure_or_verification_not_required_for_access: true
+provenance:
+  canonical_serialization_required: true
+  hash_chain_required: true
+  purpose_limitation_required: true
+  retention_review_required: true
+  correction_and_appeal_required: true
+governance:
+  accessible_explanation_required: true
+  human_review_required_for_material_change: true
+  external_action_requires_explicit_approval: true
+review:
+  status: "draft_for_scientific_accessibility_ecological_and_community_review"

@@ -1,0 +1,148 @@
+policy business_place_integration_v1 {
+  policy_type "community_business_contribution_and_data_governance"
+  review_status "candidate_for_review"
+
+  purpose {
+    allowed [
+      "environmental_measurement",
+      "eco_restoration_participation",
+      "accessible_gathering_space_coordination",
+      "community_resilience_support",
+      "repair_and_maintenance_coordination",
+      "aggregate_public_interest_planning"
+    ]
+
+    prohibited [
+      "exclusive_community_data_access",
+      "sale_of_identifiable_community_data",
+      "business_size_based_data_privilege",
+      "contribution_volume_based_civic_priority",
+      "identity_linked_marketing",
+      "surveillance_based_customer_profiling",
+      "essential_service_exclusion",
+      "pay_to_influence_governance"
+    ]
+  }
+
+  contributor_eligibility {
+    business_size_neutral true
+    business_type_neutral true
+    participation_routes [
+      "low_cost_sensor_hosting",
+      "shared_sensor_kit",
+      "environmental_maintenance_participation",
+      "accessible_space_availability",
+      "community_event_support",
+      "material_reuse_or_repair_program",
+      "eco_initiative_verification"
+    ]
+
+    minimum_requirements [
+      "purpose_bound_contribution_agreement",
+      "accessible_grievance_path",
+      "data_minimization_commitment",
+      "no_exclusive_data_claim",
+      "no_identity_linked_telemetry_collection",
+      "plain_language_participation_terms"
+    ]
+  }
+
+  data_governance {
+    data_classes {
+      environmental_telemetry {
+        allowed "purpose_bound_aggregate_environmental_measurement"
+        prohibited [
+          "customer_identity_linkage",
+          "employee_identity_linkage",
+          "behavioral_profiling",
+          "marketing_retargeting",
+          "exclusive_access"
+        ]
+      }
+
+      business_operational_data {
+        allowed "minimal_data_needed_for_contribution_verification"
+        prohibited [
+          "competitive_intelligence_distribution",
+          "unrelated_publication",
+          "unapproved_secondary_use"
+        ]
+      }
+    }
+
+    access {
+      community_aggregate_data_access "equal_terms_for_eligible_participants"
+      exclusive_business_access "prohibited"
+      identifiable_data_access "prohibited"
+      role_based_access_control true
+      audit_receipts_required true
+      export_and_deletion_path_required true
+    }
+  }
+
+  contribution_measurement {
+    dimensions [
+      "data_quality",
+      "space_accessibility_and_availability",
+      "verified_eco_initiative_outcomes",
+      "maintenance_or_repair_support",
+      "community_benefit",
+      "resource_burden"
+    ]
+
+    prohibited_uses [
+      "exclusive_data_rights",
+      "civic_service_priority",
+      "community_governance_vote_multiplier",
+      "business_reputation_ranking",
+      "procurement_eligibility_without_separate_rules"
+    ]
+
+    normalization {
+      capacity_aware true
+      contribution_volume_not_required true
+      low_resource_participation_supported true
+      uncertainty_disclosed true
+    }
+  }
+
+  small_business_support {
+    enabled true
+    measures [
+      "shared_sensor_kit_access",
+      "installation_and_calibration_support",
+      "offline_and_low_bandwidth_submission",
+      "standardized_nonexclusive_agreement",
+      "microgrant_or_in_kind_support_subject_to_separate_approval",
+      "pooled_maintenance_service",
+      "accessible_training_materials",
+      "translation_and_plain_language_support"
+    ]
+
+    anti_concentration {
+      contribution_not_required_for_community_data_access true
+      large_contributor_exclusive_privilege_prohibited true
+      governance_influence_not_proportional_to_contribution_volume true
+    }
+  }
+
+  external_action {
+    default_status "requires_separate_approval"
+    business_participation_does_not_authorize [
+      "public_space_control",
+      "personal_data_access",
+      "service_eligibility_change",
+      "community_data_export",
+      "marketing_use",
+      "automated_reward_distribution"
+    ]
+  }
+
+  accountability {
+    human_review_required true
+    accessible_appeal_or_correction_path "accessible-grievance-protocol"
+    policy_version_required true
+    contribution_receipt_required true
+    data_access_receipt_required true
+  }
+}

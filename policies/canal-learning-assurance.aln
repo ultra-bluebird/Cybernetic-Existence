@@ -1,0 +1,48 @@
+aln_version: "2"
+policy_class: "canal_learning_assurance"
+purpose_scope:
+  allow:
+    - adaptive_environmental_sampling
+    - telemetry_fusion
+    - biofilm_model_hypothesis_generation
+    - hydraulic_emulator_evaluation
+    - ecological_decision_support
+  deny:
+    - autonomous_real_world_control
+    - unsupported_sensor_failure_claim
+    - attention_as_causal_proof
+    - unvalidated_mechanism_claim
+    - gp_safe_clearance_near_dry_wet_discontinuity
+cmdp:
+  deterministic_safety_shield_required: true
+  observability_floor_required: true
+  covariance_limit_required: true
+  maximum_heartbeat_required: true
+  sensor_drift_uncertainty_requires_conservative_sampling: true
+gat:
+  physically_plausible_sparse_graph_required: true
+  edge_mask_version_required: true
+  stale_or_invalid_edge_exclusion_required: true
+  attention_is_candidate_evidence_only: true
+  physical_review_required_for_coupling_claim: true
+sindy:
+  weak_or_integral_form_required_for_noisy_derivatives: true
+  correlated_noise_model_required: true
+  feature_library_provenance_required: true
+  held_out_regime_validation_required: true
+  false_safe_result_prohibited: true
+gp:
+  signed_corridor_margin_target_required: true
+  in_domain_check_required: true
+  discontinuity_margin_required: true
+  dry_wet_front_requires_full_solver_unless_validated: true
+  false_safe_count_must_be_zero_for_advisory: true
+governance:
+  model_outputs_are_decision_support_only: true
+  uncertainty_explanation_required: true
+  accessible_output_required: true
+  correction_and_appeal_available: true
+  external_action_requires_explicit_approval: true
+review:
+  status: "draft_for_hydraulic_ecological_and_community_review"
+  material_change_review_required: true

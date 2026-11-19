@@ -1,0 +1,137 @@
+policy belonging_and_non_discrimination_v1 {
+  policy_type "rights_centered_access_and_belonging_constraint"
+  review_status "candidate_for_review"
+
+  scope {
+    applies_to [
+      "environmental_services",
+      "civic_services",
+      "transit_services",
+      "repair_services",
+      "accessibility_services",
+      "public_assistance_panels",
+      "community_participation",
+      "planning_workflows",
+      "governance_review",
+      "technical_system_integrations"
+    ]
+  }
+
+  belonging_invariant {
+    principle "Respectful treatment, equal access, voluntary self-description, and accessible participation do not require disclosure or verification of private motivation, personal purpose, identity theory, health condition, augmentation status, cognitive practice, or life history."
+
+    required_behaviors [
+      "provide_equal_default_service",
+      "provide_accessible_interaction_options",
+      "permit_voluntary_self_description",
+      "provide_accessible_grievance_and_correction_path",
+      "preserve_essential_access_without_external_identity_verification",
+      "use_identity_agnostic_service_decision_inputs"
+    ]
+
+    prohibited_behaviors [
+      "demand_private_motivation_disclosure",
+      "score_personal_purpose",
+      "verify_worthiness_for_access",
+      "infer_identity_from_behavior_or_telemetry",
+      "reduce_service_due_to_unverified_self_description",
+      "condition_accommodation_on_diagnostic_proof",
+      "condition_participation_on_continuous_connectivity",
+      "condition_participation_on_proprietary_device_use",
+      "condition_participation_on_optional_telemetry"
+    ]
+  }
+
+  self_description {
+    allowed true
+    voluntary true
+    retention "user_controlled_or_session_bound"
+    allowed_purpose [
+      "respectful_interaction",
+      "user_controlled_presentation",
+      "voluntary_accessibility_preference"
+    ]
+
+    prohibited_purpose [
+      "eligibility_determination",
+      "service_priority_reduction",
+      "credibility_assessment",
+      "ecological_score_adjustment",
+      "reputation_score",
+      "surveillance",
+      "identity_verification_requirement"
+    ]
+  }
+
+  accessibility_accommodation {
+    requested_by "voluntary_preference_or_observed_interface_need_without_identity_inference"
+    permitted_adaptations [
+      "alternate_input_method",
+      "alternate_output_format",
+      "text_to_speech",
+      "captioning",
+      "plain_language",
+      "pacing_control",
+      "keyboard_or_switch_support",
+      "voice_or_nonvoice_alternative",
+      "offline_participation_route",
+      "accessible_review_format"
+    ]
+
+    no_proof_required true
+    no_loss_of_essential_service_when_revoked true
+    no_identity_status_inference true
+  }
+
+  decision_input_boundary {
+    prohibited_inputs [
+      "claimed_identity",
+      "identity_status",
+      "purposeful_reason_to_exist",
+      "private_motivation",
+      "augmentation_status",
+      "cybernetic_host_status",
+      "assistive_technology_status",
+      "biometric_information",
+      "neural_information",
+      "health_information",
+      "disability_related_information",
+      "private_learning_continuity_information",
+      "absence_of_optional_telemetry",
+      "absence_of_external_identity_verification"
+    ]
+
+    permitted_inputs [
+      "environmental_evidence",
+      "operational_safety",
+      "service_capacity",
+      "public_infrastructure_condition",
+      "voluntary_accessibility_preference_for_interface_adaptation_only",
+      "approved_governance_policy"
+    ]
+  }
+
+  violation_response {
+    action "deny_identity_linked_decision_path"
+    create_auditable_policy_receipt true
+    receipt_fields [
+      "policy_version",
+      "decision_scope",
+      "prohibited_input_category",
+      "timestamp_utc",
+      "plain_language_explanation",
+      "appeal_or_correction_path"
+    ]
+  }
+
+  legal_boundary {
+    statement "This policy is a technical and governance commitment for Augmented-Hub. It is not a legal finding, a certification of identity, or a determination of enforceable legal rights."
+    jurisdiction_specific_review_required true
+  }
+
+  accountability {
+    human_review_required true
+    accessible_appeal_or_correction_path "accessible-grievance-protocol"
+    external_action_status "requires_separate_approval"
+  }
+}

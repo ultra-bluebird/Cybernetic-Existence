@@ -1,0 +1,61 @@
+module MetaboliteEcotoxicitySafety
+
+type Scalar = Float
+type UnitInterval = Float
+
+record TransformationProduct {
+  product_id: Text
+  identification_confidence: Text
+  concentration_known: Boolean
+  toxicity_status: Text
+  pathway_fraction: UnitInterval
+}
+
+record AlgalEndpoint {
+  product_id: Text
+  guideline_identifier: Text
+  endpoint_type: Text
+  effect_concentration_mg_l: Scalar
+  analytical_verification_status: Text
+  study_quality_status: Text
+}
+
+record MaterialReleaseDecision {
+  material_batch_id: Text
+  transformation_products_complete: Boolean
+  pathway_mass_balance_closed: Boolean
+  ecotoxicity_review_status: Text
+  environmental_release_status: Text
+}
+
+invariant ValidTransformationProduct(product: TransformationProduct) =
+  product.product_id != "" and
+  product.pathway_fraction >= 0.0 and
+  product.pathway_fraction <= 1.0
+
+invariant KnownProductRequiredForMixtureCalculation(
+  product: TransformationProduct
+) =
+  product.identification_confidence = "confirmed_standard" and
+  product.concentration_known and
+  product.toxicity_status = "validated"
+
+invariant ValidAlgalEndpoint(endpoint: AlgalEndpoint) =
+  endpoint.product_id != "" and
+  endpoint.guideline_identifier = "OECD_TG_201" and
+  endpoint.endpoint_type in ["growth_rate", "yield"] and
+  endpoint.effect_concentration_mg_l > 0.0 and
+  endpoint.analytical_verification_status = "verified" and
+  endpoint.study_quality_status = "accepted"
+
+invariant EnvironmentalReleaseRequiresCharacterization(
+  decision: MaterialReleaseDecision
+) =
+  decision.environmental_release_status = "approved_under_specific_permit" implies
+  decision.transformation_products_complete and
+  decision.pathway_mass_balance_closed and
+  decision.ecotoxicity_review_status = "approved"
+
+invariant UnknownMetaboliteForcesHold =
+  unknown_transformation_product_present implies
+  environmental_release_status != "approved_under_specific_permit"

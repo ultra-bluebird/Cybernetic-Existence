@@ -1,0 +1,58 @@
+policy ArSpatialMapRetention version "2026-09-17" {
+
+  purpose {
+    data_class = SESSION_LOCAL_SPATIAL_MAPPING
+    permitted_use = CURRENT_SESSION_LOCAL_AR_RENDERING
+    prohibited_use = PERSISTENT_SPATIAL_RECORD
+    prohibited_use = CLOUD_UPLOAD
+    prohibited_use = CROSS_SESSION_CORRELATION
+    prohibited_use = LOCATION_INFERENCE
+  }
+
+  invariant map_exists_only_in_active_or_paused_session {
+    when ar.session_state(session_ref) == INITIATED
+    require spatial_map.present(session_ref) == false
+
+    when ar.session_state(session_ref) == ACTIVE
+    require spatial_map.storage_scope(session_ref) == MEMORY_ONLY_CURRENT_SESSION
+
+    when ar.session_state(session_ref) == PAUSED
+    require spatial_map.storage_scope(session_ref) == MEMORY_ONLY_CURRENT_SESSION
+
+    when ar.session_state(session_ref) == ENDED
+    require spatial_map.present(session_ref) == false
+
+    when ar.session_state(session_ref) == PURGED
+    require spatial_map.present(session_ref) == false
+  }
+
+  invariant end_requires_immediate_map_purge {
+    when ar.end_requested(session_ref)
+    require spatial_map.clear_before_ended_state(session_ref) == true
+    require spatial_map.pose_history_cleared(session_ref) == true
+    require spatial_map.depth_data_cleared(session_ref) == true
+    require spatial_map.plane_estimation_data_cleared(session_ref) == true
+  }
+
+  invariant map_never_becomes_a_persistent_record {
+    require spatial_map.persistent_storage_allowed == false
+    require spatial_map.cloud_upload_allowed == false
+    require spatial_map.analytics_export_allowed == false
+    require spatial_map.cross_session_reuse_allowed == false
+    require spatial_map.cross_session_correlation_allowed == false
+    require spatial_map.location_inference_allowed == false
+    require spatial_map.bystander_inference_allowed == false
+  }
+
+  invariant local_audit_event_has_no_map_content {
+    require audit.map_geometry_included == false
+    require audit.camera_frame_included == false
+    require audit.pose_history_included == false
+    require audit.location_included == false
+    require audit.event_retention_schedule_present == true
+  }
+
+  invariant spatial_map_policy_is_non_actuating {
+    require spatial_map.external_action_authorized == false
+  }
+}

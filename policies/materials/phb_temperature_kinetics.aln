@@ -1,0 +1,64 @@
+module PHBTemperatureKinetics
+
+type Scalar = Float
+type UnitInterval = Float
+
+record PHBExperiment {
+  experiment_id: Text
+  material_batch_id: Text
+  blend_id: Text
+  water_medium_type: Text
+  temperature_kelvin: Scalar
+  observed_rate_constant_per_day: Scalar
+  temperature_sensor_quality: UnitInterval
+  replicate_count: Integer
+  abiotic_control_present: Boolean
+  inoculum_control_present: Boolean
+  method_validation_status: Text
+}
+
+record KineticFit {
+  fit_id: Text
+  blend_id: Text
+  pre_exponential_factor: Scalar
+  activation_energy_j_mol: Scalar
+  cold_correction_enabled: Boolean
+  cold_correction_factor: Scalar
+  validated_temperature_min_kelvin: Scalar
+  validated_temperature_max_kelvin: Scalar
+  independent_validation_status: Text
+}
+
+invariant ValidExperiment(experiment: PHBExperiment) =
+  experiment.experiment_id != "" and
+  experiment.material_batch_id != "" and
+  experiment.blend_id != "" and
+  experiment.water_medium_type != "" and
+  experiment.temperature_kelvin > 0.0 and
+  experiment.observed_rate_constant_per_day >= 0.0 and
+  experiment.temperature_sensor_quality >= 0.90 and
+  experiment.replicate_count >= 3 and
+  experiment.abiotic_control_present and
+  experiment.inoculum_control_present and
+  experiment.method_validation_status = "approved"
+
+invariant ValidKineticFit(fit: KineticFit) =
+  fit.fit_id != "" and
+  fit.blend_id != "" and
+  fit.pre_exponential_factor > 0.0 and
+  fit.activation_energy_j_mol > 0.0 and
+  fit.validated_temperature_min_kelvin > 0.0 and
+  fit.validated_temperature_max_kelvin >
+    fit.validated_temperature_min_kelvin and
+  fit.independent_validation_status = "approved"
+
+invariant ColdCorrectionRequiresEvidence(fit: KineticFit) =
+  fit.cold_correction_enabled implies
+  fit.cold_correction_factor > 0.0
+
+invariant PredictionWithinValidatedRange(
+  temperature_kelvin: Scalar,
+  fit: KineticFit
+) =
+  temperature_kelvin >= fit.validated_temperature_min_kelvin and
+  temperature_kelvin <= fit.validated_temperature_max_kelvin

@@ -1,0 +1,80 @@
+policy ArSmartCityIntegrationBoundary version "2026-09-17" {
+
+  purpose {
+    data_class = PUBLIC_INFRASTRUCTURE_STATUS_DISPLAY
+    permitted_use = LOCAL_AR_DISPLAY_OF_PUBLIC_STATUS
+    permitted_use = ACCESSIBLE_ROUTE_AND_HAZARD_INFORMATION
+    prohibited_use = CITIZEN_SURVEILLANCE
+    prohibited_use = IDENTITY_EXCHANGE
+    prohibited_use = BIOMETRIC_EXCHANGE
+    prohibited_use = PERSON_SCORING
+    prohibited_use = INFRASTRUCTURE_CONTROL
+  }
+
+  invariant ar_may_receive_only_public_nonpersonal_status {
+    require inbound.public_service_status_allowed == true
+    require inbound.public_availability_allowed == true
+    require inbound.public_hazard_warning_allowed == true
+    require inbound.public_accessible_route_notice_allowed == true
+    require inbound.public_service_disruption_allowed == true
+    require inbound.public_environmental_condition_allowed == true
+
+    require inbound.personal_data_allowed == false
+    require inbound.identity_allowed == false
+    require inbound.account_state_allowed == false
+    require inbound.location_history_allowed == false
+    require inbound.device_identifier_allowed == false
+    require inbound.behavioral_pattern_allowed == false
+    require inbound.biometric_allowed == false
+    require inbound.health_data_allowed == false
+    require inbound.inferred_state_allowed == false
+    require inbound.relationship_graph_allowed == false
+    require inbound.eligibility_outcome_allowed == false
+    require inbound.reputation_score_allowed == false
+  }
+
+  invariant ar_must_not_transmit_personal_or_inferred_data {
+    require outbound.identity_allowed == false
+    require outbound.biometric_allowed == false
+    require outbound.body_inference_allowed == false
+    require outbound.health_inference_allowed == false
+    require outbound.location_history_allowed == false
+    require outbound.behavioral_pattern_allowed == false
+    require outbound.inferred_state_allowed == false
+    require outbound.relationship_inference_allowed == false
+    require outbound.profile_data_allowed == false
+    require outbound.safety_score_allowed == false
+    require outbound.trust_score_allowed == false
+    require outbound.eligibility_score_allowed == false
+  }
+
+  invariant outbound_reports_are_user_requested_and_reviewable {
+    when outbound.local_report_requested(report_ref)
+    require outbound.user_initiated(report_ref) == true
+    require outbound.user_review_before_submission(report_ref) == true
+    require outbound.purpose_declared(report_ref) == true
+    require outbound.data_class_declared(report_ref) == true
+    require outbound.destination_declared(report_ref) == true
+    require outbound.retention_declared(report_ref) == true
+    require outbound.correction_or_withdrawal_path_available(report_ref) == true
+  }
+
+  invariant ar_never_controls_infrastructure {
+    require control.door_control_allowed == false
+    require control.transit_control_allowed == false
+    require control.kiosk_control_allowed == false
+    require control.sensor_reconfiguration_allowed == false
+    require control.power_management_allowed == false
+    require control.maintenance_bot_command_allowed == false
+    require control.external_action_authorized == false
+  }
+
+  invariant public_status_is_not_personalized_by_inference {
+    require personalization.identity_inference_allowed == false
+    require personalization.health_inference_allowed == false
+    require personalization.disability_inference_allowed == false
+    require personalization.augmentation_inference_allowed == false
+    require personalization.behavioral_profiling_allowed == false
+    require personalization.location_history_use_allowed == false
+  }
+}

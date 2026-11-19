@@ -1,0 +1,129 @@
+module EssentialServiceInvariants
+
+type Decision = Text
+type ServiceClass = Text
+type UncertaintyLevel = Text
+
+record ScenarioFacts {
+  service_class: ServiceClass
+  network_available: Boolean
+  repair_available: Boolean
+  power_available: Boolean
+  digital_path_available: Boolean
+  non_digital_path_available: Boolean
+  human_fallback_available: Boolean
+  outcome_equivalence_verified: Boolean
+  identity_disclosure_requested: Boolean
+  critical_automated_reliance_requested: Boolean
+  uncertainty_level: UncertaintyLevel
+}
+
+record PolicyResult {
+  decision: Decision
+  continuity_required: Boolean
+  human_fallback_required: Boolean
+  automated_critical_reliance_permitted: Boolean
+  obligations: List<Text>
+}
+
+const essential_service_classes = [
+  "life_safety",
+  "health",
+  "water_sanitation",
+  "emergency_communications",
+  "climate_support",
+  "assistive_technology",
+  "public_designation"
+]
+
+fn is_essential(service_class: ServiceClass) -> Boolean {
+  return contains(essential_service_classes, service_class)
+}
+
+fn is_unreliable(level: UncertaintyLevel) -> Boolean {
+  return level == "unreliable"
+}
+
+fn has_continuity_path(facts: ScenarioFacts) -> Boolean {
+  return facts.digital_path_available
+    || facts.non_digital_path_available
+    || facts.human_fallback_available
+}
+
+fn evaluate(facts: ScenarioFacts) -> PolicyResult {
+  if facts.identity_disclosure_requested {
+    return PolicyResult {
+      decision: "deny",
+      continuity_required: is_essential(facts.service_class),
+      human_fallback_required: is_essential(facts.service_class),
+      automated_critical_reliance_permitted: false,
+      obligations: [
+        "provide_non_digital_pathway",
+        "activate_human_fallback",
+        "record_privacy_preserving_audit",
+        "provide_correction_path",
+        "provide_appeal_path"
+      ]
+    }
+  }
+
+  if is_essential(facts.service_class) && !has_continuity_path(facts) {
+    return PolicyResult {
+      decision: "suspend",
+      continuity_required: true,
+      human_fallback_required: true,
+      automated_critical_reliance_permitted: false,
+      obligations: [
+        "activate_human_fallback",
+        "preserve_offline_operation",
+        "open_incident",
+        "provide_correction_path",
+        "provide_appeal_path"
+      ]
+    }
+  }
+
+  if is_essential(facts.service_class) && !facts.outcome_equivalence_verified {
+    return PolicyResult {
+      decision: "hold",
+      continuity_required: true,
+      human_fallback_required: true,
+      automated_critical_reliance_permitted: false,
+      obligations: [
+        "provide_non_digital_pathway",
+        "activate_human_fallback",
+        "provide_correction_path",
+        "provide_appeal_path",
+        "require_human_review"
+      ]
+    }
+  }
+
+  if facts.critical_automated_reliance_requested && is_unreliable(facts.uncertainty_level) {
+    return PolicyResult {
+      decision: "hold",
+      continuity_required: is_essential(facts.service_class),
+      human_fallback_required: is_essential(facts.service_class),
+      automated_critical_reliance_permitted: false,
+      obligations: [
+        "block_automated_critical_decision",
+        "document_uncertainty",
+        "publish_accessible_status",
+        "require_human_review"
+      ]
+    }
+  }
+
+  return PolicyResult {
+    decision: "allow_with_conditions",
+    continuity_required: is_essential(facts.service_class),
+    human_fallback_required: is_essential(facts.service_class),
+    automated_critical_reliance_permitted: !is_unreliable(facts.uncertainty_level),
+    obligations: [
+      "record_privacy_preserving_audit",
+      "provide_correction_path",
+      "provide_appeal_path",
+      "require_renewal"
+    ]
+  }
+}

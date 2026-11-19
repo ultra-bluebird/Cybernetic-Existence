@@ -1,0 +1,265 @@
+aln_version: "2"
+policy_type: "ble_optional_interaction_and_simulation"
+policy_name: "BLE Optional Interaction and Privacy-Safe Urban Simulation"
+status: "review_required"
+scope: "Optional local Bluetooth Low Energy interaction features and aggregate-only smart-city simulation artifacts"
+
+purpose:
+  - "Allow optional, user-controlled local accessibility and interface conveniences."
+  - "Preserve anonymous and non-BLE access to all public functions."
+  - "Prevent BLE-derived surveillance, tracking, identity inference, service gating, and cross-system correlation."
+  - "Provide token-efficient aggregate simulation for public-interest planning and AI-assisted analysis."
+
+data_class:
+  name: "ble_identifier"
+  sensitivity: "sensitive"
+  purpose: "optional_local_interaction_only"
+  permitted_processing:
+    - "session_ephemeral"
+    - "explicit_consent_required"
+    - "on_device_or_local_peripheral_only"
+    - "immediate_discard_after_local_action"
+  persistence:
+    permitted: false
+    retention: "zero_persistent"
+  transmission:
+    off_device_transmission_permitted: false
+    municipal_network_transmission_permitted: false
+    cloud_transmission_permitted: false
+    dashboard_transmission_permitted: false
+  prohibited_processing:
+    - "essential_service_gating"
+    - "identity_verification"
+    - "identity_inference"
+    - "cybernetic_host_status_inference"
+    - "health_inference"
+    - "disability_inference"
+    - "augmentation_inference"
+    - "presence_history"
+    - "location_history"
+    - "cross_device_correlation"
+    - "wifi_correlation"
+    - "traffic_analysis"
+    - "behavioral_profiling"
+    - "social_scoring"
+    - "financial_ranking"
+    - "targeted_advertising"
+    - "law_enforcement_tracking"
+    - "public_area_ble_counting"
+
+core_invariants:
+  - id: "ble_optional"
+    rule: "BLE SHALL remain optional for every interaction, service, and public-space feature."
+
+  - id: "ble_visible_off_control"
+    rule: "Every BLE-enabled public interface SHALL provide an accessible, visible, understandable BLE disable control and an immediate non-BLE path."
+
+  - id: "ble_no_essential_service_gate"
+    rule: "Emergency shelter, cooling, warming, water, sanitation, transit access, safety information, emergency communications, grievance intake, and public assistance SHALL operate fully when BLE is absent, disabled, unavailable, or malformed."
+
+  - id: "ble_local_ephemeral_only"
+    rule: "BLE identifiers, advertisements, address values, device names, signal fingerprints, pairing records, and derived values SHALL be used only within the local interaction boundary and discarded immediately after the requested local action."
+
+  - id: "ble_no_persistent_logs"
+    rule: "BLE identifier values and derived identifiers SHALL NOT appear in logs, telemetry, error reports, analytics, dashboards, audit records, crash reports, network captures, backups, or support exports."
+
+  - id: "ble_no_network_correlation"
+    rule: "A BLE event SHALL NOT be linked with Wi-Fi traffic, IP address, browser session, portal access, public-terminal event, camera input, sensor record, transit event, civic feedback record, or cooperative data submission."
+
+  - id: "ble_no_presence_metric"
+    rule: "Public or internal aggregate metrics SHALL NOT include BLE presence count, BLE dwell time, BLE recurrence, BLE detection rate by area, BLE signal strength history, or BLE-derived movement information."
+
+  - id: "ble_no_priority"
+    rule: "BLE state SHALL NOT increase or decrease QoS, service priority, transit assistance priority, eligibility, queue position, civic influence, access control, or public-resource allocation."
+
+  - id: "non_ble_equivalence"
+    rule: "Every convenience function exposed through BLE SHALL be available through an equivalent touch, tactile, keyboard, visual, auditory, paper, staff-assisted, or other accessible non-BLE method."
+
+  - id: "simulation_aggregate_only"
+    rule: "Simulation inputs and outputs SHALL be aggregate, synthetic, public, or otherwise privacy-safe. Person-level mobility traces, BLE data, identifiers, health records, and individual service histories are prohibited."
+
+  - id: "simulation_non_actuating"
+    rule: "Simulation results are advisory-only. They SHALL NOT directly control public infrastructure, deny a service, change individual eligibility, or trigger physical action without separately governed human approval."
+
+ble_feature_gate:
+  required_conditions:
+    - "feature_is_optional"
+    - "accessible_visible_off_control_available"
+    - "complete_non_ble_path_available"
+    - "essential_service_non_denial_confirmed"
+    - "identifier_never_persisted"
+    - "identifier_never_transmitted_off_device"
+    - "identifier_never_correlated_with_wifi_or_other_data"
+    - "no_ble_presence_metrics"
+    - "synthetic_leakage_test_passed"
+    - "privacy_and_accessibility_review_complete"
+  reject_conditions:
+    - "ble_required_for_service_access"
+    - "ble_required_for_accessibility_feature"
+    - "ble_identifier_written_to_log"
+    - "ble_identifier_in_audit_record"
+    - "ble_identifier_sent_to_backend"
+    - "ble_identifier_linked_to_wifi"
+    - "ble_identifier_used_in_cooperative_dataset"
+    - "ble_identifier_used_for_restroom_occupancy"
+    - "ble_identifier_used_for_crosswalk_tracking"
+    - "ble_identifier_used_for_transit_tracking"
+    - "ble_identifier_used_for_qos_priority"
+    - "ble_identifier_used_for_identity_or_status_inference"
+
+municipal_wifi:
+  qos:
+    classification_basis:
+      permitted:
+        - "signed_public_destination_allowlist"
+        - "local_public_service_mirror"
+        - "emergency_information_endpoint"
+      prohibited:
+        - "ble_presence"
+        - "ble_identifier"
+        - "device_identity"
+        - "cybernetic_host_status"
+        - "account_status"
+        - "participation_frequency"
+        - "payment_capacity"
+    essential_service_rule: "destination_based_only"
+    user_attribution_allowed: false
+    ble_logging_allowed: false
+    wifi_ble_correlation_allowed: false
+  privacy:
+    mac_address_retention: "prohibited"
+    browsing_history_retention: "prohibited"
+    destination_history_retention: "prohibited"
+    ble_identifier_retention: "prohibited"
+
+urban_farming_cooperative:
+  ble_ingestion:
+    permitted: "local_ephemeral_transport_trigger_only"
+    ble_identifier_in_upload: false
+    ble_identifier_in_storage: false
+    ble_identifier_in_aggregate_release: false
+    single_use_upload_token:
+      permitted: true
+      purpose: "integrity_of_one_local_submission"
+      retention: "immediate_expiry_after_completion"
+      linkable_to_person_or_device: false
+  required_upload_properties:
+    - "broad_zone_id_only"
+    - "regional_or_coarsened_metric"
+    - "time_window_aggregation"
+    - "small_cell_protection"
+    - "ble_id_present_false"
+  prohibited_output_claims:
+    - "identity_of_contributor"
+    - "augmentation_or_cybernetic_host_status_of_contributor"
+    - "garden_level_location"
+    - "individual_growing_practice"
+    - "individual_yield"
+    - "individual_water_use"
+    - "individual_financial_benefit"
+
+public_infrastructure:
+  restroom:
+    ble_occupancy_use_allowed: false
+    sensor_requirement: "non_imaging_and_non_identifying"
+    access_control_from_occupancy_allowed: false
+  crosswalk:
+    ble_extra_time_request:
+      permitted: "anonymous_stateless_request_only"
+      identity_storage_allowed: false
+      request_history_allowed: false
+      universal_fixed_time_fallback_required: true
+      physical_or_tactile_request_equivalent_required: true
+  kiosk:
+    optional_local_preferences:
+      permitted:
+        - "language_selection"
+        - "text_scale_selection"
+        - "contrast_mode_selection"
+        - "speech_output_enablement"
+      persistent_profile_allowed: false
+      non_ble_controls_required: true
+
+simulation:
+  permitted_models:
+    - "precomputed_scenario_catalog"
+    - "aggregate_markov_chain"
+    - "queueing_model"
+    - "reduced_order_emulator"
+    - "synthetic_distribution_sampler"
+    - "aggregate_linear_program"
+  prohibited_models:
+    - "person_level_digital_twin"
+    - "ble_trace_reconstruction"
+    - "individual_mobility_prediction"
+    - "identity_linked_service_model"
+    - "health_inference_model"
+    - "augmentation_inference_model"
+  required_output_fields:
+    - "domain"
+    - "scenario"
+    - "metric"
+    - "value"
+    - "uncertainty"
+    - "privacy_class"
+    - "ble_identity_used"
+    - "essential_service_independent_of_ble"
+    - "method_version"
+    - "limitations"
+  required_output_values:
+    ble_identity_used: false
+    essential_service_independent_of_ble: true
+  scenario_library:
+    source_data_classes:
+      permitted:
+        - "public_aggregate_data"
+        - "synthetic_data"
+        - "fixed_environmental_sensor_summary"
+        - "public_facility_inventory"
+        - "public_weather_data"
+        - "aggregate_transit_schedule_data"
+      prohibited:
+        - "ble_identifier"
+        - "person_level_location"
+        - "household_data"
+        - "individual_health_data"
+        - "identity_data"
+        - "device_identifier"
+    update_review_required: true
+    publication_requires:
+      - "privacy_review"
+      - "accessibility_review"
+      - "uncertainty_documentation"
+      - "public_interest_purpose_confirmation"
+
+validation:
+  synthetic_tests_required:
+    - "BLE disabled preserves complete essential-service access"
+    - "BLE absent preserves complete essential-service access"
+    - "BLE malformed preserves complete essential-service access"
+    - "BLE identifier does not appear in application logs"
+    - "BLE identifier does not appear in network telemetry"
+    - "BLE identifier does not appear in crash reports"
+    - "BLE identifier does not appear in public dashboards"
+    - "BLE identifier cannot affect QoS classification"
+    - "BLE identifier cannot affect cooperative contribution aggregation"
+    - "BLE feature has an equivalent non-BLE workflow"
+    - "BLE failure transitions to non-BLE accessible fallback"
+  required_result: "all_tests_pass"
+
+retention:
+  ble_identifier: "zero_persistent"
+  local_interaction_state: "end_of_current_interaction"
+  single_use_upload_token: "immediate_expiry_after_completion"
+  aggregate_simulation_output: "published_retention_policy"
+  synthetic_test_evidence: "limited_engineering_retention"
+  logs:
+    identity_or_identifier_content: "prohibited"
+    aggregate_fault_category: "limited_maintenance_retention"
+
+metrics:
+  knowledge_factor: 0.92
+  eco_impact_value: 0.84
+  harm_risk: 0.28
+  accessibility_impact: 0.99
+  rights_alignment: 0.99

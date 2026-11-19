@@ -1,0 +1,64 @@
+policy CausalDiscoveryIdentifiability {
+  version = "2"
+  data_class = "environmental_observational_analysis"
+  purpose = "bounded_causal_graph_discovery_for_periphyton_water_quality"
+  consent_scope = "authorized_research_protocol"
+  retention = "protocol_controlled"
+  deletion = "protocol_controlled"
+  accountability = "human_method_review"
+  review_status = "required"
+  access_equivalence = "plain_language_causal_claim_scope"
+  external_action_approval = "separate_explicit_approval_required"
+
+  predicate observational_dataset_complete(input) {
+    input.dataset_version_present == true
+    input.time_alignment_status == "VALID"
+    input.hydraulic_exposure_present == true
+    input.resuspension_indicator_present == true
+    input.upstream_reference_present == true
+    input.downstream_measurement_present == true
+    input.confounder_register_present == true
+    input.missingness_and_censoring_metadata_present == true
+    input.provenance_status == "COMPLETE"
+  }
+
+  predicate candidate_graph_search_allowed(input) {
+    observational_dataset_complete(input)
+    input.variable_definitions_version_present == true
+    input.conditional_independence_method_present == true
+    input.multiple_testing_control_present == true
+    input.temporal_ordering_constraints_present == true
+  }
+
+  predicate causal_effect_identification_allowed(input) {
+    candidate_graph_search_allowed(input)
+    input.exposure_definition_present == true
+    input.outcome_definition_present == true
+    input.adjustment_set_declared == true
+    input.exchangeability_assumption_declared == true
+    input.positivity_assessment_status == "ACCEPTABLE"
+    input.measurement_error_assessment_present == true
+    input.interference_assessment_present == true
+    input.sensitivity_analysis_status == "ACCEPTABLE"
+  }
+
+  decision(input) {
+    if input.external_action_requested == true {
+      return "NO_EXTERNAL_ACTION"
+    }
+
+    if observational_dataset_complete(input) == false {
+      return "RETAIN_DATA_REQUEST_OBSERVATIONAL_COMPLETENESS"
+    }
+
+    if candidate_graph_search_allowed(input) == false {
+      return "RETAIN_DATA_REQUEST_GRAPH_SEARCH_REQUIREMENTS"
+    }
+
+    if causal_effect_identification_allowed(input) == false {
+      return "CANDIDATE_GRAPH_ASSOCIATION_ONLY"
+    }
+
+    return "CAUSAL_EFFECT_ELIGIBLE_FOR_HUMAN_METHOD_REVIEW"
+  }
+}

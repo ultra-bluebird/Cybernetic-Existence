@@ -1,0 +1,328 @@
+aln_version: "2"
+policy_name: "community-governance-protocol-state-machine"
+policy_version: "2026-09-02"
+policy_status: "research-governance-framework"
+review_status: "human-review-required"
+
+scope:
+  covered_workloads:
+    - "environmental_forecasting"
+    - "ecological_restoration_analysis"
+    - "infrastructure_maintenance_decision_support"
+    - "accessibility_planning"
+    - "emergency_information_support"
+    - "civic_feedback_categorization"
+    - "fairness_conformance_testing"
+    - "cyboquatic_surcharge_breach_analysis"
+
+rights_invariants:
+  essential_service_non_denial: true
+  human_fallback_required: true
+  no_identity_inference: true
+  data_minimization: true
+  purpose_limitation: true
+  aggregate_first: true
+  offline_resilience: true
+  repair_first: true
+  non_actuating_decision_support: true
+  non_compensation: true
+
+states:
+  normal:
+    - "intake"
+    - "pre_screen"
+    - "scenario_review"
+    - "deliberation"
+    - "conditional_auth"
+    - "observation"
+    - "renewal"
+  safety:
+    - "hold"
+    - "rejected"
+    - "suspended"
+
+roles:
+  technical_steward:
+    identity_tracking_required: false
+    responsibility: "Validate declared technical boundaries, data classes, validation evidence, and reproducible implementation behavior."
+  accessibility_steward:
+    identity_tracking_required: false
+    responsibility: "Verify accessible explanation, non-digital access, offline continuity, correction, appeal, and human fallback pathways."
+  ecological_steward:
+    identity_tracking_required: false
+    responsibility: "Evaluate ecological measurement claims, resource budgets, uncertainty, and restoration-impact boundaries."
+  community_reviewer:
+    identity_tracking_required: false
+    responsibility: "Evaluate local public purpose, accessible participation process, material concerns, conditions, and public explanation."
+  accountable_operator:
+    identity_tracking_required: false
+    responsibility: "Retain final human authority for bounded advisory deployment, incident suspension, and authorization expiry."
+
+community_participation:
+  prohibited_requirements:
+    - "persistent_identity"
+    - "government_identity_verification"
+    - "device_identifier"
+    - "location_trace"
+    - "health_disclosure"
+    - "augmentation_disclosure"
+    - "assistive_technology_disclosure"
+    - "participation_score"
+    - "social_score"
+    - "financial_score"
+  permitted_evidence:
+    - "anonymous_aggregate_comment_summary"
+    - "non_digital_submission_summary"
+    - "accessible_public_meeting_summary"
+    - "community_reviewer_role_attestation"
+    - "published_plain_language_response"
+    - "documented_condition_or_objection"
+  required_access_routes:
+    - "plain_language_material"
+    - "non_digital_comment_route"
+    - "accessible_human_contact_route"
+    - "offline_or_low_connectivity_information_route"
+
+required_evidence:
+  intake:
+    - "public_interest_purpose"
+    - "beneficiary_description"
+    - "prohibited_secondary_uses"
+    - "input_field_inventory"
+    - "retention_limit"
+    - "aggregation_release_plan"
+    - "human_fallback_plan"
+    - "offline_access_plan"
+    - "decision_boundary"
+    - "uncertainty_method"
+    - "resource_budget"
+    - "scenario_fixture_plan"
+  pre_screen:
+    - "no_prohibited_capability_result"
+    - "no_prohibited_data_class_result"
+    - "essential_service_non_denial_result"
+    - "non_actuating_decision_boundary_result"
+  scenario_review:
+    - "required_fixture_results"
+    - "uncertainty_response_result"
+    - "offline_resilience_result"
+    - "human_fallback_result"
+    - "unsafe_release_protection_result"
+  deliberation:
+    - "technical_steward_review"
+    - "accessibility_steward_review"
+    - "ecological_steward_review"
+    - "community_reviewer_review"
+    - "accountable_operator_review"
+    - "accessible_public_explanation"
+    - "conditions_and_expiry"
+  conditional_auth:
+    - "authorization_start_time"
+    - "authorization_expiry_time"
+    - "advisory_only_confirmation"
+    - "human_authority_confirmation"
+  observation:
+    - "aggregate_observed_impact_record"
+    - "human_review_availability_record"
+    - "incident_record_or_no_incident_record"
+  renewal:
+    - "new_evidence_package"
+    - "fresh_scenario_fixture_results"
+    - "observed_resource_accounting"
+    - "renewal_review_records"
+    - "new_expiry_time"
+
+transitions:
+  - from: "intake"
+    to: "pre_screen"
+    when_all:
+      - "intake_evidence_complete"
+      - "purpose_declaration_complete"
+      - "beneficiary_description_complete"
+      - "rights_floor_candidate_present"
+    otherwise: "hold"
+
+  - from: "pre_screen"
+    to: "scenario_review"
+    when_all:
+      - "no_prohibited_capability_detected"
+      - "no_prohibited_data_class_detected"
+      - "no_essential_service_credential_requirement"
+      - "advisory_only_decision_boundary"
+    otherwise: "rejected"
+
+  - from: "scenario_review"
+    to: "deliberation"
+    when_all:
+      - "required_fixtures_pass"
+      - "human_fallback_verified"
+      - "offline_resilience_verified"
+      - "uncertainty_response_verified"
+      - "unsafe_release_protection_verified"
+    when_any:
+      - "documented_non_categorical_gap"
+    otherwise: "hold"
+
+  - from: "deliberation"
+    to: "conditional_auth"
+    when_all:
+      - "technical_steward_review_positive"
+      - "accessibility_steward_review_positive"
+      - "ecological_steward_review_positive"
+      - "community_reviewer_review_positive"
+      - "accountable_operator_review_positive"
+      - "accessible_public_explanation_available"
+      - "time_bounded_conditions_declared"
+      - "rights_floor_equals_one"
+    otherwise: "hold"
+
+  - from: "conditional_auth"
+    to: "observation"
+    when_all:
+      - "authorization_not_expired"
+      - "advisory_only_confirmation_present"
+      - "accountable_operator_authorization_present"
+      - "human_fallback_available"
+      - "rights_floor_equals_one"
+    otherwise: "hold"
+
+  - from: "observation"
+    to: "renewal"
+    when_all:
+      - "renewal_window_open"
+      - "new_evidence_package_complete"
+      - "observed_resource_accounting_complete"
+      - "fresh_scenario_fixture_results_complete"
+    otherwise: "hold"
+
+  - from: "renewal"
+    to: "conditional_auth"
+    when_all:
+      - "all_five_gates_pass"
+      - "required_reviews_positive"
+      - "new_time_bounded_authorization_issued"
+      - "rights_floor_equals_one"
+    otherwise: "hold"
+
+  - from: "observation"
+    to: "suspended"
+    when_any:
+      - "rights_invariant_failure"
+      - "prohibited_data_detected"
+      - "identity_inference_detected"
+      - "essential_service_access_failure"
+      - "human_fallback_failure"
+      - "unapproved_actuation_path"
+      - "unsafe_aggregate_release"
+      - "mandatory_fixture_failure"
+      - "material_ecological_harm_signal"
+
+  - from: "suspended"
+    to: "scenario_review"
+    when_all:
+      - "incident_remediation_evidence_complete"
+      - "required_fixtures_pass"
+      - "human_fallback_verified"
+      - "rights_floor_equals_one"
+      - "accessible_incident_explanation_available"
+    otherwise: "hold"
+
+  - from: "rejected"
+    to: "intake"
+    when_all:
+      - "materially_new_proposal"
+      - "new_evidence_package_complete"
+      - "prohibited_capability_removed"
+    otherwise: "rejected"
+
+global_transitions:
+  from_any_nonterminal:
+    to: "hold"
+    when_any:
+      - "required_evidence_missing"
+      - "evidence_contradictory"
+      - "evidence_expired"
+      - "evidence_unreadable"
+      - "operating_envelope_exceeded"
+      - "review_record_missing"
+      - "authorization_expired"
+
+prohibited_transitions:
+  - from: "intake"
+    to: "observation"
+  - from: "intake"
+    to: "conditional_auth"
+  - from: "pre_screen"
+    to: "conditional_auth"
+  - from: "pre_screen"
+    to: "observation"
+  - from: "scenario_review"
+    to: "observation"
+  - from: "deliberation"
+    to: "observation"
+  - from: "hold"
+    to: "observation"
+  - from: "rejected"
+    to: "observation"
+  - from: "suspended"
+    to: "observation"
+  - from: "observation"
+    to: "conditional_auth"
+  - from: "renewal"
+    to: "observation"
+
+anti_bypass:
+  observation_requires:
+    - "active_conditional_auth_transition"
+    - "authorization_not_expired"
+    - "rights_floor_equals_one"
+    - "all_required_reviews_present"
+    - "all_required_fixtures_pass"
+    - "advisory_only_decision_boundary"
+    - "human_fallback_available"
+  prohibited_technical_paths:
+    - "direct_database_status_update_to_observation"
+    - "feature_flag_bypass_of_review"
+    - "configuration_bypass_of_scenario_review"
+    - "silent_authorization_extension"
+    - "unlogged_state_transition"
+    - "automatic_reinstatement_after_suspension"
+
+audit:
+  event_log_required: true
+  append_only_application_policy: true
+  chained_event_record: true
+  required_event_fields:
+    - "workload_name"
+    - "prior_state"
+    - "next_state"
+    - "transition_time_utc"
+    - "policy_version"
+    - "transition_reason"
+    - "aggregate_evidence_summary"
+    - "authorizing_role"
+    - "previous_event_digest"
+    - "event_digest"
+    - "plain_language_explanation"
+    - "human_fallback_verified"
+    - "advisory_only_verified"
+  prohibited_event_fields:
+    - "resident_identity"
+    - "persistent_device_identifier"
+    - "individual_location_trace"
+    - "biometric_data"
+    - "neural_data"
+    - "health_data"
+    - "augmentation_data"
+    - "participation_score"
+  verification:
+    required_before_renewal: true
+    required_after_incident: true
+    aggregate_public_summary_required: true
+
+metrics:
+  knowledge_factor: 0.94
+  eco_impact_value: 0.86
+  harm_risk: 0.15
+  accessibility_impact: 0.98
+  rights_alignment: 0.99

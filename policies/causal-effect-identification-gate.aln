@@ -1,0 +1,52 @@
+policy_name = "causal_effect_identification_gate"
+policy_version = "1.0"
+record_class = "causal_effect_assessment"
+purpose = "Prevent observational association from being promoted as a causal effect without a complete declared graph, estimand, adjustment rationale, and unmeasured-confounding assessment."
+consent_scope = "local_validation_and_non_actuating_research_only"
+retention = "bounded_by_repository_retention_policy"
+deletion = "remove_derived_causal_assessment_records_when_no_longer_required"
+accountability = "causal_method_review_and_evidence_review"
+review_status = "required_before_causal_effect_promotion"
+access_equivalence_safeguard = "plain_language_estimand_assumptions_and_identification_status"
+external_action_approval = "prohibited"
+
+require external_action_authorized == false
+
+require causal_estimand in [
+    "TOTAL_EFFECT_WALL_SHEAR_ON_DOWNSTREAM_OUTCOME",
+    "EFFECT_RESUSPENSION_ON_DOWNSTREAM_OUTCOME",
+    "EFFECT_TSS_ON_DOWNSTREAM_OUTCOME",
+    "DESCRIPTIVE_ASSOCIATION_ONLY"
+]
+
+require identification_state in [
+    "OBSERVATIONALLY_IDENTIFIED",
+    "QUASI_EXPERIMENT_REQUIRED",
+    "UNMEASURED_CONFOUNDING_SENSITIVITY_ONLY",
+    "DESCRIPTIVE_ASSOCIATION_ONLY",
+    "METHOD_REVIEW_REQUIRED"
+]
+
+require causal_graph_digest is_not_null
+require estimand_definition_digest is_not_null
+require adjustment_set_digest is_not_null
+require unmeasured_confounding_assessment_digest is_not_null
+
+when causal_estimand == "TOTAL_EFFECT_WALL_SHEAR_ON_DOWNSTREAM_OUTCOME":
+    require adjustment_set excludes "R_resuspension"
+    require adjustment_set excludes "TSS"
+    require adjustment_set excludes "PFAS_p"
+    require adjustment_set excludes "PFAS_d"
+
+when unmeasured_common_cause_of_exposure_and_outcome == true:
+    require identification_state in [
+        "QUASI_EXPERIMENT_REQUIRED",
+        "UNMEASURED_CONFOUNDING_SENSITIVITY_ONLY",
+        "DESCRIPTIVE_ASSOCIATION_ONLY"
+    ]
+    require causal_effect_promotion_allowed == false
+
+when identification_state != "OBSERVATIONALLY_IDENTIFIED":
+    require causal_effect_promotion_allowed == false
+
+deny when external_action_authorized == true

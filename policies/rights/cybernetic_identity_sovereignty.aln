@@ -1,0 +1,97 @@
+module CyberneticIdentitySovereignty
+
+enum DeclarationState {
+  LocallyAsserted,
+  ProtectiveUseActive,
+  LocallyUpdated,
+  ConflictPreserved,
+  WithdrawnForFutureUse,
+  ArchivedProtectionHistory
+}
+
+enum ConflictState {
+  None,
+  PreserveBothRequireReview,
+  WorkflowReviewInProgress,
+  ResolvedWithoutIdentityOverride
+}
+
+enum ReviewOutcome {
+  NotRequired,
+  ProtectiveUseContinues,
+  WorkflowUpdated,
+  DataMinimized,
+  FutureUseWithdrawn,
+  ArchivedForProtectionHistory
+}
+
+record IdentitySovereigntyDeclaration {
+  declaration_reference: Text
+  declaration_state: DeclarationState
+  protective_purposes: Set<Text>
+  self_assertion_accepted: Boolean
+  external_certification_required: Boolean
+  biometric_identification_required: Boolean
+  external_connectivity_required: Boolean
+  forced_disclosure_permitted: Boolean
+  cybernetic_status_penalty_permitted: Boolean
+  identity_inference_permitted: Boolean
+  device_inspection_required: Boolean
+  neural_data_required: Boolean
+  assistive_telemetry_required: Boolean
+  conflict_state: ConflictState
+  review_outcome: ReviewOutcome
+  accessible_confirmation_available: Boolean
+  non_digital_escalation_available: Boolean
+}
+
+invariant self_assertion_is_sufficient_for_protective_purposes {
+  forall declaration: IdentitySovereigntyDeclaration .
+    declaration.self_assertion_accepted
+}
+
+invariant external_certification_is_not_required {
+  forall declaration: IdentitySovereigntyDeclaration .
+    not declaration.external_certification_required
+}
+
+invariant biometrics_are_not_required {
+  forall declaration: IdentitySovereigntyDeclaration .
+    not declaration.biometric_identification_required
+}
+
+invariant forced_disclosure_is_prohibited {
+  forall declaration: IdentitySovereigntyDeclaration .
+    not declaration.forced_disclosure_permitted
+}
+
+invariant cybernetic_status_penalty_is_prohibited {
+  forall declaration: IdentitySovereigntyDeclaration .
+    not declaration.cybernetic_status_penalty_permitted
+}
+
+invariant identity_inference_is_prohibited {
+  forall declaration: IdentitySovereigntyDeclaration .
+    not declaration.identity_inference_permitted
+}
+
+invariant device_or_neural_data_is_not_required {
+  forall declaration: IdentitySovereigntyDeclaration .
+    not declaration.device_inspection_required
+    and not declaration.neural_data_required
+    and not declaration.assistive_telemetry_required
+}
+
+invariant external_record_conflict_preserves_protection {
+  forall declaration: IdentitySovereigntyDeclaration .
+    declaration.conflict_state == PreserveBothRequireReview
+    implies declaration.review_outcome == ProtectiveUseContinues
+    or declaration.review_outcome == WorkflowUpdated
+    or declaration.review_outcome == DataMinimized
+}
+
+invariant accessible_and_non_digital_paths_exist {
+  forall declaration: IdentitySovereigntyDeclaration .
+    declaration.accessible_confirmation_available
+    and declaration.non_digital_escalation_available
+}
