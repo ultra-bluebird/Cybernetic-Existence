@@ -1,0 +1,12 @@
+# mk-bluebird/nanorobotics/crates/nanoswarm-host-math/Cargo.toml
+# (only the relevant additions shown; keep existing content intact)
+
+[dependencies]
+serde = { workspace = true }
+bincode = { workspace = true }
+chrono = { workspace = true }
+cybercore-hash = { path = "../../../Cybercore/crates/cybercore-hash" }
+
+[features]
+default = ["std"]
+std = []

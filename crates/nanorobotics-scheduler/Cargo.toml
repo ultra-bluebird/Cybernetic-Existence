@@ -1,0 +1,21 @@
+[package]
+name = "nanorobotics-scheduler"
+version = "0.1.0"
+edition = "2024"
+license = "MIT OR Apache-2.0"
+description = "Duty-cycle, thermal, and energy-aware nanoswarm scheduler with HostBudget constraints."
+repository = "https://github.com/mk-bluebird/nanorobotics"
+
+[dependencies]
+nanorobotics-core = { path = "../nanorobotics-core", version = "0.1.0" }
+serde = { workspace = true }
+serde_json = { workspace = true }
+thiserror = { workspace = true }
+chrono = { workspace = true }
+uuid = { workspace = true }
+tokio = { workspace = true }
+parking_lot = { workspace = true }
+once_cell = { workspace = true }
+
+[dev-dependencies]
+rand = { workspace = true }
