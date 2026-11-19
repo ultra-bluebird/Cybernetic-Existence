@@ -1,0 +1,54 @@
+policy FoundationReleaseGateV1 {
+  data_class: local_advisory_governance_validation
+  purpose: foundation_release_gate_evaluation
+  consent_scope: minimum_necessary_local_processing
+  retention: time_bounded_audit_retention
+  accountability: append_only_reviewable_gate_results
+  review_status: human_review_required_for_material_change
+  access_equivalence: plain_language_correction_and_appeal_required
+  external_action_approval: prohibited
+
+  invariant advisory_eligibility {
+    require: max_risk <= 0.35
+    require: min_knowledge >= 0.60
+    require: fog_state == clear
+    require: source_valid
+    require: parameter_current
+    require: consent_scope_valid
+    require: retention_eligible
+    otherwise: withhold
+  }
+
+  invariant fog_transition {
+    prohibit: withhold_to_clear_direct_transition
+    require: replacement_evidence_before_reviewed_clear
+    require: consent_recheck_before_reviewed_clear
+    require: noninterference_recheck_before_reviewed_clear
+  }
+
+  invariant ker_visibility {
+    require: knowledge_factor_recorded
+    require: eco_impact_value_recorded
+    require: harm_risk_recorded
+    require: fog_state_recorded
+    require: fog_reason_recorded_when_nonclear
+    prohibit: scalar_score_as_only_output
+  }
+
+  invariant noninterference {
+    prohibit: actuator_control
+    prohibit: hardware_control
+    prohibit: network_request
+    prohibit: external_api
+    prohibit: process_execution
+    prohibit: automatic_external_export
+  }
+
+  output allowed {
+    gate_pass
+    gate_withhold
+    plain_language_reason
+    correction_path
+    appeal_path
+  }
+}

@@ -1,0 +1,65 @@
+version: "1.0.0"
+policy_id: "personal-cyberrank-tier3-nonrevocation"
+scope: "Personal CyberRank-Tier3 definition and local continuity record"
+
+tier_definition:
+  tier: "Tier3"
+  subject_reference: "holder-controlled"
+  recognition_model: "append-only historical recognition"
+  status_transition_policy: "grant-only"
+
+invariants:
+  - id: "tier3-grant-is-durable"
+    rule: >
+      Once a Tier3 grant event is accepted into the personal continuity ledger,
+      the grant event remains present and queryable in all subsequent valid
+      ledger states.
+  - id: "tier3-grant-is-not-revocable"
+    rule: >
+      No event type may convert a recorded Tier3 grant into revoked, deleted,
+      invalidated, or never-granted status.
+  - id: "corrections-are-additive"
+    rule: >
+      Corrections, disputes, evidence updates, and review statements are
+      represented as new linked events and never overwrite the original grant.
+  - id: "external-recognition-is-separate"
+    rule: >
+      A third party may state its own current recognition policy, but that
+      statement does not mutate the personal Tier3 historical record.
+  - id: "consent-is-separate"
+    rule: >
+      Consent, disclosure permissions, recipient access, and evidence-sharing
+      scopes are separate from Tier3 status and may change without affecting
+      the Tier3 grant record.
+
+allowed_event_types:
+  - "tier3_granted"
+  - "evidence_added"
+  - "evidence_corrected"
+  - "review_recorded"
+  - "dispute_recorded"
+  - "dispute_resolved"
+  - "continuity_checkpoint_created"
+  - "external_recognition_statement_recorded"
+  - "consent_scope_updated"
+  - "disclosure_permission_withdrawn"
+
+prohibited_event_types:
+  - "tier3_revoked"
+  - "tier3_deleted"
+  - "tier3_invalidated"
+  - "tier3_downgraded"
+  - "tier3_grant_erased"
+
+external_boundary:
+  statement: >
+    This policy governs the personal continuity ledger. It does not compel an
+    external platform, institution, or jurisdiction to recognize Tier3 status,
+    but no external statement is permitted to alter the local historical grant
+    record.
+
+privacy_boundary:
+  statement: >
+    Withdrawal of evidence disclosure or consent does not erase the Tier3
+    event. It changes only the availability of private supporting materials for
+    future disclosures.

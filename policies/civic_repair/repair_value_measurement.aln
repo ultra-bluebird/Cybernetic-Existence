@@ -1,0 +1,66 @@
+module RepairValueMeasurement
+
+type Scalar = Float
+type UnitInterval = Float
+
+record DirectOutcome {
+  repair_id: Text
+  outcome_metric: Text
+  outcome_value: Scalar
+  outcome_unit: Text
+  verification_status: Text
+  evidence_quality: UnitInterval
+}
+
+record EcologicalOutcome {
+  repair_id: Text
+  avoided_replacement_mass_kg: Scalar
+  embodied_energy_avoided_j: Scalar
+  repair_lifecycle_energy_j: Scalar
+  net_energy_avoided_j: Scalar
+  counterfactual_reference: Text
+  lifecycle_source_reference: Text
+  review_status: Text
+}
+
+record ProcessIndicator {
+  repair_id: Text
+  indicator_name: Text
+  indicator_value: UnitInterval
+  privacy_review_status: Text
+}
+
+invariant ValidDirectOutcome(outcome: DirectOutcome) =
+  outcome.repair_id != "" and
+  outcome.outcome_metric != "" and
+  outcome.outcome_value >= 0.0 and
+  outcome.outcome_unit != "" and
+  outcome.verification_status = "verified" and
+  outcome.evidence_quality >= 0.70
+
+invariant ValidEcologicalOutcome(outcome: EcologicalOutcome) =
+  outcome.repair_id != "" and
+  outcome.avoided_replacement_mass_kg >= 0.0 and
+  outcome.repair_lifecycle_energy_j >= 0.0 and
+  outcome.counterfactual_reference != "" and
+  outcome.lifecycle_source_reference != "" and
+  outcome.review_status in ["approved", "qualified"]
+
+invariant EcologicalNetIsExplicit(outcome: EcologicalOutcome) =
+  outcome.net_energy_avoided_j =
+    outcome.embodied_energy_avoided_j -
+    outcome.repair_lifecycle_energy_j
+
+invariant TrustNotInferredFromProfiling =
+  social_trust_inferred_from_behavioral_data = false and
+  social_trust_inferred_from_identity_data = false and
+  social_trust_inferred_from_service_dependence = false
+
+invariant NoSingleUniversalValueScore =
+  direct_value_reported_separately and
+  indirect_process_indicators_reported_separately and
+  ecological_value_reported_separately
+
+invariant NoEligibilityUse =
+  repair_value_used_for_essential_service_eligibility = false and
+  repair_value_used_for_individual_ranking = false

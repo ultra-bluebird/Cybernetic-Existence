@@ -1,0 +1,191 @@
+module ResearchAgentStabilityInvariants
+
+type Scalar = Float
+type Timestamp = Text
+type Version = Text
+type TextSet = Set<Text>
+
+enum KnowledgeState {
+  observed,
+  calculated,
+  modeled,
+  inferred,
+  community_reported,
+  unverified,
+  unknown,
+  insufficient_evidence,
+  conflicted,
+  needs_review
+}
+
+enum OutputClass {
+  informational_only,
+  advisory_only,
+  eligible_for_planning_use,
+  local_only,
+  blocked_by_policy,
+  review_required
+}
+
+enum ReleaseClass {
+  never_release,
+  local_only,
+  aggregate_with_differential_privacy,
+  public
+}
+
+enum ChangeCompatibility {
+  backward_compatible,
+  deprecated,
+  superseding,
+  incompatible
+}
+
+enum ReviewState {
+  not_required,
+  pending,
+  complete,
+  rejected
+}
+
+record CanonicalTerm {
+  term: Text
+  definition: Text
+  semantic_version: Version
+  compatibility: ChangeCompatibility
+  permitted_contexts: TextSet
+  prohibited_contexts: TextSet
+  updated_at: Timestamp
+}
+
+record EvidenceDescriptor {
+  evidence_id: Text
+  source_class: Text
+  collection_purpose: Text
+  permitted_uses: TextSet
+  prohibited_uses: TextSet
+  knowledge_state: KnowledgeState
+  provenance_complete: Boolean
+  freshness_valid: Boolean
+  calibration_valid: Boolean
+  uncertainty_disclosed: Boolean
+  sensitive: Boolean
+  release_class: ReleaseClass
+}
+
+record GateState {
+  knowledge_factor: Scalar
+  ecological_or_evidence_factor: Scalar
+  harm_risk: Scalar
+  accessibility_pass: Boolean
+  rights_alignment_pass: Boolean
+  human_review: ReviewState
+}
+
+record AgentResult {
+  result_id: Text
+  policy_version: Version
+  metric_registry_version: Version
+  evidence_ids: TextSet
+  output_class: OutputClass
+  knowledge_state: KnowledgeState
+  accessible_explanation_present: Boolean
+  provenance_summary_present: Boolean
+  uncertainty_statement_present: Boolean
+  created_at: Timestamp
+}
+
+const KNOWLEDGE_MINIMUM: Scalar = 0.60
+const ECOLOGICAL_OR_EVIDENCE_MINIMUM: Scalar = 0.60
+const HARM_RISK_MAXIMUM: Scalar = 0.30
+
+predicate bounded_unit_interval(value: Scalar) {
+  value >= 0.0 and value <= 1.0
+}
+
+predicate evidence_usable(evidence: EvidenceDescriptor, requested_purpose: Text) {
+  evidence.provenance_complete
+  and evidence.freshness_valid
+  and evidence.calibration_valid
+  and evidence.uncertainty_disclosed
+  and requested_purpose in evidence.permitted_uses
+  and not (requested_purpose in evidence.prohibited_uses)
+  and evidence.knowledge_state != unknown
+  and evidence.knowledge_state != unverified
+  and evidence.knowledge_state != insufficient_evidence
+  and evidence.knowledge_state != conflicted
+}
+
+predicate gate_passes(gate: GateState) {
+  bounded_unit_interval(gate.knowledge_factor)
+  and bounded_unit_interval(gate.ecological_or_evidence_factor)
+  and bounded_unit_interval(gate.harm_risk)
+  and gate.knowledge_factor >= KNOWLEDGE_MINIMUM
+  and gate.ecological_or_evidence_factor >= ECOLOGICAL_OR_EVIDENCE_MINIMUM
+  and gate.harm_risk <= HARM_RISK_MAXIMUM
+  and gate.accessibility_pass
+  and gate.rights_alignment_pass
+  and gate.human_review == complete
+}
+
+invariant semantic_stability {
+  forall term_a: CanonicalTerm, term_b: CanonicalTerm .
+    term_a.term == term_b.term
+    and term_a.semantic_version == term_b.semantic_version
+    implies term_a.definition == term_b.definition
+}
+
+invariant no_undefined_semantics {
+  forall result: AgentResult .
+    result.output_class == eligible_for_planning_use
+    implies result.metric_registry_version != ""
+    and result.policy_version != ""
+}
+
+invariant non_compensatory_gate {
+  forall gate: GateState .
+    not gate_passes(gate)
+    implies true
+}
+
+invariant no_person_scoring {
+  forall term: CanonicalTerm .
+    "person_scoring" in term.prohibited_contexts
+    and "service_eligibility" in term.prohibited_contexts
+}
+
+invariant evidence_claim_boundary {
+  forall evidence: EvidenceDescriptor .
+    evidence.knowledge_state == insufficient_evidence
+    or evidence.knowledge_state == conflicted
+    implies not evidence_usable(evidence, evidence.collection_purpose)
+}
+
+invariant purpose_binding {
+  forall evidence: EvidenceDescriptor .
+    evidence.sensitive
+    implies evidence.release_class != public
+}
+
+invariant no_silent_downgrade {
+  forall prior: CanonicalTerm, current: CanonicalTerm .
+    prior.term == current.term
+    and prior.semantic_version != current.semantic_version
+    implies current.compatibility != backward_compatible
+    or prior.definition == current.definition
+}
+
+invariant accountable_output {
+  forall result: AgentResult .
+    result.output_class == advisory_only
+    or result.output_class == eligible_for_planning_use
+    implies result.accessible_explanation_present
+    and result.provenance_summary_present
+    and result.uncertainty_statement_present
+}
+
+invariant local_first_continuity {
+  forall result: AgentResult .
+    result.output_class == local_only
+    implies result.accessible_explanation_present
+}

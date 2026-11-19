@@ -1,0 +1,70 @@
+shard EcoRestoration.ShadeCanopyContributionIndex.v1 {
+  metadata {
+    data_class = "environmental-aggregate"
+    purpose = [
+      "urban-forestry-planning",
+      "heat-island-mitigation",
+      "shade-accessibility-prioritization",
+      "community-ecological-benefit-review"
+    ]
+    consent_scope = "no-personal-traversal-data"
+    retention = "site-specific-ecological-data-policy"
+    review_status = "calibration-and-community-review-required"
+    external_action_approval = "required"
+  }
+
+  inputs {
+    permitted = [
+      "canopy-projection-area",
+      "normalized-leaf-area-density",
+      "species-shade-factor",
+      "data-quality-factor",
+      "maintenance-factor",
+      "normalized-heat-burden",
+      "public-space-area"
+    ]
+
+    prohibited = [
+      "raw-trajectory-history",
+      "private-health-data",
+      "neural-data",
+      "cyberrank-designation",
+      "identity-based-prioritization"
+    ]
+  }
+
+  formula {
+    base_contribution =
+      "canopy-area-times-leaf-area-density-times-species-shade-factor-times-data-quality-times-maintenance"
+
+    heat_prioritized_contribution =
+      "base-contribution-times-normalized-heat-burden"
+
+    normalized_contribution =
+      "total-base-contribution-divided-by-public-space-area"
+  }
+
+  governance {
+    decision_support_only = true
+    community_review_required = true
+    environmental_justice_review_required = true
+    species_selection_requires_local_ecological_review = true
+    maintenance_plan_required = true
+    no_personal_profile_inference = true
+  }
+
+  accountability {
+    required_metrics = [
+      "canopy-area",
+      "leaf-area-density",
+      "shade-factor",
+      "heat-burden",
+      "data-quality",
+      "maintenance-status",
+      "community-review-status"
+    ]
+
+    uncertainty_must_be_reported = true
+    ecological_claims_require_site_validation = true
+  }
+}

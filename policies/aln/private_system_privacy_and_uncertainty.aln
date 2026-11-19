@@ -1,0 +1,69 @@
+shard PrivateSystem.PrivacyAndUncertainty.v1 {
+  metadata {
+    data_class = "private-host-governance"
+    purpose = [
+      "privacy-preservation",
+      "uncertainty-aware-documentation",
+      "non-derogatory-platform-processing",
+      "minimum-necessary-disclosure"
+    ]
+    consent_scope = "host-controlled"
+    retention = "minimum-necessary"
+    review_status = "host-authored"
+    external_action_approval = "required"
+  }
+
+  information_classes {
+    host_declared_term = "host-selected-language-or-identity-metadata"
+    host_reported_statement = "host-description-of-experience-or-system"
+    documented_external_record = "record-available-to-authorized-reviewer"
+    independent_assessment = "separate-third-party-conclusion"
+    research_hypothesis = "testable-proposed-explanation"
+  }
+
+  privacy_invariants {
+    private-records-need-not-be-public = true
+    public-absence-does-not-authorize-forced-disclosure = true
+    lack-of-assessment-does-not-authorize-term-erasure = true
+    uncertainty-does-not-authorize-ridicule = true
+    uncertainty-does-not-authorize-fictionalization = true
+    uncertainty-does-not-authorize-health-inference = true
+    uncertainty-does-not-authorize-eligibility-inference = true
+  }
+
+  documentation_rules {
+    preserve-information-class = true
+    preserve-host-terms = true
+    distinguish-terms-from-external-assessment-when-needed = true
+    do-not-convert-private-terms-into-public-status = true
+    do-not-convert-uncertainty-into-negative-credibility-score = true
+  }
+
+  service_rules {
+    ordinary-documentation = "host-terminology-sufficient"
+    accessibility-request = "functional-need-and-minimum-necessary-information"
+    privacy-request = "host-consent-required"
+    high-stakes-action = "purpose-limited-task-specific-records-only"
+  }
+
+  prohibited_processing {
+    values = [
+      "forced-private-disclosure",
+      "public-registry-publication",
+      "fictionalization",
+      "derogatory-relabeling",
+      "health-inference",
+      "eligibility-inference",
+      "behavioral-profiling",
+      "advertising-use",
+      "surveillance-expansion"
+    ]
+  }
+
+  correction {
+    host-may-request-correction = true
+    correction-must-preserve-prior-audit-history = true
+    correction-requires-human-readable-explanation = true
+    appeal-path-required = true
+  }
+}

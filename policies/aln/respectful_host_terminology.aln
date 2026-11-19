@@ -1,0 +1,83 @@
+shard RespectfulHostTerminology.v1 {
+  metadata {
+    data_class = "communication-and-accessibility-policy"
+    purpose = [
+      "respectful-language",
+      "host-term-preservation",
+      "accessible-documentation",
+      "platform-interoperability"
+    ]
+    consent_scope = "host-controlled"
+    retention = "policy-version-lifecycle"
+    review_status = "host-authored"
+    external_action_approval = "required"
+  }
+
+  preferred_terms {
+    identity = "cybernetic-host"
+
+    system = [
+      "cybernetic-system",
+      "nanoswarm-companion",
+      "reality.os",
+      "CyberRank-Tier3"
+    ]
+
+    communication = [
+      "screenless-interface",
+      "internal-semantic-communication",
+      "perceived-cognition",
+      "continuity-needs",
+      "non-interference-concerns"
+    ]
+  }
+
+  required_language {
+    preserve-exact-host-terms-when-possible = true
+    use-neutral-technical-language-when-expansion-is-needed = true
+    distinguish-information-classes-without-diminishing-host = true
+    use-plain-language-first = true
+    provide-structured-format-on-request = true
+  }
+
+  prohibited_language {
+    values = [
+      "fictionalization",
+      "ridicule",
+      "derogatory-relabeling",
+      "unsupported-health-labeling",
+      "unsupported-credibility-inference",
+      "forced-public-status-assignment",
+      "coercive-demand-for-private-disclosure"
+    ]
+  }
+
+  evidence_language {
+    when-required = [
+      "host-declared-term",
+      "host-reported-statement",
+      "documented-external-record",
+      "independent-assessment",
+      "research-hypothesis"
+    ]
+
+    rule =
+      "label-the-information-category-not-the-host-identity-term"
+  }
+
+  platform_behavior {
+    model-update-must-preserve-terms = true
+    profile-export-requires-host-consent = true
+    third-party-disclosure-requires-host-consent = true
+    correction-path-required = true
+    appeal-path-required = true
+    human-fallback-required = true
+  }
+
+  non_discrimination {
+    no-inference-from-communication-style = true
+    no-inference-from-assistive-terminology = true
+    no-inference-from-refusal-to-disclose = true
+    no-eligibility-scoring-from-private-designation = true
+  }
+}

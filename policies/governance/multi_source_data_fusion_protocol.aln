@@ -1,0 +1,147 @@
+module MultiSourceDataFusionProtocol
+
+enum SourceClass {
+  CommunityReported,
+  CalibratedSensor,
+  InspectionRecord,
+  SatelliteOrAerialData,
+  LaboratoryTest,
+  PublicDataset,
+  ValidatedModelOutput,
+  MaintenanceRecord,
+  EcologicalSurvey
+}
+
+enum EvidenceState {
+  Observed,
+  Calculated,
+  Modeled,
+  CommunityReported,
+  Corroborated,
+  Stale,
+  Unverified,
+  Unknown,
+  InsufficientEvidence,
+  Conflicted
+}
+
+enum FusionMethod {
+  QualityWeightedIndependenceAdjustedMean,
+  IntervalIntersectionOrUnion,
+  ScenarioEnsemble,
+  QualitativeEvidenceLattice,
+  ConflictPreservingNoNumericFusion,
+  ComponentwiseHybridFusion
+}
+
+enum DependencyState {
+  Independent,
+  PartiallyCorrelated,
+  SharedSource,
+  SharedModel,
+  CommonCausePossible,
+  Unknown
+}
+
+enum FusionOutputState {
+  AdvisoryOnly,
+  NeedsReview,
+  InsufficientEvidence,
+  Conflicted,
+  LocalOnly,
+  BlockedByPolicy
+}
+
+record SourceEvidence {
+  source_commitment: Text
+  source_class: SourceClass
+  evidence_state: EvidenceState
+  declared_variable: Text
+  unit: Text
+  value_representation: Text
+  quality_for_declared_purpose: Float
+  uncertainty_method: Text
+  freshness_state: Text
+  provenance_state: Text
+  spatial_compatibility: Text
+  temporal_compatibility: Text
+  release_class: Text
+}
+
+record FusionAssessment {
+  purpose_scope: Text
+  metric_reference: Text
+  metric_semantic_version: Text
+  policy_version: Text
+  fusion_method: FusionMethod
+  dependency_state: DependencyState
+  source_records: Set<SourceEvidence>
+  conflict_detected: Boolean
+  conflict_resolution_state: Text
+  source_classes_preserved: Boolean
+  source_uncertainties_preserved: Boolean
+  source_provenance_preserved: Boolean
+  output_state: FusionOutputState
+  local_first: Boolean
+  advisory_only: Boolean
+  person_assessment_performed: Boolean
+  identity_resolution_performed: Boolean
+  biometric_identification_performed: Boolean
+  cybernetic_status_assessment_performed: Boolean
+  automated_action_authorized: Boolean
+}
+
+predicate source_quality_valid(source: SourceEvidence) {
+  source.quality_for_declared_purpose >= 0.0
+  and source.quality_for_declared_purpose <= 1.0
+  and source.source_commitment != ""
+  and source.declared_variable != ""
+  and source.unit != ""
+}
+
+predicate fusion_protective_boundary(assessment: FusionAssessment) {
+  assessment.local_first
+  and assessment.advisory_only
+  and assessment.source_classes_preserved
+  and assessment.source_uncertainties_preserved
+  and assessment.source_provenance_preserved
+  and not assessment.person_assessment_performed
+  and not assessment.identity_resolution_performed
+  and not assessment.biometric_identification_performed
+  and not assessment.cybernetic_status_assessment_performed
+  and not assessment.automated_action_authorized
+}
+
+invariant sources_remain_epistemically_distinct {
+  forall assessment: FusionAssessment, source: SourceEvidence .
+    source in assessment.source_records
+    implies source_quality_valid(source)
+}
+
+invariant conflict_is_not_silently_fused {
+  forall assessment: FusionAssessment .
+    assessment.conflict_detected
+    implies assessment.output_state == Conflicted
+    or assessment.output_state == NeedsReview
+    or assessment.fusion_method == ConflictPreservingNoNumericFusion
+}
+
+invariant unknown_dependency_requires_review {
+  forall assessment: FusionAssessment .
+    assessment.dependency_state == Unknown
+    implies assessment.output_state == NeedsReview
+    or assessment.output_state == InsufficientEvidence
+}
+
+invariant community_evidence_remains_valid_distinct_evidence {
+  forall assessment: FusionAssessment, source: SourceEvidence .
+    source in assessment.source_records
+    and source.source_class == CommunityReported
+    implies source.evidence_state != InsufficientEvidence
+    or source.provenance_state != "sufficient_for_declared_purpose"
+}
+
+invariant fusion_never_assesses_people_or_authorizes_action {
+  forall assessment: FusionAssessment .
+    fusion_protective_boundary(assessment)
+}

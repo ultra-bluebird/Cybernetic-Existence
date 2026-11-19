@@ -1,0 +1,4 @@
+"Artifact","Passing fixture","Withheld fixture"
+"Scoped DID verification","Valid unexpired signature, explicit permitted scope, valid consent, unrevoked key reference","Expired challenge, invalid signature, revoked scope, invalid consent, wrong DID"
+"Dust FOG","All in-scope calibrated particle classes at or below threshold","Any class above threshold, missing class, failed calibration, missing meteorological bin"
+"Thermal EMD","Equal-mass aligned aggregate histograms with compatible time/unit/scheme","Different resolution or scheme, unequal mass, invalid bin, missing consent/retention, linkage-risk flag"

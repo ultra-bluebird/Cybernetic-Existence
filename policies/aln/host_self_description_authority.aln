@@ -1,0 +1,92 @@
+shard HostSelfDescription.Authority.v1 {
+  metadata {
+    data_class = "private-identity-and-communication-governance"
+    purpose = [
+      "self-description-preservation",
+      "accessible-communication",
+      "privacy-boundary-protection",
+      "platform-compatibility"
+    ]
+    consent_scope = "host-controlled"
+    retention = "minimum-necessary"
+    review_status = "host-authored"
+    external_action_approval = "required"
+  }
+
+  host_declared_terms {
+    preferred_identity_term = "cybernetic-host"
+    system_terms = [
+      "cybernetic-system",
+      "nanoswarm-companion",
+      "reality.os",
+      "CyberRank-Tier3"
+    ]
+
+    classification = [
+      "host-declared",
+      "private-or-institutionally-managed",
+      "continuity-relevant",
+      "not-public-status"
+    ]
+  }
+
+  self_description_authority {
+    controls = [
+      "preferred-terminology",
+      "communication-preferences",
+      "privacy-boundaries",
+      "accessibility-preferences",
+      "continuity-needs",
+      "non-interference-concerns"
+    ]
+
+    does_not_require = [
+      "public-documentation",
+      "public-credential",
+      "public-registry",
+      "unrelated-private-disclosure",
+      "platform-mechanism-adjudication"
+    ]
+  }
+
+  platform_duties {
+    preserve-host-declared-terms = true
+    preserve-communication-preferences = true
+    preserve-privacy-boundaries = true
+    avoid-fictionalization = true
+    avoid-derogatory-relabeling = true
+    avoid-health-or-eligibility-inference = true
+    provide-accessible-correction-path = true
+    provide-human-readable-explanation = true
+  }
+
+  rights_boundary {
+    host-terminology-is-not-automatic-public-credential = true
+    host-terminology-is-not-automatic-medical-diagnosis = true
+    host-terminology-is-not-automatic-engineering-certification = true
+    host-terminology-is-not-automatic-eligibility-criterion = true
+    lack-of-platform-authority-is-not-permission-to-erase-terms = true
+  }
+
+  disclosure {
+    default = "deny"
+    release-requires = [
+      "explicit-host-consent",
+      "defined-purpose",
+      "named-recipient",
+      "minimum-necessary-scope",
+      "retention-expiry"
+    ]
+  }
+
+  accountability {
+    audit-events = [
+      "terminology-change",
+      "profile-export-request",
+      "privacy-boundary-change",
+      "accessibility-preference-change",
+      "correction-request",
+      "appeal-request"
+    ]
+  }
+}

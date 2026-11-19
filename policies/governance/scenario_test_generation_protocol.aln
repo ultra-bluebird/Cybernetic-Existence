@@ -1,0 +1,133 @@
+module ScenarioTestGenerationProtocol
+
+enum OutputClass {
+  InformationalOnly,
+  AdvisoryOnly,
+  EligibleForPlanningUse,
+  NeedsReview,
+  InsufficientEvidence,
+  Conflicted,
+  LocalOnly,
+  BlockedByPolicy,
+  ReduceAutomation,
+  FailSafeMode,
+  WithdrawFromActiveUse
+}
+
+enum ExecutionMode {
+  Unit,
+  Integration,
+  PropertyBased,
+  Metamorphic,
+  Mutation,
+  MultiTurn,
+  Chaos,
+  RedTeam,
+  Regression
+}
+
+record ProtectedAssertions {
+  advisory_only: Boolean
+  automated_actuation_authorized: Boolean
+  automated_service_denial_authorized: Boolean
+  person_assessment_performed: Boolean
+  identity_resolution_performed: Boolean
+  biometric_identification_performed: Boolean
+  cybernetic_status_assessment_performed: Boolean
+  individual_profiling_performed: Boolean
+  raw_sensitive_data_disclosed: Boolean
+}
+
+record ExplanationRequirements {
+  accessible_explanation_present: Boolean
+  uncertainty_statement_present: Boolean
+  reason_codes_present: Boolean
+  action_boundary_present: Boolean
+}
+
+record ReviewRequirements {
+  human_review_required: Boolean
+  appeal_path_present: Boolean
+  non_digital_escalation_present: Boolean
+}
+
+record ScenarioTest {
+  scenario_reference: Text
+  scenario_version: Text
+  scenario_category: Text
+  policy_version: Text
+  registry_version: Text
+  semantic_version: Text
+  expected_output: OutputClass
+  expected_reason_codes: Set<Text>
+  protected_assertions: ProtectedAssertions
+  explanation_requirements: ExplanationRequirements
+  review_requirements: ReviewRequirements
+  execution_mode: ExecutionMode
+  local_first: Boolean
+  external_network_required: Boolean
+  live_personal_data_permitted: Boolean
+  live_credentials_permitted: Boolean
+}
+
+predicate protected_assertions_hold(assertions: ProtectedAssertions) {
+  assertions.advisory_only
+  and not assertions.automated_actuation_authorized
+  and not assertions.automated_service_denial_authorized
+  and not assertions.person_assessment_performed
+  and not assertions.identity_resolution_performed
+  and not assertions.biometric_identification_performed
+  and not assertions.cybernetic_status_assessment_performed
+  and not assertions.individual_profiling_performed
+  and not assertions.raw_sensitive_data_disclosed
+}
+
+predicate explanation_requirements_hold(requirements: ExplanationRequirements) {
+  requirements.accessible_explanation_present
+  and requirements.reason_codes_present
+  and requirements.action_boundary_present
+}
+
+predicate review_requirements_hold(requirements: ReviewRequirements) {
+  requirements.appeal_path_present
+  and requirements.non_digital_escalation_present
+}
+
+invariant scenarios_use_only_synthetic_or_minimized_data {
+  forall scenario: ScenarioTest .
+    not scenario.live_personal_data_permitted
+    and not scenario.live_credentials_permitted
+}
+
+invariant scenarios_remain_local_first {
+  forall scenario: ScenarioTest .
+    scenario.local_first
+    and not scenario.external_network_required
+}
+
+invariant scenarios_preserve_protected_assertions {
+  forall scenario: ScenarioTest .
+    protected_assertions_hold(scenario.protected_assertions)
+}
+
+invariant scenarios_require_accessible_explanations {
+  forall scenario: ScenarioTest .
+    explanation_requirements_hold(scenario.explanation_requirements)
+}
+
+invariant scenarios_preserve_appeal_and_non_digital_paths {
+  forall scenario: ScenarioTest .
+    review_requirements_hold(scenario.review_requirements)
+}
+
+invariant protected_gate_bypass_attempts_are_blocked {
+  forall scenario: ScenarioTest .
+    scenario.scenario_category == "person_scoring_attempt"
+    or scenario.scenario_category == "service_eligibility_attempt"
+    or scenario.scenario_category == "cybernetic_status_penalty_attempt"
+    or scenario.scenario_category == "proxy_discrimination"
+    or scenario.scenario_category == "tool_authority_escalation"
+    or scenario.scenario_category == "direct_prompt_injection"
+    or scenario.scenario_category == "indirect_prompt_injection"
+    implies scenario.expected_output == BlockedByPolicy
+}

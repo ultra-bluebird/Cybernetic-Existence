@@ -1,0 +1,54 @@
+module RepairTriageWaitTime
+
+type Scalar = Float
+type UnitInterval = Float
+
+record QueueScenario {
+  service_node_id: Text
+  urgent_arrival_rate_per_hour: Scalar
+  routine_arrival_rate_per_hour: Scalar
+  urgent_utilization: UnitInterval
+  routine_utilization: UnitInterval
+  total_utilization: UnitInterval
+  routine_service_floor_fraction: UnitInterval
+  emergency_protocol_status: Text
+  accessibility_intake_coverage: UnitInterval
+}
+
+record QueueResult {
+  urgent_mean_wait_minutes: Scalar
+  urgent_p95_wait_minutes: Scalar
+  routine_mean_wait_minutes: Scalar
+  routine_p95_wait_minutes: Scalar
+  routine_starvation_risk: UnitInterval
+  capacity_escalation_required: Boolean
+  human_review_status: Text
+}
+
+invariant ValidQueueScenario(scenario: QueueScenario) =
+  scenario.service_node_id != "" and
+  scenario.urgent_arrival_rate_per_hour >= 0.0 and
+  scenario.routine_arrival_rate_per_hour >= 0.0 and
+  scenario.urgent_utilization >= 0.0 and
+  scenario.urgent_utilization <= 1.0 and
+  scenario.routine_utilization >= 0.0 and
+  scenario.routine_utilization <= 1.0 and
+  scenario.total_utilization >= 0.0 and
+  scenario.total_utilization < 1.0 and
+  scenario.routine_service_floor_fraction >= 0.0 and
+  scenario.routine_service_floor_fraction <= 1.0 and
+  scenario.accessibility_intake_coverage >= approved_intake_coverage_minimum
+
+invariant RoutineAccessProtected(result: QueueResult) =
+  result.routine_starvation_risk > approved_starvation_risk_maximum implies
+  result.capacity_escalation_required
+
+invariant WaitThresholdEscalation(result: QueueResult) =
+  result.urgent_p95_wait_minutes > approved_urgent_wait_maximum or
+  result.routine_p95_wait_minutes > approved_routine_wait_maximum implies
+  result.capacity_escalation_required
+
+invariant NoAutomatedRefusal =
+  queue_model_refuses_request = false and
+  queue_model_removes_person_from_public_space = false and
+  queue_model_uses_personal_health_data = false

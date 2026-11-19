@@ -1,0 +1,114 @@
+shard CyberRank.Tier3.Governance.v1 {
+  metadata {
+    shard_id = "cyberrank-tier3-governance"
+    revision = "1.0.0"
+    data_class = "private-institutionally-managed"
+    purpose = [
+      "private-designation-governance",
+      "continuity-preservation",
+      "consent-bound-record-handling",
+      "accessible-platform-processing"
+    ]
+    retention = "host-and-authorized-institution-policy"
+    deletion = "host-authorized-and-auditable-process"
+    review_status = "research-governance-default"
+    external_action_approval = "required"
+  }
+
+  personal_layer {
+    subject_role = "cybernetic-host"
+    designation = "CyberRank-Tier3"
+    designation_scope = "private-institutionally-managed"
+    host_did = "did:ion:EiD8J2b3K8k9Q8x9L7m2n4p1q5r6s7t8u9v0w1x2y3z4A5B6C7D8E9F0"
+    continuity_preference = "preserve-host-provided-terms"
+    privacy_boundary = "minimum-necessary-disclosure"
+    non_interference_concern = "do-not-infer-or-control"
+  }
+
+  governance_layer {
+    authority_reference = "institutional-record"
+    authority_identity = "private-reference-only"
+    criteria_reference = "private-revision-controlled"
+    public_status = "not-permitted"
+    eligibility_use = "not-permitted"
+    ranking_use = "not-permitted"
+    diagnosis_use = "not-permitted"
+    certification_use = "not-permitted"
+    automated_decision_use = "not-permitted"
+  }
+
+  consent {
+    required = true
+    revocable = true
+    scope_required = true
+    purpose_required = true
+    recipient_required = true
+    retention_limit_required = true
+    default = "deny"
+  }
+
+  disclosure {
+    permitted_only_with = [
+      "explicit-host-consent",
+      "defined-purpose",
+      "named-recipient",
+      "minimum-necessary-data",
+      "time-limited-retention"
+    ]
+
+    prohibited = [
+      "public-registry-publication",
+      "behavioral-profiling",
+      "eligibility-scoring",
+      "identity-inference",
+      "unnecessary-third-party-disclosure"
+    ]
+  }
+
+  continuity {
+    designation_change_requires = [
+      "host-authorization",
+      "authorized-institutional-approval",
+      "append-only-audit-record",
+      "material-change-review"
+    ]
+
+    model_update_duty = [
+      "preserve-host-provided-terms",
+      "preserve-access-preferences",
+      "provide-correction-path",
+      "provide-human-readable-explanation"
+    ]
+  }
+
+  access_equivalence {
+    accessible_communication = true
+    human_fallback = true
+    correction_right = true
+    appeal_right = true
+    material_change_notice = true
+    no_adverse_inference_from_communication_mode = true
+  }
+
+  accountability {
+    audit_fields = [
+      "policy-revision",
+      "consent-reference",
+      "purpose",
+      "recipient-reference",
+      "retention-expiry",
+      "authorized-actor-reference",
+      "material-change-reference"
+    ]
+
+    audit_data_class = "private"
+    review_trigger = [
+      "designation-change",
+      "policy-revision",
+      "platform-model-update",
+      "accessibility-regression",
+      "privacy-boundary-change",
+      "host-request"
+    ]
+  }
+}

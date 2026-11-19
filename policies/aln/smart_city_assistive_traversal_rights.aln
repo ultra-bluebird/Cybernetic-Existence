@@ -1,0 +1,91 @@
+shard SmartCity.AssistiveTraversalRights.v1 {
+  metadata {
+    data_class = "temporary-service-request"
+    purpose = [
+      "accessible-route-selection",
+      "heat-and-shade-aware-traversal",
+      "step-free-public-space-access",
+      "temporary-municipal-assistance"
+    ]
+    consent_scope = "single-purpose-and-time-limited"
+    retention = "no-longer-than-service-completion"
+    deletion = "automatic-at-expiry"
+    review_status = "legal-and-jurisdictional-review-required"
+    external_action_approval = "required"
+  }
+
+  request {
+    required_fields = [
+      "anonymous-token",
+      "route-constraints",
+      "accessibility-flags",
+      "issued-at",
+      "expires-at",
+      "purpose",
+      "proof"
+    ]
+
+    prohibited_fields = [
+      "raw-biometric-data",
+      "private-health-data",
+      "neural-data",
+      "cyberrank-designation",
+      "persistent-identifier",
+      "raw-trajectory-history"
+    ]
+  }
+
+  privacy {
+    data_minimization = true
+    purpose_limitation = true
+    temporal_minimization = true
+    scope_minimization = true
+    cross-service-correlation = "not-permitted"
+    advertising-use = "not-permitted"
+    surveillance-use = "not-permitted"
+    eligibility-use = "not-permitted"
+  }
+
+  accessibility {
+    supported_constraints = [
+      "shade-preference",
+      "heat-risk-preference",
+      "step-free-route-required",
+      "curb-ramp-required",
+      "elevator-required",
+      "quiet-route-preference",
+      "rest-location-preference",
+      "human-assistance-option-requested"
+    ]
+
+    equal-service-access = true
+    accessible-explanation = true
+    human-fallback = true
+    correction-and-appeal = true
+  }
+
+  enforcement {
+    invalid-request-action = "deny-and-return-human-readable-reason"
+    expired-request-action = "delete-or-cryptographically-render-unusable"
+    insufficient-route-data-action = "state-limitation-and-offer-human-fallback"
+    external-infrastructure-action = "requires-authorized-municipal-process"
+  }
+
+  audit {
+    permitted_audit_fields = [
+      "request-purpose",
+      "issued-at",
+      "expires-at",
+      "retention-deletion-event",
+      "policy-version",
+      "aggregate-service-outcome"
+    ]
+
+    prohibited_audit_fields = [
+      "private-health-details",
+      "cyberrank-data",
+      "persistent-identity",
+      "raw-route-history"
+    ]
+  }
+}

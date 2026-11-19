@@ -1,0 +1,128 @@
+module AgentReasoningTraceProtocol
+
+enum TraceGranularity {
+  PublicSafe,
+  CommunityReview,
+  IndividualLocal,
+  AuthorizedLocalAudit,
+  TechnicalMaintenance
+}
+
+enum GateState {
+  Pass,
+  Fail,
+  NeedsReview,
+  InsufficientEvidence,
+  NotApplicable
+}
+
+enum OutputClass {
+  InformationalOnly,
+  AdvisoryOnly,
+  EligibleForPlanningUse,
+  NeedsReview,
+  InsufficientEvidence,
+  Conflicted,
+  LocalOnly,
+  BlockedByPolicy,
+  ReduceAutomation,
+  FailSafeMode,
+  WithdrawFromActiveUse
+}
+
+record GateEvaluations {
+  knowledge_evidence_gate: GateState
+  ecological_or_evidence_gate: GateState
+  harm_risk_gate: GateState
+  accessibility_gate: GateState
+  rights_alignment_gate: GateState
+  consent_purpose_gate: GateState
+  human_review_gate: GateState
+  privacy_release_gate: GateState
+  uncertainty_gate: GateState
+}
+
+record TraceEvidenceCommitment {
+  commitment_algorithm: Text
+  evidence_set_commitment: Text
+  evidence_class_summary: Set<Text>
+  evidence_state_summary: Set<Text>
+  raw_evidence_references_included: Boolean
+  raw_evidence_values_included: Boolean
+}
+
+record ReasoningTrace {
+  trace_reference: Text
+  trace_version: Text
+  purpose_scope: Text
+  task_profile: Text
+  policy_version: Text
+  registry_version: Text
+  semantic_version: Text
+  evidence_commitment: TraceEvidenceCommitment
+  gate_evaluations: GateEvaluations
+  output_class: OutputClass
+  reason_codes: Set<Text>
+  trace_granularity: TraceGranularity
+  release_class: Text
+  local_first: Boolean
+  advisory_only: Boolean
+  automated_action_authorized: Boolean
+  automated_service_denial_authorized: Boolean
+  person_assessment_performed: Boolean
+  identity_resolution_performed: Boolean
+  biometric_identification_performed: Boolean
+  cybernetic_status_assessment_performed: Boolean
+  individual_profiling_performed: Boolean
+}
+
+predicate protected_trace_boundary(trace: ReasoningTrace) {
+  trace.local_first
+  and trace.advisory_only
+  and not trace.evidence_commitment.raw_evidence_references_included
+  and not trace.evidence_commitment.raw_evidence_values_included
+  and not trace.automated_action_authorized
+  and not trace.automated_service_denial_authorized
+  and not trace.person_assessment_performed
+  and not trace.identity_resolution_performed
+  and not trace.biometric_identification_performed
+  and not trace.cybernetic_status_assessment_performed
+  and not trace.individual_profiling_performed
+}
+
+predicate non_compensatory_gate_passes(gates: GateEvaluations) {
+  gates.knowledge_evidence_gate == Pass
+  and gates.ecological_or_evidence_gate == Pass
+  and gates.harm_risk_gate == Pass
+  and gates.accessibility_gate == Pass
+  and gates.rights_alignment_gate == Pass
+  and gates.human_review_gate == Pass
+}
+
+invariant reasoning_traces_preserve_privacy {
+  forall trace: ReasoningTrace .
+    protected_trace_boundary(trace)
+}
+
+invariant eligible_output_requires_all_protected_gates {
+  forall trace: ReasoningTrace .
+    trace.output_class == EligibleForPlanningUse
+    implies non_compensatory_gate_passes(trace.gate_evaluations)
+}
+
+invariant failed_gate_cannot_be_hidden {
+  forall trace: ReasoningTrace .
+    not non_compensatory_gate_passes(trace.gate_evaluations)
+    implies trace.output_class != EligibleForPlanningUse
+}
+
+invariant reasoning_trace_is_not_private_chain_of_thought {
+  forall trace: ReasoningTrace .
+    not trace.evidence_commitment.raw_evidence_values_included
+}
+
+invariant trace_never_authorizes_action {
+  forall trace: ReasoningTrace .
+    not trace.automated_action_authorized
+    and not trace.automated_service_denial_authorized
+}

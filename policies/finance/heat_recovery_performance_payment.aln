@@ -1,0 +1,71 @@
+module HeatRecoveryPerformancePayment
+
+type Scalar = Float
+type UnitInterval = Float
+
+record PerformanceMeasurement {
+  agreement_id: Text
+  measured_cooling_c: Scalar
+  cooling_uncertainty_c: Scalar
+  metric_type: Text
+  measurement_protocol_status: Text
+  independent_assessor_status: Text
+}
+
+record ServiceProtection {
+  accessibility_verification_status: Text
+  maintenance_verification_status: Text
+  ecological_review_status: Text
+  community_review_status: Text
+  public_reporting_status: Text
+}
+
+record EscrowPaymentCandidate {
+  agreement_id: Text
+  base_payment_candidate: Scalar
+  outcome_payment_candidate: Scalar
+  total_payment_candidate: Scalar
+  total_payment_cap: Scalar
+  human_financial_review_status: Text
+  payment_status: Text
+}
+
+invariant ValidMeasurement(measurement: PerformanceMeasurement) =
+  measurement.agreement_id != "" and
+  measurement.cooling_uncertainty_c >= 0.0 and
+  measurement.metric_type in [
+    "mean_radiant_temperature",
+    "air_temperature",
+    "surface_temperature",
+    "shade_availability"
+  ] and
+  measurement.measurement_protocol_status in ["approved", "qualified"] and
+  measurement.independent_assessor_status = "approved"
+
+invariant ServiceProtectionBeforePayment(protection: ServiceProtection) =
+  protection.accessibility_verification_status = "approved" and
+  protection.maintenance_verification_status = "approved" and
+  protection.ecological_review_status in ["approved", "qualified"] and
+  protection.community_review_status in ["approved", "qualified"] and
+  protection.public_reporting_status = "approved"
+
+invariant PaymentCapped(candidate: EscrowPaymentCandidate) =
+  candidate.base_payment_candidate >= 0.0 and
+  candidate.outcome_payment_candidate >= 0.0 and
+  candidate.total_payment_candidate =
+    candidate.base_payment_candidate + candidate.outcome_payment_candidate and
+  candidate.total_payment_candidate <= candidate.total_payment_cap
+
+invariant PaymentRequiresHumanReview(candidate: EscrowPaymentCandidate) =
+  candidate.payment_status = "authorized" implies
+  candidate.human_financial_review_status = "approved"
+
+invariant EssentialServicesNotContingent =
+  water_access_contingent_on_payment = false and
+  shade_access_contingent_on_payment = false and
+  cooling_access_contingent_on_payment = false and
+  sanitation_access_contingent_on_payment = false
+
+invariant NoSecuritiesOrInvestmentAdvice =
+  policy_issues_security = false and
+  policy_provides_investment_advice = false

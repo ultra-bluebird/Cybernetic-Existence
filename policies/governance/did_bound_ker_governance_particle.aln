@@ -1,0 +1,99 @@
+module DIDBoundKERGovernanceParticle
+
+type Scalar = Float
+type UnitInterval = Float
+
+record KERState {
+  knowledge_factor: UnitInterval
+  engagement_factor: UnitInterval
+  responsibility_factor: UnitInterval
+  observed_at_utc: Text
+}
+
+record KERParameters {
+  alpha_knowledge: Scalar
+  beta_knowledge: Scalar
+  alpha_engagement: Scalar
+  beta_engagement: Scalar
+  alpha_responsibility: Scalar
+  beta_responsibility: Scalar
+  integration_step_seconds: Scalar
+}
+
+record GovernanceParticle {
+  particle_id: Text
+  steward_did: Text
+  purpose: Text
+  ker: KERState
+  parameters: KERParameters
+  evidence_provenance_digest: Text
+  review_status: Text
+  appeal_status: Text
+  decision_scope: Text
+}
+
+invariant ValidUnitInterval(value: Scalar) =
+  value >= 0.0 and
+  value <= 1.0
+
+invariant ValidKERState(state: KERState) =
+  ValidUnitInterval(state.knowledge_factor) and
+  ValidUnitInterval(state.engagement_factor) and
+  ValidUnitInterval(state.responsibility_factor) and
+  state.observed_at_utc != ""
+
+invariant ValidKERParameters(parameters: KERParameters) =
+  parameters.alpha_knowledge >= 0.0 and
+  parameters.beta_knowledge >= 0.0 and
+  parameters.alpha_engagement >= 0.0 and
+  parameters.beta_engagement >= 0.0 and
+  parameters.alpha_responsibility >= 0.0 and
+  parameters.beta_responsibility >= 0.0 and
+  parameters.integration_step_seconds > 0.0 and
+  parameters.integration_step_seconds <= approved_maximum_step_seconds
+
+invariant BoundStewardDID(particle: GovernanceParticle) =
+  particle.steward_did =
+    "bostrom18sd2ujv24ual9c9pshtxys6j8knh6xaead9ye7"
+
+invariant ValidGovernanceParticle(particle: GovernanceParticle) =
+  particle.particle_id != "" and
+  BoundStewardDID(particle) and
+  particle.purpose != "" and
+  ValidKERState(particle.ker) and
+  ValidKERParameters(particle.parameters) and
+  particle.evidence_provenance_digest != "" and
+  particle.review_status in [
+    "draft",
+    "under_review",
+    "approved",
+    "qualified",
+    "retired"
+  ] and
+  particle.appeal_status in [
+    "not_requested",
+    "open",
+    "resolved"
+  ]
+
+invariant KERIsNotSocialScoring =
+  particle.decision_scope not_in [
+    "essential_service_eligibility",
+    "law_enforcement",
+    "employment_screening",
+    "housing_screening",
+    "individual_ranking",
+    "identity_verification"
+  ]
+
+invariant AdverseDecisionRequiresHumanReview =
+  materially_adverse_decision implies
+  human_review_status = "approved" and
+  accessible_explanation_available and
+  appeal_path_available
+
+invariant SensitiveDataExcluded =
+  particle_contains_biometric_data = false and
+  particle_contains_health_data = false and
+  particle_contains_neural_data = false and
+  particle_contains_behavioral_profile = false

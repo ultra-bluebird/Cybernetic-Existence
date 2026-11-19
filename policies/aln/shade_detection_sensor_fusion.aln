@@ -1,0 +1,69 @@
+shard Environmental.ShadeDetectionSensorFusion.v1 {
+  metadata {
+    data_class = "environmental-observation"
+    purpose = [
+      "shade-classification",
+      "heat-and-uv-route-planning",
+      "accessible-public-traversal",
+      "local-environmental-decision-support"
+    ]
+    retention = "minimum-necessary"
+    review_status = "calibration-required"
+    external_action_approval = "required"
+  }
+
+  inputs {
+    permitted = [
+      "visible-light-sensor",
+      "uv-index-forecast",
+      "coarse-time-and-location-context",
+      "solar-geometry-estimate",
+      "canopy-or-cover-context",
+      "sensor-freshness",
+      "data-quality"
+    ]
+
+    prohibited = [
+      "raw-biometric-data",
+      "private-health-data",
+      "neural-data",
+      "cyberrank-designation",
+      "persistent-identity",
+      "raw-trajectory-history"
+    ]
+  }
+
+  classification {
+    output_classes = [
+      "safe-shade",
+      "partial-shade",
+      "open-sun",
+      "indoor-or-covered",
+      "insufficient-data"
+    ]
+
+    insufficient-data =
+      "data-quality-below-minimum-threshold"
+
+    conservative-rule =
+      "uncertainty-increases-exposure-estimate"
+  }
+
+  privacy {
+    local-processing-default = true
+    public-output = "aggregated-environmental-data-only"
+    coordinate-precision = "minimum-necessary"
+    personal-profile-correlation = "not-permitted"
+  }
+
+  governance {
+    classification-is-advisory-only = true
+    host-route-choice-is-final = true
+    model-calibration-requires = [
+      "sensor-provenance",
+      "time-synchronization",
+      "quality-review",
+      "seasonal-validation"
+    ]
+  }
+}

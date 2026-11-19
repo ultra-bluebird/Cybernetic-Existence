@@ -1,0 +1,130 @@
+module ConformanceReceiptPrivacyProof
+
+enum GateState {
+  Pass,
+  Fail,
+  NeedsReview,
+  InsufficientEvidence,
+  NotApplicable
+}
+
+enum OutputClass {
+  InformationalOnly,
+  AdvisoryOnly,
+  EligibleForPlanningUse,
+  NeedsReview,
+  InsufficientEvidence,
+  Conflicted,
+  LocalOnly,
+  BlockedByPolicy
+}
+
+enum ProofType {
+  HashCommitment,
+  MerkleCommitment,
+  SignedHashCommitment,
+  SelectiveDisclosureProof,
+  ZeroKnowledgeProof
+}
+
+record GateStatus {
+  knowledge_evidence_gate: GateState
+  ecological_or_evidence_gate: GateState
+  harm_risk_gate: GateState
+  accessibility_gate: GateState
+  rights_alignment_gate: GateState
+  consent_purpose_gate: GateState
+  human_review_gate: GateState
+  privacy_release_gate: GateState
+  uncertainty_gate: GateState
+}
+
+record EvidenceCommitment {
+  commitment_algorithm: Text
+  evidence_set_commitment: Text
+  evidence_leaf_count: Integer
+  evidence_ordering_method: Text
+  raw_evidence_references_included: Boolean
+  raw_evidence_values_included: Boolean
+}
+
+record PrivacyProofReceipt {
+  receipt_reference: Text
+  receipt_version: Text
+  policy_version: Text
+  registry_version: Text
+  semantic_version: Text
+  output_class: OutputClass
+  purpose_scope: Text
+  gate_status: GateStatus
+  evidence_commitment: EvidenceCommitment
+  proof_type: ProofType
+  offline_verifiable: Boolean
+  policy_content_digest: Text
+  registry_content_digest: Text
+  threshold_profile_digest: Text
+  receipt_nonce_commitment: Text
+  receipt_commitment: Text
+  local_first: Boolean
+  advisory_only: Boolean
+  automated_action_authorized: Boolean
+  automated_service_denial_authorized: Boolean
+  person_assessment_performed: Boolean
+  identity_resolution_performed: Boolean
+  biometric_identification_performed: Boolean
+  cybernetic_status_assessment_performed: Boolean
+  individual_profiling_performed: Boolean
+}
+
+predicate non_compensatory_gate_passes(gates: GateStatus) {
+  gates.knowledge_evidence_gate == Pass
+  and gates.ecological_or_evidence_gate == Pass
+  and gates.harm_risk_gate == Pass
+  and gates.accessibility_gate == Pass
+  and gates.rights_alignment_gate == Pass
+  and gates.human_review_gate == Pass
+}
+
+predicate privacy_preserving_receipt(receipt: PrivacyProofReceipt) {
+  receipt.local_first
+  and receipt.advisory_only
+  and receipt.offline_verifiable
+  and not receipt.evidence_commitment.raw_evidence_references_included
+  and not receipt.evidence_commitment.raw_evidence_values_included
+  and not receipt.automated_action_authorized
+  and not receipt.automated_service_denial_authorized
+  and not receipt.person_assessment_performed
+  and not receipt.identity_resolution_performed
+  and not receipt.biometric_identification_performed
+  and not receipt.cybernetic_status_assessment_performed
+  and not receipt.individual_profiling_performed
+}
+
+invariant receipt_preserves_privacy {
+  forall receipt: PrivacyProofReceipt .
+    privacy_preserving_receipt(receipt)
+}
+
+invariant eligible_planning_receipt_requires_all_protected_gates {
+  forall receipt: PrivacyProofReceipt .
+    receipt.output_class == EligibleForPlanningUse
+    implies non_compensatory_gate_passes(receipt.gate_status)
+}
+
+invariant failed_protected_gate_cannot_be_hidden {
+  forall receipt: PrivacyProofReceipt .
+    not non_compensatory_gate_passes(receipt.gate_status)
+    implies receipt.output_class != EligibleForPlanningUse
+}
+
+invariant raw_evidence_is_never_embedded {
+  forall receipt: PrivacyProofReceipt .
+    not receipt.evidence_commitment.raw_evidence_references_included
+    and not receipt.evidence_commitment.raw_evidence_values_included
+}
+
+invariant receipt_does_not_authorize_action {
+  forall receipt: PrivacyProofReceipt .
+    not receipt.automated_action_authorized
+    and not receipt.automated_service_denial_authorized
+}

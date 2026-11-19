@@ -1,0 +1,64 @@
+module MunicipalHeatResilienceAffordability
+
+type Scalar = Float
+type UnitInterval = Float
+
+record MunicipalHeatScenario {
+  planning_area_id: Text
+  heat_event_probability: UnitInterval
+  public_service_cost_estimate: Scalar
+  infrastructure_continuity_cost_estimate: Scalar
+  evidence_quality: UnitInterval
+  privacy_review_status: Text
+  community_review_status: Text
+}
+
+record PublicSupportCandidate {
+  planning_area_id: Text
+  minimum_service_allocation: Scalar
+  needs_based_allocation_candidate: Scalar
+  contingency_reserve_candidate: Scalar
+  total_public_support_candidate: Scalar
+  affordability_protection_status: Text
+  planning_only: Boolean
+  human_financial_review_status: Text
+}
+
+invariant ValidMunicipalScenario(scenario: MunicipalHeatScenario) =
+  scenario.planning_area_id != "" and
+  scenario.heat_event_probability >= 0.0 and
+  scenario.heat_event_probability <= 1.0 and
+  scenario.public_service_cost_estimate >= 0.0 and
+  scenario.infrastructure_continuity_cost_estimate >= 0.0 and
+  scenario.evidence_quality >= 0.70 and
+  scenario.privacy_review_status = "approved" and
+  scenario.community_review_status in ["approved", "qualified"]
+
+invariant ValidPublicSupportCandidate(candidate: PublicSupportCandidate) =
+  candidate.planning_area_id != "" and
+  candidate.minimum_service_allocation >= 0.0 and
+  candidate.needs_based_allocation_candidate >= 0.0 and
+  candidate.contingency_reserve_candidate >= 0.0 and
+  candidate.total_public_support_candidate =
+    candidate.minimum_service_allocation +
+    candidate.needs_based_allocation_candidate +
+    candidate.contingency_reserve_candidate and
+  candidate.affordability_protection_status = "protected" and
+  candidate.planning_only and
+  candidate.human_financial_review_status in ["pending", "approved"]
+
+invariant NoPremiumPricing =
+  model_computes_customer_premium = false and
+  model_sets_insurance_rate = false and
+  model_denies_insurance_coverage = false
+
+invariant NoIndividualRiskScoring =
+  model_uses_health_data = false and
+  model_uses_housing_status = false and
+  model_uses_biometric_data = false and
+  model_uses_behavioral_data = false
+
+invariant EssentialHeatServicesProtected =
+  public_heat_relief_access_depends_on_score = false and
+  water_access_depends_on_score = false and
+  emergency_support_depends_on_score = false

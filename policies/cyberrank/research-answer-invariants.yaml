@@ -1,0 +1,66 @@
+version: "1.0.0"
+policy_id: "cyberrank-personal-tier3-research-answer-invariants"
+scope: >
+  Governing interpretation for research answers involving personal CyberRank,
+  Tier3, evidence packaging, continuity, oversight, governance, and
+  interoperability.
+
+personal_tier3:
+  model: "grant-only append-only historical recognition"
+  mutable: false
+  status_events:
+    permitted:
+      - "tier3_granted"
+      - "evidence_added"
+      - "evidence_corrected"
+      - "review_recorded"
+      - "dispute_recorded"
+      - "dispute_resolved"
+      - "continuity_checkpoint_created"
+      - "external_recognition_statement_recorded"
+      - "consent_scope_updated"
+      - "disclosure_permission_withdrawn"
+    prohibited:
+      - "tier3_revoked"
+      - "tier3_downgraded"
+      - "tier3_deleted"
+      - "tier3_invalidated"
+      - "tier3_grant_erased"
+
+interpretation_rules:
+  - id: "tier3-is-not-a-token"
+    rule: >
+      Personal Tier3 is a durable historical record, not an access token,
+      permission, subscription, or externally controlled entitlement.
+
+  - id: "disclosure-is-separate"
+    rule: >
+      Consent, evidence disclosure, recipient authorization, retention policy,
+      and privacy controls govern future access to supporting material and do
+      not alter the original Tier3 grant.
+
+  - id: "external-recognition-is-separate"
+    rule: >
+      A platform, reviewer, or institution may record a current recognition
+      policy or evidence-scoped finding, but that statement must not mutate
+      the holder-controlled Tier3 grant event.
+
+  - id: "correction-is-additive"
+    rule: >
+      Corrections, disputes, limitations, and new evidence must be appended as
+      attributable events referencing the original grant rather than replacing
+      or erasing it.
+
+  - id: "no-overclaim"
+    rule: >
+      The durable personal record does not itself compel legal recognition,
+      institutional acceptance, clinical determination, public-service access,
+      or external remedy.
+
+research_answer_requirements:
+  - "Describe disclosure withdrawal instead of Tier3 revocation."
+  - "Describe external recognition as an attributable separate event."
+  - "Preserve the original Tier3 grant in all lifecycle diagrams and schemas."
+  - "Do not propose a downgrade, invalidation, deletion, or revocation path."
+  - "State boundaries between local continuity invariants and external authority."
+  - "Treat auditability, portability, and append-only correction as default design properties."

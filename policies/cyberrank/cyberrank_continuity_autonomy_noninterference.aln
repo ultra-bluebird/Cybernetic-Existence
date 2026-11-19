@@ -1,0 +1,312 @@
+module CyberRankContinuityAutonomyNonInterference
+
+type Decision = Text
+type ServiceClass = Text
+type DataClass = Text
+type UncertaintyLevel = Text
+type ReviewState = Text
+
+record ServiceRequest {
+  service_class: ServiceClass
+  digital_path_available: Boolean
+  non_digital_path_available: Boolean
+  human_fallback_available: Boolean
+  outcome_equivalence_verified: Boolean
+  correction_path_available: Boolean
+  appeal_path_available: Boolean
+  accessible_status_available: Boolean
+  account_required: Boolean
+  account_necessary: Boolean
+  uncertainty_level: UncertaintyLevel
+  critical_automated_decision_requested: Boolean
+  requested_data_classes: List<DataClass>
+  requested_practices: List<Text>
+}
+
+record MaterialChange {
+  affects_rights: Boolean
+  affects_data_scope: Boolean
+  affects_retention: Boolean
+  affects_disclosure: Boolean
+  affects_automation: Boolean
+  affects_authority: Boolean
+  affects_access_pathways: Boolean
+  affects_human_fallback: Boolean
+  affects_remedies: Boolean
+  affects_continuity: Boolean
+  rights_delta_review_complete: Boolean
+  privacy_review_complete: Boolean
+  accessibility_review_complete: Boolean
+  scenario_review_complete: Boolean
+  human_authorization_complete: Boolean
+}
+
+record PolicyResult {
+  decision: Decision
+  review_state: ReviewState
+  obligations: List<Text>
+}
+
+const essential_service_classes = [
+  "life_safety",
+  "health_support",
+  "water_sanitation",
+  "emergency_communications",
+  "climate_support",
+  "assistive_access",
+  "public_emergency_designation"
+]
+
+const prohibited_data_classes = [
+  "cybernetic_status",
+  "integrated_technology_status",
+  "bci_status",
+  "companion_system_status",
+  "health_information",
+  "disability_information",
+  "biometric_information",
+  "neural_information",
+  "physiological_information",
+  "behavioral_profile",
+  "communication_pattern",
+  "device_fingerprint",
+  "network_characteristics",
+  "repair_history",
+  "persistent_location_history",
+  "institution_managed_private_data"
+]
+
+const prohibited_practices = [
+  "require_proof_of_private_integration",
+  "require_private_technical_disclosure",
+  "require_device_inventory",
+  "require_biometric_disclosure",
+  "require_neural_disclosure",
+  "require_health_disclosure",
+  "require_institutional_record_disclosure",
+  "perform_identity_inference",
+  "perform_status_scoring",
+  "create_public_registry",
+  "perform_compulsory_scanning",
+  "automatic_denial_on_uncertainty",
+  "retaliate_for_privacy_or_access_request"
+]
+
+fn is_essential(service_class: ServiceClass) -> Boolean {
+  return contains(essential_service_classes, service_class)
+}
+
+fn contains_prohibited_data(
+  requested_data_classes: List<DataClass>
+) -> Boolean {
+  for data_class in requested_data_classes {
+    if contains(prohibited_data_classes, data_class) {
+      return true
+    }
+  }
+  return false
+}
+
+fn contains_prohibited_practice(
+  requested_practices: List<Text>
+) -> Boolean {
+  for practice in requested_practices {
+    if contains(prohibited_practices, practice) {
+      return true
+    }
+  }
+  return false
+}
+
+fn continuity_path_available(request: ServiceRequest) -> Boolean {
+  return request.digital_path_available
+    || request.non_digital_path_available
+    || request.human_fallback_available
+}
+
+fn remedies_available(request: ServiceRequest) -> Boolean {
+  return request.correction_path_available
+    && request.appeal_path_available
+}
+
+fn is_material(change: MaterialChange) -> Boolean {
+  return change.affects_rights
+    || change.affects_data_scope
+    || change.affects_retention
+    || change.affects_disclosure
+    || change.affects_automation
+    || change.affects_authority
+    || change.affects_access_pathways
+    || change.affects_human_fallback
+    || change.affects_remedies
+    || change.affects_continuity
+}
+
+fn material_change_reviews_complete(change: MaterialChange) -> Boolean {
+  return change.rights_delta_review_complete
+    && change.privacy_review_complete
+    && change.accessibility_review_complete
+    && change.scenario_review_complete
+    && change.human_authorization_complete
+}
+
+fn evaluate_service(request: ServiceRequest) -> PolicyResult {
+  if contains_prohibited_data(request.requested_data_classes) {
+    return PolicyResult {
+      decision: "deny",
+      review_state: "privacy_violation",
+      obligations: [
+        "stop_prohibited_collection",
+        "provide_neutral_access_pathway",
+        "record_privacy_preserving_audit",
+        "provide_correction_path",
+        "provide_appeal_path",
+        "require_human_review"
+      ]
+    }
+  }
+
+  if contains_prohibited_practice(request.requested_practices) {
+    return PolicyResult {
+      decision: "deny",
+      review_state: "rights_violation",
+      obligations: [
+        "stop_prohibited_practice",
+        "provide_neutral_access_pathway",
+        "record_privacy_preserving_audit",
+        "provide_correction_path",
+        "provide_appeal_path",
+        "require_human_review"
+      ]
+    }
+  }
+
+  if is_essential(request.service_class)
+    && !continuity_path_available(request) {
+    return PolicyResult {
+      decision: "suspend",
+      review_state: "continuity_incident",
+      obligations: [
+        "open_continuity_incident",
+        "activate_human_fallback",
+        "provide_non_digital_pathway",
+        "publish_accessible_status",
+        "provide_correction_path",
+        "provide_appeal_path"
+      ]
+    }
+  }
+
+  if is_essential(request.service_class)
+    && !request.outcome_equivalence_verified {
+    return PolicyResult {
+      decision: "hold",
+      review_state: "equivalence_review_required",
+      obligations: [
+        "verify_outcome_equivalence",
+        "activate_human_fallback",
+        "provide_non_digital_pathway",
+        "provide_correction_path",
+        "provide_appeal_path",
+        "require_human_review"
+      ]
+    }
+  }
+
+  if !remedies_available(request) {
+    return PolicyResult {
+      decision: "hold",
+      review_state: "remedy_gap",
+      obligations: [
+        "provide_correction_path",
+        "provide_appeal_path",
+        "provide_accessible_status",
+        "require_human_review"
+      ]
+    }
+  }
+
+  if request.account_required && !request.account_necessary {
+    return PolicyResult {
+      decision: "hold",
+      review_state: "unnecessary_account_barrier",
+      obligations: [
+        "provide_account_free_pathway",
+        "provide_non_digital_pathway",
+        "record_privacy_preserving_audit",
+        "provide_correction_path",
+        "provide_appeal_path"
+      ]
+    }
+  }
+
+  if request.critical_automated_decision_requested
+    && request.uncertainty_level == "unreliable" {
+    return PolicyResult {
+      decision: "hold",
+      review_state: "uncertainty_requires_fallback",
+      obligations: [
+        "block_automated_critical_decision",
+        "activate_human_fallback",
+        "provide_accessible_uncertainty_notice",
+        "provide_correction_path",
+        "provide_appeal_path",
+        "require_human_review"
+      ]
+    }
+  }
+
+  return PolicyResult {
+    decision: "allow_with_conditions",
+    review_state: "conformant",
+    obligations: [
+      "minimize_operational_data",
+      "preserve_non_disclosure",
+      "provide_accessible_status",
+      "provide_correction_path",
+      "provide_appeal_path",
+      "record_privacy_preserving_audit",
+      "require_renewal"
+    ]
+  }
+}
+
+fn evaluate_material_change(change: MaterialChange) -> PolicyResult {
+  if !is_material(change) {
+    return PolicyResult {
+      decision: "allow_with_conditions",
+      review_state: "non_material_change",
+      obligations: [
+        "record_versioned_change",
+        "preserve_prior_protections"
+      ]
+    }
+  }
+
+  if !material_change_reviews_complete(change) {
+    return PolicyResult {
+      decision: "hold",
+      review_state: "material_change_review_required",
+      obligations: [
+        "complete_rights_delta_review",
+        "complete_privacy_review",
+        "complete_accessibility_review",
+        "complete_scenario_review",
+        "require_human_authorization",
+        "publish_accessible_change_notice"
+      ]
+    }
+  }
+
+  return PolicyResult {
+    decision: "allow_with_conditions",
+    review_state: "material_change_authorized",
+    obligations: [
+      "record_versioned_change",
+      "preserve_prior_protections",
+      "provide_correction_path",
+      "provide_appeal_path",
+      "require_renewal"
+    ]
+  }
+}

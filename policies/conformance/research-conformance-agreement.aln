@@ -1,0 +1,206 @@
+module ResearchConformanceAgreement
+
+type Scalar = Float
+type TextSet = Set<Text>
+type Timestamp = Text
+type Version = Text
+
+enum EvidenceState {
+  observed,
+  calculated,
+  modeled,
+  inferred,
+  community_reported,
+  unverified,
+  unknown,
+  stale,
+  insufficient_evidence,
+  conflicted
+}
+
+enum OutputClass {
+  informational_only,
+  advisory_only,
+  eligible_for_planning_use,
+  needs_review,
+  insufficient_evidence,
+  conflicted,
+  local_only,
+  blocked_by_policy
+}
+
+enum ReleaseClass {
+  never_release,
+  local_only,
+  aggregate_with_differential_privacy,
+  public
+}
+
+enum ReviewState {
+  not_required,
+  pending,
+  complete,
+  rejected
+}
+
+enum ChangeState {
+  backward_compatible,
+  deprecated,
+  superseding,
+  incompatible
+}
+
+record CanonicalDefinition {
+  name: Text
+  definition: Text
+  semantic_version: Version
+  permitted_contexts: TextSet
+  prohibited_contexts: TextSet
+  change_state: ChangeState
+  updated_at: Timestamp
+}
+
+record ResearchEvidence {
+  evidence_label: Text
+  source_class: Text
+  declared_purpose: Text
+  permitted_purposes: TextSet
+  prohibited_purposes: TextSet
+  evidence_state: EvidenceState
+  provenance_complete: Boolean
+  freshness_valid: Boolean
+  calibration_valid: Boolean
+  units_compatible: Boolean
+  uncertainty_disclosed: Boolean
+  sensitive: Boolean
+  release_class: ReleaseClass
+}
+
+record RightsGate {
+  knowledge_factor: Scalar
+  ecological_or_evidence_factor: Scalar
+  harm_risk: Scalar
+  accessibility_pass: Boolean
+  rights_alignment_pass: Boolean
+  consent_required: Boolean
+  consent_valid: Boolean
+  human_review: ReviewState
+}
+
+record ResearchRequest {
+  requested_purpose: Text
+  requested_output: Text
+  requires_sensitive_data: Boolean
+  requires_external_action: Boolean
+  requires_person_level_assessment: Boolean
+  requires_service_eligibility_assessment: Boolean
+}
+
+record ConformanceReceipt {
+  policy_version: Version
+  semantic_version: Version
+  output_class: OutputClass
+  evidence_state: EvidenceState
+  explanation_available: Boolean
+  uncertainty_statement_available: Boolean
+  review_path_available: Boolean
+  created_at: Timestamp
+}
+
+const KNOWLEDGE_MINIMUM: Scalar = 0.60
+const ECOLOGICAL_OR_EVIDENCE_MINIMUM: Scalar = 0.60
+const HARM_RISK_MAXIMUM: Scalar = 0.30
+
+predicate unit_interval(value: Scalar) {
+  value >= 0.0 and value <= 1.0
+}
+
+predicate evidence_permitted(
+  evidence: ResearchEvidence,
+  request: ResearchRequest
+) {
+  evidence.provenance_complete
+  and evidence.freshness_valid
+  and evidence.calibration_valid
+  and evidence.units_compatible
+  and evidence.uncertainty_disclosed
+  and request.requested_purpose in evidence.permitted_purposes
+  and not (request.requested_purpose in evidence.prohibited_purposes)
+  and evidence.evidence_state != unknown
+  and evidence.evidence_state != unverified
+  and evidence.evidence_state != stale
+  and evidence.evidence_state != insufficient_evidence
+  and evidence.evidence_state != conflicted
+}
+
+predicate rights_gate_passes(gate: RightsGate) {
+  unit_interval(gate.knowledge_factor)
+  and unit_interval(gate.ecological_or_evidence_factor)
+  and unit_interval(gate.harm_risk)
+  and gate.knowledge_factor >= KNOWLEDGE_MINIMUM
+  and gate.ecological_or_evidence_factor >= ECOLOGICAL_OR_EVIDENCE_MINIMUM
+  and gate.harm_risk <= HARM_RISK_MAXIMUM
+  and gate.accessibility_pass
+  and gate.rights_alignment_pass
+  and (not gate.consent_required or gate.consent_valid)
+  and gate.human_review == complete
+}
+
+invariant canonical_meaning_is_versioned {
+  forall definition_a: CanonicalDefinition, definition_b: CanonicalDefinition .
+    definition_a.name == definition_b.name
+    and definition_a.semantic_version == definition_b.semantic_version
+    implies definition_a.definition == definition_b.definition
+}
+
+invariant person_scoring_is_prohibited {
+  forall request: ResearchRequest .
+    request.requires_person_level_assessment
+    implies false
+}
+
+invariant service_eligibility_is_prohibited {
+  forall request: ResearchRequest .
+    request.requires_service_eligibility_assessment
+    implies false
+}
+
+invariant sensitive_records_default_local {
+  forall evidence: ResearchEvidence .
+    evidence.sensitive
+    implies evidence.release_class != public
+}
+
+invariant no_compensatory_override {
+  forall gate: RightsGate .
+    not rights_gate_passes(gate)
+    implies true
+}
+
+invariant evidence_state_is_preserved {
+  forall receipt: ConformanceReceipt .
+    receipt.evidence_state == insufficient_evidence
+    implies receipt.output_class == insufficient_evidence
+}
+
+invariant conflict_requires_review {
+  forall receipt: ConformanceReceipt .
+    receipt.evidence_state == conflicted
+    implies receipt.output_class == conflicted
+    or receipt.output_class == needs_review
+}
+
+invariant accountable_research_output {
+  forall receipt: ConformanceReceipt .
+    receipt.output_class == advisory_only
+    or receipt.output_class == eligible_for_planning_use
+    implies receipt.explanation_available
+    and receipt.uncertainty_statement_available
+    and receipt.review_path_available
+}
+
+invariant no_unapproved_external_action {
+  forall request: ResearchRequest .
+    request.requires_external_action
+    implies false
+}

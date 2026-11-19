@@ -1,0 +1,75 @@
+shard CyberRank.PrivateEligibilityPortfolioProcessing.v1 {
+  metadata {
+    data_class = "private-governance-portfolio"
+    purpose = [
+      "private-review",
+      "accessibility-accommodation-support",
+      "continuity-verification",
+      "emergency-readiness"
+    ]
+    consent_scope = "purpose-specific"
+    retention = "minimum-necessary"
+    deletion = "host-authorized-or-expiry-based"
+    review_status = "human-review-required"
+    external_action_approval = "required"
+  }
+
+  portfolio {
+    permitted_elements = [
+      "host-declaration-reference",
+      "institutional-record-reference",
+      "observation-log-reference",
+      "continuity-hash-reference",
+      "emergency-contact-reference",
+      "consent-reference"
+    ]
+
+    prohibited_elements = [
+      "raw-biometric-data",
+      "raw-neural-data",
+      "private-health-journal",
+      "raw-location-history",
+      "private-key-material",
+      "public-cyberrank-status",
+      "unnecessary-mechanism-details"
+    ]
+  }
+
+  decision_boundary {
+    portfolio-review = "human-or-authorized-institution-review"
+    automatic-eligibility-decision = "not-permitted"
+    public-credential-generation = "not-permitted"
+    mechanism-validation-required-for-ordinary-accommodation = false
+    minimum-necessary-claim-required = true
+  }
+
+  disclosure {
+    default = "deny"
+    release-requires = [
+      "host-consent",
+      "defined-purpose",
+      "named-recipient",
+      "time-limited-retention",
+      "minimum-necessary-scope"
+    ]
+
+    selective-disclosure-preferred = true
+  }
+
+  continuity {
+    host-declaration-version-required = true
+    evidence-reference-version-required = true
+    timestamp-required = true
+    append-only-integrity-reference-required = true
+    integrity-failure-action = "pause-review-and-preserve-evidence"
+  }
+
+  rights {
+    preserve-host-terminology = true
+    avoid-public-status-inference = true
+    avoid-health-inference = true
+    avoid-eligibility-ranking-from-cyberrank = true
+    accessible-explanation-required = true
+    correction-and-appeal-required = true
+  }
+}

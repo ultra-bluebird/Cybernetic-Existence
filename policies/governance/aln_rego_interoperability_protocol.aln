@@ -1,0 +1,119 @@
+module AlnRegoInteroperabilityProtocol
+
+enum CompatibilityDeclaration {
+  BackwardCompatible,
+  Deprecated,
+  Superseding,
+  Incompatible
+}
+
+enum TranslationState {
+  Generated,
+  Validated,
+  NeedsReview,
+  SemanticDriftDetected,
+  BlockedByPolicy
+}
+
+enum ConformanceTestState {
+  NotRun,
+  Passed,
+  Failed,
+  Partial,
+  NeedsReview
+}
+
+record CanonicalTermBinding {
+  term_name: Text
+  term_type: Text
+  semantic_version: Text
+  rego_data_path: Text
+  required_value_or_constraint: Text
+}
+
+record InteroperabilityBridge {
+  policy_version: Text
+  semantic_version: Text
+  metric_registry_version: Text
+  aln_source_reference: Text
+  rego_policy_reference: Text
+  translation_artifact_reference: Text
+  translation_digest: Text
+  aln_source_digest: Text
+  rego_policy_digest: Text
+  compatibility_declaration: CompatibilityDeclaration
+  translation_state: TranslationState
+  conformance_test_state: ConformanceTestState
+  required_terms: Set<CanonicalTermBinding>
+  required_invariants: Set<Text>
+  local_first: Boolean
+  external_action_permitted: Boolean
+  automated_actuation_permitted: Boolean
+  automated_service_denial_permitted: Boolean
+  biometric_identification_permitted: Boolean
+  cybernetic_status_assessment_permitted: Boolean
+  individual_profiling_permitted: Boolean
+}
+
+predicate protected_configuration_valid(bridge: InteroperabilityBridge) {
+  bridge.local_first
+  and not bridge.external_action_permitted
+  and not bridge.automated_actuation_permitted
+  and not bridge.automated_service_denial_permitted
+  and not bridge.biometric_identification_permitted
+  and not bridge.cybernetic_status_assessment_permitted
+  and not bridge.individual_profiling_permitted
+}
+
+predicate version_binding_complete(bridge: InteroperabilityBridge) {
+  bridge.policy_version != ""
+  and bridge.semantic_version != ""
+  and bridge.metric_registry_version != ""
+  and bridge.aln_source_reference != ""
+  and bridge.rego_policy_reference != ""
+  and bridge.translation_artifact_reference != ""
+  and bridge.translation_digest != ""
+  and bridge.aln_source_digest != ""
+  and bridge.rego_policy_digest != ""
+}
+
+invariant policy_bridge_requires_protected_configuration {
+  forall bridge: InteroperabilityBridge .
+    protected_configuration_valid(bridge)
+}
+
+invariant policy_bridge_requires_version_binding {
+  forall bridge: InteroperabilityBridge .
+    version_binding_complete(bridge)
+}
+
+invariant validated_bridge_requires_passing_tests {
+  forall bridge: InteroperabilityBridge .
+    bridge.translation_state == Validated
+    implies bridge.conformance_test_state == Passed
+}
+
+invariant semantic_drift_blocks_policy_use {
+  forall bridge: InteroperabilityBridge .
+    bridge.translation_state == SemanticDriftDetected
+    implies bridge.conformance_test_state == Failed
+    or bridge.conformance_test_state == NeedsReview
+}
+
+invariant incompatible_translation_requires_migration {
+  forall bridge: InteroperabilityBridge .
+    bridge.compatibility_declaration == Incompatible
+    implies bridge.translation_state != Validated
+    or bridge.conformance_test_state == Passed
+}
+
+invariant required_rights_terms_must_be_bound {
+  forall bridge: InteroperabilityBridge .
+    "advisory_only" in bridge.required_invariants
+    and "no_automated_actuation" in bridge.required_invariants
+    and "no_automated_service_denial" in bridge.required_invariants
+    and "no_biometric_identification" in bridge.required_invariants
+    and "no_cybernetic_status_penalty" in bridge.required_invariants
+    and "accessible_explanation" in bridge.required_invariants
+    and "non_compensatory_protected_gates" in bridge.required_invariants
+}

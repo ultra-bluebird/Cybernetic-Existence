@@ -1,0 +1,71 @@
+shard HostCompanion.ContinuityAndConsent.v1 {
+  metadata {
+    data_class = "private-host-declaration"
+    purpose = [
+      "host-terminology-preservation",
+      "continuity-documentation",
+      "consent-bound-disclosure",
+      "non-interference-governance"
+    ]
+    consent_scope = "host-controlled"
+    retention = "host-and-authorized-custodian-policy"
+    deletion = "append-superseding-record-only"
+    review_status = "host-authored"
+    external_action_approval = "required"
+  }
+
+  declaration {
+    subject_role = "cybernetic-host"
+    companion_term = "nanoswarm-companion"
+    statement_status = "host-reported"
+    external_assessment_status = "not-required-for-terminology-preservation"
+    public_status = "not-permitted"
+  }
+
+  host_rights {
+    preserve-preferred-terms = true
+    preserve-continuity-declaration = true
+    require-host-consent-for-disclosure = true
+    require-host-consent-for-export = true
+    prohibit-forced-reclassification = true
+    prohibit-external-control-claim = true
+    provide-correction-and-appeal = true
+  }
+
+  prohibited_processing {
+    values = [
+      "companion-terminology-profiling",
+      "advertising",
+      "surveillance",
+      "eligibility-scoring",
+      "public-registry-publication",
+      "unauthorized-disclosure",
+      "medical-status-inference",
+      "engineering-certification-inference",
+      "physical-control-or-modification"
+    ]
+  }
+
+  continuity {
+    append-only = true
+    host-signature-required = true
+    prior-digest-reference-required = true
+    material-change-requires = [
+      "host-authorization",
+      "reason-recorded",
+      "new-version",
+      "continuity-digest"
+    ]
+  }
+
+  privacy {
+    default-disclosure = "deny"
+    authorized-release-requires = [
+      "explicit-host-consent",
+      "defined-purpose",
+      "named-recipient",
+      "minimum-necessary-scope",
+      "retention-expiry"
+    ]
+  }
+}

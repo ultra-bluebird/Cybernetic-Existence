@@ -1,0 +1,62 @@
+module RestorationCorridorConsensus
+
+type Scalar = Float
+type UnitInterval = Float
+
+record LocalConsensusState {
+  hex_id: Text
+  candidate_effort: Scalar
+  feasible_minimum: Scalar
+  feasible_maximum: Scalar
+  local_residual: Scalar
+  neighbor_disagreement: Scalar
+  data_quality: UnitInterval
+  ecological_exclusion_status: Text
+  accessibility_review_status: Text
+  community_review_status: Text
+}
+
+record ConsensusResult {
+  hex_id: Text
+  projected_candidate_effort: Scalar
+  convergence_status: Text
+  constraint_status: Text
+  planning_only: Boolean
+  human_review_required: Boolean
+}
+
+invariant ValidLocalState(state: LocalConsensusState) =
+  state.hex_id != "" and
+  state.candidate_effort >= 0.0 and
+  state.feasible_minimum >= 0.0 and
+  state.feasible_maximum >= state.feasible_minimum and
+  state.local_residual >= 0.0 and
+  state.neighbor_disagreement >= 0.0 and
+  state.data_quality >= 0.70 and
+  state.ecological_exclusion_status in ["none", "review_required"] and
+  state.accessibility_review_status in ["approved", "qualified"] and
+  state.community_review_status in ["approved", "qualified"]
+
+invariant ProjectionRespectsLocalBounds(
+  state: LocalConsensusState,
+  result: ConsensusResult
+) =
+  result.projected_candidate_effort >= state.feasible_minimum and
+  result.projected_candidate_effort <= state.feasible_maximum
+
+invariant ConvergenceRequiresConstraintSatisfaction(result: ConsensusResult) =
+  result.convergence_status = "converged_candidate" implies
+  result.constraint_status = "satisfied" and
+  result.planning_only and
+  result.human_review_required
+
+invariant ConsensusDoesNotAuthorizeAction =
+  consensus_output_allocates_funding = false and
+  consensus_output_selects_contractor = false and
+  consensus_output_operates_equipment = false and
+  consensus_output_overrides_community_review = false
+
+invariant NoIndividualProfiling =
+  consensus_uses_personal_identity = false and
+  consensus_uses_health_data = false and
+  consensus_uses_behavioral_profile = false

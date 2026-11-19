@@ -1,0 +1,82 @@
+module BatteryHealthAndMicrogridDemandResponse
+
+type Scalar = Float
+type UnitInterval = Float
+
+record BatteryEISState {
+  battery_id: Text
+  state_of_charge: UnitInterval
+  temperature_c: Scalar
+  rest_duration_minutes: Scalar
+  ohmic_resistance_ohm: Scalar
+  fractional_alpha: Scalar
+  fractional_beta: Scalar
+  fit_error: UnitInterval
+  health_status: Text
+  measurement_quality: UnitInterval
+}
+
+record MicrogridInterval {
+  interval_utc: Text
+  essential_power_w: Scalar
+  available_power_w: Scalar
+  predicted_voltage_v: Scalar
+  voltage_safe_min_v: Scalar
+  battery_soc: UnitInterval
+  critical_reserve_soc: UnitInterval
+  water_operations_status: Text
+  emergency_status: Text
+  telemetry_quality: UnitInterval
+}
+
+record FlexibleWorkload {
+  workload_id: Text
+  required_energy_j: Scalar
+  release_time_utc: Text
+  deadline_utc: Text
+  task_class: Text
+  operator_approval_status: Text
+}
+
+invariant ValidEISState(state: BatteryEISState) =
+  state.battery_id != "" and
+  state.state_of_charge >= 0.0 and
+  state.state_of_charge <= 1.0 and
+  state.ohmic_resistance_ohm > 0.0 and
+  state.fractional_alpha > 0.0 and
+  state.fractional_alpha <= 1.0 and
+  state.fractional_beta > 0.0 and
+  state.fractional_beta <= 1.0 and
+  state.fit_error <= approved_eis_fit_error and
+  state.measurement_quality >= 0.90
+
+invariant CriticalLoadFirst(interval: MicrogridInterval) =
+  interval.essential_power_w >= 0.0 and
+  interval.available_power_w >= interval.essential_power_w and
+  interval.battery_soc >= interval.critical_reserve_soc
+
+predicate EligibleForFlexibleScheduling(
+  state: BatteryEISState,
+  interval: MicrogridInterval,
+  workload: FlexibleWorkload
+) =
+  ValidEISState(state) and
+  CriticalLoadFirst(interval) and
+  state.health_status = "within_reference_envelope" and
+  interval.predicted_voltage_v >= interval.voltage_safe_min_v and
+  interval.water_operations_status = "normal" and
+  interval.emergency_status = "normal" and
+  interval.telemetry_quality >= 0.95 and
+  workload.required_energy_j >= 0.0 and
+  workload.task_class = "nonessential_deferrable" and
+  workload.operator_approval_status = "approved"
+
+invariant NoEssentialLoadCurtailment =
+  essential_load_shed_for_flexible_workload = false
+
+invariant RuntimeControlBoundary =
+  runtime_action in [
+    "hold",
+    "queue_for_operator",
+    "cancel_nonessential_workload"
+  ]

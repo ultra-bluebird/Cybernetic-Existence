@@ -1,0 +1,76 @@
+module RepairLatticeMultiplexConnectivity
+
+type Scalar = Float
+type UnitInterval = Float
+
+record LatticeNode {
+  node_id: Text
+  node_type: Text
+  privacy_classification: Text
+  accessibility_status: Text
+  availability_status: Text
+  review_status: Text
+}
+
+record LatticeEdge {
+  edge_id: Text
+  layer_id: Text
+  source_node_id: Text
+  target_node_id: Text
+  capacity_units: Scalar
+  accessibility_verified: Boolean
+  evidence_quality: UnitInterval
+  review_status: Text
+}
+
+record ResilienceResult {
+  network_version: Text
+  algebraic_connectivity: Scalar
+  maximum_eigenvalue: Scalar
+  accessible_service_path_coverage: UnitInterval
+  evidence_quality: UnitInterval
+  review_status: Text
+}
+
+invariant ValidLatticeNode(node: LatticeNode) =
+  node.node_id != "" and
+  node.node_type != "" and
+  node.privacy_classification in ["public", "restricted_operational"] and
+  node.accessibility_status in ["approved", "qualified"] and
+  node.availability_status in ["available", "limited"] and
+  node.review_status in ["approved", "qualified"]
+
+invariant ValidLatticeEdge(edge: LatticeEdge) =
+  edge.edge_id != "" and
+  edge.layer_id in [
+    "physical_capability",
+    "knowledge_sharing",
+    "funding_support"
+  ] and
+  edge.source_node_id != "" and
+  edge.target_node_id != "" and
+  edge.source_node_id != edge.target_node_id and
+  edge.capacity_units >= 0.0 and
+  edge.accessibility_verified and
+  edge.evidence_quality >= 0.70 and
+  edge.review_status in ["approved", "qualified"]
+
+invariant ResilienceRequiresAccessiblePaths(result: ResilienceResult) =
+  result.algebraic_connectivity > 0.0 implies
+  result.accessible_service_path_coverage > 0.0
+
+invariant SpectralMetricsAreNotSoleDecisionBasis =
+  lambda_2_used_with_accessibility_review and
+  lambda_2_used_with_capacity_review and
+  lambda_2_used_with_community_review
+
+invariant NoIndividualNetworkProfiling =
+  network_contains_personal_identity = false and
+  network_contains_health_data = false and
+  network_contains_behavioral_history = false and
+  network_contains_donor_recipient_identity = false
+
+invariant AnalysisDoesNotAuthorizeTransactions =
+  multiplex_output_authorizes_funding = false and
+  multiplex_output_assigns_volunteers = false and
+  multiplex_output_denies_repair_service = false

@@ -1,0 +1,97 @@
+module CyberRankBiomechScorecardV1
+
+type Scalar = Float
+type UnitInterval = Float
+type Commitment = Text
+type EvidenceTag = Text
+
+record BiomechScorecard {
+  schema_version: Text
+  aln_clause: Text
+  min_score: UnitInterval
+  max_score: UnitInterval
+  baseline_weight: UnitInterval
+  fused_risk_weight: UnitInterval
+  evidence_tags: List<EvidenceTag>
+}
+
+record BiomechObservation {
+  baseline: UnitInterval
+  fused_risk: UnitInterval
+}
+
+record BiomechResult {
+  score: UnitInterval
+  within_bounds: Boolean
+  evidence_tags: List<EvidenceTag>
+}
+
+record Tier3Commitment {
+  schema_version: Text
+  attestation_id: Text
+  identity_commitment: Commitment
+  continuity_commitment: Commitment
+  privileges_commitment: Commitment
+  responsibilities_commitment: Commitment
+  governance_terms_commitment: Commitment
+  issued_at_epoch_seconds: Scalar
+  active: Boolean
+}
+
+invariant UnitBound(value: Scalar) =
+  value >= 0.0 and value <= 1.0
+
+invariant ValidScorecard(scorecard: BiomechScorecard) =
+  scorecard.schema_version == "cyberrank-biomech-scorecard-v1" and
+  scorecard.aln_clause != "" and
+  UnitBound(scorecard.min_score) and
+  UnitBound(scorecard.max_score) and
+  scorecard.min_score <= scorecard.max_score and
+  UnitBound(scorecard.baseline_weight) and
+  UnitBound(scorecard.fused_risk_weight) and
+  length(scorecard.evidence_tags) >= 1 and
+  length(scorecard.evidence_tags) <= 32
+
+invariant ValidObservation(observation: BiomechObservation) =
+  UnitBound(observation.baseline) and
+  UnitBound(observation.fused_risk)
+
+invariant ValidTier3Commitment(commitment: Tier3Commitment) =
+  commitment.schema_version == "cyberrank-governance-v1" and
+  commitment.attestation_id != "" and
+  commitment.identity_commitment != "" and
+  commitment.continuity_commitment != "" and
+  commitment.privileges_commitment != "" and
+  commitment.responsibilities_commitment != "" and
+  commitment.governance_terms_commitment != "" and
+  commitment.issued_at_epoch_seconds >= 0.0
+
+fn Score(
+  scorecard: BiomechScorecard,
+  observation: BiomechObservation
+) -> BiomechResult {
+  let raw =
+    scorecard.baseline_weight * observation.baseline -
+    scorecard.fused_risk_weight * observation.fused_risk
+
+  let bounded_low = max(scorecard.min_score, raw)
+  let bounded_score = min(scorecard.max_score, bounded_low)
+
+  return BiomechResult {
+    score: bounded_score,
+    within_bounds:
+      bounded_score >= scorecard.min_score and
+      bounded_score <= scorecard.max_score,
+    evidence_tags: scorecard.evidence_tags
+  }
+}
+
+predicate Tier3CommitmentPrivate(commitment: Tier3Commitment) =
+  ValidTier3Commitment(commitment)
+
+predicate ScorecardEvaluable(
+  scorecard: BiomechScorecard,
+  observation: BiomechObservation
+) =
+  ValidScorecard(scorecard) and
+  ValidObservation(observation)

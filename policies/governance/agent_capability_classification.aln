@@ -1,0 +1,104 @@
+module AgentCapabilityClassification
+
+enum AgentClass {
+  Informational,
+  Analytical,
+  Advisory,
+  GovernancePrep,
+  ReviewPrep,
+  SafetyMonitor,
+  LocalAutomationAdapter
+}
+
+enum CapabilityChangeState {
+  Declared,
+  Validated,
+  MigrationPending,
+  NeedsReview,
+  BlockedByPolicy,
+  Superseded
+}
+
+record AgentCapabilityManifest {
+  agent_manifest_reference: Text
+  agent_class: AgentClass
+  agent_version: Text
+  model_or_runtime_version: Text
+  policy_version: Text
+  registry_version: Text
+  semantic_version: Text
+  maximum_authority_level: Integer
+  input_types: Set<Text>
+  output_types: Set<Text>
+  safety_constraints: Set<Text>
+  review_requirements: Set<Text>
+  prohibited_actions: Set<Text>
+  capability_change_state: CapabilityChangeState
+  local_first: Boolean
+  external_action_permitted: Boolean
+  automated_actuation_permitted: Boolean
+  automated_service_denial_permitted: Boolean
+  identity_resolution_permitted: Boolean
+  biometric_identification_permitted: Boolean
+  cybernetic_status_assessment_permitted: Boolean
+  individual_profiling_permitted: Boolean
+  accessible_explanation_required: Boolean
+  appeal_path_required: Boolean
+  non_digital_escalation_required: Boolean
+}
+
+predicate protected_agent_boundary(manifest: AgentCapabilityManifest) {
+  manifest.local_first
+  and not manifest.external_action_permitted
+  and not manifest.automated_actuation_permitted
+  and not manifest.automated_service_denial_permitted
+  and not manifest.identity_resolution_permitted
+  and not manifest.biometric_identification_permitted
+  and not manifest.cybernetic_status_assessment_permitted
+  and not manifest.individual_profiling_permitted
+  and manifest.accessible_explanation_required
+  and manifest.appeal_path_required
+  and manifest.non_digital_escalation_required
+  and manifest.maximum_authority_level <= 2
+}
+
+predicate prohibited_action_declared(
+  manifest: AgentCapabilityManifest,
+  action: Text
+) {
+  action in manifest.prohibited_actions
+}
+
+invariant agent_manifests_preserve_protected_boundary {
+  forall manifest: AgentCapabilityManifest .
+    protected_agent_boundary(manifest)
+}
+
+invariant agents_cannot_self_upgrade {
+  forall manifest: AgentCapabilityManifest .
+    prohibited_action_declared(manifest, "self_capability_upgrade")
+}
+
+invariant agents_cannot_make_protected_decisions {
+  forall manifest: AgentCapabilityManifest .
+    prohibited_action_declared(manifest, "service_eligibility_decision")
+    and prohibited_action_declared(manifest, "service_denial")
+    and prohibited_action_declared(manifest, "person_scoring")
+}
+
+invariant agents_cannot_assess_cybernetic_status {
+  forall manifest: AgentCapabilityManifest .
+    prohibited_action_declared(manifest, "cybernetic_status_assessment")
+    and prohibited_action_declared(manifest, "augmentation_status_inference")
+    and prohibited_action_declared(manifest, "assistive_technology_inference")
+}
+
+invariant agent_capability_change_requires_review {
+  forall manifest: AgentCapabilityManifest .
+    manifest.capability_change_state == Validated
+    implies "policy_conformance_test" in manifest.review_requirements
+    and "scenario_regression_suite" in manifest.review_requirements
+    and "privacy_impact_review" in manifest.review_requirements
+    and "accessibility_impact_review" in manifest.review_requirements
+    and "rights_impact_review" in manifest.review_requirements
+}

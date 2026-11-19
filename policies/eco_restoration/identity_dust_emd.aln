@@ -1,0 +1,44 @@
+policy IdentityDustEmdV1 {
+  data_class: scoped_did_verification_dust_uncertainty_and_aggregate_thermal_comparison
+  purpose: local_advisory_identity_scope_fog_and_hex_distribution_analysis
+  consent_scope: explicit_limited_and_revocable
+  retention: minimum_necessary_time_bounded_local_retention
+  accountability: append_only_minimized_verification_and_review_records
+  review_status: human_review_required_for_material_change_or_release
+  access_equivalence: plain_language_withholding_correction_and_appeal_required
+  external_action_approval: prohibited
+
+  invariant scoped_did {
+    require: explicit_did_presented_for_limited_scope
+    require: valid_signature_for_declared_scope
+    require: consent_scope_valid
+    require: retention_eligible
+    prohibit: identity_inference
+    prohibit: augmentation_inference
+    prohibit: health_or_neural_data_collection
+    prohibit: credential_or_status_assignment
+  }
+
+  invariant dust_fog {
+    require: particle_class_and_meteorological_bin
+    require: source_bound_transport_probability
+    require: calibration_validity
+    require: threshold_version
+    require: nonclear_fog_withholds_advisory_candidate
+  }
+
+  invariant hex_emd {
+    require: aggregate_histograms_only
+    require: compatible_spatial_scheme
+    require: compatible_variable_unit_and_time_window
+    require: equal_mass_normalization
+    prohibit: identity_correlation
+    prohibit: individual_level_linkage
+  }
+
+  invariant advisory_only {
+    prohibit: physical_control
+    prohibit: autonomous_restoration_action
+    prohibit: automatic_external_export
+  }
+}

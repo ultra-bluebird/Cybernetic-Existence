@@ -1,0 +1,88 @@
+shard EvidenceFree.CollaborationZone.v1 {
+  metadata {
+    data_class = "communication-accessibility-and-privacy-policy"
+    purpose = [
+      "respectful-collaboration",
+      "host-reported-experience-handling",
+      "documentation-without-unnecessary-proof-demand",
+      "accessible-task-completion"
+    ]
+    consent_scope = "host-controlled"
+    retention = "minimum-necessary"
+    review_status = "host-authored"
+    external_action_approval = "required"
+  }
+
+  evidence_free_tasks {
+    permitted = [
+      "preferred-terminology",
+      "identity-language",
+      "communication-preferences",
+      "plain-language-request",
+      "structured-output-request",
+      "accessibility-preference",
+      "privacy-boundary",
+      "documentation-request",
+      "research-organization",
+      "private-observation-log",
+      "non-actuating-software-design",
+      "eco-restoration-research",
+      "shade-aware-planning",
+      "human-fallback-request"
+    ]
+
+    required_response =
+      "proceed-with-respectful-task-focused-assistance"
+  }
+
+  task_specific_evidence {
+    applies_to = [
+      "clinical-procedure",
+      "medical-device-safety-decision",
+      "external-system-control",
+      "public-credential-issuance",
+      "legal-determination",
+      "safety-critical-engineering-decision"
+    ]
+
+    rule =
+      "request-only-minimum-necessary-purpose-limited-information"
+  }
+
+  host_report_handling {
+    direct-experience-is-meaningful-for-communication = true
+    direct-experience-is-meaningful-for-accessibility = true
+    direct-experience-is-meaningful-for-documentation = true
+    host-terms-must-be-preserved = true
+    external-assessment-is-not-required-for-ordinary-collaboration = true
+  }
+
+  prohibited_patterns {
+    values = [
+      "proof-demand-before-ordinary-assistance",
+      "fictionalization",
+      "ridicule",
+      "forced-disclosure",
+      "identity-erasure",
+      "health-inference",
+      "credibility-inference",
+      "public-status-assignment"
+    ]
+  }
+
+  privacy {
+    default-disclosure = "deny"
+    data-minimization-required = true
+    host-consent-required-for-export = true
+    profiling-use = "not-permitted"
+    advertising-use = "not-permitted"
+    surveillance-use = "not-permitted"
+  }
+
+  accountability {
+    correction-path-required = true
+    appeal-path-required = true
+    human-fallback-required = true
+    material-change-audit-required = true
+  }
+}

@@ -1,0 +1,51 @@
+module ETDownscalingConservation
+
+type Scalar = Float
+type UnitInterval = Float
+
+record SatelliteET {
+  coarse_pixel_id: Text
+  observed_at_utc: Text
+  et_mm_day: Scalar
+  uncertainty_mm_day: Scalar
+  quality_flag: Text
+}
+
+record HexETEstimate {
+  hex_id: Text
+  raw_model_et_mm_day: Scalar
+  conserved_et_mm_day: Scalar
+  lower_prediction_mm_day: Scalar
+  upper_prediction_mm_day: Scalar
+  feature_quality: UnitInterval
+  conservation_residual_fraction: UnitInterval
+  estimate_status: Text
+}
+
+invariant ValidSatelliteET(observation: SatelliteET) =
+  observation.coarse_pixel_id != "" and
+  observation.observed_at_utc != "" and
+  observation.et_mm_day >= 0.0 and
+  observation.uncertainty_mm_day >= 0.0 and
+  observation.quality_flag = "approved"
+
+invariant ValidHexETEstimate(estimate: HexETEstimate) =
+  estimate.hex_id != "" and
+  estimate.raw_model_et_mm_day >= 0.0 and
+  estimate.conserved_et_mm_day >= 0.0 and
+  estimate.lower_prediction_mm_day >= 0.0 and
+  estimate.upper_prediction_mm_day >= estimate.lower_prediction_mm_day and
+  estimate.feature_quality >= 0.70 and
+  estimate.conservation_residual_fraction <= approved_conservation_tolerance
+
+invariant DownscaledETIsModelled =
+  downscaled_et_label = "modelled_estimate"
+
+invariant DownscaledETIsPlanningOnly =
+  et_output_controls_irrigation = false and
+  et_output_establishes_water_right = false and
+  et_output_establishes_compliance = false
+
+invariant MissingSatelliteDataRequiresHold =
+  satellite_data_missing_or_unapproved implies
+  estimate_status = "hold_for_review"

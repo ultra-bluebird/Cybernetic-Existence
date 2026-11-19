@@ -1,0 +1,65 @@
+module NashRepairAllocationFairness
+
+type Scalar = Float
+type UnitInterval = Float
+
+record RepairNeed {
+  planning_area_id: Text
+  need_category: Text
+  estimated_need_units: Scalar
+  evidence_quality: UnitInterval
+  community_review_status: Text
+}
+
+record RepairCapacity {
+  planning_area_id: Text
+  accessible_capacity_fraction: UnitInterval
+  baseline_service_floor_units: Scalar
+  maximum_absorption_units: Scalar
+  lifecycle_cost_per_unit: Scalar
+  accessibility_review_status: Text
+}
+
+record AllocationCandidate {
+  planning_area_id: Text
+  need_category: Text
+  candidate_units: Scalar
+  expected_unmet_need_units: Scalar
+  review_status: Text
+}
+
+invariant ValidRepairNeed(need: RepairNeed) =
+  need.planning_area_id != "" and
+  need.need_category != "" and
+  need.estimated_need_units >= 0.0 and
+  need.evidence_quality >= 0.70 and
+  need.community_review_status in ["approved", "qualified"]
+
+invariant ValidRepairCapacity(capacity: RepairCapacity) =
+  capacity.planning_area_id != "" and
+  capacity.accessible_capacity_fraction >= 0.0 and
+  capacity.accessible_capacity_fraction <= 1.0 and
+  capacity.baseline_service_floor_units >= 0.0 and
+  capacity.maximum_absorption_units >= capacity.baseline_service_floor_units and
+  capacity.lifecycle_cost_per_unit >= 0.0 and
+  capacity.accessibility_review_status = "approved"
+
+invariant BaselineServiceBeforeOptimization =
+  every_eligible_planning_area_meets_baseline_service_floor
+
+invariant AllocationBoundedByCapacity(
+  candidate: AllocationCandidate,
+  capacity: RepairCapacity
+) =
+  candidate.candidate_units >= 0.0 and
+  candidate.candidate_units <= capacity.maximum_absorption_units
+
+invariant NoIndividualProfiling =
+  allocation_uses_health_data = false and
+  allocation_uses_biometric_data = false and
+  allocation_uses_homelessness_status = false and
+  allocation_uses_behavioral_profile = false
+
+invariant NoAutomatedServiceDenial =
+  allocation_model_denies_essential_service = false and
+  allocation_model_issues_procurement = false

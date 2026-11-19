@@ -1,0 +1,93 @@
+shard EcoRestoration.HeatIslandPrivacyPreservingSensorFusion.v1 {
+  metadata {
+    data_class = "environmental-aggregate"
+    purpose = [
+      "urban-heat-mitigation-planning",
+      "shade-and-accessibility-routing",
+      "tree-canopy-prioritization",
+      "environmental-justice-review"
+    ]
+    review_status = "research-and-community-validation-required"
+    external_action_approval = "required"
+  }
+
+  inputs {
+    permitted = [
+      "aggregate-shade-coverage",
+      "aggregate-accessibility-score",
+      "aggregate-route-heat-comfort-score",
+      "verified-canopy-area",
+      "land-surface-temperature",
+      "public-weather-context",
+      "community-governed-equity-priority",
+      "sensor-quality-metadata"
+    ]
+
+    prohibited = [
+      "raw-individual-trajectory",
+      "direct-identifier",
+      "private-health-data",
+      "neural-data",
+      "cyberrank-designation",
+      "individual-eligibility-inference"
+    ]
+  }
+
+  privacy {
+    raw_trajectory_storage = false
+    direct_identifier_storage = false
+    private_health_data_storage = false
+    local_processing_default = true
+    public_release_requires = [
+      "minimum-aggregation-threshold",
+      "purpose-limitation",
+      "retention-limit",
+      "community-governance-review"
+    ]
+    insufficient-aggregation-action = "retain-locally-or-suppress"
+  }
+
+  scoring {
+    canopy_cooling_potential =
+      "shade-canopy-area-times-seasonal-shade-effectiveness-times-evapotranspiration-proxy-times-quality"
+
+    heat_burden =
+      "clamped-land-surface-temperature-excess-over-reference"
+
+    mitigation_index =
+      "normalized-canopy-cooling-potential-times-heat-burden-times-equity-priority-factor"
+  }
+
+  governance {
+    decision_support_only = true
+    no_automated_service_denial = true
+    no_personal-profiling = true
+    no-inference-from-cybernetic-host-metadata = true
+    community-review-required-for-infrastructure-prioritization = true
+    material-model-change-requires = [
+      "privacy-review",
+      "bias-review",
+      "ecological-validity-review",
+      "accessibility-review"
+    ]
+  }
+
+  accountability {
+    required_metrics = [
+      "canopy-area",
+      "heat-burden",
+      "sensor-quality",
+      "aggregation-count",
+      "privacy-suppression-rate",
+      "route-accessibility-score",
+      "community-review-status"
+    ]
+    required_audit = [
+      "model-version",
+      "input-provenance",
+      "retention-policy",
+      "publication-decision",
+      "community-review-reference"
+    ]
+  }
+}

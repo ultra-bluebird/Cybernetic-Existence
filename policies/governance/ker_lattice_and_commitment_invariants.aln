@@ -1,0 +1,78 @@
+module KERLatticeAndCommitmentInvariants
+
+type Scalar = Float
+type UnitInterval = Float
+
+record KEREvidenceState {
+  node_id: Text
+  knowledge_verified: Integer
+  knowledge_unresolved: Integer
+  engagement_completed: Integer
+  engagement_unresolved: Integer
+  responsibility_verified: Integer
+  responsibility_unresolved: Integer
+  version: Integer
+}
+
+record KERCommitmentRecord {
+  commitment_id: Text
+  algorithm_suite: Text
+  curve_id: Text
+  encoding_scale: Integer
+  commitment_k_bytes: Bytes
+  commitment_e_bytes: Bytes
+  commitment_r_bytes: Bytes
+  range_proof_bytes: Bytes
+  verifier_version: Text
+  verification_status: Text
+  public_claim_status: Text
+}
+
+invariant NonNegativeEvidence(state: KEREvidenceState) =
+  state.node_id != "" and
+  state.knowledge_verified >= 0 and
+  state.knowledge_unresolved >= 0 and
+  state.engagement_completed >= 0 and
+  state.engagement_unresolved >= 0 and
+  state.responsibility_verified >= 0 and
+  state.responsibility_unresolved >= 0 and
+  state.version >= 0
+
+invariant LatticeMergeProperties =
+  merge_is_commutative and
+  merge_is_associative and
+  merge_is_idempotent
+
+invariant DerivedKERBounded =
+  derived_knowledge_factor >= 0.0 and
+  derived_knowledge_factor <= 1.0 and
+  derived_engagement_factor >= 0.0 and
+  derived_engagement_factor <= 1.0 and
+  derived_responsibility_factor >= 0.0 and
+  derived_responsibility_factor <= 1.0
+
+invariant CommitmentRecordWellFormed(record: KERCommitmentRecord) =
+  record.commitment_id != "" and
+  record.algorithm_suite = "audited_pedersen_range_proof_suite" and
+  record.curve_id != "" and
+  record.encoding_scale > 0 and
+  length(record.commitment_k_bytes) > 0 and
+  length(record.commitment_e_bytes) > 0 and
+  length(record.commitment_r_bytes) > 0 and
+  length(record.range_proof_bytes) > 0 and
+  record.verifier_version != ""
+
+invariant PublicClaimRequiresValidProof(record: KERCommitmentRecord) =
+  record.public_claim_status = "cryptographically_verified" implies
+  record.verification_status = "valid"
+
+invariant NoSecretMaterialInPublicLedger =
+  public_ledger_contains_private_key = false and
+  public_ledger_contains_blinding_scalar = false and
+  public_ledger_contains_raw_ker_value = false and
+  public_ledger_contains_proprietary_methodology = false
+
+invariant NoSocialScoringUse =
+  commitment_used_for_essential_service_eligibility = false and
+  commitment_used_for_individual_ranking = false and
+  commitment_used_for_law_enforcement = false

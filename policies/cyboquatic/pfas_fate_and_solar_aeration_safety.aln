@@ -1,0 +1,81 @@
+module PFASFateAndSolarAerationSafety
+
+type Scalar = Float
+type UnitInterval = Float
+
+record PFASFateState {
+  precursor_concentration_ng_l: Scalar
+  transformation_product_concentration_ng_l: Scalar
+  microbial_activity_index: UnitInterval
+  sediment_temperature_c: Scalar
+  parameter_validation_status: Text
+  mass_balance_error: UnitInterval
+}
+
+record AerationStorageDesign {
+  design_id: Text
+  nominal_storage_kwh: Scalar
+  usable_storage_kwh: Scalar
+  end_of_life_capacity_factor: UnitInterval
+  maximum_depth_of_discharge: UnitInterval
+  discharge_efficiency: UnitInterval
+  inverter_efficiency: UnitInterval
+  required_72h_energy_kwh: Scalar
+  reserve_energy_kwh: Scalar
+  design_review_status: Text
+}
+
+record DissolvedOxygenState {
+  observed_do_mg_l: Scalar
+  site_minimum_do_mg_l: Scalar
+  sensor_quality: UnitInterval
+  telemetry_age_seconds: Scalar
+  aeration_available: Boolean
+  operator_review_status: Text
+}
+
+invariant ValidPFASFateState(state: PFASFateState) =
+  state.precursor_concentration_ng_l >= 0.0 and
+  state.transformation_product_concentration_ng_l >= 0.0 and
+  state.microbial_activity_index >= 0.0 and
+  state.microbial_activity_index <= 1.0 and
+  state.sediment_temperature_c > -20.0 and
+  state.parameter_validation_status = "approved" and
+  state.mass_balance_error <= approved_pfas_mass_balance_error
+
+invariant PFASModelIsResearchOnly =
+  pfas_model_output_action in [
+    "monitor",
+    "sample",
+    "hold_for_review"
+  ]
+
+invariant ValidAerationStorageDesign(design: AerationStorageDesign) =
+  design.design_id != "" and
+  design.nominal_storage_kwh > 0.0 and
+  design.usable_storage_kwh > 0.0 and
+  design.usable_storage_kwh <= design.nominal_storage_kwh and
+  design.end_of_life_capacity_factor > 0.0 and
+  design.end_of_life_capacity_factor <= 1.0 and
+  design.maximum_depth_of_discharge > 0.0 and
+  design.maximum_depth_of_discharge <= 1.0 and
+  design.discharge_efficiency > 0.0 and
+  design.discharge_efficiency <= 1.0 and
+  design.inverter_efficiency > 0.0 and
+  design.inverter_efficiency <= 1.0 and
+  design.required_72h_energy_kwh >= 0.0 and
+  design.reserve_energy_kwh >= 0.0 and
+  design.design_review_status = "approved"
+
+invariant StorageMeetsResilienceNeed(design: AerationStorageDesign) =
+  design.usable_storage_kwh >=
+  design.required_72h_energy_kwh + design.reserve_energy_kwh
+
+predicate EscalateAerationReview(
+  state: DissolvedOxygenState
+) =
+  state.sensor_quality < 0.90 or
+  state.telemetry_age_seconds > approved_maximum_age_seconds or
+  state.observed_do_mg_l < state.site_minimum_do_mg_l or
+  not state.aeration_available or
+  state.operator_review_status != "approved"

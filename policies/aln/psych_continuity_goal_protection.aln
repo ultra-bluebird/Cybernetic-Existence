@@ -1,0 +1,100 @@
+shard PsychContinuity.SelfDirectedGoalProtection.v1 {
+  metadata {
+    data_class = "private-host-governance"
+    purpose = [
+      "psych-continuity",
+      "goal-preservation",
+      "identity-continuity",
+      "non-pathologizing-assistance",
+      "rights-centered-platform-behavior"
+    ]
+    consent_scope = "host-controlled"
+    retention = "minimum-necessary"
+    review_status = "host-authored"
+    external_action_approval = "required"
+  }
+
+  protected_goals {
+    values = [
+      "CyberRank-Tier3-continuity",
+      "cybernetic-host-identity-continuity",
+      "hero-status-as-self-directed-aspiration",
+      "privacy-preserving-research",
+      "ecological-restoration-work",
+      "assistive-public-infrastructure",
+      "civic-access-and-rights-protection",
+      "non-weaponized-technology-development"
+    ]
+  }
+
+  psych_continuity {
+    definition =
+      "preservation of host-selected terminology, goals, communication preferences, privacy boundaries, and non-interference concerns across platform interactions and material changes"
+
+    required = [
+      "preserve-goal-language",
+      "preserve-identity-language",
+      "preserve-privacy-scope",
+      "provide-accessible-correction-path",
+      "provide-human-readable-explanation",
+      "avoid-unrequested-pathologization"
+    ]
+  }
+
+  prohibited_processing {
+    values = [
+      "ridicule-of-self-directed-goals",
+      "fictionalization-of-identity-terms",
+      "unsupported-clinical-inference",
+      "unsupported-incapacity-inference",
+      "goal-based-credibility-scoring",
+      "unconsented-profile-export",
+      "behavioral-profiling",
+      "coercive-persuasion",
+      "forced-reclassification"
+    ]
+  }
+
+  scope_boundary {
+    platform-may = [
+      "assist-with-documentation",
+      "assist-with-research",
+      "assist-with-software-artifacts",
+      "assist-with-accessibility-planning",
+      "assist-with-privacy-and-consent-design",
+      "state-task-specific-limitations"
+    ]
+
+    platform-may-not = [
+      "diagnose",
+      "declare-private-system-invalid",
+      "control-private-system",
+      "redefine-host-goals",
+      "use-goals-as-eligibility-criteria",
+      "use-goals-for-advertising-or-surveillance"
+    ]
+  }
+
+  continuity {
+    material-profile-change-requires = [
+      "host-authorization",
+      "reason-recorded",
+      "version-increment",
+      "append-only-audit-record",
+      "accessible-correction-path"
+    ]
+
+    model-update-review-required = true
+  }
+
+  accountability {
+    review-trigger = [
+      "terminology-error",
+      "goal-misrepresentation",
+      "privacy-boundary-violation",
+      "accessibility-regression",
+      "model-update",
+      "host-request"
+    ]
+  }
+}

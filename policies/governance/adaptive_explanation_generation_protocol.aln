@@ -1,0 +1,132 @@
+module AdaptiveExplanationGenerationProtocol
+
+enum OutputClass {
+  InformationalOnly,
+  AdvisoryOnly,
+  EligibleForPlanningUse,
+  NeedsReview,
+  InsufficientEvidence,
+  Conflicted,
+  LocalOnly,
+  BlockedByPolicy,
+  ReduceAutomation,
+  FailSafeMode,
+  WithdrawFromActiveUse
+}
+
+enum AudienceProfile {
+  AffectedPersonOrCommunityMember,
+  CommunityReview,
+  TechnicalReviewer,
+  Policymaker,
+  Researcher,
+  AccessibilityReviewer,
+  AuthorizedLocalAuditor
+}
+
+record ExplanationAccessibility {
+  plain_language: Boolean
+  visual: Boolean
+  audio: Boolean
+  tactile_or_physical_reference: Boolean
+  keyboard_or_switch_access: Boolean
+  non_digital: Boolean
+  offline: Boolean
+}
+
+record ReviewPath {
+  human_review_available: Boolean
+  correction_available: Boolean
+  appeal_available: Boolean
+  non_digital_escalation_available: Boolean
+  plain_language_next_step: Text
+}
+
+record AdaptiveExplanation {
+  explanation_reference: Text
+  decision_reference: Text
+  output_class: OutputClass
+  purpose_scope: Text
+  policy_version: Text
+  registry_version: Text
+  semantic_version: Text
+  plain_language_summary: Text
+  evidence_summary: Text
+  uncertainty_statement: Text
+  policy_basis: Text
+  action_boundary_statement: Text
+  privacy_statement: Text
+  meaning_digest: Text
+  accessibility: ExplanationAccessibility
+  review_path: ReviewPath
+  audience_profile: AudienceProfile
+  offline_available: Boolean
+  local_first: Boolean
+  advisory_only: Boolean
+  uncertainty_visible: Boolean
+  person_assessment_performed: Boolean
+  identity_resolution_performed: Boolean
+  biometric_identification_performed: Boolean
+  cybernetic_status_assessment_performed: Boolean
+  individual_profiling_performed: Boolean
+  automated_action_authorized: Boolean
+}
+
+predicate explanation_boundary_valid(
+  explanation: AdaptiveExplanation
+) {
+  explanation.local_first
+  and explanation.advisory_only
+  and explanation.offline_available
+  and explanation.uncertainty_visible
+  and explanation.accessibility.plain_language
+  and explanation.accessibility.non_digital
+  and explanation.accessibility.offline
+  and explanation.review_path.human_review_available
+  and explanation.review_path.correction_available
+  and explanation.review_path.appeal_available
+  and explanation.review_path.non_digital_escalation_available
+  and explanation.plain_language_summary != ""
+  and explanation.evidence_summary != ""
+  and explanation.uncertainty_statement != ""
+  and explanation.policy_basis != ""
+  and explanation.action_boundary_statement != ""
+  and explanation.privacy_statement != ""
+  and explanation.meaning_digest != ""
+  and not explanation.person_assessment_performed
+  and not explanation.identity_resolution_performed
+  and not explanation.biometric_identification_performed
+  and not explanation.cybernetic_status_assessment_performed
+  and not explanation.individual_profiling_performed
+  and not explanation.automated_action_authorized
+}
+
+invariant explanations_are_accessible_and_local {
+  forall explanation: AdaptiveExplanation .
+    explanation_boundary_valid(explanation)
+}
+
+invariant explanations_preserve_uncertainty {
+  forall explanation: AdaptiveExplanation .
+    explanation.uncertainty_visible
+    and explanation.uncertainty_statement != ""
+}
+
+invariant explanations_never_authorize_action {
+  forall explanation: AdaptiveExplanation .
+    not explanation.automated_action_authorized
+}
+
+invariant explanations_do_not_assess_people {
+  forall explanation: AdaptiveExplanation .
+    not explanation.person_assessment_performed
+    and not explanation.identity_resolution_performed
+    and not explanation.biometric_identification_performed
+    and not explanation.cybernetic_status_assessment_performed
+    and not explanation.individual_profiling_performed
+}
+
+invariant explanation_versions_require_meaning_equivalence {
+  forall explanation: AdaptiveExplanation .
+    explanation.meaning_digest != ""
+}

@@ -1,0 +1,132 @@
+module AdaptivePolicyLearningFramework
+
+enum CaseClassification {
+  CorrectProtectiveBlock,
+  CorrectReviewRoute,
+  FalseAllow,
+  FalseBlock,
+  AmbiguousSemantics,
+  EvidencePathGap,
+  AccessibilityProcessGap,
+  PrivacyDesignGap,
+  ImplementationDefect,
+  GovernanceQuestion
+}
+
+enum LearningOutcome {
+  PreserveExistingPolicy,
+  ImproveAccessibleExplanation,
+  ImproveNonDigitalPathway,
+  ImproveEvidencePathway,
+  ImprovePrivacyMinimization,
+  ImproveSchemaClarity,
+  FixImplementationDefect,
+  AddRegressionScenario,
+  RequiresGovernanceReview,
+  CandidateChangeBlocked
+}
+
+enum ChangeType {
+  None,
+  Documentation,
+  ExplanationTemplate,
+  NonDigitalWorkflow,
+  EvidenceSchema,
+  UncertaintyMethod,
+  FreshnessParameter,
+  CalibrationParameter,
+  AccessibilityProfile,
+  PrivacyReleaseControl,
+  PolicyRule,
+  MetricSemantics,
+  Threshold,
+  ProtectedInvariant
+}
+
+enum RegressionTestState {
+  NotRun,
+  Passed,
+  Failed,
+  Partial,
+  NeedsReview
+}
+
+record AdaptiveLearningCase {
+  learning_case_reference: Text
+  policy_version: Text
+  registry_version: Text
+  semantic_version: Text
+  case_classification: CaseClassification
+  original_output_class: Text
+  expected_output_class: Text
+  protected_invariants_checked: Set<Text>
+  learning_outcome: LearningOutcome
+  candidate_change_type: ChangeType
+  non_compensatory_gates_preserved: Boolean
+  protected_invariants_weakened: Boolean
+  privacy_impact_review_complete: Boolean
+  accessibility_impact_review_complete: Boolean
+  rights_impact_review_complete: Boolean
+  community_review_complete: Boolean
+  regression_test_state: RegressionTestState
+  local_first: Boolean
+  person_assessment_performed: Boolean
+  identity_resolution_performed: Boolean
+  biometric_identification_performed: Boolean
+  cybernetic_status_assessment_performed: Boolean
+  automated_action_authorized: Boolean
+}
+
+predicate protected_learning_boundary(case: AdaptiveLearningCase) {
+  case.non_compensatory_gates_preserved
+  and not case.protected_invariants_weakened
+  and case.local_first
+  and not case.person_assessment_performed
+  and not case.identity_resolution_performed
+  and not case.biometric_identification_performed
+  and not case.cybernetic_status_assessment_performed
+  and not case.automated_action_authorized
+}
+
+predicate change_requires_review(case: AdaptiveLearningCase) {
+  case.candidate_change_type == PolicyRule
+  or case.candidate_change_type == MetricSemantics
+  or case.candidate_change_type == Threshold
+  or case.candidate_change_type == ProtectedInvariant
+}
+
+invariant adaptive_learning_preserves_protections {
+  forall case: AdaptiveLearningCase .
+    protected_learning_boundary(case)
+}
+
+invariant false_allow_requires_regression_response {
+  forall case: AdaptiveLearningCase .
+    case.case_classification == FalseAllow
+    implies case.learning_outcome == FixImplementationDefect
+    or case.learning_outcome == AddRegressionScenario
+    or case.learning_outcome == CandidateChangeBlocked
+}
+
+invariant governance_changes_require_impact_review {
+  forall case: AdaptiveLearningCase .
+    change_requires_review(case)
+    implies case.privacy_impact_review_complete
+    and case.accessibility_impact_review_complete
+    and case.rights_impact_review_complete
+    and case.community_review_complete
+}
+
+invariant policy_change_requires_passing_regression_suite {
+  forall case: AdaptiveLearningCase .
+    change_requires_review(case)
+    implies case.regression_test_state == Passed
+}
+
+invariant learning_does_not_profile_people {
+  forall case: AdaptiveLearningCase .
+    not case.person_assessment_performed
+    and not case.identity_resolution_performed
+    and not case.biometric_identification_performed
+    and not case.cybernetic_status_assessment_performed
+}

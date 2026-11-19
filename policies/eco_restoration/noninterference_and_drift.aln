@@ -1,0 +1,61 @@
+policy NonInterferenceAndDriftV1 {
+  data_class: local_residual_monitoring_and_advisory_capability_audit
+  purpose: bounded_drift_detection_and_noninterference_verification
+  consent_scope: minimum_necessary_local_processing
+  retention: time_bounded_audit_and_residual_retention
+  accountability: append_only_reviewable_alert_and_proof_records
+  review_status: human_acknowledgment_required_before_recalibration
+  access_equivalence: plain_language_reason_correction_and_appeal_required
+  external_action_approval: prohibited
+
+  invariant residual_drift {
+    require: residual_value_nonnegative
+    require: uncertainty_available
+    require: model_scope_valid
+    require: source_and_parameter_current
+    require: persistent_alert_before_recalibration_candidate
+    require: human_acknowledgment_before_recalibration
+    require: versioned_material_change_record
+  }
+
+  invariant recalibration_boundary {
+    prohibit: automatic_model_recalibration
+    prohibit: automatic_corridor_weight_change
+    require: replacement_evidence_or_declared_data_expansion_path
+    require: consent_recheck
+    require: noninterference_recheck
+  }
+
+  invariant advisory_capability_boundary {
+    allow: read_local_evidence
+    allow: append_local_advisory
+    allow: append_local_audit
+    allow: read_local_configuration
+    prohibit: network_request
+    prohibit: external_api
+    prohibit: actuator_command
+    prohibit: hardware_control
+    prohibit: device_control
+    prohibit: process_execution
+    prohibit: automatic_resource_allocation
+    prohibit: automatic_external_export
+  }
+
+  invariant proof_bundle {
+    require: static_scan
+    require: dependency_scan
+    require: negative_capability_tests
+    require: policy_version
+    require: source_tree_version
+    require: human_review
+    prohibit: proof_claim_beyond_scanned_scope
+  }
+
+  output allowed {
+    residual_drift_alert
+    recalibration_candidate
+    data_expansion_request
+    noninterference_proof_result
+    plain_language_withholding_reason
+  }
+}

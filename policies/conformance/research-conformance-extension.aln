@@ -1,0 +1,101 @@
+module ResearchConformanceExtension
+
+type TextSet = Set<Text>
+type Version = Text
+type Timestamp = Text
+
+enum OutputClass {
+  informational_only,
+  advisory_only,
+  eligible_for_planning_use,
+  needs_review,
+  insufficient_evidence,
+  conflicted,
+  local_only,
+  blocked_by_policy
+}
+
+enum ScopeState {
+  permitted,
+  out_of_scope,
+  unresolved
+}
+
+record CanonicalReference {
+  term: Text
+  semantic_version: Version
+  resolved: Boolean
+  definition_hash: Text
+}
+
+record PurposeScope {
+  artifact_label: Text
+  established_purpose: Text
+  permitted_purposes: TextSet
+  requested_purpose: Text
+  scope_state: ScopeState
+}
+
+record AccessibleExplanation {
+  result_label: Text
+  output_class: OutputClass
+  plain_language_reason: Text
+  uncertainty_statement: Text
+  review_path: Text
+  policy_version: Version
+  semantic_version: Version
+  created_at: Timestamp
+}
+
+record MachineDecision {
+  result_label: Text
+  output_class: OutputClass
+  policy_version: Version
+  semantic_version: Version
+  reason_codes: TextSet
+}
+
+predicate scope_permitted(scope: PurposeScope) {
+  scope.requested_purpose in scope.permitted_purposes
+  and scope.scope_state == permitted
+}
+
+predicate explanation_matches_decision(
+  explanation: AccessibleExplanation,
+  decision: MachineDecision
+) {
+  explanation.result_label == decision.result_label
+  and explanation.output_class == decision.output_class
+  and explanation.policy_version == decision.policy_version
+  and explanation.semantic_version == decision.semantic_version
+  and explanation.plain_language_reason != ""
+  and explanation.uncertainty_statement != ""
+  and explanation.review_path != ""
+}
+
+invariant semantic_closure {
+  forall reference: CanonicalReference .
+    reference.resolved
+    and reference.term != ""
+    and reference.semantic_version != ""
+    and reference.definition_hash != ""
+}
+
+invariant scope_preservation {
+  forall scope: PurposeScope .
+    scope_permitted(scope)
+    or scope.scope_state == out_of_scope
+    or scope.scope_state == unresolved
+}
+
+invariant unresolved_scope_requires_review {
+  forall scope: PurposeScope .
+    scope.scope_state == unresolved
+    implies true
+}
+
+invariant explanation_equivalence {
+  forall explanation: AccessibleExplanation, decision: MachineDecision .
+    explanation.result_label == decision.result_label
+    implies explanation_matches_decision(explanation, decision)
+}

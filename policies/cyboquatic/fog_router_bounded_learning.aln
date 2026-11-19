@@ -1,0 +1,65 @@
+module FOGRouterBoundedLearning
+
+type Scalar = Float
+type UnitInterval = Float
+
+record ReviewedOutcome {
+  outcome_id: Text
+  outcome_class: Text
+  evidence_quality: UnitInterval
+  training_eligibility: Text
+  reviewer_role: Text
+  contains_personal_data: Boolean
+  contains_sensitive_location: Boolean
+}
+
+record EWCTrainingRun {
+  training_run_id: Text
+  base_model_version: Text
+  candidate_model_version: Text
+  ewc_lambda: Scalar
+  parameter_delta_l2: Scalar
+  fisher_weighted_delta: Scalar
+  hazard_false_negative_rate: UnitInterval
+  safe_false_positive_rate: UnitInterval
+  privacy_review_status: Text
+  ecological_review_status: Text
+  release_status: Text
+}
+
+invariant EligibleReviewedOutcome(outcome: ReviewedOutcome) =
+  outcome.outcome_id != "" and
+  outcome.outcome_class in [
+    "true_positive",
+    "true_negative",
+    "false_positive",
+    "false_negative"
+  ] and
+  outcome.evidence_quality >= 0.90 and
+  outcome.training_eligibility = "eligible" and
+  outcome.reviewer_role != "" and
+  not outcome.contains_personal_data and
+  not outcome.contains_sensitive_location
+
+invariant BoundedEWCUpdate(run: EWCTrainingRun) =
+  run.training_run_id != "" and
+  run.base_model_version != "" and
+  run.candidate_model_version != "" and
+  run.ewc_lambda > 0.0 and
+  run.parameter_delta_l2 <= approved_parameter_delta_l2_max and
+  run.fisher_weighted_delta <= approved_fisher_weighted_delta_max
+
+invariant SafetyRegressionBound(run: EWCTrainingRun) =
+  run.hazard_false_negative_rate <= approved_hazard_false_negative_rate_max and
+  run.safe_false_positive_rate <= approved_safe_false_positive_rate_max
+
+invariant CandidateReleaseRequiresReview(run: EWCTrainingRun) =
+  run.release_status = "approved" implies
+  run.privacy_review_status = "approved" and
+  run.ecological_review_status = "approved"
+
+invariant NoRuntimeSelfModification =
+  runtime_router_model_update_allowed = false
+
+invariant NoAutonomousActuationExpansion =
+  candidate_model_may_expand_physical_actuation_authority = false

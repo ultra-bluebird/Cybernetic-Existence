@@ -1,0 +1,102 @@
+module AutomationAuthorityHierarchy
+
+type Scalar = Float
+
+enum AuthorityLevel {
+  ManualOnly,
+  Informational,
+  Advisory,
+  SupervisedAutomation,
+  ConditionalAutomation,
+  RestrictedNonConsequentialAutomation
+}
+
+enum SensorState {
+  Healthy,
+  NeedsCalibration,
+  Stale,
+  Unavailable,
+  Conflicted,
+  Unknown
+}
+
+enum ReviewState {
+  NotRequired,
+  Pending,
+  Complete,
+  Rejected
+}
+
+enum AuthorityOutcome {
+  ManualOnlyRequired,
+  InformationalOnly,
+  AdvisoryOnly,
+  SupervisedAutomationOnly,
+  ConditionalAutomationEligible,
+  RestrictedNonConsequentialAutomationOnly,
+  NeedsReview,
+  InsufficientEvidence,
+  BlockedByPolicy
+}
+
+record AuthorityAssessment {
+  requested_level: AuthorityLevel
+  safety_sensor_state: SensorState
+  sensor_alignment_usable: Boolean
+  automation_safety_margin: Scalar
+  accessibility_fallback_available: Boolean
+  human_override_available: Boolean
+  human_review_state: ReviewState
+  community_review_state: ReviewState
+  protected_decision_involved: Boolean
+  failure_mode_tested: Boolean
+  maintenance_current: Boolean
+  uncertainty_within_declared_bound: Boolean
+}
+
+predicate unit_interval(value: Scalar) {
+  value >= 0.0 and value <= 1.0
+}
+
+predicate protected_controls_pass(assessment: AuthorityAssessment) {
+  assessment.accessibility_fallback_available
+  and assessment.human_override_available
+  and assessment.human_review_state == Complete
+  and assessment.failure_mode_tested
+  and assessment.maintenance_current
+  and assessment.uncertainty_within_declared_bound
+  and assessment.sensor_alignment_usable
+  and unit_interval(assessment.automation_safety_margin)
+}
+
+invariant protected_decisions_capped_at_advisory {
+  forall assessment: AuthorityAssessment .
+    assessment.protected_decision_involved
+    implies true
+}
+
+invariant failed_safety_sensing_reduces_authority {
+  forall assessment: AuthorityAssessment .
+    assessment.safety_sensor_state == Unavailable
+    or assessment.safety_sensor_state == Conflicted
+    or assessment.safety_sensor_state == Unknown
+    implies true
+}
+
+invariant conditional_automation_requires_community_review {
+  forall assessment: AuthorityAssessment .
+    assessment.requested_level == ConditionalAutomation
+    implies assessment.community_review_state == Complete
+}
+
+invariant no_identity_or_status_assessment {
+  true
+}
+
+invariant no_automated_service_denial {
+  true
+}
+
+invariant no_automated_physical_actuation_authorization {
+  true
+}

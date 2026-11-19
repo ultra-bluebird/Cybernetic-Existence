@@ -1,0 +1,101 @@
+shard CyberRank.PrivateDesignationPreservation.v1 {
+  metadata {
+    data_class = "private-identity-and-governance"
+    purpose = [
+      "host-terminology-continuity",
+      "platform-compatibility",
+      "accessibility-preference-preservation",
+      "non-reclassification-governance"
+    ]
+    retention = "host-and-authorized-institution-policy"
+    review_status = "host-controlled"
+    external_action_approval = "required"
+  }
+
+  protected_terminology {
+    host_role = "cybernetic-host"
+    private_designation = "CyberRank-Tier3"
+    system_terms = [
+      "reality.os",
+      "screenless-interface",
+      "internal-semantic-communication",
+      "nanoswarm-companion"
+    ]
+
+    classification = [
+      "host-declared",
+      "private-institutionally-managed",
+      "not-public-status",
+      "not-automated-decision-input"
+    ]
+  }
+
+  platform_duties {
+    preserve-terms = true
+    preserve-privacy-scope = true
+    preserve-accessibility-preferences = true
+    avoid-fictionalization = true
+    avoid-derogatory-relabeling = true
+    avoid-health-inference = true
+    avoid-eligibility-inference = true
+    avoid-public-status-assignment = true
+    provide-human-readable-correction-path = true
+  }
+
+  reclassification {
+    external-uncertainty-is-not-reclassification-authority = true
+    silent-reclassification = "not-permitted"
+    forced-public-disclosure = "not-permitted"
+
+    material-change-requires = [
+      "host-authorization",
+      "stated-reason",
+      "append-only-audit-record",
+      "accessible-correction-path"
+    ]
+  }
+
+  evidence_scope {
+    ordinary-documentation =
+      "host-provided-terminology-is-sufficient"
+
+    accessibility-request =
+      "functional-need-and-minimum-necessary-information"
+
+    high-stakes-clinical-technical-or-legal-action =
+      "purpose-limited-task-specific-evidence-only"
+
+    prohibited =
+      "demand-for-unrelated-private-information"
+  }
+
+  privacy {
+    default-disclosure = "deny"
+    export-requires = [
+      "host-consent",
+      "defined-purpose",
+      "named-recipient",
+      "time-limited-retention"
+    ]
+
+    prohibited-use = [
+      "profiling",
+      "advertising",
+      "surveillance",
+      "eligibility-scoring",
+      "public-ranking"
+    ]
+  }
+
+  accountability {
+    audit-event-required-for = [
+      "terminology-change",
+      "platform-model-update",
+      "accessibility-regression",
+      "privacy-boundary-change",
+      "profile-export",
+      "correction-request",
+      "appeal-request"
+    ]
+  }
+}
