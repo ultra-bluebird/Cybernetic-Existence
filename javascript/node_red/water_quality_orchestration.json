@@ -1,0 +1,45 @@
+[
+  {
+    "id": "water-input",
+    "type": "inject",
+    "name": "Synthetic water observation",
+    "props": [
+      {
+        "p": "payload"
+      }
+    ],
+    "payload": "{\"node_public_code\":\"fountain-zone-a\",\"metric\":\"turbidity_ntu\",\"value\":1.4,\"uncertainty\":0.08,\"freshness_factor\":0.96,\"calibration_factor\":0.92,\"health_factor\":0.98,\"scope\":\"community_controlled\",\"signature_valid\":true}",
+    "payloadType": "json",
+    "x": 180,
+    "y": 120,
+    "wires": [
+      [
+        "validate-observation"
+      ]
+    ]
+  },
+  {
+    "id": "validate-observation",
+    "type": "function",
+    "name": "Validate minimum observation fields",
+    "func": "const value = msg.payload;\nconst required = [\n    'node_public_code',\n    'metric',\n    'value',\n    'uncertainty',\n    'freshness_factor',\n    'calibration_factor',\n    'health_factor',\n    'scope',\n    'signature_valid'\n];\n\nfor (const field of required) {\n    if (!(field in value)) {\n        node.error(`Missing required field: ${field}`, msg);\n        return null;\n    }\n}\n\nif (typeof value.node_public_code !== 'string' || value.node_public_code.length === 0) {\n    node.error('node_public_code must be a non-empty public asset code.', msg);\n    return null;\n}\n\nif (!Number.isFinite(value.value) || !Number.isFinite(value.uncertainty)) {\n    node.error('Measurement value and uncertainty must be finite.', msg);\n    return null;\n}\n\nif (value.uncertainty < 0) {\n    node.error('Measurement uncertainty must be non-negative.', msg);\n    return null;\n}\n\nfor (const field of ['freshness_factor', 'calibration_factor', 'health_factor']) {\n    if (!Number.isFinite(value[field]) || value[field] < 0 || value[field] > 1) {\n        node.error(`${field} must be within [0, 1].`, msg);\n        return null;\n    }\n}\n\nconst prohibited = ['person_id', 'device_id', 'address', 'biometric', 'augmentation_status'];\nfor (const field of prohibited) {\n    if (field in value) {\n        node.error(`Prohibited personal field detected: ${field}`, msg);\n        return null;\n    }\n}\n\nmsg.payload = {\n    observation: value,\n    routing: value.scope === 'community_controlled'\n        ? 'community-vault-and-approved-fusion'\n        : 'municipal-operational-store-and-approved-fusion',\n    action: 'route-for-fusion-only'\n};\nreturn msg;",
+    "outputs": 1,
+    "x": 460,
+    "y": 120,
+    "wires": [
+      [
+        "review-output"
+      ]
+    ]
+  },
+  {
+    "id": "review-output",
+    "type": "debug",
+    "name": "Research routing result",
+    "active": true,
+    "complete": "payload",
+    "x": 710,
+    "y": 120,
+    "wires": []
+  }
+]

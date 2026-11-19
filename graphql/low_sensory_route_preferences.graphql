@@ -1,0 +1,138 @@
+scalar DateTime
+
+enum RouteComparisonStatus {
+  ROUTE_COMPARISON_AVAILABLE
+  ROUTE_COMPARISON_REVIEW_REQUIRED
+  INSUFFICIENT_ROUTE_CONTEXT
+}
+
+enum DataQualityStatus {
+  CURRENT
+  STALE
+  ESTIMATED
+  MISSING
+  REVIEW_REQUIRED
+}
+
+enum PreferenceRetention {
+  REQUEST_ONLY
+  SESSION_ONLY
+  DO_NOT_RETAIN
+}
+
+enum AdvisoryUse {
+  ADVISORY_ONLY
+}
+
+type RouteNode {
+  nodeId: ID!
+  displayLabel: String
+}
+
+type RouteSegment {
+  segmentId: ID!
+  fromNodeId: ID!
+  toNodeId: ID!
+  normalizedDistance: Float!
+  normalizedTravelDuration: Float!
+  shadeFraction: Float
+  noiseDb: Float
+  crowdingIndex: Float
+  illuminanceLux: Float
+  accessibilityBarrier: Float!
+  uncertainty: Float!
+  dataQuality: DataQualityStatus!
+  sourceRevision: String
+  observedAtUtc: DateTime
+}
+
+type LowSensoryPreferences {
+  maximumNoiseDb: Float
+  maximumCrowdingIndex: Float
+  minimumIlluminanceLux: Float
+  maximumIlluminanceLux: Float
+  preferredShadeFraction: Float
+  avoidHighUncertainty: Boolean!
+  retention: PreferenceRetention!
+  userDefinedMetadata: Boolean!
+  noIdentityInference: Boolean!
+  noHealthInference: Boolean!
+  noEligibilityUse: Boolean!
+}
+
+type RouteWeights {
+  distanceWeight: Float!
+  uvDoseWeight: Float!
+  shadeWeight: Float!
+  noiseWeight: Float!
+  crowdingWeight: Float!
+  illuminanceWeight: Float!
+  accessibilityWeight: Float!
+  uncertaintyWeight: Float!
+}
+
+type RouteDataProvenance {
+  networkSourceRevision: String!
+  shadeSourceRevision: String
+  environmentalSourceRevision: String
+  accessibilitySourceRevision: String
+  forecastObservedAtUtc: DateTime
+  dataQuality: DataQualityStatus!
+  privacyMinimized: Boolean!
+  preciseLocationRetained: Boolean!
+}
+
+type LowSensoryRouteResult {
+  status: RouteComparisonStatus!
+  routeSegmentIds: [ID!]!
+  totalCost: Float
+  modeledUvDose: Float
+  modeledNoiseCost: Float
+  modeledCrowdingCost: Float
+  modeledIlluminanceCost: Float
+  uncertaintyStatus: DataQualityStatus!
+  explanation: String!
+  advisoryUse: AdvisoryUse!
+  humanReviewRequired: Boolean!
+  correctionPathAvailable: Boolean!
+  appealPathAvailable: Boolean!
+  provenance: RouteDataProvenance!
+}
+
+input LowSensoryPreferencesInput {
+  maximumNoiseDb: Float
+  maximumCrowdingIndex: Float
+  minimumIlluminanceLux: Float
+  maximumIlluminanceLux: Float
+  preferredShadeFraction: Float
+  avoidHighUncertainty: Boolean!
+  retention: PreferenceRetention!
+}
+
+input RouteWeightsInput {
+  distanceWeight: Float!
+  uvDoseWeight: Float!
+  shadeWeight: Float!
+  noiseWeight: Float!
+  crowdingWeight: Float!
+  illuminanceWeight: Float!
+  accessibilityWeight: Float!
+  uncertaintyWeight: Float!
+}
+
+input RouteComparisonRequest {
+  startNodeId: ID!
+  endNodeId: ID!
+  requestedAtUtc: DateTime!
+  preferences: LowSensoryPreferencesInput!
+  weights: RouteWeightsInput!
+  advisoryOnly: Boolean!
+  humanReviewRequired: Boolean!
+  preciseLocationRetentionAllowed: Boolean!
+}
+
+type Query {
+  lowSensoryRouteComparison(
+    request: RouteComparisonRequest!
+  ): LowSensoryRouteResult!
+}

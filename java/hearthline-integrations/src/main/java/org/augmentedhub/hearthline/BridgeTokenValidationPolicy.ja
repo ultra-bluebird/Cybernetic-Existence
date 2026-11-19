@@ -1,0 +1,76 @@
+package org.augmentedhub.hearthline;
+
+import java.time.Instant;
+import java.util.Objects;
+import java.util.Set;
+
+public final class BridgeTokenValidationPolicy {
+    public record TokenContext(
+            String platformId,
+            String issuer,
+            String audience,
+            Instant expiresAt,
+            String tokenNamespace,
+            Set<String> grantedScopes
+    ) {
+        public TokenContext {
+            requireNonBlank(platformId, "platformId");
+            requireNonBlank(issuer, "issuer");
+            requireNonBlank(audience, "audience");
+            requireNonBlank(tokenNamespace, "tokenNamespace");
+            Objects.requireNonNull(expiresAt, "expiresAt");
+            grantedScopes = Set.copyOf(grantedScopes);
+        }
+    }
+
+    public record AdapterExpectation(
+            String platformId,
+            String expectedIssuer,
+            String expectedAudience,
+            String requiredTokenNamespace,
+            Set<String> allowedScopes,
+            Instant evaluatedAt
+    ) {
+        public AdapterExpectation {
+            requireNonBlank(platformId, "platformId");
+            requireNonBlank(expectedIssuer, "expectedIssuer");
+            requireNonBlank(expectedAudience, "expectedAudience");
+            requireNonBlank(requiredTokenNamespace, "requiredTokenNamespace");
+            allowedScopes = Set.copyOf(allowedScopes);
+            Objects.requireNonNull(evaluatedAt, "evaluatedAt");
+        }
+    }
+
+    public boolean accepts(TokenContext token, AdapterExpectation expectation) {
+        Objects.requireNonNull(token, "token");
+        Objects.requireNonNull(expectation, "expectation");
+
+        if (!token.platformId().equals(expectation.platformId())) {
+            return false;
+        }
+
+        if (!token.issuer().equals(expectation.expectedIssuer())) {
+            return false;
+        }
+
+        if (!token.audience().equals(expectation.expectedAudience())) {
+            return false;
+        }
+
+        if (!token.tokenNamespace().equals(expectation.requiredTokenNamespace())) {
+            return false;
+        }
+
+        if (!token.expiresAt().isAfter(expectation.evaluatedAt())) {
+            return false;
+        }
+
+        return expectation.allowedScopes().containsAll(token.grantedScopes());
+    }
+
+    private static void requireNonBlank(String value, String name) {
+        if (value == null || value.isBlank()) {
+            throw new IllegalArgumentException(name + " must not be blank");
+        }
+    }
+}
