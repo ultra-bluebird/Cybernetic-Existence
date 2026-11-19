@@ -1,0 +1,8 @@
+"Work item","Accountable role","Trigger","Required output"
+"Vocabulary inventory","STATE_VOCABULARY_REVIEWER","Any artifact digest or version-tuple change; new source language; new mode proposal","Digest-bound inventory entry"
+"Mapping registry","STATE_VOCABULARY_REVIEWER with method review","New alias or synonym discovered","Reviewed mapping or explicit rejection"
+"Kotlin recovery constraint","RECOVERY_EVIDENCE_REVIEWER","Recovery-state graph or evidence-rule change","Typed transition tests and release result"
+"ALN recovery gate","RECOVERY_EVIDENCE_REVIEWER","Recovery-policy change or schema change","Policy conformance result"
+"Causal model-role constraint","CAUSAL_METHOD_REVIEWER","DAG, estimand, adjustment set, or model-role change","Graph validation and review result"
+"Promotion gate","EVIDENCE_PROMOTION_REVIEWER","Evidence-state or recommendation-state change","Deny/route decision evidence"
+"Freeze/expiry ledger","Protected CI or repository governance process","Any successful validation, thaw trigger, or failed validation","Append-only ledger event"

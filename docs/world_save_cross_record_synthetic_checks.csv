@@ -1,0 +1,7 @@
+scenario,issues
+historical_change_uses_previous_baseline,0
+wrong_commitment_scope,1
+wrong_acceptance,1
+wrong_current_baseline,1
+wrong_historical_baseline,1
+future_change_revision,2
