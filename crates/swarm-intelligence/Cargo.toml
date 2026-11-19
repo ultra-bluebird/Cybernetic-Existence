@@ -1,0 +1,18 @@
+[package]
+name = "swarm-intelligence"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.85"
+license = "MIT OR Apache-2.0"
+authors = ["mk-bluebird <host@cybercore>"]
+description = "Trait-based nanoswarm policy interface driven by AFM and DNA-origami telemetry."
+repository = "https://github.com/mk-bluebird/nanorobotics.git"
+
+[dependencies]
+serde = { version = "1.0.203", features = ["derive"] }
+serde_json = { version = "1.0.120" }
+anyhow = "1.0.86"
+nanoswarm-telemetry = { path = "../nanoswarm-telemetry" }
+
+[dev-dependencies]
+kani = { version = "0.56.0" }

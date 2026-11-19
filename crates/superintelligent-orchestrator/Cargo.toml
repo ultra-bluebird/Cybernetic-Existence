@@ -1,0 +1,29 @@
+# File: crates/superintelligent-orchestrator/Cargo.toml
+
+[package]
+name = "superintelligent-orchestrator"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.85"
+license = "MIT OR Apache-2.0"
+description = "Host-sovereign nanoswarm mission orchestrator with lexicographic safety optimization."
+repository = "https://github.com/mk-bluebird/nanorobotics.git"
+authors = ["bostrom18sd2ujv24ual9c9pshtxys6j8knh6xaead9ye7"]
+
+[package.metadata.cybercore]
+hostdid = "OrganicCPU"
+bostromaddress = "bostrom18sd2ujv24ual9c9pshtxys6j8knh6xaead9ye7"
+aln_migration_clause = "ALN.MIGRATION.CYBERCORE_AUTHORITY.v1"
+
+[dependencies]
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+
+# Local workspace dependencies
+cybernano-physio = { path = "../cybernano-physio" }
+virtual-supercomputer-sim = { path = "../virtual-supercomputer-sim" }
+
+[features]
+default = ["std"]
+std = []
+kani-verification = []

@@ -1,0 +1,20 @@
+[package]
+name = "workload-cost-estimator"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.85"
+description = "Unitless workload-cost index estimation from supplied local workload descriptors."
+license = "MIT OR Apache-2.0"
+publish = false
+
+[lib]
+name = "workload_cost_estimator"
+path = "src/lib.rs"
+
+[lints.rust]
+unsafe_code = "forbid"
+missing_docs = "warn"
+
+[lints.clippy]
+all = "warn"
+pedantic = "warn"
